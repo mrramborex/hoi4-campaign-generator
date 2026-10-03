@@ -719,8 +719,13 @@ Object.assign(achievementIcons,{
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
-const SOURCE_VALIDATION_BATCH='8K — newest-content ultra-rare block';
+const SOURCE_VALIDATION_BATCH='8L — cumulative validation census';
 const STEAM_ACHIEVEMENT_TARGET=293;
+const SOURCE_VALIDATED_COUNT=212;
+const SOURCE_VALIDATION_REMAINING=STEAM_ACHIEVEMENT_TARGET-SOURCE_VALIDATED_COUNT;
+const SOURCE_VALIDATION_PROGRESS=[
+ ['8C',15],['8D',27],['8E',31],['8F',18],['8G',35],['8H',33],['8I',33],['8J',3],['8K',17]
+];
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
 phase2Achievements.push(
@@ -1504,8 +1509,8 @@ function warRoomSourceAudit(){
   ["Sunrise Invasion","Japan","As Japan, conquer Mexico then Europe before 1945."],
   ["Australia-Hungary","Australia","As Australia, own all core territory of Hungary."], ],mismatches=[];
  checks.forEach(([name,country,objective])=>{const a=byName.get(normAchievementName(name));if(!a||a.country!==country||normAchievementName(a.objective)!==normAchievementName(objective))mismatches.push({name,expectedCountry:country,actualCountry:a?.country||'MISSING',expectedObjective:objective,actualObjective:a?.objective||'MISSING'})});
- const result={validated:SOURCE_VALIDATION_VERSION,steamTarget:STEAM_ACHIEVEMENT_TARGET,spotChecks:checks.length,mismatches,passed:mismatches.length===0};
- console.group('HOI4 War Room Source Validation');console.table({Validated:result.validated,'Steam catalog target':result.steamTarget,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
+ const batchTotal=SOURCE_VALIDATION_PROGRESS.reduce((n,x)=>n+x[1],0),result={validated:SOURCE_VALIDATION_VERSION,phase:SOURCE_VALIDATION_BATCH,steamTarget:STEAM_ACHIEVEMENT_TARGET,validatedAchievements:SOURCE_VALIDATED_COUNT,remainingAchievements:SOURCE_VALIDATION_REMAINING,validationPercent:+(SOURCE_VALIDATED_COUNT/STEAM_ACHIEVEMENT_TARGET*100).toFixed(1),batchTotal,spotChecks:checks.length,mismatches,passed:mismatches.length===0&&batchTotal===SOURCE_VALIDATED_COUNT};
+ console.group('HOI4 War Room Source Validation');console.table({'Phase':result.phase,'Validated achievements':result.validatedAchievements,'Remaining':result.remainingAchievements,'Progress %':result.validationPercent,'Steam catalog target':result.steamTarget,'Batch census total':result.batchTotal,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
 }
 window.HOI4WarRoomSourceAudit=warRoomSourceAudit;
 function pickAchievement(country,ideology,path){
