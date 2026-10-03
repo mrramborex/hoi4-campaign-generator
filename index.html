@@ -480,7 +480,7 @@ const phase2Achievements=[
 {name:'I Captured the Bosporus and All I Got Was This Lousy Achievement',objective:'As Greece or Bulgaria, own both sides of the Bosporus; as Turkey, subjugate both Greece and Bulgaria.',country:'Greece / Bulgaria / Turkey',ideology:'any'},
 {name:'The bell tolls for us',objective:'Win the Spanish Civil War as Republican Spain.',country:'Spain',ideology:'d',paths:['Republican Spain']},
 {name:'The Puppetmaster',objective:'Have at least 51 subjects.',country:'Any Country',ideology:'any'},
-{name:'Pride and Extreme Prejudice',objective:'As any British Subject state, conquer all of Britain.',country:'British Subject',ideology:'any'},
+{name:'Pride and Extreme Prejudice',objective:'Sink the British Pride of the Fleet.',country:'Any Country',ideology:'any'},
 {name:'Play It, Sam',objective:'Have a spy network of at least 50% strength in Casablanca.',country:'Any Country',ideology:'any'},
 {name:'To Arms in Dixie!',objective:'As the U.S.A., start a new civil war as the South.',country:'United States',ideology:'f'},
 {name:'Turing Complete!',objective:'Fully decrypt all nations in the Axis.',country:'Any Country',ideology:'any'},
@@ -1382,8 +1382,9 @@ function warRoomCertification(){
 window.HOI4WarRoomCertification=warRoomCertification;
 function warRoomSourceAudit(){
  const all=flatAchievements(),byName=new Map(all.map(a=>[normAchievementName(a.name),a])),checks=[
-  ['Pride and Extreme Prejudice','British Subject','As any British Subject state, conquer all of Britain.'],
+  ['Pride and Extreme Prejudice','Any Country','Sink the British Pride of the Fleet.'],
   ['The Empire Strikes Back','United Kingdom','As Britain, declare war on one of your former subjects.'],
+  ['Rule Britannia','British Subject','As any British Subject state, conquer all of Britain.'],
   ['Well, I Didn’t Vote for You','Spain','Win the Spanish Civil War as the Anarchists.'],
   ['True Blitzkrieg','Germany','As Germany, have both Poland and France surrender before January 1st 1940.'],
   ['Operation Sea Lion','Germany','Control the British mainland as Germany.'],
