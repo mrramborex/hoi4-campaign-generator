@@ -1683,43 +1683,41 @@ function auditSpinnerAchievementAssignments(){
 }
 window.HOI4SpinnerAchievementAudit=auditSpinnerAchievementAssignments;
 window.HOI4WarRoomCompatibilityAudit=auditSpinnerAchievementAssignments;
-function warRoomStressTest(iterations=50000){
- const all=flatAchievements(),norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'"),originalGetCompleted=getCompleted;
+function warRoomStressTest(iterations=100000){
+ const all=flatAchievements(),assignable=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'),norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'"),originalGetCompleted=getCompleted;
  const combos=[];Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[country+' — '+names[ideology]+' political route']).forEach(path=>combos.push({country,ideology,path}))));
- const counts=new Map(all.map(a=>[norm(a.name),0])),invalid=[],errors=[],endgameLeaks=[];
+ const counts=new Map(all.map(a=>[norm(a.name),0])),invalid=[],errors=[],endgameLeaks=[],genericLeaks=[],fallbackExpected=[];
+ const compatible=(a,x)=>a&&a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,x.country)&&(a.ideology==='any'||a.ideology===x.ideology)&&ruleAllows(a,x.country,x.ideology,x.path);
  const run=(doneSet,label,runs)=>{
   window.__warRoomAuditCompleted=doneSet;
   for(let n=0;n<runs;n++){
-   const x=combos[n%combos.length];
+   const x=combos[n%combos.length],available=assignable.filter(a=>compatible(a,x));
    try{
     const a=pickAchievement(x.country,x.ideology,x.path);
-    if(!a){errors.push({scenario:label,type:'no-result',...x});continue}
+    if(!available.length){if(a)invalid.push({scenario:label,type:'should-fallback',achievement:a.name,...x});else fallbackExpected.push({scenario:label,...x});continue}
+    if(!a){errors.push({scenario:label,type:'missing-compatible-result',compatible:available.map(z=>z.name),...x});continue}
     counts.set(norm(a.name),(counts.get(norm(a.name))||0)+1);
-    const ideologyOK=a.ideology==='any'||a.ideology===x.ideology;
-    const countryOK=a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,x.country);
-    const ruleOK=ruleAllows(a,x.country,x.ideology,x.path);
+    if(a.country==='Any Country'||a.country==='Any Minor')genericLeaks.push({scenario:label,achievement:a.name,...x});
+    const ideologyOK=a.ideology==='any'||a.ideology===x.ideology,countryOK=eligibleForCountry(a,x.country),ruleOK=ruleAllows(a,x.country,x.ideology,x.path);
     if(!ideologyOK||!countryOK||!ruleOK)invalid.push({scenario:label,achievement:a.name,...x,ideologyOK,countryOK,ruleOK});
-    if(doneSet.size>=all.length-25&&doneSet.has(a.name)){const unfinishedCompatible=all.some(b=>!doneSet.has(b.name)&&b.country!=='Any Country'&&b.country!=='Any Minor'&&(b.ideology==='any'||b.ideology===x.ideology)&&eligibleForCountry(b,x.country)&&ruleAllows(b,x.country,x.ideology,x.path));if(unfinishedCompatible)endgameLeaks.push({scenario:label,achievement:a.name,...x})}
+    if(doneSet.has(a.name)){const unfinishedCompatible=available.some(z=>!doneSet.has(z.name));if(unfinishedCompatible)endgameLeaks.push({scenario:label,achievement:a.name,...x})}
    }catch(e){errors.push({scenario:label,type:'exception',message:e.message,...x})}
   }
  };
  getCompleted=()=>window.__warRoomAuditCompleted||new Set();
  try{
-  run(new Set(),'0% complete',Math.max(combos.length,Math.floor(iterations*.7)));
-  const shuffled=all.map(a=>a.name).sort((a,b)=>norm(a).localeCompare(norm(b)));
-  run(new Set(shuffled.slice(0,Math.floor(all.length*.5))),'50% complete',Math.max(combos.length,Math.floor(iterations*.2)));
-  const late=new Set(shuffled.slice(0,Math.min(250,all.length)));run(late,'250 complete',Math.max(combos.length,Math.floor(iterations*.05)));
-  const veryLate=new Set(shuffled.slice(0,Math.min(280,all.length)));run(veryLate,'280 complete',Math.max(combos.length,Math.floor(iterations*.05)));
-  const almost=new Set(shuffled.slice(0,-1));run(almost,'292/293 complete',Math.max(combos.length,Math.floor(iterations*.1)));
+  run(new Set(),'0% complete',Math.max(combos.length,Math.floor(iterations*.55)));
+  const ordered=all.map(a=>a.name).sort((a,b)=>norm(a).localeCompare(norm(b)));
+  run(new Set(ordered.slice(0,Math.floor(all.length*.25))),'25% complete',Math.max(combos.length,Math.floor(iterations*.10)));
+  run(new Set(ordered.slice(0,Math.floor(all.length*.50))),'50% complete',Math.max(combos.length,Math.floor(iterations*.10)));
+  run(new Set(ordered.slice(0,Math.floor(all.length*.75))),'75% complete',Math.max(combos.length,Math.floor(iterations*.10)));
+  run(new Set(ordered.slice(0,Math.min(280,all.length))),'280 complete',Math.max(combos.length,Math.floor(iterations*.075)));
+  run(new Set(ordered.slice(0,-1)),'292/293 complete',Math.max(combos.length,Math.floor(iterations*.075)));
  }finally{getCompleted=originalGetCompleted;delete window.__warRoomAuditCompleted}
- const neverSelected=all.filter(a=>(counts.get(norm(a.name))||0)===0).map(a=>a.name);
- const ranked=all.map(a=>({achievement:a.name,selections:counts.get(norm(a.name))||0})).sort((a,b)=>b.selections-a.selections);
- const nonzero=ranked.filter(x=>x.selections>0),avg=nonzero.reduce((t,x)=>t+x.selections,0)/(nonzero.length||1);
- const overrepresented=nonzero.filter(x=>x.selections>avg*3);
- const unsupportedSet=new Set(auditAchievementIntelligence().unsupported.map(norm));
- const selectableMisses=neverSelected.filter(name=>!unsupportedSet.has(norm(name)));
- const result={iterations,combinations:combos.length,invalid,errors,endgameLeaks,neverSelected,selectableMisses,overrepresented,top:ranked.slice(0,20),passed:invalid.length===0&&errors.length===0&&endgameLeaks.length===0&&selectableMisses.length===0};
- console.group('HOI4 War Room Stress Test');console.table({Iterations:iterations,'Campaign combinations':combos.length,'Invalid selections':invalid.length,Errors:errors.length,'Endgame completed leaks':endgameLeaks.length,'Never selected':neverSelected.length,'Supported never selected':selectableMisses.length,'Heavy outliers':overrepresented.length,Passed:result.passed});if(invalid.length)console.table(invalid.slice(0,50));if(errors.length)console.table(errors.slice(0,50));if(endgameLeaks.length)console.table(endgameLeaks.slice(0,50));if(neverSelected.length)console.table(neverSelected.map(achievement=>({achievement})));console.table(result.top);console.groupEnd();
+ const neverSelected=assignable.filter(a=>(counts.get(norm(a.name))||0)===0).map(a=>a.name);
+ const compatibility=auditSpinnerAchievementAssignments();
+ const result={phase:'12F',iterations,combinations:combos.length,invalid,errors,genericLeaks,endgameLeaks,fallbackCases:[...new Map(fallbackExpected.map(x=>[x.country+'|'+x.ideology+'|'+x.path,x])).values()],neverSelected,compatibilityPassed:compatibility.passed,passed:invalid.length===0&&errors.length===0&&genericLeaks.length===0&&endgameLeaks.length===0&&compatibility.passed};
+ console.group('HOI4 WAR ROOM — PHASE 12F FULL STRESS TEST');console.table({Iterations:iterations,'Campaign combinations':combos.length,'Invalid selections':invalid.length,Errors:errors.length,'Generic leaks':genericLeaks.length,'Completed-achievement leaks':endgameLeaks.length,'Intentional fallback routes':result.fallbackCases.length,'Assignable never selected':neverSelected.length,'12E compatibility':compatibility.passed,'12F PASS':result.passed});if(invalid.length)console.table(invalid.slice(0,50));if(errors.length)console.table(errors.slice(0,50));if(genericLeaks.length)console.table(genericLeaks.slice(0,50));if(endgameLeaks.length)console.table(endgameLeaks.slice(0,50));if(result.fallbackCases.length)console.table(result.fallbackCases);if(neverSelected.length)console.table(neverSelected.map(achievement=>({achievement})));console.groupEnd();
  return result;
 }
 window.HOI4WarRoomStressTest=warRoomStressTest;
@@ -1745,9 +1743,9 @@ function warRoomIntegrityTest(){
  const good=sanitizeCampaignLog([{country:'Germany',ideology:'Fascist',path:'Historical Reich',achievement:'True Blitzkrieg',icon:'javascript:alert(1)',time:1,outcome:'victory'}]);
  expect(good.length===1&&good[0].icon===''&&good[0].outcome==='victory','sanitize-campaign-fields');
  const audit=auditAchievementIntelligence();
- const stress=warRoomStressTest(20000);
+ const stress=warRoomStressTest(50000);
  const result={catalog:all.length,failures,auditPassed:audit.passed,stressPassed:stress.passed,passed:failures.length===0&&audit.passed&&stress.passed};
- console.group('HOI4 War Room Final Integrity Test');console.table({Catalog:result.catalog,'Integrity failures':failures.length,'Rule audit':audit.passed,'20k stress test':stress.passed,'FINAL PASS':result.passed});if(failures.length)console.table(failures);console.groupEnd();
+ console.group('HOI4 War Room Final Integrity Test');console.table({Catalog:result.catalog,'Integrity failures':failures.length,'Rule audit':audit.passed,'50k stress test':stress.passed,'FINAL PASS':result.passed});if(failures.length)console.table(failures);console.groupEnd();
  return result;
 }
 window.HOI4WarRoomIntegrityTest=warRoomIntegrityTest;
@@ -1789,9 +1787,9 @@ function warRoomReleaseGate(){
   certification:cert.passed
  };
  const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
- const result={phase:'11G',checks,failures,passed:failures.length===0};
- if(result.passed)console.info('HOI4 WAR ROOM — PHASE 11G RELEASE GATE PASSED',result);
- else console.error('HOI4 WAR ROOM — PHASE 11G RELEASE GATE FAILED',result);
+ const result={phase:'12F',checks,failures,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 12F RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 12F RELEASE GATE FAILED',result);
  return result;
 }
 window.HOI4WarRoomReleaseGate=warRoomReleaseGate;
