@@ -1024,7 +1024,7 @@ function renderAchievements(){
  document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
- const sel=document.getElementById('achCountry');achievementCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+ const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
  ['achSearch','achCountry','achIdeology','achStatus','achArtwork'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
@@ -1435,8 +1435,8 @@ function warRoomIntegrityTest(){
 window.HOI4WarRoomIntegrityTest=warRoomIntegrityTest;
 function warRoomCertification(){
  const integrity=warRoomIntegrityTest(),audit=auditAchievementIntelligence(),st=achievementCatalogStats(),runtime=warRoomRuntimeGuard(),source=warRoomSourceAudit();
- const cert={version:'Phase 9D',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,sourceValidated:SOURCE_VALIDATED_COUNT,sourceTarget:STEAM_ACHIEVEMENT_TARGET,runtimePassed:runtime.passed,sourceAuditPassed:source.passed,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed&&runtime.passed&&source.passed&&SOURCE_VALIDATED_COUNT===STEAM_ACHIEVEMENT_TARGET&&Object.keys(countries).length===65};
- console.group('HOI4 WAR ROOM — PHASE 9D CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Source validated':cert.sourceValidated+' / '+cert.sourceTarget,'Runtime guard':cert.runtimePassed,'Source audit':cert.sourceAuditPassed,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
+ const cert={version:'Phase 9E',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,sourceValidated:SOURCE_VALIDATED_COUNT,sourceTarget:STEAM_ACHIEVEMENT_TARGET,runtimePassed:runtime.passed,sourceAuditPassed:source.passed,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed&&runtime.passed&&source.passed&&SOURCE_VALIDATED_COUNT===STEAM_ACHIEVEMENT_TARGET&&Object.keys(countries).length===65};
+ console.group('HOI4 WAR ROOM — PHASE 9E CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Source validated':cert.sourceValidated+' / '+cert.sourceTarget,'Runtime guard':cert.runtimePassed,'Source audit':cert.sourceAuditPassed,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
  return cert;
 }
 window.HOI4WarRoomCertification=warRoomCertification;
@@ -1469,9 +1469,9 @@ function warRoomReleaseGate(){
   certification:cert.passed
  };
  const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
- const result={phase:'9D',checks,failures,passed:failures.length===0};
- if(result.passed)console.info('HOI4 WAR ROOM — PHASE 9D RELEASE GATE PASSED',result);
- else console.error('HOI4 WAR ROOM — PHASE 9D RELEASE GATE FAILED',result);
+ const result={phase:'9E',checks,failures,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 9E RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 9E RELEASE GATE FAILED',result);
  return result;
 }
 window.HOI4WarRoomReleaseGate=warRoomReleaseGate;
