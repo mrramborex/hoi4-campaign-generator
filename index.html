@@ -667,7 +667,7 @@ Object.assign(achievementIcons,{
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
-const SOURCE_VALIDATION_BATCH='8I — Steam catalog ultra-rare block';
+const SOURCE_VALIDATION_BATCH='8J — guarded ultra-rare continuation';
 const STEAM_ACHIEVEMENT_TARGET=293;
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
@@ -773,7 +773,7 @@ phase2Achievements.push(
 {name:'Saving Private Bryansk',objective:'Capture a General in the state of Bryansk.',country:'Any Country',ideology:'any'},
 {name:'A Bridge too Far',objective:'As the UK, liberate Brabant, and have Bernard Montgomery liberate Friesland while maintaining a force in Arnhem.',country:'United Kingdom',ideology:'any'},
 {name:"Genghis Khan't",objective:'As any Chinese country or Manchukuo, own and control all Mongolian core states.',country:'Chinese Nation',ideology:'any'},
-{name:'ThaiTanic',objective:"As any nation, sink Siam's pride of the fleet.",country:'Any Country',ideology:'any'},
+{name:'ThaiTanic',objective:"As any nation, sink Siam’s pride of the fleet.",country:'Any Country',ideology:'any'},
 {name:'Paradisus Paradoxum',objective:'As Japan, proclaim the creation of a Pure Buddhist Land.',country:'Japan',ideology:'any'}
 );
 
@@ -803,7 +803,7 @@ phase2Achievements.push(
 {name:'Saving Private Bryansk',objective:'Capture a General in the state of Bryansk.',country:'Any Country',ideology:'any'},
 {name:'A Bridge too Far',objective:'As the UK, liberate Brabant, and have Bernard Montgomery liberate Friesland while maintaining a force in Arnhem.',country:'United Kingdom',ideology:'any'},
 {name:'Genghis Khan’t',objective:'As any Chinese country or Manchukuo, own and control all Mongolian core states.',country:'Chinese Nation',ideology:'any'},
-{name:'ThaiTanic',objective:"As any nation, sink Siam's pride of the fleet.",country:'Any Country',ideology:'any'},
+{name:'ThaiTanic',objective:"As any nation, sink Siam’s pride of the fleet.",country:'Any Country',ideology:'any'},
 {name:'Paradisus Paradoxum',objective:'As Japan, proclaim the creation of a Pure Buddhist Land.',country:'Japan',ideology:'any'}
 );
 
@@ -1381,6 +1381,22 @@ function warRoomCertification(){
  return cert;
 }
 window.HOI4WarRoomCertification=warRoomCertification;
+function warRoomRuntimeGuard(){
+ const required=['wheel','spin','stage','achievementGrid'],missing=required.filter(id=>!document.getElementById(id));
+ const checks=[
+  ['flatAchievements',typeof flatAchievements==='function'],
+  ['draw',typeof draw==='function'],
+  ['renderAchievementCenter',typeof renderAchievementCenter==='function'],
+  ['showTab',typeof showTab==='function']
+ ];
+ let catalog=0,catalogError='';
+ try{catalog=flatAchievements().length}catch(e){catalogError=String(e)}
+ const failed=checks.filter(x=>!x[1]).map(x=>x[0]);
+ const result={phase:SOURCE_VALIDATION_BATCH,domMissing:missing,functionsMissing:failed,catalog,catalogTarget:STEAM_ACHIEVEMENT_TARGET,catalogError,passed:!missing.length&&!failed.length&&!catalogError&&catalog===STEAM_ACHIEVEMENT_TARGET};
+ if(!result.passed)console.error('HOI4 WAR ROOM RUNTIME GUARD FAILED',result);else console.info('HOI4 War Room runtime guard passed',result);
+ return result;
+}
+window.HOI4WarRoomRuntimeGuard=warRoomRuntimeGuard;
 function warRoomSourceAudit(){
  const all=flatAchievements(),byName=new Map(all.map(a=>[normAchievementName(a.name),a])),checks=[
   ['Pride and Extreme Prejudice','Any Country','Sink the British Pride of the Fleet.'],
