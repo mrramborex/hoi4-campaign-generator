@@ -130,6 +130,34 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 .mission-note{font-family:var(--typewriter);font-size:10px;letter-spacing:.6px}
 @media(max-width:520px){.mission{padding:17px 14px}.orders-section-label span:last-child,.mission-country:after{display:none}.orders-header .mission-kicker{font-size:11px;letter-spacing:2px}}
 
+
+/* Phase 11E — Achievement Intelligence Archive */
+.achievement-archive{padding:20px}
+.archive-head{display:flex;justify-content:space-between;align-items:flex-start;gap:22px;padding:4px 4px 15px;border-bottom:2px solid #676249}
+.archive-head h2{margin:3px 0 7px;padding:0;border:0;font-size:24px}.archive-head h2:after{display:none}
+.archive-kicker{font:8px var(--typewriter);letter-spacing:1.8px;color:#928664}
+.archive-head .small{max-width:760px;margin:0}
+.archive-seal{width:68px;height:68px;flex:0 0 68px;border:2px solid #766943;outline:1px solid #302e25;display:grid;place-items:center;text-align:center;background:radial-gradient(circle,#313429,#171914);color:#bba66b;transform:rotate(2deg)}
+.archive-seal span{font-size:21px;line-height:1}.archive-seal small{font:7px var(--typewriter);letter-spacing:1px;line-height:1.25}
+.archive-stats{grid-template-columns:repeat(5,1fr);gap:6px;margin:11px 0 15px}
+.archive-stats .stat{padding:9px 7px;border-top:2px solid #625a41;font-size:9px}.archive-stats .stat b{font-size:21px}
+.archive-filter-label,.archive-index-line{display:flex;justify-content:space-between;gap:10px;font:8px var(--typewriter);letter-spacing:1.5px;color:#817a64}
+.archive-filter-label{margin:4px 2px 5px}
+.archive-filters{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:8px;align-items:end;padding:11px;background:#151813;border:1px solid #48493c;margin-bottom:15px}
+.archive-filters>div{min-width:0}.archive-filters label{display:block;margin-bottom:5px;color:#9c9378;font-size:9px}
+.archive-filters input,.archive-filters select{border-radius:1px!important}
+.archive-index-line{padding:7px 3px;border-top:1px solid #55503d;border-bottom:1px solid #3d4035;margin-bottom:9px;color:#928664}
+.achievement-archive .ach-grid{gap:8px}
+.achievement-archive .ach{position:relative;border-radius:1px;padding:11px;background:linear-gradient(100deg,#20241d,#151814);border-left:3px solid #8e7746}
+.achievement-archive .ach:before{content:'RECORD';position:absolute;right:7px;top:6px;color:#555648;font:7px var(--typewriter);letter-spacing:1px}
+.achievement-archive .ach-icon{border-radius:1px;border-color:#776b49;box-shadow:0 0 0 2px #11130f,0 3px 9px #0009}
+.achievement-archive .ach h3{font-size:17px;padding-right:35px;margin-bottom:5px}
+.achievement-archive .ach p{font-size:13px;line-height:1.45;color:#bdb69f}
+.achievement-archive .tag{border-radius:1px;background:#252a22;border-color:#4e5142;color:#bdb69f;font-size:9px;letter-spacing:.3px}
+.achievement-archive .ach-complete{border-radius:1px;font-size:10px}
+@media(max-width:800px){.archive-stats{grid-template-columns:repeat(2,1fr)}.archive-filters{grid-template-columns:1fr 1fr}.archive-search{grid-column:1/-1}}
+@media(max-width:520px){.archive-seal{display:none}.archive-filters{grid-template-columns:1fr}.archive-search{grid-column:auto}.archive-filter-label span:last-child,.archive-index-line span:last-child{display:none}}
+
 </style>
 </head><body>
 <header class="war-header">
@@ -170,11 +198,12 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 <p class="small">Ideology wheels are filtered to major political routes represented by the country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
 </main>
-<section id="achievementCenter"><div class="card">
-<h2 style="margin-top:0">🏆 Achievement Center</h2>
-<p class="small">Browse all 293 Steam achievements and see which campaigns they fit. Country, political-route, and artwork metadata are progressively verified to improve campaign matching. <span id="artworkCoverage"></span></p>
-<div class="stats"><div class="stat"><b id="steamTotal">—</b>Steam Catalog Target</div><div class="stat"><b id="mappedCount">0</b>Unique Mapped</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
-<div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All</option><option value="open">Not completed</option><option value="done">Completed</option></select><label>Artwork</label><select id="achArtwork"><option value="">All artwork</option><option value="mapped">Official artwork mapped</option><option value="missing">Missing artwork</option></select></div></div>
+<section id="achievementCenter"><div class="card achievement-archive">
+<div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Intelligence Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes.</p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
+<div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Records Shown</div></div>
+<div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
+<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All records</option><option value="open">Not completed</option><option value="done">Completed</option></select></div></div>
+<div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED CAMPAIGN INTELLIGENCE</span></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
 <section id="campaignHistory"><div class="card">
@@ -1178,11 +1207,8 @@ function getCompleted(){try{return new Set(normalizeCompleted(JSON.parse(localSt
 function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify(normalizeCompleted([...set])))}
 function toggleAchievement(name){const done=getCompleted();done.has(name)?done.delete(name):done.add(name);setCompleted(done);renderAchievements()}
 function renderAchievements(){
- const coverage=document.getElementById('artworkCoverage');
- if(coverage){const st=achievementCatalogStats();coverage.textContent='Official artwork: '+st.withArt+'/'+st.total+' mapped.';}
-
- const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,artwork=document.getElementById('achArtwork').value;
- const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!artwork||(artwork==='mapped'?!!getAchievementIcon(a.name):!getAchievementIcon(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
+ const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value;
+ const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
  const completed=all.filter(a=>done.has(a.name)).length;
  document.getElementById('mappedCount').textContent=all.length;
  document.getElementById('completedCount').textContent=completed;
@@ -1192,7 +1218,7 @@ function renderAchievements(){
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
- ['achSearch','achCountry','achIdeology','achStatus','achArtwork'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
+ ['achSearch','achCountry','achIdeology','achStatus'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
 const achievementRules={
