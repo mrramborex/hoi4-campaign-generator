@@ -139,6 +139,27 @@ const achievementIcons={
 'Sunrise Invasion':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5d4ffb9caeff8c7ae976806bfbff4f2959d06eb2.jpg',
 'Australia-Hungary':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/a6b2994d77249c12fd89f86207c2b29b0a969d3d.jpg'
 };
+const achievementCountries=[
+'Afghanistan','Argentina','Australia','Austria','Belgium','Brazil','British Raj / India','Bulgaria','Canada','Chile',
+'China (Nationalist)','Communist China','Congo','Czechoslovakia','Denmark','Dutch East Indies / Indonesia','Egypt','Estonia','Ethiopia',
+'Finland','France','Germany','Greece','Hungary','Iceland','Iran','Iraq','Italy','Japan','Khalistan','Latvia','Lithuania','Luxembourg',
+'Manchukuo','Mexico','Netherlands','New Zealand','Northeastern Army','Norway','Paraguay','Philippines','Poland','Portugal','Romania',
+'Siam / Thailand','South Africa','Soviet Union','Spain','Sweden','Switzerland','Tannu Tuva','Turkey','United Kingdom','United States','Uruguay','Yugoslavia'
+];
+const achievementAliases={
+'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
+'Scandinavia':['Denmark','Sweden','Norway','Finland','Iceland'],
+'Chinese Nation':['China (Nationalist)','Communist China','Manchukuo','Northeastern Army'],
+'Chinese Warlord':['Northeastern Army'],
+'British Subject':['Australia','British Raj / India','Canada','New Zealand','South Africa'],
+'Any Minor':[],
+'Any Country':[]
+};
+function eligibleForCountry(a,country){
+ if(a.country===country)return true;
+ if(achievementAliases[a.country]&&achievementAliases[a.country].includes(country))return true;
+ return false;
+}
 const phase2Achievements=[
 {name:'Wunderwaffen',objective:'Complete the Nuclear Fission Bomb, Rocket Interceptor and Jet Engines special projects.',country:'Any Country',ideology:'any'},
 {name:'True Blitzkrieg',objective:'As Germany, have both Poland and France surrender before January 1st 1940.',country:'Germany',ideology:'f'},
@@ -165,6 +186,8 @@ const phase2Achievements=[
 {name:'Forge of Victory',objective:'Have 50 factories as Belgium.',country:'Belgium',ideology:'any'},
 {name:'By Beer Alone',objective:'As Germany, control Budweis, Tsingtao, and Guinness directly or through a faction member.',country:'Germany',ideology:'any'},
 {name:'Nobody’s Business but the Turks',objective:'Restore the Ottoman Sultanate.',country:'Turkey',ideology:'u'},
+{name:'We’re Putting the Band Back Together',objective:'As Turkey, be in a faction with Germany and Austria-Hungary.',country:'Turkey',ideology:'any'},
+{name:'Hardly Anything Sèvres',objective:'As the Ottoman Empire, hold the capitals of France, the United Kingdom, Italy, and Japan.',country:'Turkey',ideology:'u'},
 {name:'The People Have Stood Up!',objective:'With Mao as your leader, win the Chinese Civil War.',country:'Communist China',ideology:'c'},
 {name:'Listen Very Carefully, I Shall Say This...',objective:'Have a French and British spy work together on the same Operation.',country:'Any Country',ideology:'any'},
 {name:'Istanbul is Constantinople. Again.',objective:'As Greece, capture Istanbul and rename it to Constantinople.',country:'Greece',ideology:'any'},
@@ -254,12 +277,12 @@ function flatAchievements(){
 }
 function renderAchievements(){
  const all=flatAchievements(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value;
- const filtered=all.filter(a=>(!country||a.country===country)&&(!ide||a.ideology===ide)&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
+ const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
  document.getElementById('mappedCount').textContent=all.length;document.getElementById('visibleCount').textContent=filtered.length;
  document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach">${achievementIcons[a.name]?'<img class="ach-icon" src="'+achievementIcons[a.name]+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}</div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){
- const sel=document.getElementById('achCountry'),cs=[...new Set(flatAchievements().map(a=>a.country))].sort();cs.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+ const sel=document.getElementById('achCountry');achievementCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
  ['achSearch','achCountry','achIdeology'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function pickAchievement(country,ideology,path){
