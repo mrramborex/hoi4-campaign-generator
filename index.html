@@ -464,21 +464,21 @@ function eligibleForCountry(a,country){
 }
 const phase2Achievements=[
 {name:'Wunderwaffen',objective:'Has completed the Special Projects Nuclear Fission Bomb, Rocket Interceptor and Jet Engines.',country:'Any Country',ideology:'any'},
-{name:'True Blitzkrieg',objective:'As Germany, have both Poland and France surrender before January 1st 1940.',country:'Germany',ideology:'f'},
+{name:'True Blitzkrieg',objective:'As Germany have both Poland and France surrender before January 1st 1940.',country:'Germany',ideology:'f'},
 {name:'I SEE EVERYTHING',objective:'Get over 90% intel in each category on a major without using code cracking.',country:'Any Country',ideology:'any'},
 {name:'You Will Never Kill Me Alive',objective:'Have one of your spies take a Suicide Pill.',country:'Any Country',ideology:'any'},
 {name:'Man of a Thousand Faces, Every One the Same',objective:'Have the same spy get captured twice.',country:'Any Country',ideology:'any'},
 {name:'Why Die For Danzig?',objective:'As Germany, turn France fascist and occupy Danzig without going to war with France.',country:'Germany',ideology:'f'},
-{name:'Canada First',objective:'Join the Axis as Canada.',country:'Canada',ideology:'f',paths:['Fascist Canada']},
+{name:'Canada First',objective:'Join Axis as Canada .',country:'Canada',ideology:'f',paths:['Fascist Canada']},
 {name:'Cut The Strings',objective:'Break free from your overlord as a puppet.',country:'Any Country',ideology:'any'},
 {name:'The Empire Strikes Back',objective:'As Britain, declare war on one of your former subjects.',country:'United Kingdom',ideology:'any'},
 {name:'Not much fun in Stalingrad',objective:'As Germany, capitulate the Soviet Union without taking Stalingrad.',country:'Germany',ideology:'f'},
 {name:'The Revolution Triumphant',objective:'Have Germany as a puppet of Soviet.',country:'Soviet Union',ideology:'c'},
 {name:'Braaaaains!',objective:'As Canada, complete the Send in the Zombies focus.',country:'Canada',ideology:'any',paths:['Send in the Zombies']},
 {name:'Do You Mined?',objective:'Lay at least 1,000 mines on the coastline of an enemy nation.',country:'Any Country',ideology:'any'},
-{name:'United Netherlands',objective:'Conquer Belgium and Luxembourg as the Netherlands.',country:'Netherlands',ideology:'any'},
+{name:'United Netherlands',objective:'Conquer Belgium and Luxembourg as Netherlands .',country:'Netherlands',ideology:'any'},
 {name:'I Captured the Bosporus and All I Got Was This Lousy Achievement',objective:'As Greece or Bulgaria, own both sides of the Bosporus; as Turkey, subjugate both Greece and Bulgaria.',country:'Greece / Bulgaria / Turkey',ideology:'any'},
-{name:'The bell tolls for us',objective:'Win the Spanish Civil War as Republican Spain.',country:'Spain',ideology:'d',paths:['Republican Spain']},
+{name:'The bell tolls for us',objective:'Win Spanish Civil War as Republican Spain.',country:'Spain',ideology:'d',paths:['Republican Spain']},
 {name:'The Puppetmaster',objective:'Have at least 51 subjects.',country:'Any Country',ideology:'any'},
 {name:'Pride and Extreme Prejudice',objective:'Sink the British Pride of the Fleet.',country:'Any Country',ideology:'any'},
 {name:'Play It, Sam',objective:'Have a spy network of at least 50% strength in Casablanca.',country:'Any Country',ideology:'any'},
@@ -667,6 +667,7 @@ Object.assign(achievementIcons,{
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
+const SOURCE_VALIDATION_BATCH='8C — Steam catalog opening block';
 const STEAM_ACHIEVEMENT_TARGET=293;
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
@@ -1386,11 +1387,22 @@ function warRoomSourceAudit(){
   ['The Empire Strikes Back','United Kingdom','As Britain, declare war on one of your former subjects.'],
   ['Rule Britannia','British Subject','As any British Subject state, conquer all of Britain.'],
   ['Well, I Didn’t Vote for You','Spain','Win the Spanish Civil War as the Anarchists.'],
-  ['True Blitzkrieg','Germany','As Germany, have both Poland and France surrender before January 1st 1940.'],
+  ['True Blitzkrieg','Germany','As Germany have both Poland and France surrender before January 1st 1940.'],
   ['Operation Sea Lion','Germany','Control the British mainland as Germany.'],
-  ['The bell tolls for us','Spain','Win the Spanish Civil War as Republican Spain.'],
+  ['The bell tolls for us','Spain','Win Spanish Civil War as Republican Spain.'],
   ['Big Entente','France','As France, complete the Little Entente focus and have all German cores owned by you or someone in your faction.']
- ],mismatches=[];
+
+  ['Wunderwaffen','Any Country','Has completed the Special Projects Nuclear Fission Bomb, Rocket Interceptor and Jet Engines.'],
+  ['Why Die For Danzig?','Germany','As Germany, turn France fascist and occupy Danzig without going to war with France.'],
+  ['Canada First','Canada','Join Axis as Canada .'],
+  ['Cut The Strings','Any Country','Break free from your overlord as a puppet.'],
+  ['The Revolution Triumphant','Soviet Union','Have Germany as a puppet of Soviet.'],
+  ['Braaaaains!','Canada','As Canada, complete the Send in the Zombies focus.'],
+  ['Do You Mined?','Any Country','Lay at least 1,000 mines on the coastline of an enemy nation.'],
+  ['United Netherlands','Netherlands','Conquer Belgium and Luxembourg as Netherlands .'],
+  ['The Puppetmaster','Any Country','Have at least 51 subjects.'],
+  ['Play It, Sam','Any Country','Have a spy network of at least 50% strength in Casablanca.'],
+  ['Turing Complete!','Any Country','Fully decrypt all nations in the Axis.'], ],mismatches=[];
  checks.forEach(([name,country,objective])=>{const a=byName.get(normAchievementName(name));if(!a||a.country!==country||normAchievementName(a.objective)!==normAchievementName(objective))mismatches.push({name,expectedCountry:country,actualCountry:a?.country||'MISSING',expectedObjective:objective,actualObjective:a?.objective||'MISSING'})});
  const result={validated:SOURCE_VALIDATION_VERSION,steamTarget:STEAM_ACHIEVEMENT_TARGET,spotChecks:checks.length,mismatches,passed:mismatches.length===0};
  console.group('HOI4 War Room Source Validation');console.table({Validated:result.validated,'Steam catalog target':result.steamTarget,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
