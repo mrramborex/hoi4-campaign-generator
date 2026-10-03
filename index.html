@@ -188,7 +188,7 @@ function eligibleForCountry(a,country){
  return false;
 }
 const phase2Achievements=[
-{name:'Wunderwaffen',objective:'Complete the Nuclear Fission Bomb, Rocket Interceptor and Jet Engines special projects.',country:'Any Country',ideology:'any'},
+{name:'Wunderwaffen',objective:'Has completed the Special Projects Nuclear Fission Bomb, Rocket Interceptor and Jet Engines.',country:'Any Country',ideology:'any'},
 {name:'True Blitzkrieg',objective:'As Germany, have both Poland and France surrender before January 1st 1940.',country:'Germany',ideology:'f'},
 {name:'I SEE EVERYTHING',objective:'Get over 90% intel in each category on a major without using code cracking.',country:'Any Country',ideology:'any'},
 {name:'You Will Never Kill Me Alive',objective:'Have one of your spies take a Suicide Pill.',country:'Any Country',ideology:'any'},
@@ -198,12 +198,12 @@ const phase2Achievements=[
 {name:'Cut The Strings',objective:'Break free from your overlord as a puppet.',country:'Any Country',ideology:'any'},
 {name:'The Empire Strikes Back',objective:'As Britain, declare war on one of your former subjects.',country:'United Kingdom',ideology:'any'},
 {name:'Not much fun in Stalingrad',objective:'As Germany, capitulate the Soviet Union without taking Stalingrad.',country:'Germany',ideology:'f'},
-{name:'The Revolution Triumphant',objective:'Have Germany as a puppet of the Soviet Union.',country:'Soviet Union',ideology:'c'},
+{name:'The Revolution Triumphant',objective:'Have Germany as a puppet of Soviet.',country:'Soviet Union',ideology:'c'},
 {name:'Braaaaains!',objective:'As Canada, complete the Send in the Zombies focus.',country:'Canada',ideology:'any'},
 {name:'Do You Mined?',objective:'Lay at least 1,000 mines on the coastline of an enemy nation.',country:'Any Country',ideology:'any'},
 {name:'United Netherlands',objective:'Conquer Belgium and Luxembourg as the Netherlands.',country:'Netherlands',ideology:'any'},
 {name:'I Captured the Bosporus and All I Got Was This Lousy Achievement',objective:'As Greece or Bulgaria, own both sides of the Bosporus; as Turkey, subjugate both Greece and Bulgaria.',country:'Greece / Bulgaria / Turkey',ideology:'any'},
-{name:'The bell tolls for us',objective:'Win the Spanish Civil War as Republican Spain.',country:'Spain',ideology:'d'},
+{name:'The bell tolls for us',objective:'Win the Spanish Civil War as Republican Spain.',country:'Spain',ideology:'d',paths:['Republican Spain']},
 {name:'The Puppetmaster',objective:'Have at least 51 subjects.',country:'Any Country',ideology:'any'},
 {name:'Pride and Extreme Prejudice',objective:'Sink the British Pride of the Fleet.',country:'Any Country',ideology:'any'},
 {name:'Play It, Sam',objective:'Have a spy network of at least 50% strength in Casablanca.',country:'Any Country',ideology:'any'},
@@ -222,7 +222,7 @@ const phase2Achievements=[
 {name:'Lethal Straight',objective:'Have a production license from at least 5 of the 7 major powers.',country:'Any Country',ideology:'any'},
 {name:'Arsenal of Democracy',objective:'As the U.S.A., have more than 300 military factories.',country:'United States',ideology:'d'},
 {name:'Last for a Thousand Years',objective:'As the United Kingdom, accomplish the federation of the entire British Empire.',country:'United Kingdom',ideology:'d'},
-{name:'Poland can into space',objective:'Complete the Rocket Interceptor special project.',country:'Poland',ideology:'any'},
+{name:'Poland can into space',objective:'Has completed the Special Project Rocket Interceptor.',country:'Poland',ideology:'any'},
 {name:'Nothing Wrong with our Bloody Ships',objective:'As the United Kingdom, have at least 9 battlecruisers.',country:'United Kingdom',ideology:'any'},
 {name:'Assuming Direct Control',objective:'Starting as a minor power, assume faction leadership of the Allies, Axis, or Comintern.',country:'Any Minor',ideology:'any'},
 {name:'BFFs',objective:'As Portugal, join the same faction as Great Britain.',country:'Portugal',ideology:'any'},
@@ -242,7 +242,7 @@ const phase2Achievements=[
 {name:'We Will Rock You',objective:'As Spain, own Gibraltar.',country:'Spain',ideology:'any'},
 {name:'One Nation Under Atatürk, Indivisible',objective:'As non-aligned Turkey, have zero negative state modifiers.',country:'Turkey',ideology:'u'},
 {name:'Poland Peasant Revolution',objective:'As Poland, have the Peasant’s Strike overthrow the government.',country:'Poland',ideology:'c'},
-{name:'Nobody expects...',objective:'As Nationalist Spain in the Axis, take Paris before the Germans.',country:'Spain',ideology:'f'},
+{name:'Nobody expects...',objective:'As Nationalist Spain in Axis manage to take Paris before the Germans.',country:'Spain',ideology:'f',paths:['Nationalist Spain']},
 {name:'Awake and Angry',objective:'As China, reconquer all of China and Manchuria and force a Japanese surrender.',country:'China (Nationalist)',ideology:'any'},
 {name:'History Repeated Itself',objective:'As the U.S.A., win against the Confederate States again.',country:'United States',ideology:'d'},
 {name:'Peter’s Pride',objective:'As Peter II of Yugoslavia, overthrow your uncle and become King.',country:'Yugoslavia',ideology:'u'},
@@ -273,8 +273,8 @@ const phase2Achievements=[
 {name:'Treading the Narrow Path',objective:'As the Netherlands, do not cave to Germany, continue the Zuiderzee works, and retain all continental European states until 1945.',country:'Netherlands',ideology:'d'},
 {name:'30 Minutes of Hel',objective:'As Poland in the 1939 start, inflict over 1,800,000 casualties on Germany.',country:'Poland',ideology:'any'},
 {name:'Tour de France',objective:'Occupy all mainland France while having at least 20 fully equipped bicycle regiments.',country:'Any Country',ideology:'any'},
-{name:'Sunset Invasion',objective:'Occupy a coastal province in Europe as Mexico, with faction restrictions if applicable.',country:'Mexico',ideology:'any'},
-{name:'Our Words Are Backed With Nuclear Weapons',objective:'As India, develop and deploy a nuke while having the Quit India Movement national spirit.',country:'British Raj / India',ideology:'any'},
+{name:'Sunset Invasion',objective:'Occupy a coastal province in Europe as Mexico, and if in a faction have it contain only South American members or puppets.',country:'Mexico',ideology:'any'},
+{name:'Our Words Are Backed With Nuclear Weapons',objective:'As India, develop and deploy a nuke. You must have the Quit India Movement national spirit.',country:'British Raj / India',ideology:'any'},
 {name:'Neither Death nor Dishonor',objective:'As Romania, reach 1942 with all starting states and control either Moscow or Berlin.',country:'Romania',ideology:'any'},
 {name:'En Svensk Tiger',objective:'As Sweden, acquire a production license for a Tiger or Tiger II tank from Germany.',country:'Sweden',ideology:'any'},
 {name:'Make a Man Out Of You',objective:'As a warlord, have at least 1,000,000 manpower queued for deployment.',country:'Chinese Warlord',ideology:'any'},
@@ -284,7 +284,7 @@ const phase2Achievements=[
 {name:'Nothing personal, Adolf',objective:'As Italy, take Austria before the Anschluss and never enter a faction with fascist Germany.',country:'Italy',ideology:'any'},
 {name:'Once More Mate',objective:'Occupy Gallipoli as Australia.',country:'Australia',ideology:'any'},
 {name:'Med plutonium...',objective:'Nuke Denmark as Sweden.',country:'Sweden',ideology:'any'},
-{name:'Crusader Kings',objective:'As South Africa, finish A King for our People and take Jerusalem.',country:'South Africa',ideology:'u'},
+{name:'Crusader Kings',objective:'As South Africa, finish the A King for our People focus and take Jerusalem.',country:'South Africa',ideology:'u'},
 {name:'Sun Tzu Reborn',objective:'As any Chinese nation, have a level 9 field marshal.',country:'Chinese Nation',ideology:'any'}
 ];
 Object.assign(achievementIcons,{
