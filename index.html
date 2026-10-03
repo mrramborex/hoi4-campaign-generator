@@ -86,7 +86,7 @@ function paintFlag(country,i,arc){
  if(country==='Aussa'){
    // Sultanate of Aussa starting flag: solid red, kept explicit so it cannot fall through to a generic placeholder.
    rect(x,y,w,h,'#c8102e');
- } elseif(country==='United Kingdom'){
+ } else if(country==='United Kingdom'){
    // Wedge-aware Union Jack: offset diagonals/cross so the narrow radial slice retains blue, white and red.
    rect(x,y,w,h,'#012169');
    ctx.strokeStyle='#ffffff';ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(x,y+h*.30);ctx.lineTo(x+w,y+h*.70);ctx.moveTo(x,y+h*.70);ctx.lineTo(x+w,y+h*.30);ctx.stroke();
