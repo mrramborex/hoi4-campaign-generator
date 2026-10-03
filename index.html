@@ -1432,9 +1432,9 @@ function warRoomIntegrityTest(){
 }
 window.HOI4WarRoomIntegrityTest=warRoomIntegrityTest;
 function warRoomCertification(){
- const integrity=warRoomIntegrityTest(),audit=auditAchievementIntelligence(),st=achievementCatalogStats();
- const cert={version:'Phase 9A',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,sourceValidated:SOURCE_VALIDATED_COUNT,sourceTarget:STEAM_ACHIEVEMENT_TARGET,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed&&SOURCE_VALIDATED_COUNT===STEAM_ACHIEVEMENT_TARGET&&Object.keys(countries).length===65};
- console.group('HOI4 WAR ROOM — PHASE 9A CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Source validated':cert.sourceValidated+' / '+cert.sourceTarget,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
+ const integrity=warRoomIntegrityTest(),audit=auditAchievementIntelligence(),st=achievementCatalogStats(),runtime=warRoomRuntimeGuard(),source=warRoomSourceAudit();
+ const cert={version:'Phase 9B',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,sourceValidated:SOURCE_VALIDATED_COUNT,sourceTarget:STEAM_ACHIEVEMENT_TARGET,runtimePassed:runtime.passed,sourceAuditPassed:source.passed,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed&&runtime.passed&&source.passed&&SOURCE_VALIDATED_COUNT===STEAM_ACHIEVEMENT_TARGET&&Object.keys(countries).length===65};
+ console.group('HOI4 WAR ROOM — PHASE 9B CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Source validated':cert.sourceValidated+' / '+cert.sourceTarget,'Runtime guard':cert.runtimePassed,'Source audit':cert.sourceAuditPassed,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
  return cert;
 }
 window.HOI4WarRoomCertification=warRoomCertification;
@@ -1613,4 +1613,5 @@ function resetCampaign(clearHistory=true){remaining=shuffledCountries();selected
 document.getElementById('reset').onclick=()=>resetCampaign(true);
 document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');window.scrollTo({top:0,behavior:'smooth'})};
 draw();
+warRoomRuntimeGuard();
 </script></body></html>
