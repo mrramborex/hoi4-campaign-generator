@@ -990,7 +990,27 @@ const achievementRules={
  'Cut The Strings':{countries:['Australia','British Raj / India','Canada','New Zealand','South Africa']},
  'The Empire Strikes Back':{countries:['United Kingdom'],ideologies:['u'],paths:['Restore the Monarchy']},
  'Why Die For Danzig?':{countries:['Germany']},
- 'Canada First':{countries:['Canada']}
+ 'Canada First':{countries:['Canada']},
+ '30 Minutes of Hel':{countries:['Poland']},
+ 'Bearer of Artillery':{countries:['Poland']},
+ 'Death or Dishonor or Cake':{countries:['Romania']},
+ 'Czechmate':{countries:['Czechoslovakia']},
+ 'Huge-oslavia':{countries:['Yugoslavia']},
+ 'Balkan Problem Solved':{countries:['Bulgaria'],ideologies:['c']},
+ 'Bad Romeance':{countries:['Greece']},
+ 'Prussia of the Balkans':{countries:['Bulgaria']},
+ 'Dracula’s Revenge':{countries:['Yugoslavia']},
+ 'Czechoslovaustrohungarian Union':{countries:['Czechoslovakia'],ideologies:['c']},
+ 'The Romanovs laugh last':{countries:['Soviet Union'],ideologies:['u'],paths:['White Russia / Tsarist Restoration']},
+ 'Holy, Roman, and an Empire':{countries:['Italy'],ideologies:['u'],paths:['Papal Italy']},
+ 'The return of the king':{countries:['Sweden'],ideologies:['u']},
+ 'The True Successor':{countries:['Luxembourg'],ideologies:['c']},
+ 'Underpaid, Undersexed, and Under Eisenhower':{countries:['United States']},
+ 'Totally Not Cool, Bromania':{countries:['Romania']},
+ 'Esti is Scandi':{countries:['Estonia']},
+ 'The Lion King':{countries:['Ethiopia']},
+ 'It has my name on it':{countries:['Switzerland']},
+ 'This Achievement is Cheesy':{countries:['Switzerland']}
 };
 function achievementRule(a){return achievementRules[a.name]||null}
 function ruleAllows(a,country,ideology,path){
@@ -1013,8 +1033,8 @@ function pickAchievement(country,ideology,path){
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
  const countryPool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
  const genericPool=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
- const routeExact=countryPool.filter(a=>a.paths&&achievementPathMatches(a,path));
- const countryGeneral=countryPool.filter(a=>!a.paths||!hasCuratedPaths(country,ideology));
+ const routeExact=countryPool.filter(a=>(a.paths&&achievementPathMatches(a,path))||(achievementRule(a)?.paths&&ruleAllows(a,country,ideology,path)));
+ const countryGeneral=countryPool.filter(a=>!(a.paths&&a.paths.length)&&!(achievementRule(a)?.paths)&&(!hasCuratedPaths(country,ideology)||!!achievementRule(a)));
  const choose=(pool,scope)=>{
    if(!pool.length)return null;
    const open=pool.filter(a=>!done.has(a.name)),choices=open.length?open:pool;
