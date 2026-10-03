@@ -7,12 +7,23 @@
 :root{--bg:#151711;--panel:#22261c;--ink:#eee9d6;--muted:#aaa58f;--accent:#b69b58}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#2a2d20,#11130f 65%);color:var(--ink);font-family:Georgia,serif;min-height:100vh}
 header{text-align:center;padding:24px 16px 8px} h1{margin:0;font-size:clamp(28px,5vw,48px);letter-spacing:2px} header p{color:var(--muted);margin:8px}
-main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1fr 330px;gap:22px}.card{background:#20231a;border:1px solid #4b4b38;border-radius:12px;padding:18px;box-shadow:0 12px 35px #0008}.wheelwrap{position:relative;max-width:680px;margin:auto}.pointer{position:absolute;z-index:4;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:38px solid #e9d18d;filter:drop-shadow(0 2px 2px #000)}canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 7px 12px #000)}button,select{font:inherit}.spin{display:block;margin:18px auto 4px;padding:12px 34px;background:#6e1d17;color:#fff4d4;border:2px solid #c6a65b;border-radius:6px;font-weight:bold;font-size:20px;cursor:pointer}.spin:hover{background:#86261e}.spin:disabled{opacity:.5}.result{text-align:center;min-height:78px;padding:8px}.result strong{font-size:28px;color:#e8cf87}.result .sub{font-size:18px;color:#c9c2a7;margin-top:4px}.controls label{display:block;margin:12px 0 6px;color:#c9c2a7}.controls select{width:100%;padding:8px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.legend{margin-top:18px;border-top:1px solid #494936;padding-top:12px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px}.small{font-size:13px;color:#999580;line-height:1.45}.history{margin-top:14px}.history div{padding:6px 0;border-bottom:1px solid #38382b;font-size:14px}@media(max-width:800px){main{grid-template-columns:1fr}.card.side{order:-1}}
+main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1fr 330px;gap:22px}.card{background:#20231a;border:1px solid #4b4b38;border-radius:12px;padding:18px;box-shadow:0 12px 35px #0008}.wheelwrap{position:relative;max-width:680px;margin:auto}.pointer{position:absolute;z-index:4;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:38px solid #e9d18d;filter:drop-shadow(0 2px 2px #000)}canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 7px 12px #000)}button,select{font:inherit}.spin{display:block;margin:18px auto 4px;padding:12px 34px;background:#6e1d17;color:#fff4d4;border:2px solid #c6a65b;border-radius:6px;font-weight:bold;font-size:20px;cursor:pointer}.spin:hover{background:#86261e}.spin:disabled{opacity:.5}.result{text-align:center;min-height:78px;padding:8px}.result strong{font-size:28px;color:#e8cf87}.result .sub{font-size:18px;color:#c9c2a7;margin-top:4px}.controls label{display:block;margin:12px 0 6px;color:#c9c2a7}.controls select{width:100%;padding:8px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.legend{margin-top:18px;border-top:1px solid #494936;padding-top:12px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px}.small{font-size:13px;color:#999580;line-height:1.45}.history{margin-top:14px}.history div{padding:6px 0;border-bottom:1px solid #38382b;font-size:14px}
+.mission{display:none;margin:22px auto 4px;max-width:620px;padding:20px;background:linear-gradient(180deg,#292b20,#181a14);border:2px solid #b69b58;border-radius:10px;box-shadow:0 0 0 3px #111,0 10px 30px #0009;text-align:left}
+.mission.show{display:block}.mission-kicker{text-align:center;letter-spacing:3px;color:#b9ae8a;font-size:12px;margin-bottom:14px}.mission-country{font-size:28px;font-weight:bold;color:#f0e6c2;margin-bottom:12px}.mission-line{font-size:17px;line-height:1.5;margin:7px 0}.mission-line b{color:#e8cf87}.mission-objective{color:#d6d0b8}.startCampaign{width:100%;margin:18px 0 0;padding:14px;background:#52623c;color:#fff8df;border:2px solid #c6a65b;border-radius:5px;font-weight:bold;font-size:19px;cursor:pointer;letter-spacing:1px}.startCampaign:hover{background:#657849}.mission-note{text-align:center;color:#918c77;font-size:12px;margin-top:10px}
+@media(max-width:800px){main{grid-template-columns:1fr}.card.side{order:-1}}
 </style>
 </head><body>
 <header><h1>HEARTS OF IRON IV</h1><p>Country + Ideology + Political Path Campaign Randomizer</p></header>
 <main>
-<section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.</div></section>
+<section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.</div>
+<div class="mission" id="mission">
+  <div class="mission-kicker">YOUR CAMPAIGN ORDERS</div>
+  <div class="mission-country" id="missionCountry"></div>
+  <div class="mission-line">🏆 <b>Achievement:</b> <span id="missionAchievement"></span></div>
+  <div class="mission-line mission-objective">🎯 <b>Objective:</b> <span id="missionObjective"></span></div>
+  <button class="startCampaign" id="startCampaign">START CAMPAIGN</button>
+  <div class="mission-note" id="missionNote">Campaign generated. Good luck, commander.</div>
+</div></section>
 <aside class="card side controls">
 <h2 style="margin-top:0">Campaign Rules</h2>
 <label>Wheel stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for selected country</option><option value="path">Political path</option></select>
@@ -77,6 +88,46 @@ const paths={
 'Siam / Thailand':{u:['Royalist / Non-Aligned Siam'],f:['Military Nationalist Thailand'],d:['Democratic Siam'],c:['Communist Siam']},
 'Dutch East Indies / Indonesia':{d:['Loyalist / Democratic East Indies','Independent Democratic Indonesia'],f:['Fascist Indonesia'],c:['Communist Indonesia'],u:['Non-Aligned Indonesia']}
 };
+const achievements={
+'Germany':{
+ u:[
+  {name:'Our Other Place in the Sun',objective:'As Imperial Germany, conquer a Caribbean island.',paths:['Restore the Kaiser','Monarchist Germany']},
+  {name:'Monarchy is Back in Fashion',objective:'As Germany, bring back the Kaiser and ensure Italy is controlled by Victor Emmanuel by killing Mussolini.',paths:['Restore the Kaiser','Monarchist Germany']}
+ ],
+ f:[{name:'Operation Sea Lion',objective:'Control the British mainland as Germany.'}]
+},
+'Australia':{d:[{name:'Australia-Hungary',objective:'As Australia, own all core territory of Hungary.'}]},
+'Japan':{u:[{name:'Sunrise Invasion',objective:'As Japan, conquer Mexico and then Europe before 1945.'},{name:'Tojo Shot First',objective:'As Japan, nuke a core territory of the United States before the U.S. develops nuclear weapons.'}]},
+'Manchukuo':{u:[{name:'Hail to the Qing',objective:'As Manchukuo, restore the Qing dynasty.'},{name:'The Dragon Swallowed the Sun',objective:'As Manchukuo, break free from Japan and annex your former overlord without being in a faction.'}]},
+'Greece':{u:[{name:"I Swear I’m Not a Byzantophile",objective:'As Greece, form the Byzantine Empire.'}]},
+'United States':{d:[{name:'Team America',objective:'As the U.S.A., drop a nuclear bomb on Paris.'},{name:'Georgia On My Mind',objective:'As the U.S.A., own and fully control all three Georgias.'}]},
+'France':{d:[{name:'Big Entente',objective:'As France, complete the Little Entente focus and have all German cores owned by you or someone in your faction.',paths:['Little Entente']}]},
+'United Kingdom':{u:[{name:'Britzkrieg',objective:'As the United Kingdom, put Edward VIII in power, ally Germany, and fully control Paris.',paths:['Restore the Monarchy']}]},
+'South Africa':{d:[{name:'District 9',objective:'As South Africa, have 9 civilian factories in Transvaal.'}]},
+'Communist China':{c:[{name:'Made in China',objective:'As Communist China, have over 100 military factories.'}]}
+};
+function pickAchievement(country,ideology,path){
+ const pool=((achievements[country]||{})[ideology]||[]);
+ const compatible=pool.filter(a=>!a.paths||a.paths.includes(path));
+ const choices=compatible.length?compatible:pool;
+ return choices.length?choices[Math.floor(Math.random()*choices.length)]:null;
+}
+function showMission(path){
+ const a=pickAchievement(selected,selectedIdeology,path);
+ const mission=document.getElementById('mission');
+ document.getElementById('missionCountry').textContent='🌍 '+selected+' — '+names[selectedIdeology]+' — '+path;
+ if(a){
+   document.getElementById('missionAchievement').textContent=a.name;
+   document.getElementById('missionObjective').textContent=a.objective;
+   document.getElementById('missionNote').textContent='Achievement target selected for this campaign.';
+ }else{
+   document.getElementById('missionAchievement').textContent='Open Campaign Challenge';
+   document.getElementById('missionObjective').textContent='Complete this political path and take your nation to a major-power victory. Achievement matching for this route is coming in the next database expansion.';
+   document.getElementById('missionNote').textContent='No curated achievement is mapped to this exact route yet.';
+ }
+ mission.classList.add('show');
+ mission.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
 let selectedIdeology=null;
 let remaining=Object.keys(countries), selected=null, angle=0, spinning=false, hist=[];
 const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),btn=document.getElementById('spin'),res=document.getElementById('result');
@@ -86,6 +137,7 @@ function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='pat
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
 if(stage.value==='country'){paintFlag(a[i],i,arc);}
 ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(n<=60){ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.lineWidth=3;ctx.strokeStyle='#000';let t=label(a[i]);if(t.length>20)t=t.slice(0,19)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 24px Georgia';ctx.textAlign='center';ctx.fillText('HOI4',0,8);ctx.restore()}
-function spin(){let a=items();if(spinning||!a.length)return;if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;res.innerHTML=`Country: <strong>${w}</strong><div class="sub">Now spin its ideology.</div>`;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} — now spin the political path.</div>`;hist.unshift(`${selected} — ${names[w]}`);stage.value='path';btn.textContent='SPIN POLITICAL PATH';draw()}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[selectedIdeology]} → ${w}</div>`;hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`)}document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
-btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('reset').onclick=()=>{remaining=Object.keys(countries);selected=null;selectedIdeology=null;hist=[];angle=0;stage.value='country';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';document.getElementById('history').innerHTML='';draw()};draw();
+function spin(){let a=items();if(spinning||!a.length)return;if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;res.innerHTML=`Country: <strong>${w}</strong><div class="sub">Now spin its ideology.</div>`;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} — now spin the political path.</div>`;hist.unshift(`${selected} — ${names[w]}`);stage.value='path';btn.textContent='SPIN POLITICAL PATH';draw()}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[selectedIdeology]} → ${w}</div>`;hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`);showMission(w)}document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
+btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('startCampaign').onclick=()=>{document.getElementById('missionNote').textContent='⚔ Campaign locked in. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
+document.getElementById('reset').onclick=()=>{remaining=Object.keys(countries);selected=null;selectedIdeology=null;hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';document.getElementById('history').innerHTML='';draw()};draw();
 </script></body></html>
