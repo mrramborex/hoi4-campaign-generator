@@ -1656,16 +1656,33 @@ function auditAchievementIntelligence(){
 window.HOI4WarRoomAudit=auditAchievementIntelligence;
 function auditSpinnerAchievementAssignments(){
  const all=flatAchievements(),generic=all.filter(a=>a.country==='Any Country'||a.country==='Any Minor'),issues=[],combos=[];
+ const assignmentEligible=(a,country,ideology,path)=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&(a.ideology==='any'||a.ideology===ideology)&&ruleAllows(a,country,ideology,path);
  Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[country+' — '+names[ideology]+' political route']).forEach(path=>{
-  const pool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&(a.ideology==='any'||a.ideology===ideology)&&ruleAllows(a,country,ideology,path));
-  combos.push({country,ideology,path,eligible:pool.length});
-  pool.forEach(a=>{if(!eligibleForCountry(a,country))issues.push({type:'wrong-country',country,ideology,path,achievement:a.name});if(a.ideology!=='any'&&a.ideology!==ideology)issues.push({type:'wrong-ideology',country,ideology,path,achievement:a.name});if(!ruleAllows(a,country,ideology,path))issues.push({type:'wrong-route',country,ideology,path,achievement:a.name})});
+  const pool=all.filter(a=>assignmentEligible(a,country,ideology,path));
+  combos.push({country,ideology,path,eligible:pool.length,achievements:pool.map(a=>a.name)});
+  pool.forEach(a=>{
+   if(!eligibleForCountry(a,country))issues.push({type:'wrong-country',country,ideology,path,achievement:a.name});
+   if(a.ideology!=='any'&&a.ideology!==ideology)issues.push({type:'wrong-ideology',country,ideology,path,achievement:a.name});
+   if(!ruleAllows(a,country,ideology,path))issues.push({type:'wrong-route',country,ideology,path,achievement:a.name});
+   if(a.country==='Any Country'||a.country==='Any Minor')issues.push({type:'generic-leak',country,ideology,path,achievement:a.name});
+  });
  })));
- const result={phase:'12D',catalog:all.length,genericArchiveOnly:generic.length,combinations:combos.length,zeroCountryAchievementCombos:combos.filter(x=>x.eligible===0),issues,passed:issues.length===0};
- if(result.passed)console.info('HOI4 WAR ROOM — PHASE 12D ASSIGNMENT AUDIT PASSED',result);else console.error('HOI4 WAR ROOM — PHASE 12D ASSIGNMENT AUDIT FAILED',result);
+ const routeRules=Object.entries(achievementRules).filter(([,r])=>r.paths?.length);
+ routeRules.forEach(([achievement,r])=>{
+  (r.countries||[]).forEach(country=>(r.ideologies||countries[country]||[]).forEach(ideology=>(r.paths||[]).forEach(path=>{
+   if(!countries[country])return;
+   if(!countries[country].includes(ideology))issues.push({type:'rule-ideology-not-on-wheel',achievement,country,ideology,path});
+   const actual=paths[country]?.[ideology]||[];
+   if(actual.length&&!actual.some(p=>{const x=p.toLowerCase(),y=path.toLowerCase();return x===y||x.includes(y)||y.includes(x)}))issues.push({type:'rule-path-not-on-wheel',achievement,country,ideology,path,actual});
+  })));
+ });
+ const zeroCountryAchievementCombos=combos.filter(x=>x.eligible===0);
+ const result={phase:'12E',catalog:all.length,genericArchiveOnly:generic.length,combinations:combos.length,zeroCountryAchievementCombos,issues,passed:issues.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 12E COMPATIBILITY AUDIT PASSED',result);else console.error('HOI4 WAR ROOM — PHASE 12E COMPATIBILITY AUDIT FAILED',result);
  return result;
 }
 window.HOI4SpinnerAchievementAudit=auditSpinnerAchievementAssignments;
+window.HOI4WarRoomCompatibilityAudit=auditSpinnerAchievementAssignments;
 function warRoomStressTest(iterations=50000){
  const all=flatAchievements(),norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'"),originalGetCompleted=getCompleted;
  const combos=[];Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[country+' — '+names[ideology]+' political route']).forEach(path=>combos.push({country,ideology,path}))));
