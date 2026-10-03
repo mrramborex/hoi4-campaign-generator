@@ -44,7 +44,7 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:
 </main>
 <section id="achievementCenter"><div class="card">
 <h2 style="margin-top:0">🏆 Achievement Center</h2>
-<p class="small">Browse all 293 Steam achievements and see which campaigns they fit. Country, political-route, and artwork metadata are progressively verified to improve campaign matching.</p>
+<p class="small">Browse all 293 Steam achievements and see which campaigns they fit. Country, political-route, and artwork metadata are progressively verified to improve campaign matching. <span id="artworkCoverage"></span></p>
 <div class="stats"><div class="stat"><b id="steamTotal">—</b>Steam Catalog Target</div><div class="stat"><b id="mappedCount">0</b>Unique Mapped</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
 <div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All</option><option value="open">Not completed</option><option value="done">Completed</option></select></div></div>
 <div class="ach-grid" id="achievementGrid"></div>
@@ -684,6 +684,10 @@ function flatAchievements(){
  const seen=new Set();
  return out.filter(a=>{const k=a.name.trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"');if(seen.has(k))return false;seen.add(k);return true});
 }
+function achievementCatalogStats(){
+ const all=flatAchievements(),withArt=all.filter(a=>getAchievementIcon(a.name)).length;
+ return {total:all.length,withArt,missingArt:all.length-withArt};
+}
 const CAMPAIGN_LOG_KEY='hoi4CampaignLog';
 function getCampaignLog(){try{return JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]')}catch(e){return []}}
 function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(log.slice(0,50)))}
@@ -725,6 +729,9 @@ function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem(COMPL
 function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify([...set]))}
 function toggleAchievement(name){const done=getCompleted();done.has(name)?done.delete(name):done.add(name);setCompleted(done);renderAchievements()}
 function renderAchievements(){
+ const coverage=document.getElementById('artworkCoverage');
+ if(coverage){const st=achievementCatalogStats();coverage.textContent='Official artwork: '+st.withArt+'/'+st.total+' mapped.';}
+
  const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value;
  const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
  const completed=all.filter(a=>done.has(a.name)).length;
