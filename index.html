@@ -428,18 +428,20 @@ function paintFlag(country,i,arc){
  ctx.restore();
 }
 const paths={
-'Germany':{f:['Historical Reich','Alternative Fascist Power Struggle'],c:['Communist Germany'],d:['Democratic Germany'],u:['Restore the Kaiser','Monarchist Germany']},
+'Germany':{f:['Historical Reich — Führer Path','Alternative Fascist Leadership'],c:['Proletarian Revolution'],d:['Restore German Democracy'],u:['Restore the Kaiserreich','Military Dictatorship']},
 'United Kingdom':{d:['Historical Democratic Britain','Democratic Interventionism'],f:['Fascist Britain'],c:['Communist Britain'],u:['Restore the Monarchy']},
 'United States':{d:['Historical New Deal / Arsenal of Democracy','Democratic Alternate Strategy'],f:['Fascist America'],c:['Communist America']},
 'Soviet Union':{c:['Stalin — Centre','Trotsky — Left Opposition','Bukharin — Right Opposition'],u:['White Russia / Tsarist Restoration']},
 'France':{d:['Historical Democratic France','Little Entente'],f:['Fascist France'],c:['Communist France'],u:['Orléanist Monarchy','Bonapartist Monarchy','Legitimist Monarchy']},
 'Italy':{f:['Mussolini — Historical Fascism','Alternative Fascist Leadership'],c:['Communist Italy'],d:['Democratic Italy'],u:['Monarchist Italy','Papal Italy']},
 'Japan':{u:['Historical Imperial Japan','Imperial Alternative'],f:['Fascist-aligned Japan'],c:['Communist Japan'],d:['Democratic Japan']},
-'Spain':{f:['Nationalist Spain','Falangist Spain','Carlist-aligned Nationalists'],c:['Republican Communist','Anarchist Revolution'],d:['Democratic Republic'],u:['Carlist Spain']},
+'Spain':{f:['Nationalist Spain','Falangist Spain'],c:['Republican Communist','Anarchist Revolution'],d:['Democratic Republic'],u:['Carlist Spain']},
 'Poland':{u:['Sanation Government','Restore a Monarchy'],f:['Fascist Poland'],c:['Communist Poland'],d:['Democratic Poland']},
 'Australia':{d:['Historical Democratic Australia','Independent Democratic Course'],f:['Fascist Australia'],c:['Communist Australia'],u:['Non-Aligned Australia']},
 'Siam / Thailand':{u:['Royalist / Non-Aligned Siam'],f:['Military Nationalist Thailand'],d:['Democratic Siam'],c:['Communist Siam']},
-'Dutch East Indies / Indonesia':{d:['Loyalist / Democratic East Indies','Independent Democratic Indonesia'],f:['Fascist Indonesia'],c:['Communist Indonesia'],u:['Non-Aligned Indonesia']}
+'Dutch East Indies / Indonesia':{d:['Loyalist / Democratic East Indies','Independent Democratic Indonesia'],f:['Fascist Indonesia'],c:['Communist Indonesia'],u:['Non-Aligned Indonesia']},
+'Communist China':{c:['Mao Zedong — Communist China']},
+'China (Nationalist)':{d:['End Military Primacy — Tutelage / Constitutional Route'],u:['Kuomintang National Government'],f:['Authoritarian Nationalist Alignment']}
 };
 const achievements={
 'Germany':{
@@ -1895,7 +1897,7 @@ function shuffledCountries(){
 let selectedIdeology=null;
 let remaining=shuffledCountries(), selected=null, angle=0, spinning=false, hist=[];
 const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),btn=document.getElementById('spin'),res=document.getElementById('result');
-function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[names[selectedIdeology]+' focus-tree route'];}
+function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[selected+' — '+names[selectedIdeology]+' political route'];}
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
 function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path')return '#596247'; const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
