@@ -115,14 +115,14 @@ const achievements={
   {name:'Our Other Place in the Sun',objective:'As Imperial Germany, conquer a Caribbean island.',paths:['Restore the Kaiser','Monarchist Germany']},
   {name:'Monarchy is Back in Fashion',objective:'As Germany, bring back the Kaiser and ensure Italy is controlled by Victor Emmanuel by killing Mussolini.',paths:['Restore the Kaiser','Monarchist Germany']}
  ],
- f:[{name:'Operation Sea Lion',objective:'Control the British mainland as Germany.'}]
+ f:[{name:'Operation Sea Lion',objective:'Control British mainland as Germany.'}]
 },
 'Australia':{d:[{name:'Australia-Hungary',objective:'As Australia, own all core territory of Hungary.'}]},
 'Japan':{u:[{name:'Sunrise Invasion',objective:'As Japan, conquer Mexico and then Europe before 1945.'},{name:'Tojo Shot First',objective:'As Japan, nuke a core territory of the United States before the U.S. develops nuclear weapons.'}]},
 'Manchukuo':{u:[{name:'Hail to the Qing',objective:'As Manchukuo, restore the Qing dynasty.',paths:['Assertiveness / Qing Restoration']},{name:'The Dragon Swallowed the Sun',objective:'As Manchukuo, break free from Japan and annex your former overlord without being in a faction.',paths:['Assertiveness / Independence']}]},
-'Greece':{u:[{name:"I Swear I’m Not a Byzantophile",objective:'As Greece, form the Byzantine Empire.',paths:['Byzantine Empire']}]},
+'Greece':{u:[{name:"I Swear I’m Not a Byzantophile",objective:'As Greece, Form Byzantine Empire.',paths:['Byzantine Empire']}]},
 'United States':{d:[{name:'Team America',objective:'As the U.S.A., drop a nuclear bomb on Paris.'},{name:'Georgia On My Mind',objective:'As the U.S.A., own and fully control all three Georgias.'}]},
-'France':{d:[{name:'Big Entente',objective:'As France, complete the Little Entente focus and have all German cores owned by you or someone in your faction.',paths:['Little Entente']}]},
+'France':{d:[{name:'Big Entente',objective:'As France, complete the “Little Entente” National Focus, and have all German cores owned by you or someone in your faction.',paths:['Little Entente']}]},
 'United Kingdom':{u:[{name:'Britzkrieg',objective:'As the United Kingdom, put Edward VIII in power, ally Germany, and fully control Paris.',paths:['Restore the Monarchy']}]},
 'South Africa':{d:[{name:'District 9',objective:'As South Africa, have 9 civilian factories in Transvaal.'}]},
 'Communist China':{c:[{name:'Made in China',objective:'As Communist China, have over 100 military factories.',paths:['Communist China']}]}
@@ -486,7 +486,7 @@ const phase2Achievements=[
 {name:'Turing Complete!',objective:'Fully decrypt all nations in the Axis.',country:'Any Country',ideology:'any'},
 {name:'Vive la France',objective:'Reach 1948 as France without capitulating or surrendering.',country:'France',ideology:'any'},
 {name:'Forge of Victory',objective:'Have 50 factories as Belgium.',country:'Belgium',ideology:'any'},
-{name:'By Beer Alone',objective:'As Germany, control Budweis, Tsingtao, and Guinness directly or through a faction member.',country:'Germany',ideology:'any'},
+{name:'By Beer Alone',objective:'As Germany, control Budweis, Tsingtao, and Guinness directly or through a faction member',country:'Germany',ideology:'any'},
 {name:'Nobody’s Business but the Turks',objective:'Restore the Ottoman Sultanate.',country:'Turkey',ideology:'u'},
 {name:'We’re Putting the Band Back Together',objective:'As Turkey, be in a faction with Germany and Austria-Hungary.',country:'Turkey',ideology:'any'},
 {name:'Hardly Anything Sèvres',objective:'As the Ottoman Empire, hold the capitals of France, the United Kingdom, Italy, and Japan.',country:'Turkey',ideology:'u'},
@@ -499,19 +499,19 @@ const phase2Achievements=[
 {name:'Last for a Thousand Years',objective:'As the United Kingdom, accomplish the federation of the entire British Empire.',country:'United Kingdom',ideology:'d'},
 {name:'Poland can into space',objective:'Has completed the Special Project Rocket Interceptor.',country:'Poland',ideology:'any'},
 {name:'Nothing Wrong with our Bloody Ships',objective:'As the United Kingdom, have at least 9 battlecruisers.',country:'United Kingdom',ideology:'any'},
-{name:'Assuming Direct Control',objective:'Starting as a minor power, assume faction leadership of the Allies, Axis, or Comintern.',country:'Any Minor',ideology:'any'},
+{name:'Assuming Direct Control',objective:'Starting as a minor power, assume faction leadership of the Allies, the Axis, or the Comintern.',country:'Any Minor',ideology:'any'},
 {name:'BFFs',objective:'As Portugal, join the same faction as Great Britain.',country:'Portugal',ideology:'any'},
 {name:'Well, I Didn’t Vote for You',objective:'Win the Spanish Civil War as the Anarchists.',country:'Spain',ideology:'u'},
 {name:'The Pope? How many Divisions does he have?',objective:'As the USSR, take Rome.',country:'Soviet Union',ideology:'c'},
 {name:'We don’t really like statistics',objective:'As the Soviet Union under Stalin, conquer Germany while suffering less than 1 million casualties total.',country:'Soviet Union',ideology:'c',paths:['Stalin — Centre']},
 {name:'The Munich Disagreement',objective:'As Czechoslovakia, occupy Munich while at war with Germany.',country:'Czechoslovakia',ideology:'any'},
 {name:'Freedom or Death',objective:'As Greece, liberate Albania while being at war with Italy.',country:'Greece',ideology:'any'},
-{name:'One Step Forward',objective:'As the Soviet Union, declare war on Poland and Germany before Germany attacks Poland.',country:'Soviet Union',ideology:'c'},
+{name:'One Step Forward',objective:'As Soviet Union declare a war on Poland and Germany before Germany attacks Poland.',country:'Soviet Union',ideology:'c'},
 {name:'Better than the Szent István',objective:'As Hungary, have Miklos Horthy as a Naval commander and build a battleship.',country:'Hungary',ideology:'u'},
 {name:'Around Eurasia in 80 days',objective:'Make a railroad from Gibraltar to Singapore.',country:'Any Country',ideology:'any'},
 {name:'Romance of the Three Kingdoms',objective:'As China, puppet and then annex Yunnan and Guangxi Clique.',country:'China (Nationalist)',ideology:'any'},
-{name:'Satisfactory',objective:'Have at least one MIO per category at level 10+.',country:'Any Country',ideology:'any'},
-{name:'Northern Light',objective:'As a Scandinavian country, form your own faction and have Denmark, Sweden, Norway and Finland in it.',country:'Scandinavia',ideology:'any'},
+{name:'Satisfactory',objective:'Have at least one MIO per category at level 10+',country:'Any Country',ideology:'any'},
+{name:'Northern Light',objective:'As a Scandinavian country form your own faction, and have Denmark, Sweden, Norway and Finland in it.',country:'Scandinavia',ideology:'any'},
 {name:"It's 1812 All Over Again",objective:'As Canada, take and hold Washington D.C.',country:'Canada',ideology:'any'},
 {name:'I Am the Tong Master',objective:'As South Africa, break free from the UK and puppet another nation.',country:'South Africa',ideology:'any'},
 {name:'We Will Rock You',objective:'As Spain, own Gibraltar.',country:'Spain',ideology:'any'},
@@ -667,7 +667,7 @@ Object.assign(achievementIcons,{
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
-const SOURCE_VALIDATION_BATCH='8C — Steam catalog opening block';
+const SOURCE_VALIDATION_BATCH='8D — Steam catalog continuation block';
 const STEAM_ACHIEVEMENT_TARGET=293;
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
@@ -1388,9 +1388,9 @@ function warRoomSourceAudit(){
   ['Rule Britannia','British Subject','As any British Subject state, conquer all of Britain.'],
   ['Well, I Didn’t Vote for You','Spain','Win the Spanish Civil War as the Anarchists.'],
   ['True Blitzkrieg','Germany','As Germany have both Poland and France surrender before January 1st 1940.'],
-  ['Operation Sea Lion','Germany','Control the British mainland as Germany.'],
+  ['Operation Sea Lion','Germany','Control British mainland as Germany.'],
   ['The bell tolls for us','Spain','Win Spanish Civil War as Republican Spain.'],
-  ['Big Entente','France','As France, complete the Little Entente focus and have all German cores owned by you or someone in your faction.']
+  ['Big Entente','France','As France, complete the “Little Entente” National Focus, and have all German cores owned by you or someone in your faction.']
 
   ['Wunderwaffen','Any Country','Has completed the Special Projects Nuclear Fission Bomb, Rocket Interceptor and Jet Engines.'],
   ['Why Die For Danzig?','Germany','As Germany, turn France fascist and occupy Danzig without going to war with France.'],
@@ -1402,7 +1402,34 @@ function warRoomSourceAudit(){
   ['United Netherlands','Netherlands','Conquer Belgium and Luxembourg as Netherlands .'],
   ['The Puppetmaster','Any Country','Have at least 51 subjects.'],
   ['Play It, Sam','Any Country','Have a spy network of at least 50% strength in Casablanca.'],
-  ['Turing Complete!','Any Country','Fully decrypt all nations in the Axis.'], ],mismatches=[];
+  ['Turing Complete!','Any Country','Fully decrypt all nations in the Axis.'],
+  ['Vive la France','France','Reach 1948 as France without capitulating or surrendering.'],
+  ['Forge of Victory','Belgium','Have 50 factories as Belgium.'],
+  ['Nobody’s Business but the Turks','Turkey','Restore the Ottoman Sultanate.'],
+  ['By Beer Alone','Germany','As Germany, control Budweis, Tsingtao, and Guinness directly or through a faction member'],
+  ['The People Have Stood Up!','Communist China','With Mao as your leader, win the Chinese Civil War.'],
+  ['Made in China','Communist China','As Communist China, have over 100 military factories.'],
+  ['Listen Very Carefully, I Shall Say This...','Any Country','Have a French and British spy work together on the same Operation.'],
+  ['Lethal Straight','Any Country','Have a production license from at least 5 of the 7 major powers.'],
+  ['Assuming Direct Control','Any Minor','Starting as a minor power, assume faction leadership of the Allies, the Axis, or the Comintern.'],
+  ['BFFs','Portugal','As Portugal, join the same faction as Great Britain.'],
+  ['The Pope? How many Divisions does he have?','Soviet Union','As the USSR, take Rome.'],
+  ['We don’t really like statistics','Soviet Union','As the Soviet Union under Stalin, conquer Germany while suffering less than 1 million casualties total.'],
+  ['I Swear I’m Not a Byzantophile','Greece','As Greece, Form Byzantine Empire.'],
+  ['Britzkrieg','United Kingdom','As the United Kingdom, put Edward VIII in power, ally Germany, and fully control Paris.'],
+  ['One Step Forward','Soviet Union','As Soviet Union declare a war on Poland and Germany before Germany attacks Poland.'],
+  ['Better than the Szent István','Hungary','As Hungary, have Miklos Horthy as a Naval commander and build a battleship.'],
+  ['The Munich Disagreement','Czechoslovakia','As Czechoslovakia, occupy Munich while at war with Germany.'],
+  ['Freedom or Death','Greece','As Greece, liberate Albania while being at war with Italy.'],
+  ['Around Eurasia in 80 days','Any Country','Make a railroad from Gibraltar to Singapore.'],
+  ['Romance of the Three Kingdoms','China (Nationalist)','As China, puppet and then annex Yunnan and Guangxi Clique.'],
+  ['Northern Light','Scandinavia','As a Scandinavian country form your own faction, and have Denmark, Sweden, Norway and Finland in it.'],
+  ["It's 1812 All Over Again",'Canada','As Canada, take and hold Washington D.C.'],
+  ['We Will Rock You','Spain','As Spain, own Gibraltar.'],
+  ['One Nation Under Atatürk, Indivisible','Turkey','As non-aligned Turkey, have zero negative state modifiers.'],
+  ['Poland Peasant Revolution','Poland','As Poland, have the Peasant’s Strike overthrow the government.'],
+  ['Satisfactory','Any Country','Have at least one MIO per category at level 10+'],
+  ['Nobody expects...','Spain','As Nationalist Spain in Axis manage to take Paris before the Germans.'], ],mismatches=[];
  checks.forEach(([name,country,objective])=>{const a=byName.get(normAchievementName(name));if(!a||a.country!==country||normAchievementName(a.objective)!==normAchievementName(objective))mismatches.push({name,expectedCountry:country,actualCountry:a?.country||'MISSING',expectedObjective:objective,actualObjective:a?.objective||'MISSING'})});
  const result={validated:SOURCE_VALIDATION_VERSION,steamTarget:STEAM_ACHIEVEMENT_TARGET,spotChecks:checks.length,mismatches,passed:mismatches.length===0};
  console.group('HOI4 War Room Source Validation');console.table({Validated:result.validated,'Steam catalog target':result.steamTarget,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
