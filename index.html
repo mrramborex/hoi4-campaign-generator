@@ -39,7 +39,7 @@ main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-column
 <section id="achievementCenter"><div class="card">
 <h2 style="margin-top:0">🏆 Achievement Center</h2>
 <p class="small">Browse verified HOI4 achievements and see which campaigns they fit. Steam currently lists 293 total achievements; this curated route database will grow as we map each one to the generator.</p>
-<div class="stats"><div class="stat"><b>293</b>Steam Achievements</div><div class="stat"><b id="mappedCount">0</b>Mapped Here</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
+<div class="stats"><div class="stat"><b id="steamTotal">—</b>Steam Catalog Target</div><div class="stat"><b id="mappedCount">0</b>Mapped Here</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
 <div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
@@ -324,6 +324,47 @@ Object.assign(achievementIcons,{
 'Balkan Problem Solved':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/92aa96119f46b84df996601caae31110e56417e6.jpg',
 'Freedom or Death':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/93c75d3fcd2c88e836bd8066dbc3e8e1a0a71b11.jpg'
 });
+Object.assign(achievementIcons,{
+'Canada First':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/918493e597c6855b8aa890466ac7b5df12b5c929.jpg',
+'To Arms in Dixie!':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/991e523433c61c323ab86e04b64014ee663501be.jpg',
+'By Beer Alone':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/581b030d40b961abc9f937352e949cfa9d99429a.jpg',
+'Nobody’s Business but the Turks':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/bc34bf1073d6572ff9ddf4b5856431b2e20d6240.jpg',
+'Hardly Anything Sèvres':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/864791f68444003de208047773b83e2f4359ec2c.jpg',
+'The People Have Stood Up!':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/3422fabd437f9746c915730844951d22075312e5.jpg',
+'Istanbul is Constantinople. Again.':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/193617651151cf38ea3c3c0907adf32bec25a4d2.jpg',
+'The Pope? How many Divisions does he have?':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/dbc3201398be6fac5783e3d97149448e54152bab.jpg',
+'We don’t really like statistics':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/5452d69a336335b9b22835f4fc1df00ae4a11d60.jpg',
+'One Step Forward':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/d9a161d9c8114204caf3583d452417d20fbdabf8.jpg',
+'Better than the Szent István':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/6d54f1ead4f8808c6d61658098b68962c273ce3f.jpg',
+'Around Eurasia in 80 days':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/117b7b328f2adff01a0e410c343e7c56e496c50b.jpg',
+'Romance of the Three Kingdoms':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/40d047b48dc84973176edcbe2b60be3c0f1b48ce.jpg',
+'Satisfactory':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/2ed3471318b67c8d72fcfae111d3a396394cd80a.jpg',
+'I Am the Tong Master':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/72eb5f6996c382c587a788c5a422058c0a08185b.jpg',
+'One Nation Under Atatürk, Indivisible':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/7e476ebd99886c096532c31b1a3c1e84f85ef794.jpg',
+'Poland Peasant Revolution':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/e78e26eabf0c047d103203cb8edaebb02ec0e3a3.jpg',
+'Race for Germany':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/89acf6457f31731bee41be55b3706db0482bb92f.jpg',
+'Manifesting a Better Tomorrow':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/7fa5f335fe724536470e4d68759f4302d3f1b5cc.jpg',
+'Habsburgs. Habsburgs everywhere':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/2072cbc895a9e417e43d81faec705e3015d6af7c.jpg',
+'The Good, the Bad and the Weird':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/05128c60789aa6e3632211949fa45e04c7397c37.jpg',
+'Second Time’s the Charm':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/538b6dc04d50d92db43832478ec5f95953de16a3.jpg',
+'At least they run on time!':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/a77daec168ef612d29ca7606aef1aebe920cf52e.jpg',
+'Freegypt':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/f5c723005db82bb1022da08a6844c88dec7faa7f.jpg',
+'One Empire':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/a65c724e2a8d25b73a2db296b6ad9424d6ac2ccf.jpg',
+'Die, Perfidious Albion!':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/3f6af40e8187fb4745083c6892153b2d67840319.jpg',
+'Not a step back!':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/2527d1425d7af578e9f722bd9aff2d2b2f7ca9f6.jpg',
+'No more Partitions':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/8d054146c4b9ee3e36baa7a977b14f2c95739e37.jpg',
+'Collect all the Romes':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/4a44a18ae0bed7ebfcf4d5499beeda8106fc980e.jpg',
+'Rule Britannia':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/66183b10a71144f108ec86b9c36f5441a80ee909.jpg',
+'Our Words Are Backed With Nuclear Weapons':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/7aa512ca50fc898f3c7c8ef3c34db1438ea0c327.jpg',
+'Make a Man Out Of You':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/07cfa645229a320c3a30520698ccb352aa3b726c.jpg',
+'Just proper gander':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/24b470ed3ce1737fa2642856930a317b0a7a3998.jpg',
+'Pizza Time!':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/68f45650bb10cdeb50b5f222be0cc9f3a7c91071.jpg',
+'Nothing personal, Adolf':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/940e4499933705bac5fbbf79022c1529ffca2acf.jpg',
+'Crusader Kings':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/83c82ff10f6fc9ce5bccdca18b5f8fa4362a30cf.jpg',
+'Sun Tzu Reborn':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/d9e98776e4d6769848a6482ee65ffc0d845ea08a.jpg',
+'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
+});
+const STEAM_ACHIEVEMENT_TARGET=294;
 const genericAchievements=[
 {name:'Friend in Need',objective:'Join a faction.',country:'Any Country',ideology:'any'},
 {name:"We'll build it in a day",objective:'Research Construction V.',country:'Any Country',ideology:'any'},
@@ -345,7 +386,7 @@ function renderAchievements(){
  document.getElementById('mappedCount').textContent=all.length;document.getElementById('visibleCount').textContent=filtered.length;
  document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach">${achievementIcons[a.name]?'<img class="ach-icon" src="'+achievementIcons[a.name]+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}</div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
-function initAchievementCenter(){
+function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');achievementCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
  ['achSearch','achCountry','achIdeology'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
