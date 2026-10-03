@@ -640,11 +640,38 @@ function initAchievementCenter(){document.getElementById('steamTotal').textConte
  const sel=document.getElementById('achCountry');achievementCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
  ['achSearch','achCountry','achIdeology','achStatus'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
+function achievementPathMatches(a,path){
+ if(!a.paths||!a.paths.length)return true;
+ const p=path.toLowerCase();
+ return a.paths.some(route=>{
+   const r=route.toLowerCase();
+   return p===r||p.includes(r)||r.includes(p);
+ });
+}
 function pickAchievement(country,ideology,path){
- const pool=((achievements[country]||{})[ideology]||[]);
- const compatible=pool.filter(a=>!a.paths||a.paths.includes(path));
- const choices=compatible.length?compatible:pool;
- return choices.length?choices[Math.floor(Math.random()*choices.length)]:null;
+ const done=getCompleted();
+ const all=flatAchievements();
+ // The master 293-achievement catalog is now the generator source.
+ // Country-specific achievements are preferred; generic achievements are a fallback.
+ const countryPool=all.filter(a=>eligibleForCountry(a,country));
+ const genericPool=all.filter(a=>a.country==='Any Country'||a.country==='Any Minor');
+ const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
+ const routeFits=a=>achievementPathMatches(a,path);
+ const rank=pool=>{
+   const exactRoute=pool.filter(a=>ideologyFits(a)&&a.paths&&routeFits(a));
+   const ideologyCompatible=pool.filter(a=>ideologyFits(a)&&!a.paths);
+   const openExact=exactRoute.filter(a=>!done.has(a.name));
+   const openCompatible=ideologyCompatible.filter(a=>!done.has(a.name));
+   if(openExact.length)return {choices:openExact,completed:false,scope:'route'};
+   if(openCompatible.length)return {choices:openCompatible,completed:false,scope:'country'};
+   if(exactRoute.length)return {choices:exactRoute,completed:true,scope:'route'};
+   if(ideologyCompatible.length)return {choices:ideologyCompatible,completed:true,scope:'country'};
+   return null;
+ };
+ let result=rank(countryPool);
+ if(!result)result=rank(genericPool);
+ if(!result)return null;
+ return {...result.choices[Math.floor(Math.random()*result.choices.length)],_wasCompleted:result.completed,_scope:result.scope};
 }
 function showMission(path){
  const a=pickAchievement(selected,selectedIdeology,path);
@@ -654,11 +681,11 @@ function showMission(path){
    document.getElementById('missionAchievement').textContent=a.name;
    document.getElementById('missionObjective').textContent=a.objective;
    const mi=document.getElementById('missionAchIcon'); if(achievementIcons[a.name]){mi.src=achievementIcons[a.name];mi.alt=a.name+' Steam achievement icon';mi.style.display='block'}else{mi.style.display='none'}
-   document.getElementById('missionNote').textContent='Achievement target selected for this campaign.';
+   document.getElementById('missionNote').textContent=a._wasCompleted?'All compatible unfinished targets are cleared; selecting a completed achievement for this campaign.':(a._scope==='route'?'Unfinished achievement matched to this political route.':'Unfinished achievement matched to this country and ideology.');
  }else{
    document.getElementById('missionAchIcon').style.display='none';document.getElementById('missionAchievement').textContent='Open Campaign Challenge';
-   document.getElementById('missionObjective').textContent='Complete this political path and take your nation to a major-power victory. Achievement matching for this route is coming in the next database expansion.';
-   document.getElementById('missionNote').textContent='No curated achievement is mapped to this exact route yet.';
+   document.getElementById('missionObjective').textContent='Complete this political path and take your nation to a major-power victory.';
+   document.getElementById('missionNote').textContent='No compatible achievement was found in the master catalog for this roll.';
  }
  mission.classList.add('show');
  mission.scrollIntoView({behavior:'smooth',block:'nearest'});
