@@ -77,6 +77,28 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 .war-header .navbtn:before{content:'▸ ';color:#77745f}.war-header .navbtn.active:before{content:'◆ ';color:#d2b96e}
 @media(max-width:700px){.war-header-meta{justify-content:center}.war-header-meta span:not(:nth-child(2)){display:none}.war-wing{display:none}.war-title-wrap{gap:0}.war-header .topnav:before,.war-header .topnav:after{display:none}}
 
+
+/* Phase 11C — strategic campaign selector instrument */
+.generator-console{padding:14px 18px 20px}
+.generator-console-head{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:-2px 0 12px;padding:8px 9px 10px;border-bottom:1px solid #555343}
+.generator-console-head h2{margin:2px 0 0;padding:0;border:0;font-size:18px;letter-spacing:1.7px}
+.generator-console-head h2:after{display:none}
+.console-kicker{font:8px var(--typewriter);letter-spacing:1.8px;color:#817b66}
+.console-status{white-space:nowrap;padding:5px 8px;border:1px solid #45493d;background:#131611;color:#9eaa82;font:9px var(--typewriter);letter-spacing:1.2px;box-shadow:inset 0 0 5px #000}
+.status-lamp{display:inline-block;width:6px;height:6px;margin-right:6px;border-radius:50%;background:#7f934f;box-shadow:0 0 5px #879a57}
+.wheel-instrument{position:relative;max-width:710px;margin:auto;padding:16px;background:radial-gradient(circle,#252a22 0 48%,#171a16 69%,#10120f 100%);border:1px solid #4d5043;box-shadow:inset 0 0 28px #000b,0 0 0 3px #12140f,0 0 0 4px #49483b}
+.wheel-instrument:before,.wheel-instrument:after{content:'+';position:absolute;z-index:3;color:#77735e;font:15px monospace;line-height:1}.wheel-instrument:before{left:8px;top:7px}.wheel-instrument:after{right:8px;bottom:7px}
+.wheel-instrument .wheelwrap{max-width:650px}
+.wheel-instrument .wheelwrap:before{content:'';position:absolute;inset:1%;z-index:3;border:1px solid rgba(205,184,121,.28);border-radius:50%;pointer-events:none;box-shadow:0 0 0 5px rgba(8,10,8,.55),inset 0 0 15px #0008}
+.instrument-label{position:absolute;z-index:4;top:50%;transform:translateY(-50%);font:7px var(--typewriter);letter-spacing:1px;line-height:1.45;color:#6f705f;text-align:center;writing-mode:vertical-rl}
+.instrument-left{left:4px;transform:translateY(-50%) rotate(180deg)}.instrument-right{right:4px}
+.selector-command{display:flex;align-items:center;justify-content:center;gap:13px;margin:17px auto 7px;max-width:560px}
+.selector-command .spin{margin:0;min-width:220px}
+.command-rule{height:1px;flex:1;background:linear-gradient(90deg,transparent,#696247)}.command-rule:last-child{transform:scaleX(-1)}
+.generator-console>.result{max-width:650px;margin:10px auto 0;font-family:var(--typewriter);font-size:13px;letter-spacing:.3px}
+.generator-console>.result:before{content:'COMMAND OUTPUT // ';font-size:9px;letter-spacing:1.2px;color:#77715d}
+@media(max-width:650px){.generator-console{padding:11px}.generator-console-head{align-items:flex-start}.console-status{font-size:8px}.wheel-instrument{padding:10px}.instrument-label{display:none}.selector-command{gap:8px}.selector-command .spin{min-width:190px}.generator-console>.result:before{display:block;margin-bottom:4px}}
+
 </style>
 </head><body>
 <header class="war-header">
@@ -85,7 +107,11 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 <div class="topnav"><button class="navbtn active" id="navGenerator">Campaign Generator</button><button class="navbtn" id="navAchievements">Achievement Center</button><button class="navbtn" id="navCampaigns">Campaign History</button></div>
 </header>
 <main id="generator">
-<section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign from the audited 1936 national-content roster.</div>
+<section class="card generator-console">
+<div class="generator-console-head"><div><span class="console-kicker">GENERAL STAFF RANDOMIZATION DEVICE</span><h2>Strategic Campaign Selector</h2></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
+<div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div></div>
+<div class="selector-command"><span class="command-rule"></span><button class="spin" id="spin">SPIN COUNTRY</button><span class="command-rule"></span></div>
+<div class="result" id="result">Spin to choose your next campaign from the audited 1936 national-content roster.</div>
 <div class="mission" id="mission">
   <div class="mission-kicker">YOUR CAMPAIGN ORDERS</div>
   <div class="mission-country" id="missionCountry"></div>
