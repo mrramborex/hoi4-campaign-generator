@@ -99,6 +99,37 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 .generator-console>.result:before{content:'COMMAND OUTPUT // ';font-size:9px;letter-spacing:1.2px;color:#77715d}
 @media(max-width:650px){.generator-console{padding:11px}.generator-console-head{align-items:flex-start}.console-status{font-size:8px}.wheel-instrument{padding:10px}.instrument-label{display:none}.selector-command{gap:8px}.selector-command .spin{min-width:190px}.generator-console>.result:before{display:block;margin-bottom:4px}}
 
+
+/* Phase 11D — General Staff campaign operations dossier */
+.mission{padding:20px 22px 18px;background:linear-gradient(135deg,#302f25,#20221b 48%,#171a16);border-color:#89754a}
+.mission:after{content:'';position:absolute;inset:8px;pointer-events:none;border:1px solid rgba(190,171,111,.13)}
+.orders-header{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding-bottom:11px;margin-bottom:13px;border-bottom:2px solid #777054}
+.orders-classification{display:block;font:8px var(--typewriter);letter-spacing:1.8px;color:#8e876f;margin-bottom:4px}
+.orders-header .mission-kicker{text-align:left;margin:0;color:#d1c49d;font-size:13px;letter-spacing:3.4px}
+.orders-file{min-width:58px;text-align:center;border:1px solid #625e49;background:#171914;padding:5px;color:#77715f;font:8px var(--typewriter);letter-spacing:1px;line-height:1.3}
+.orders-file strong{color:#c9b477;font:13px var(--display)}
+.orders-country-label,.orders-section-label,.orders-authorization{font:8px var(--typewriter);letter-spacing:1.6px;color:#817b67;text-transform:uppercase}
+.orders-country-label{margin-bottom:2px}
+.mission-country{position:relative;padding:2px 0 10px;margin-bottom:9px;border-bottom:1px solid #4e4d3e;color:#eadcae;font-size:31px}
+.mission-country:after{content:'COMMAND ASSIGNMENT';position:absolute;right:0;bottom:5px;color:#676654;font:7px var(--typewriter);letter-spacing:1.2px}
+.mission-dossier{gap:6px}
+.dossier-field{position:relative;padding:9px 10px;border-top:2px solid #625a41}
+.dossier-label{color:#77715f}.dossier-value{color:#e1d7b8}
+.orders-section-label{display:flex;justify-content:space-between;gap:10px;margin:15px 0 5px;padding:0 2px;color:#958967}
+.mission-ach-row{margin:0;padding:11px;border-left:3px solid #927a45;background:linear-gradient(90deg,#161914,#11130f)}
+.mission-ach-art{border-radius:1px;border-color:#877448;background:#1d211b;box-shadow:0 0 0 2px #10120f,0 4px 12px #0009}
+.mission-ach-row .mission-line b{font-size:10px;color:#9f916c}
+.mission-ach-row .mission-line span{font-family:var(--display);font-size:17px;color:#e2d8b8;letter-spacing:.4px}
+.mission-objective{margin:0;padding:13px 14px;background:#151813;border:1px solid #46483b;border-left:3px solid #687552;font-family:var(--document);color:#d0cab2}
+.mission-objective b{display:block;margin-bottom:4px;font-size:9px;color:#9ca581}
+.mission-badges{padding-bottom:11px;border-bottom:1px solid #454538}
+.orders-authorization{text-align:center;margin:12px 0 6px;color:#746f5d}
+.mission-actions{margin-top:0}.mission-secondary{border-color:#565744}
+.startCampaign{margin-top:10px;position:relative}
+.newCampaign{margin-top:7px}
+.mission-note{font-family:var(--typewriter);font-size:10px;letter-spacing:.6px}
+@media(max-width:520px){.mission{padding:17px 14px}.orders-section-label span:last-child,.mission-country:after{display:none}.orders-header .mission-kicker{font-size:11px;letter-spacing:2px}}
+
 </style>
 </head><body>
 <header class="war-header">
@@ -113,12 +144,16 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 <div class="selector-command"><span class="command-rule"></span><button class="spin" id="spin">SPIN COUNTRY</button><span class="command-rule"></span></div>
 <div class="result" id="result">Spin to choose your next campaign from the audited 1936 national-content roster.</div>
 <div class="mission" id="mission">
-  <div class="mission-kicker">YOUR CAMPAIGN ORDERS</div>
+  <div class="orders-header"><div><span class="orders-classification">GENERAL STAFF • OPERATIONS DIRECTIVE</span><div class="mission-kicker">YOUR CAMPAIGN ORDERS</div></div><div class="orders-file">FILE<br><strong>1936</strong></div></div>
+  <div class="orders-country-label">ASSIGNED NATION</div>
   <div class="mission-country" id="missionCountry"></div>
   <div class="mission-dossier"><div class="dossier-field"><span class="dossier-label">Nation</span><span class="dossier-value" id="dossierCountry">—</span></div><div class="dossier-field"><span class="dossier-label">Ideology</span><span class="dossier-value" id="dossierIdeology">—</span></div><div class="dossier-field"><span class="dossier-label">Political Path</span><span class="dossier-value" id="dossierPath">—</span></div></div>
-  <div class="mission-ach-row"><div class="mission-ach-art"><img class="mission-ach-icon" id="missionAchIcon" alt=""><div class="mission-ach-fallback" id="missionAchFallback">🏆</div></div><div class="mission-line"><b>Achievement</b><br><span id="missionAchievement"></span></div></div>
-  <div class="mission-line mission-objective">🎯 <b>Objective:</b> <span id="missionObjective"></span></div>
+  <div class="orders-section-label"><span>PRIMARY DECORATION DIRECTIVE</span><span>ACHIEVEMENT ASSIGNMENT</span></div>
+  <div class="mission-ach-row"><div class="mission-ach-art"><img class="mission-ach-icon" id="missionAchIcon" alt=""><div class="mission-ach-fallback" id="missionAchFallback">★</div></div><div class="mission-line"><b>Achievement</b><br><span id="missionAchievement"></span></div></div>
+  <div class="orders-section-label"><span>OPERATIONAL OBJECTIVE</span><span>PRIORITY: ACTIVE</span></div>
+  <div class="mission-line mission-objective"><b>Objective:</b> <span id="missionObjective"></span></div>
   <div class="mission-badges" id="missionBadges"></div>
+  <div class="orders-authorization">COMMAND AUTHORIZATION</div>
   <div class="mission-actions"><button class="mission-secondary" id="rerollAchievement" type="button">↻ REROLL ACHIEVEMENT</button><button class="mission-secondary" id="completeMissionAchievement" type="button">✓ MARK ACHIEVEMENT COMPLETE</button></div>
   <button class="startCampaign" id="startCampaign">START CAMPAIGN</button>
   <button class="newCampaign" id="newCampaign" type="button">NEW CAMPAIGN</button>
