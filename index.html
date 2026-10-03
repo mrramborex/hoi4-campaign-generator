@@ -1574,8 +1574,16 @@ function showMission(path){
  mission.classList.add('show');
  mission.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+function shuffledCountries(){
+ const a=Object.keys(countries);
+ for(let i=a.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
 let selectedIdeology=null;
-let remaining=Object.keys(countries), selected=null, angle=0, spinning=false, hist=[];
+let remaining=shuffledCountries(), selected=null, angle=0, spinning=false, hist=[];
 const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),btn=document.getElementById('spin'),res=document.getElementById('result');
 function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[names[selectedIdeology]+' focus-tree route'];}
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
@@ -1596,7 +1604,7 @@ document.getElementById('clearCampaignLog').onclick=()=>{localStorage.removeItem
 document.getElementById('rerollAchievement').onclick=()=>{if(!selected||!selectedIdeology||stage.value!=='path'||!currentPath)return;showMission(currentPath)};
 document.getElementById('completeMissionAchievement').onclick=()=>{if(!currentMission)return;const done=getCompleted();done.add(currentMission.name);setCompleted(done);currentMission._wasCompleted=true;document.getElementById('completeMissionAchievement').textContent='✓ ACHIEVEMENT COMPLETED';const badges=document.getElementById('missionBadges');const first=badges.querySelector('.mission-badge');if(first){first.classList.remove('open');first.classList.add('done');first.textContent='Completed'}document.getElementById('missionNote').textContent='Achievement marked completed. Future campaign rolls will prioritize unfinished targets.';renderAchievements()};
 btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('startCampaign').onclick=()=>{logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
-function resetCampaign(clearHistory=true){remaining=Object.keys(countries);selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
+function resetCampaign(clearHistory=true){remaining=shuffledCountries();selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
 document.getElementById('reset').onclick=()=>resetCampaign(true);
 document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');window.scrollTo({top:0,behavior:'smooth'})};
 draw();
