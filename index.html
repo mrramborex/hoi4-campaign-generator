@@ -667,7 +667,7 @@ Object.assign(achievementIcons,{
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
-const SOURCE_VALIDATION_BATCH='8E — Steam catalog mid-block';
+const SOURCE_VALIDATION_BATCH='8F — Steam catalog deep-block';
 const STEAM_ACHIEVEMENT_TARGET=293;
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
@@ -1431,7 +1431,8 @@ function warRoomSourceAudit(){
   ['Satisfactory','Any Country','Have at least one MIO per category at level 10+'],
   ['Nobody expects...','Spain','As Nationalist Spain in Axis manage to take Paris before the Germans.'],
   ["Team America","United States","As the U.S.A., drop a nuclear bomb on Paris."],
-  ["The Dragon Swallowed the Sun","Manchukuo","As Manchukuo, break free from Japan and annex your former Overlord without being in a faction."], ],mismatches=[];
+  ["The Dragon Swallowed the Sun","Manchukuo","As Manchukuo, break free from Japan and annex your former Overlord without being in a faction."],
+  ["Georgia On My Mind","United States","As the U.S.A., own and fully control all three Georgias."], ],mismatches=[];
  checks.forEach(([name,country,objective])=>{const a=byName.get(normAchievementName(name));if(!a||a.country!==country||normAchievementName(a.objective)!==normAchievementName(objective))mismatches.push({name,expectedCountry:country,actualCountry:a?.country||'MISSING',expectedObjective:objective,actualObjective:a?.objective||'MISSING'})});
  const result={validated:SOURCE_VALIDATION_VERSION,steamTarget:STEAM_ACHIEVEMENT_TARGET,spotChecks:checks.length,mismatches,passed:mismatches.length===0};
  console.group('HOI4 War Room Source Validation');console.table({Validated:result.validated,'Steam catalog target':result.steamTarget,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
