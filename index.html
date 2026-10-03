@@ -1827,9 +1827,10 @@ function warRoomSourceAudit(){
 window.HOI4WarRoomSourceAudit=warRoomSourceAudit;
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
+ // Campaign assignments are country-specific only. Broad Any Country / Any Minor
+ // achievements remain in the 293-record archive but are never used as spinner directives.
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
  const countryPool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
- const genericPool=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
  const routeExact=countryPool.filter(a=>(a.paths&&achievementPathMatches(a,path))||(achievementRule(a)?.paths&&ruleAllows(a,country,ideology,path)));
  const countryGeneral=countryPool.filter(a=>!(a.paths&&a.paths.length)&&!(achievementRule(a)?.paths));
  const recent=getCampaignLog().slice(0,12).map(x=>x.achievement),remaining=all.filter(a=>!done.has(a.name)).length;
@@ -1841,22 +1842,11 @@ function pickAchievement(country,ideology,path){
   for(const x of weighted){roll-=x.w;if(roll<=0){pick=x.a;break}}
   return {...pick,_wasCompleted:!open.length,_scope:scope,_remaining:remaining};
  };
- const routeOpen=routeExact.filter(a=>!done.has(a.name)),countryOpen=countryGeneral.filter(a=>!done.has(a.name)),genericOpen=genericPool.filter(a=>!done.has(a.name));
- // Endgame mode: once only 25 achievements remain, never recycle a completed
- // achievement while any unfinished compatible target exists for this campaign.
- if(remaining<=25){
-  if(routeOpen.length)return chooseWeighted(routeOpen,'route');
-  if(countryOpen.length)return chooseWeighted(countryOpen,'country');
-  if(genericOpen.length)return chooseWeighted(genericOpen,'generic');
- }else{
-  if(routeOpen.length)return chooseWeighted(routeOpen,'route');
-  if(countryOpen.length&&genericOpen.length)return Math.random()<.82?chooseWeighted(countryOpen,'country'):chooseWeighted(genericOpen,'generic');
-  if(countryOpen.length)return chooseWeighted(countryOpen,'country');
-  if(genericOpen.length)return chooseWeighted(genericOpen,'generic');
- }
+ const routeOpen=routeExact.filter(a=>!done.has(a.name)),countryOpen=countryGeneral.filter(a=>!done.has(a.name));
+ if(routeOpen.length)return chooseWeighted(routeOpen,'route');
+ if(countryOpen.length)return chooseWeighted(countryOpen,'country');
  if(routeExact.length)return chooseWeighted(routeExact,'route');
- if(countryGeneral.length&&genericPool.length)return Math.random()<.82?chooseWeighted(countryGeneral,'country'):chooseWeighted(genericPool,'generic');
- return chooseWeighted(countryGeneral,'country')||chooseWeighted(genericPool,'generic');
+ return chooseWeighted(countryGeneral,'country');
 }
 let currentMission=null,currentPath=null;
 function updateMissionAchievement(a){
@@ -1878,15 +1868,15 @@ function showMission(path){
    document.getElementById('missionAchievement').textContent=a.name;
    document.getElementById('missionObjective').textContent=a.objective;
    const status=a._wasCompleted?'Completed':'Unfinished';
-   const match=a._scope==='route'?'Route Matched':a._scope==='country'?'Country Matched':'Generic Challenge';
+   const match=a._scope==='route'?'Route Matched':'Country Matched';
    document.getElementById('missionBadges').innerHTML='<span class="mission-badge '+(a._wasCompleted?'done':'open')+'">'+status+'</span><span class="mission-badge '+a._scope+'">'+match+'</span>';
    const mi=document.getElementById('missionAchIcon'),mf=document.getElementById('missionAchFallback'); if(getAchievementIcon(a.name)){mi.src=getAchievementIcon(a.name);mi.alt=a.name+' Steam achievement icon';mi.style.display='block';mf.style.display='none'}else{mi.removeAttribute('src');mi.style.display='none';mf.style.display='block'}
-   document.getElementById('missionNote').textContent=a._wasCompleted?'All compatible unfinished targets are cleared; selecting a completed achievement for this campaign.':(a._scope==='route'?'Unfinished achievement matched to this political route.':a._scope==='country'?'Unfinished achievement matched to this country and ideology.':'Unfinished generic achievement selected for this campaign.');
+   document.getElementById('missionNote').textContent=a._wasCompleted?'All compatible unfinished country targets are cleared; selecting a completed achievement for this campaign.':(a._scope==='route'?'Unfinished achievement matched to this political route.':'Unfinished achievement matched to this country and ideology.');
    updateMissionAchievement(a);
  }else{
    document.getElementById('missionAchIcon').style.display='none';document.getElementById('missionAchFallback').style.display='block';document.getElementById('missionBadges').innerHTML='<span class="mission-badge generic">Open Challenge</span>';document.getElementById('missionAchievement').textContent='Open Campaign Challenge';
    document.getElementById('missionObjective').textContent='Complete this political path and take your nation to a major-power victory.';
-   document.getElementById('missionNote').textContent='No compatible achievement was found in the master catalog for this roll.';updateMissionAchievement(null);
+   document.getElementById('missionNote').textContent='No country-specific achievement is compatible with this campaign route. Generic archive achievements are intentionally excluded from spinner assignments.';updateMissionAchievement(null);
  }
  mission.classList.add('show');
  mission.scrollIntoView({behavior:'smooth',block:'nearest'});
