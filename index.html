@@ -9,8 +9,8 @@
 header{text-align:center;padding:24px 16px 8px}.topnav{display:flex;justify-content:center;gap:10px;margin:14px 0 4px}.navbtn{padding:9px 16px;border:1px solid #6b6548;background:#1b1e16;color:#d8cfad;border-radius:5px;cursor:pointer}.navbtn.active{background:#6e1d17;border-color:#c6a65b;color:#fff4d4} h1{margin:0;font-size:clamp(28px,5vw,48px);letter-spacing:2px} header p{color:var(--muted);margin:8px}
 main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1fr 330px;gap:22px}.card{background:#20231a;border:1px solid #4b4b38;border-radius:12px;padding:18px;box-shadow:0 12px 35px #0008}.wheelwrap{position:relative;max-width:680px;margin:auto}.pointer{position:absolute;z-index:4;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:38px solid #e9d18d;filter:drop-shadow(0 2px 2px #000)}canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 7px 12px #000)}button,select{font:inherit}.spin{display:block;margin:18px auto 4px;padding:12px 34px;background:#6e1d17;color:#fff4d4;border:2px solid #c6a65b;border-radius:6px;font-weight:bold;font-size:20px;cursor:pointer}.spin:hover{background:#86261e}.spin:disabled{opacity:.5}.result{text-align:center;min-height:78px;padding:8px}.result strong{font-size:28px;color:#e8cf87}.result .sub{font-size:18px;color:#c9c2a7;margin-top:4px}.controls label{display:block;margin:12px 0 6px;color:#c9c2a7}.controls select{width:100%;padding:8px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.legend{margin-top:18px;border-top:1px solid #494936;padding-top:12px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px}.small{font-size:13px;color:#999580;line-height:1.45}.history{margin-top:14px}.history div{padding:6px 0;border-bottom:1px solid #38382b;font-size:14px}
 .mission{display:none;margin:22px auto 4px;max-width:620px;padding:20px;background:linear-gradient(180deg,#292b20,#181a14);border:2px solid #b69b58;border-radius:10px;box-shadow:0 0 0 3px #111,0 10px 30px #0009;text-align:left}
-.mission.show{display:block}.mission-kicker{text-align:center;letter-spacing:3px;color:#b9ae8a;font-size:12px;margin-bottom:14px}.mission-country{font-size:28px;font-weight:bold;color:#f0e6c2;margin-bottom:12px}.mission-line{font-size:17px;line-height:1.5;margin:7px 0}.mission-line b{color:#e8cf87}.mission-objective{color:#d6d0b8}.startCampaign{width:100%;margin:18px 0 0;padding:14px;background:#52623c;color:#fff8df;border:2px solid #c6a65b;border-radius:5px;font-weight:bold;font-size:19px;cursor:pointer;letter-spacing:1px}.startCampaign:hover{background:#657849}.mission-note{text-align:center;color:#918c77;font-size:12px;margin-top:10px}
-#achievementCenter{display:none;max-width:1100px;margin:auto;padding:16px}.ach-head{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-bottom:16px}.ach-head>div{flex:1;min-width:180px}.ach-head input,.ach-head select{width:100%;padding:10px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat{background:#171911;border:1px solid #454533;border-radius:7px;padding:12px;text-align:center}.stat b{display:block;font-size:24px;color:#e8cf87}.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.ach{background:#181b14;border:1px solid #424332;border-left:4px solid #b69b58;border-radius:6px;padding:13px}.ach h3{margin:0 0 7px;font-size:17px;color:#eee1b5}.ach p{margin:4px 0;color:#bbb49b;font-size:14px;line-height:1.4}.tag{display:inline-block;font-size:11px;padding:3px 6px;margin:5px 4px 0 0;background:#303426;border:1px solid #575a43;border-radius:10px;color:#d7d0b6}.empty{text-align:center;padding:30px;color:#aaa58f}@media(max-width:700px){.ach-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+.mission.show{display:block}.mission-kicker{text-align:center;letter-spacing:3px;color:#b9ae8a;font-size:12px;margin-bottom:14px}.mission-country{font-size:28px;font-weight:bold;color:#f0e6c2;margin-bottom:12px}.mission-ach-row{display:flex;gap:14px;align-items:center}.mission-ach-icon{display:none;width:64px;height:64px;flex:0 0 64px;border:2px solid #b69b58;border-radius:4px;box-shadow:0 3px 10px #0009}.mission-line{font-size:17px;line-height:1.5;margin:7px 0}.mission-line b{color:#e8cf87}.mission-objective{color:#d6d0b8}.startCampaign{width:100%;margin:18px 0 0;padding:14px;background:#52623c;color:#fff8df;border:2px solid #c6a65b;border-radius:5px;font-weight:bold;font-size:19px;cursor:pointer;letter-spacing:1px}.startCampaign:hover{background:#657849}.mission-note{text-align:center;color:#918c77;font-size:12px;margin-top:10px}
+#achievementCenter{display:none;max-width:1100px;margin:auto;padding:16px}.ach-head{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-bottom:16px}.ach-head>div{flex:1;min-width:180px}.ach-head input,.ach-head select{width:100%;padding:10px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat{background:#171911;border:1px solid #454533;border-radius:7px;padding:12px;text-align:center}.stat b{display:block;font-size:24px;color:#e8cf87}.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.ach{background:#181b14;border:1px solid #424332;border-left:4px solid #b69b58;border-radius:6px;padding:13px;display:grid;grid-template-columns:72px 1fr;gap:13px;align-items:start}.ach-icon{width:64px;height:64px;border-radius:4px;border:2px solid #6c674e;box-shadow:0 3px 10px #0009;object-fit:cover}.ach-body{min-width:0}.ach h3{margin:0 0 7px;font-size:17px;color:#eee1b5}.ach p{margin:4px 0;color:#bbb49b;font-size:14px;line-height:1.4}.tag{display:inline-block;font-size:11px;padding:3px 6px;margin:5px 4px 0 0;background:#303426;border:1px solid #575a43;border-radius:10px;color:#d7d0b6}.empty{text-align:center;padding:30px;color:#aaa58f}@media(max-width:700px){.ach-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
 @media(max-width:800px){main{grid-template-columns:1fr}.card.side{order:-1}}
 </style>
 </head><body>
@@ -20,7 +20,7 @@ main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-column
 <div class="mission" id="mission">
   <div class="mission-kicker">YOUR CAMPAIGN ORDERS</div>
   <div class="mission-country" id="missionCountry"></div>
-  <div class="mission-line">🏆 <b>Achievement:</b> <span id="missionAchievement"></span></div>
+  <div class="mission-ach-row"><img class="mission-ach-icon" id="missionAchIcon" alt=""><div class="mission-line">🏆 <b>Achievement:</b> <span id="missionAchievement"></span></div></div>
   <div class="mission-line mission-objective">🎯 <b>Objective:</b> <span id="missionObjective"></span></div>
   <button class="startCampaign" id="startCampaign">START CAMPAIGN</button>
   <div class="mission-note" id="missionNote">Campaign generated. Good luck, commander.</div>
@@ -114,6 +114,31 @@ const achievements={
 'South Africa':{d:[{name:'District 9',objective:'As South Africa, have 9 civilian factories in Transvaal.'}]},
 'Communist China':{c:[{name:'Made in China',objective:'As Communist China, have over 100 military factories.'}]}
 };
+const achievementIcons={
+'Friend in Need':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/1711682a1ce7e05b13d9eadb02fb3d0a687eb1d3.jpg',
+"We'll build it in a day":'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e9c17d490b437bf479db5d8943f4469b5a6b218d.jpg',
+'Transport Tycoon':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e3dfdda7bedacf5272cb9df1dc98ecee8d9a16b7.jpg',
+'Time is on our side':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9ef0ec390b7ecf2056d8a5ef9553b30ff70fef5b.jpg',
+'Mine is bigger than yours':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/3a8bca9062b2dbeec0da035905c6ff85c31ecad0.jpg',
+'Destroyer of Worlds':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/8b1711512d81969552884107a762089e66023369.jpg',
+'Master of War':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/13d89f8e3921c5260cbd5d4af0750e50116e9370.jpg',
+'No country for old men':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e1c5ed41157217e7354cc84a2b72bfe19e8b229c.jpg',
+'Operation Sea Lion':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/87ddf51c51344c6473cd38798aa36b70b129dc07.jpg',
+'Monarchy is Back in Fashion':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/04677be1291848eaee561df1c60330e24e752abb.jpg',
+'Our Other Place in the Sun':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/03793a42a099e0d0248f1727145f7d1650fba37e.jpg',
+'Team America':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5acc90b193046be12bf3b4f0edb25a42aad2ae3a.jpg',
+'Georgia On My Mind':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/97f808e49c4d2ea01080ec11a3aa8b5a0d506ef3.jpg',
+'Big Entente':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/b4ff0790f33d2dbded75b965dc9839827aef9a16.jpg',
+'Britzkrieg':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/39c8c8a27bf8323601af06d89beeb3a0f82653f8.jpg',
+'District 9':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/14fbdb26a65fa79f45d52138d0f04dab90ec264c.jpg',
+'Made in China':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/8ff4c712b3d4fa7a41b96ae140d906e002efcdf8.jpg',
+"I Swear I’m Not a Byzantophile":'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e1f3c7ef0eebf65efe12a1a98f4db200df6d115c.jpg',
+'Hail to the Qing':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/d97a8bdc1ade84e026002470a07c03ed3cfd5de5.jpg',
+'The Dragon Swallowed the Sun':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/b8b56d79534b63bf60cfe8aa5393c81651d53699.jpg',
+'Tojo Shot First':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/8cb52c35165db3f65ebb843e6cbe6db918b3f025.jpg',
+'Sunrise Invasion':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5d4ffb9caeff8c7ae976806bfbff4f2959d06eb2.jpg',
+'Australia-Hungary':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/a6b2994d77249c12fd89f86207c2b29b0a969d3d.jpg'
+};
 const genericAchievements=[
 {name:'Friend in Need',objective:'Join a faction.',country:'Any Country',ideology:'any'},
 {name:"We'll build it in a day",objective:'Research Construction V.',country:'Any Country',ideology:'any'},
@@ -133,7 +158,7 @@ function renderAchievements(){
  const all=flatAchievements(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value;
  const filtered=all.filter(a=>(!country||a.country===country)&&(!ide||a.ideology===ide)&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
  document.getElementById('mappedCount').textContent=all.length;document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach"><h3>🏆 ${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}</article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach">${achievementIcons[a.name]?'<img class="ach-icon" src="'+achievementIcons[a.name]+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}</div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){
  const sel=document.getElementById('achCountry'),cs=[...new Set(flatAchievements().map(a=>a.country))].sort();cs.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
@@ -152,9 +177,10 @@ function showMission(path){
  if(a){
    document.getElementById('missionAchievement').textContent=a.name;
    document.getElementById('missionObjective').textContent=a.objective;
+   const mi=document.getElementById('missionAchIcon'); if(achievementIcons[a.name]){mi.src=achievementIcons[a.name];mi.alt=a.name+' Steam achievement icon';mi.style.display='block'}else{mi.style.display='none'}
    document.getElementById('missionNote').textContent='Achievement target selected for this campaign.';
  }else{
-   document.getElementById('missionAchievement').textContent='Open Campaign Challenge';
+   document.getElementById('missionAchIcon').style.display='none';document.getElementById('missionAchievement').textContent='Open Campaign Challenge';
    document.getElementById('missionObjective').textContent='Complete this political path and take your nation to a major-power victory. Achievement matching for this route is coming in the next database expansion.';
    document.getElementById('missionNote').textContent='No curated achievement is mapped to this exact route yet.';
  }
