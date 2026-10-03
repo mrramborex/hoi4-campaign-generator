@@ -60,7 +60,7 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:
 const C={f:'#795548',c:'#b71c1c',d:'#1565c0',u:'#777'};
 const countries={
 'Afghanistan':['u','c','d','f'],'Argentina':['u','f','d','c'],'Australia':['d','f','c','u'],'Aussa':['u','f','d','c'],'Austria':['u','d','f','c'],'Belgium':['d','f','c','u'],'Brazil':['u','f','d','c'],'British Raj / India':['d','f','c','u'],'Bulgaria':['u','f','c','d'],'Canada':['d','f','c'],'Chile':['d','f','c','u'],'China (Nationalist)':['d','f','c','u'],'Communist China':['c','d','f','u'],'Guangxi Clique':['u','f','d','c'],'Guangdong Clique':['u','f','d','c'],'Yunnan':['u','f','d','c'],'Sichuan Clique':['u','f','d','c'],'Northeastern Army':['u','f','d','c'],'Shanxi':['u','f','d','c'],'Sinkiang':['c','u','d','f'],'Khotan Ma':['u','f','d','c'],'Qinghai Ma':['u','f','d','c'],'Gansu Ma':['u','f','d','c'],'Ningxia Ma':['u','f','d','c'],'Hebei-Chahar':['u','f','d','c'],'Shandong Clique':['u','f','d','c'],'Congo':['d','c','f','u'],'Czechoslovakia':['d','c','f','u'],'Denmark':['d','f','c','u'],'Dutch East Indies / Indonesia':['d','c','f','u'],'Estonia':['d','f','c','u'],'Ethiopia':['u','d','c','f'],'Finland':['d','f','c','u'],'France':['d','f','c','u'],'Germany':['f','c','d','u'],'Greece':['u','f','d','c'],'Hungary':['u','f','c','d'],'Iceland':['d','f','c','u'],'Iran':['u','f','c','d'],'Iraq':['u','f','c','d'],'Italy':['f','c','d','u'],'Japan':['u','f','c','d'],'Latvia':['d','f','c','u'],'Lithuania':['d','f','c','u'],'Manchukuo':['u','f','c'],'Mexico':['d','f','c','u'],'Netherlands':['d','f','c','u'],'New Zealand':['d','f','c'],'Norway':['d','f','c','u'],'Paraguay':['u','f','d','c'],'Philippines':['d','f','c','u'],'Poland':['u','f','c','d'],'Portugal':['u','f','c','d'],'Romania':['u','f','c','d'],'Siam / Thailand':['u','f','d','c'],'South Africa':['d','f','c'],'Soviet Union':['c','u'],'Spain':['f','c','d','u'],'Sweden':['d','f','c','u'],'Switzerland':['d','f','c','u'],'Turkey':['u','f','d','c'],'United Kingdom':['d','f','c','u'],'United States':['d','f','c'],'Uruguay':['d','f','c','u'],'Yugoslavia':['u','f','c','d']};
-const COUNTRY_ROSTER_VERSION='10D — complete wedge-aware Nordic/Commonwealth flag rendering + alphabetical wheel';
+const COUNTRY_ROSTER_VERSION='10E — complete wedge-aware Nordic/Commonwealth flag rendering + alphabetical wheel';
 const names={f:'Fascist',c:'Communist',d:'Democratic',u:'Unaligned'};
 const flagType={
 'Afghanistan':['v',['#000','#b21f2d','#007a36']], 'Argentina':['h',['#74acdf','#fff','#74acdf']],  'Australia':['ukbadge',['#012169','#fff','#c8102e']], 'Austria':['h',['#ed2939','#fff','#ed2939']],
@@ -90,6 +90,11 @@ function paintFlag(country,i,arc){
    ctx.strokeStyle='#c8102e';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y+h*.30);ctx.lineTo(x+w,y+h*.70);ctx.moveTo(x,y+h*.70);ctx.lineTo(x+w,y+h*.30);ctx.stroke();
    rect(x+w*.43,y,w*.12,h,'#ffffff');rect(x+w*.46,y,w*.06,h,'#c8102e');
    rect(x,y+h*.31,w,h*.055,'#ffffff');rect(x,y+h*.325,w,h*.025,'#c8102e');
+ } else if(country==='Finland'){
+   // Wedge-aware Finnish flag: preserve the white field around the blue Nordic cross.
+   rect(x,y,w,h,'#ffffff');
+   rect(x+w*.30,y,w*.13,h,'#003580');
+   rect(x,y+h*.30,w,h*.055,'#003580');
  } else if(country==='Sweden'){
    rect(x,y,w,h,'#006aa7');
    rect(x+w*.30,y,w*.13,h,'#fecc00');
