@@ -451,6 +451,7 @@ const achievementAliases={
 'Austria / Hungary':['Austria','Hungary'],
 'South/Central American Country':['Argentina','Brazil','Chile','Colombia','Paraguay','Uruguay'],
 'Any Minor':[],
+'South American Country':['Argentina','Brazil','Chile','Colombia','Paraguay','Uruguay'],
 'Brazil / Argentina':['Brazil','Argentina'],
 'Afghanistan / Iran / Iraq / British Raj / India':['Afghanistan','Iran','Iraq','British Raj / India'],
 'Baltic State':['Estonia','Latvia','Lithuania'],
@@ -1269,7 +1270,12 @@ function achievementPathMatches(a,path){
 }
 function auditAchievementIntelligence(){
  const all=flatAchievements(),issues=[],norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'");
- const namesSeen=new Map(),supported=new Set(Object.keys(countries));
+ const namesSeen=new Map(),supported=new Set(Object.keys(countries)),isGeneric=a=>a.country==='Any Country'||a.country==='Any Minor';
+ const canStart=(a,country,ideology,path)=>{
+  const ideologyFits=a.ideology==='any'||a.ideology===ideology;
+  const countryFits=isGeneric(a)||eligibleForCountry(a,country);
+  return ideologyFits&&countryFits&&ruleAllows(a,country,ideology,path);
+ };
  all.forEach(a=>{
   const n=norm(a.name); if(namesSeen.has(n))issues.push({type:'duplicate',achievement:a.name}); else namesSeen.set(n,true);
   const r=achievementRule(a);
@@ -1284,23 +1290,19 @@ function auditAchievementIntelligence(){
  Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>{
   const ps=paths[country]?.[ideology]||[names[ideology]+' route'];
   ps.forEach(path=>{
-   const compatible=all.filter(a=>{
-    const ideologyFits=a.ideology==='any'||a.ideology===ideology;
-    const countryFits=(a.country==='Any Country'||a.country==='Any Minor')||eligibleForCountry(a,country);
-    return ideologyFits&&countryFits&&ruleAllows(a,country,ideology,path);
-   });
+   const compatible=all.filter(a=>canStart(a,country,ideology,path));
    if(!compatible.length)issues.push({type:'dead-combination',country,ideology,path});
    combos.push({country,ideology,path,count:compatible.length});
   });
  }));
  const reachable=new Set();
- combos.forEach(x=>all.forEach(a=>{
-  const ideologyFits=a.ideology==='any'||a.ideology===x.ideology;
-  const countryFits=(a.country==='Any Country'||a.country==='Any Minor')||eligibleForCountry(a,x.country);
-  if(ideologyFits&&countryFits&&ruleAllows(a,x.country,x.ideology,x.path))reachable.add(norm(a.name));
- }));
+ combos.forEach(x=>all.forEach(a=>{if(canStart(a,x.country,x.ideology,x.path))reachable.add(norm(a.name))}));
  const unreachable=all.filter(a=>!reachable.has(norm(a.name))).map(a=>a.name);
- return {achievements:all.length,rules:Object.keys(achievementRules).length,combinations:combos.length,issues,unreachable};
+ const unsupported=all.filter(a=>!isGeneric(a)&&!Object.keys(countries).some(c=>eligibleForCountry(a,c))).map(a=>a.name);
+ const routeCoverage=all.filter(a=>achievementRule(a)?.paths?.length||a.paths?.length).map(a=>a.name);
+ const result={achievements:all.length,rules:Object.keys(achievementRules).length,combinations:combos.length,issues,unreachable,unsupported,routeCoverage:routeCoverage.length,passed:issues.length===0&&unreachable.length===0};
+ console.group('HOI4 War Room Intelligence Audit');console.table({Achievements:result.achievements,Rules:result.rules,'Campaign combinations':result.combinations,'Route-tagged achievements':result.routeCoverage,Issues:issues.length,Unreachable:unreachable.length,Unsupported:unsupported.length});if(issues.length)console.table(issues);if(unreachable.length)console.table(unreachable.map(achievement=>({achievement})));if(unsupported.length)console.table(unsupported.map(achievement=>({achievement})));console.groupEnd();
+ return result;
 }
 window.HOI4WarRoomAudit=auditAchievementIntelligence;
 function pickAchievement(country,ideology,path){
