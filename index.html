@@ -1346,23 +1346,29 @@ function pickAchievement(country,ideology,path){
  const countryPool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
  const genericPool=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
  const routeExact=countryPool.filter(a=>(a.paths&&achievementPathMatches(a,path))||(achievementRule(a)?.paths&&ruleAllows(a,country,ideology,path)));
- const countryGeneral=countryPool.filter(a=>!(a.paths&&a.paths.length)&&!(achievementRule(a)?.paths)&&(!hasCuratedPaths(country,ideology)||!!achievementRule(a)));
- const choose=(pool,scope)=>{
-   if(!pool.length)return null;
-   const open=pool.filter(a=>!done.has(a.name)),choices=open.length?open:pool;
-   return {...choices[Math.floor(Math.random()*choices.length)],_wasCompleted:!open.length,_scope:scope};
+ const countryGeneral=countryPool.filter(a=>!(a.paths&&a.paths.length)&&!(achievementRule(a)?.paths));
+ const recent=getCampaignLog().slice(0,12).map(x=>x.achievement);
+ const chooseWeighted=(pool,scope)=>{
+  if(!pool.length)return null;
+  const open=pool.filter(a=>!done.has(a.name)),choices=open.length?open:pool;
+  const weighted=choices.map(a=>({a,w:Math.max(.18,1-Math.min(4,recent.filter(n=>n===a.name).length)*.22)}));
+  const total=weighted.reduce((t,x)=>t+x.w,0);let roll=Math.random()*total,pick=weighted[weighted.length-1].a;
+  for(const x of weighted){roll-=x.w;if(roll<=0){pick=x.a;break}}
+  return {...pick,_wasCompleted:!open.length,_scope:scope};
  };
- // Strict priority: unfinished exact route -> unfinished country -> generic.
- // Completed targets are only recycled after all unfinished targets in that tier are exhausted.
- let a=choose(routeExact.filter(a=>!done.has(a.name)),'route');
- if(a)return a;
- a=choose(countryGeneral.filter(a=>!done.has(a.name)),'country');
- if(a)return a;
- a=choose(genericPool.filter(a=>!done.has(a.name)),'generic');
- if(a)return a;
- a=choose(routeExact,'route');if(a)return a;
- a=choose(countryGeneral,'country');if(a)return a;
- return choose(genericPool,'generic');
+ // Route-specific unfinished achievements remain absolute priority.
+ // Country achievements then receive a strong preference, while generic challenges
+ // stay eligible often enough to prevent valid catalog entries from being starved forever.
+ const routeOpen=routeExact.filter(a=>!done.has(a.name));
+ if(routeOpen.length)return chooseWeighted(routeOpen,'route');
+ const countryOpen=countryGeneral.filter(a=>!done.has(a.name));
+ const genericOpen=genericPool.filter(a=>!done.has(a.name));
+ if(countryOpen.length&&genericOpen.length)return Math.random()<.82?chooseWeighted(countryOpen,'country'):chooseWeighted(genericOpen,'generic');
+ if(countryOpen.length)return chooseWeighted(countryOpen,'country');
+ if(genericOpen.length)return chooseWeighted(genericOpen,'generic');
+ if(routeExact.length)return chooseWeighted(routeExact,'route');
+ if(countryGeneral.length&&genericPool.length)return Math.random()<.82?chooseWeighted(countryGeneral,'country'):chooseWeighted(genericPool,'generic');
+ return chooseWeighted(countryGeneral,'country')||chooseWeighted(genericPool,'generic');
 }
 let currentMission=null,currentPath=null;
 function updateMissionAchievement(a){
