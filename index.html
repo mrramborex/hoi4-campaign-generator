@@ -18,7 +18,7 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:
 </head><body>
 <header><h1>HEARTS OF IRON IV</h1><p>War Room • Campaign Generator • Achievement Center • Campaign Archive</p><div class="topnav"><button class="navbtn active" id="navGenerator">🎡 Campaign Generator</button><button class="navbtn" id="navAchievements">🏆 Achievement Center</button><button class="navbtn" id="navCampaigns">📋 Campaign History</button></div></header>
 <main id="generator">
-<section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.</div>
+<section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign from the audited 1936 national-content roster.</div>
 <div class="mission" id="mission">
   <div class="mission-kicker">YOUR CAMPAIGN ORDERS</div>
   <div class="mission-country" id="missionCountry"></div>
@@ -34,7 +34,7 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:
 <aside class="card side controls">
 <h2 style="margin-top:0">Campaign Rules</h2>
 <label>Wheel stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for selected country</option><option value="path">Political path</option></select>
-<label><input type="checkbox" id="uniqueOnly" checked disabled> Unique focus trees only</label>
+<label><input type="checkbox" id="uniqueOnly" checked disabled> Dedicated / special national content only</label><div class="small" id="countryAuditNote">1936 campaign roster • 52 playable nations • audited through Thunder at Our Gates (1.19)</div>
 <label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label>
 <button class="spin" id="reset" style="font-size:15px;padding:8px 16px">RESET</button>
 <div class="legend"><b>Ideology colors</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
