@@ -480,7 +480,7 @@ const phase2Achievements=[
 {name:'I Captured the Bosporus and All I Got Was This Lousy Achievement',objective:'As Greece or Bulgaria, own both sides of the Bosporus; as Turkey, subjugate both Greece and Bulgaria.',country:'Greece / Bulgaria / Turkey',ideology:'any'},
 {name:'The bell tolls for us',objective:'Win the Spanish Civil War as Republican Spain.',country:'Spain',ideology:'d',paths:['Republican Spain']},
 {name:'The Puppetmaster',objective:'Have at least 51 subjects.',country:'Any Country',ideology:'any'},
-{name:'Pride and Extreme Prejudice',objective:'Sink the British Pride of the Fleet.',country:'Any Country',ideology:'any'},
+{name:'Pride and Extreme Prejudice',objective:'As any British Subject state, conquer all of Britain.',country:'British Subject',ideology:'any'},
 {name:'Play It, Sam',objective:'Have a spy network of at least 50% strength in Casablanca.',country:'Any Country',ideology:'any'},
 {name:'To Arms in Dixie!',objective:'As the U.S.A., start a new civil war as the South.',country:'United States',ideology:'f'},
 {name:'Turing Complete!',objective:'Fully decrypt all nations in the Axis.',country:'Any Country',ideology:'any'},
@@ -666,6 +666,7 @@ Object.assign(achievementIcons,{
 'Sun Tzu Reborn':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/d9e98776e4d6769848a6482ee65ffc0d845ea08a.jpg',
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
+const SOURCE_VALIDATION_VERSION='2026-10-03';
 const STEAM_ACHIEVEMENT_TARGET=293;
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
@@ -1379,6 +1380,21 @@ function warRoomCertification(){
  return cert;
 }
 window.HOI4WarRoomCertification=warRoomCertification;
+function warRoomSourceAudit(){
+ const all=flatAchievements(),byName=new Map(all.map(a=>[normAchievementName(a.name),a])),checks=[
+  ['Pride and Extreme Prejudice','British Subject','As any British Subject state, conquer all of Britain.'],
+  ['The Empire Strikes Back','United Kingdom','As Britain, declare war on one of your former subjects.'],
+  ['Well, I Didn’t Vote for You','Spain','Win the Spanish Civil War as the Anarchists.'],
+  ['True Blitzkrieg','Germany','As Germany, have both Poland and France surrender before January 1st 1940.'],
+  ['Operation Sea Lion','Germany','Control the British mainland as Germany.'],
+  ['The bell tolls for us','Spain','Win the Spanish Civil War as Republican Spain.'],
+  ['Big Entente','France','As France, complete the Little Entente focus and have all German cores owned by you or someone in your faction.']
+ ],mismatches=[];
+ checks.forEach(([name,country,objective])=>{const a=byName.get(normAchievementName(name));if(!a||a.country!==country||normAchievementName(a.objective)!==normAchievementName(objective))mismatches.push({name,expectedCountry:country,actualCountry:a?.country||'MISSING',expectedObjective:objective,actualObjective:a?.objective||'MISSING'})});
+ const result={validated:SOURCE_VALIDATION_VERSION,steamTarget:STEAM_ACHIEVEMENT_TARGET,spotChecks:checks.length,mismatches,passed:mismatches.length===0};
+ console.group('HOI4 War Room Source Validation');console.table({Validated:result.validated,'Steam catalog target':result.steamTarget,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
+}
+window.HOI4WarRoomSourceAudit=warRoomSourceAudit;
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
