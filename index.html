@@ -1308,8 +1308,8 @@ function initAchievementCenter(){document.getElementById('steamTotal').textConte
 }
 function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
 const achievementRules={
- 'Monarchy is Back in Fashion':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiser','Monarchist Germany']},
- 'Our Other Place in the Sun':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiser','Monarchist Germany']},
+ 'Monarchy is Back in Fashion':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiserreich']},
+ 'Our Other Place in the Sun':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiserreich']},
  'Big Entente':{countries:['France'],ideologies:['d'],paths:['Little Entente']},
  'Britzkrieg':{countries:['United Kingdom'],ideologies:['u'],paths:['Restore the Monarchy']},
  'Hail to the Qing':{countries:['Manchukuo'],ideologies:['u']},
@@ -1621,7 +1621,7 @@ function auditAchievementIntelligence(){
  const namesSeen=new Map(),supported=new Set(Object.keys(countries)),isGeneric=a=>a.country==='Any Country'||a.country==='Any Minor';
  const canStart=(a,country,ideology,path)=>{
   const ideologyFits=a.ideology==='any'||a.ideology===ideology;
-  const countryFits=isGeneric(a)||eligibleForCountry(a,country);
+  const countryFits=!isGeneric(a)&&eligibleForCountry(a,country);
   return ideologyFits&&countryFits&&ruleAllows(a,country,ideology,path);
  };
  all.forEach(a=>{
@@ -1636,7 +1636,7 @@ function auditAchievementIntelligence(){
  });
  const combos=[];
  Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>{
-  const ps=paths[country]?.[ideology]||[names[ideology]+' route'];
+  const ps=paths[country]?.[ideology]||[country+' — '+names[ideology]+' political route'];
   ps.forEach(path=>{
    const compatible=all.filter(a=>canStart(a,country,ideology,path));
    if(!compatible.length)issues.push({type:'dead-combination',country,ideology,path});
@@ -1654,9 +1654,21 @@ function auditAchievementIntelligence(){
  return result;
 }
 window.HOI4WarRoomAudit=auditAchievementIntelligence;
+function auditSpinnerAchievementAssignments(){
+ const all=flatAchievements(),generic=all.filter(a=>a.country==='Any Country'||a.country==='Any Minor'),issues=[],combos=[];
+ Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[country+' — '+names[ideology]+' political route']).forEach(path=>{
+  const pool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&(a.ideology==='any'||a.ideology===ideology)&&ruleAllows(a,country,ideology,path));
+  combos.push({country,ideology,path,eligible:pool.length});
+  pool.forEach(a=>{if(!eligibleForCountry(a,country))issues.push({type:'wrong-country',country,ideology,path,achievement:a.name});if(a.ideology!=='any'&&a.ideology!==ideology)issues.push({type:'wrong-ideology',country,ideology,path,achievement:a.name});if(!ruleAllows(a,country,ideology,path))issues.push({type:'wrong-route',country,ideology,path,achievement:a.name})});
+ })));
+ const result={phase:'12D',catalog:all.length,genericArchiveOnly:generic.length,combinations:combos.length,zeroCountryAchievementCombos:combos.filter(x=>x.eligible===0),issues,passed:issues.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 12D ASSIGNMENT AUDIT PASSED',result);else console.error('HOI4 WAR ROOM — PHASE 12D ASSIGNMENT AUDIT FAILED',result);
+ return result;
+}
+window.HOI4SpinnerAchievementAudit=auditSpinnerAchievementAssignments;
 function warRoomStressTest(iterations=50000){
  const all=flatAchievements(),norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'"),originalGetCompleted=getCompleted;
- const combos=[];Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[names[ideology]+' route']).forEach(path=>combos.push({country,ideology,path}))));
+ const combos=[];Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[country+' — '+names[ideology]+' political route']).forEach(path=>combos.push({country,ideology,path}))));
  const counts=new Map(all.map(a=>[norm(a.name),0])),invalid=[],errors=[],endgameLeaks=[];
  const run=(doneSet,label,runs)=>{
   window.__warRoomAuditCompleted=doneSet;
@@ -1667,10 +1679,10 @@ function warRoomStressTest(iterations=50000){
     if(!a){errors.push({scenario:label,type:'no-result',...x});continue}
     counts.set(norm(a.name),(counts.get(norm(a.name))||0)+1);
     const ideologyOK=a.ideology==='any'||a.ideology===x.ideology;
-    const countryOK=a.country==='Any Country'||a.country==='Any Minor'||eligibleForCountry(a,x.country);
+    const countryOK=a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,x.country);
     const ruleOK=ruleAllows(a,x.country,x.ideology,x.path);
     if(!ideologyOK||!countryOK||!ruleOK)invalid.push({scenario:label,achievement:a.name,...x,ideologyOK,countryOK,ruleOK});
-    if(doneSet.size>=all.length-25&&doneSet.has(a.name)){const unfinishedCompatible=all.some(b=>!doneSet.has(b.name)&&(b.ideology==='any'||b.ideology===x.ideology)&&((b.country==='Any Country'||b.country==='Any Minor')||eligibleForCountry(b,x.country))&&ruleAllows(b,x.country,x.ideology,x.path));if(unfinishedCompatible)endgameLeaks.push({scenario:label,achievement:a.name,...x})}
+    if(doneSet.size>=all.length-25&&doneSet.has(a.name)){const unfinishedCompatible=all.some(b=>!doneSet.has(b.name)&&b.country!=='Any Country'&&b.country!=='Any Minor'&&(b.ideology==='any'||b.ideology===x.ideology)&&eligibleForCountry(b,x.country)&&ruleAllows(b,x.country,x.ideology,x.path));if(unfinishedCompatible)endgameLeaks.push({scenario:label,achievement:a.name,...x})}
    }catch(e){errors.push({scenario:label,type:'exception',message:e.message,...x})}
   }
  };
