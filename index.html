@@ -6,15 +6,16 @@
 <style>
 :root{--bg:#151711;--panel:#22261c;--ink:#eee9d6;--muted:#aaa58f;--accent:#b69b58}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#2a2d20,#11130f 65%);color:var(--ink);font-family:Georgia,serif;min-height:100vh}
-header{text-align:center;padding:24px 16px 8px} h1{margin:0;font-size:clamp(28px,5vw,48px);letter-spacing:2px} header p{color:var(--muted);margin:8px}
+header{text-align:center;padding:24px 16px 8px}.topnav{display:flex;justify-content:center;gap:10px;margin:14px 0 4px}.navbtn{padding:9px 16px;border:1px solid #6b6548;background:#1b1e16;color:#d8cfad;border-radius:5px;cursor:pointer}.navbtn.active{background:#6e1d17;border-color:#c6a65b;color:#fff4d4} h1{margin:0;font-size:clamp(28px,5vw,48px);letter-spacing:2px} header p{color:var(--muted);margin:8px}
 main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1fr 330px;gap:22px}.card{background:#20231a;border:1px solid #4b4b38;border-radius:12px;padding:18px;box-shadow:0 12px 35px #0008}.wheelwrap{position:relative;max-width:680px;margin:auto}.pointer{position:absolute;z-index:4;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:38px solid #e9d18d;filter:drop-shadow(0 2px 2px #000)}canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 7px 12px #000)}button,select{font:inherit}.spin{display:block;margin:18px auto 4px;padding:12px 34px;background:#6e1d17;color:#fff4d4;border:2px solid #c6a65b;border-radius:6px;font-weight:bold;font-size:20px;cursor:pointer}.spin:hover{background:#86261e}.spin:disabled{opacity:.5}.result{text-align:center;min-height:78px;padding:8px}.result strong{font-size:28px;color:#e8cf87}.result .sub{font-size:18px;color:#c9c2a7;margin-top:4px}.controls label{display:block;margin:12px 0 6px;color:#c9c2a7}.controls select{width:100%;padding:8px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.legend{margin-top:18px;border-top:1px solid #494936;padding-top:12px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px}.small{font-size:13px;color:#999580;line-height:1.45}.history{margin-top:14px}.history div{padding:6px 0;border-bottom:1px solid #38382b;font-size:14px}
 .mission{display:none;margin:22px auto 4px;max-width:620px;padding:20px;background:linear-gradient(180deg,#292b20,#181a14);border:2px solid #b69b58;border-radius:10px;box-shadow:0 0 0 3px #111,0 10px 30px #0009;text-align:left}
 .mission.show{display:block}.mission-kicker{text-align:center;letter-spacing:3px;color:#b9ae8a;font-size:12px;margin-bottom:14px}.mission-country{font-size:28px;font-weight:bold;color:#f0e6c2;margin-bottom:12px}.mission-line{font-size:17px;line-height:1.5;margin:7px 0}.mission-line b{color:#e8cf87}.mission-objective{color:#d6d0b8}.startCampaign{width:100%;margin:18px 0 0;padding:14px;background:#52623c;color:#fff8df;border:2px solid #c6a65b;border-radius:5px;font-weight:bold;font-size:19px;cursor:pointer;letter-spacing:1px}.startCampaign:hover{background:#657849}.mission-note{text-align:center;color:#918c77;font-size:12px;margin-top:10px}
+#achievementCenter{display:none;max-width:1100px;margin:auto;padding:16px}.ach-head{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-bottom:16px}.ach-head>div{flex:1;min-width:180px}.ach-head input,.ach-head select{width:100%;padding:10px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat{background:#171911;border:1px solid #454533;border-radius:7px;padding:12px;text-align:center}.stat b{display:block;font-size:24px;color:#e8cf87}.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.ach{background:#181b14;border:1px solid #424332;border-left:4px solid #b69b58;border-radius:6px;padding:13px}.ach h3{margin:0 0 7px;font-size:17px;color:#eee1b5}.ach p{margin:4px 0;color:#bbb49b;font-size:14px;line-height:1.4}.tag{display:inline-block;font-size:11px;padding:3px 6px;margin:5px 4px 0 0;background:#303426;border:1px solid #575a43;border-radius:10px;color:#d7d0b6}.empty{text-align:center;padding:30px;color:#aaa58f}@media(max-width:700px){.ach-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
 @media(max-width:800px){main{grid-template-columns:1fr}.card.side{order:-1}}
 </style>
 </head><body>
-<header><h1>HEARTS OF IRON IV</h1><p>Country + Ideology + Political Path Campaign Randomizer</p></header>
-<main>
+<header><h1>HEARTS OF IRON IV</h1><p>Campaign Generator & Achievement Center</p><div class="topnav"><button class="navbtn active" id="navGenerator">🎡 Campaign Generator</button><button class="navbtn" id="navAchievements">🏆 Achievement Center</button></div></header>
+<main id="generator">
 <section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.</div>
 <div class="mission" id="mission">
   <div class="mission-kicker">YOUR CAMPAIGN ORDERS</div>
@@ -35,6 +36,13 @@ main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-column
 <p class="small">Ideology wheels are filtered to major political routes represented by the country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
 </main>
+<section id="achievementCenter"><div class="card">
+<h2 style="margin-top:0">🏆 Achievement Center</h2>
+<p class="small">Browse verified HOI4 achievements and see which campaigns they fit. Steam currently lists 293 total achievements; this curated route database will grow as we map each one to the generator.</p>
+<div class="stats"><div class="stat"><b>293</b>Steam Achievements</div><div class="stat"><b id="mappedCount">0</b>Mapped Here</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
+<div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div></div>
+<div class="ach-grid" id="achievementGrid"></div>
+</div></section>
 <script>
 const C={f:'#795548',c:'#b71c1c',d:'#1565c0',u:'#777'};
 const countries={
@@ -106,6 +114,31 @@ const achievements={
 'South Africa':{d:[{name:'District 9',objective:'As South Africa, have 9 civilian factories in Transvaal.'}]},
 'Communist China':{c:[{name:'Made in China',objective:'As Communist China, have over 100 military factories.'}]}
 };
+const genericAchievements=[
+{name:'Friend in Need',objective:'Join a faction.',country:'Any Country',ideology:'any'},
+{name:"We'll build it in a day",objective:'Research Construction V.',country:'Any Country',ideology:'any'},
+{name:'Transport Tycoon',objective:'Have at least 1000 convoys.',country:'Any Country',ideology:'any'},
+{name:'Time is on our side',objective:'Reach 1948.',country:'Any Country',ideology:'any'},
+{name:'Destroyer of Worlds',objective:'Deploy a nuke.',country:'Any Country',ideology:'any'},
+{name:'Master of War',objective:'Fully research a land, air and naval doctrine tree.',country:'Any Country',ideology:'any'},
+{name:'Mine is bigger than yours',objective:'Lead a faction with at least 20 members.',country:'Any Country',ideology:'any'},
+{name:'No country for old men',objective:'Reach 0 manpower with Scraping the Barrel as Conscription Law.',country:'Any Country',ideology:'any'}
+];
+function flatAchievements(){
+ let out=[...genericAchievements];
+ Object.entries(achievements).forEach(([country,ides])=>Object.entries(ides).forEach(([ideology,list])=>list.forEach(a=>out.push({...a,country,ideology}))));
+ return out;
+}
+function renderAchievements(){
+ const all=flatAchievements(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value;
+ const filtered=all.filter(a=>(!country||a.country===country)&&(!ide||a.ideology===ide)&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
+ document.getElementById('mappedCount').textContent=all.length;document.getElementById('visibleCount').textContent=filtered.length;
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach"><h3>🏆 ${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}</article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+}
+function initAchievementCenter(){
+ const sel=document.getElementById('achCountry'),cs=[...new Set(flatAchievements().map(a=>a.country))].sort();cs.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+ ['achSearch','achCountry','achIdeology'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
+}
 function pickAchievement(country,ideology,path){
  const pool=((achievements[country]||{})[ideology]||[]);
  const compatible=pool.filter(a=>!a.paths||a.paths.includes(path));
@@ -138,6 +171,9 @@ function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillS
 if(stage.value==='country'){paintFlag(a[i],i,arc);}
 ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(n<=60){ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.lineWidth=3;ctx.strokeStyle='#000';let t=label(a[i]);if(t.length>20)t=t.slice(0,19)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 24px Georgia';ctx.textAlign='center';ctx.fillText('HOI4',0,8);ctx.restore()}
 function spin(){let a=items();if(spinning||!a.length)return;if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;res.innerHTML=`Country: <strong>${w}</strong><div class="sub">Now spin its ideology.</div>`;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} — now spin the political path.</div>`;hist.unshift(`${selected} — ${names[w]}`);stage.value='path';btn.textContent='SPIN POLITICAL PATH';draw()}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[selectedIdeology]} → ${w}</div>`;hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`);showMission(w)}document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
+document.getElementById('navGenerator').onclick=()=>{document.getElementById('generator').style.display='grid';document.getElementById('achievementCenter').style.display='none';document.getElementById('navGenerator').classList.add('active');document.getElementById('navAchievements').classList.remove('active')};
+document.getElementById('navAchievements').onclick=()=>{document.getElementById('generator').style.display='none';document.getElementById('achievementCenter').style.display='block';document.getElementById('navAchievements').classList.add('active');document.getElementById('navGenerator').classList.remove('active');renderAchievements()};
+initAchievementCenter();
 btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('startCampaign').onclick=()=>{document.getElementById('missionNote').textContent='⚔ Campaign locked in. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
 document.getElementById('reset').onclick=()=>{remaining=Object.keys(countries);selected=null;selectedIdeology=null;hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';document.getElementById('history').innerHTML='';draw()};draw();
 </script></body></html>
