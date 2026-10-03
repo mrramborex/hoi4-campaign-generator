@@ -39,8 +39,8 @@ main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-column
 <section id="achievementCenter"><div class="card">
 <h2 style="margin-top:0">🏆 Achievement Center</h2>
 <p class="small">Browse verified HOI4 achievements and see which campaigns they fit. Steam currently lists 293 total achievements; this curated route database will grow as we map each one to the generator.</p>
-<div class="stats"><div class="stat"><b id="steamTotal">—</b>Steam Catalog Target</div><div class="stat"><b id="mappedCount">0</b>Mapped Here</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
-<div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div></div>
+<div class="stats"><div class="stat"><b id="steamTotal">—</b>Steam Catalog Target</div><div class="stat"><b id="mappedCount">0</b>Unique Mapped</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
+<div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All</option><option value="open">Not completed</option><option value="done">Completed</option></select></div></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
 <script>
@@ -530,17 +530,26 @@ const genericAchievements=[
 function flatAchievements(){
  let out=[...genericAchievements,...phase2Achievements];
  Object.entries(achievements).forEach(([country,ides])=>Object.entries(ides).forEach(([ideology,list])=>list.forEach(a=>out.push({...a,country,ideology}))));
- return out;
+ const seen=new Set();
+ return out.filter(a=>{const k=a.name.trim().toLowerCase();if(seen.has(k))return false;seen.add(k);return true});
 }
+const COMPLETED_KEY='hoi4CompletedAchievements';
+function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]'))}catch(e){return new Set()}}
+function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify([...set]))}
+function toggleAchievement(name){const done=getCompleted();done.has(name)?done.delete(name):done.add(name);setCompleted(done);renderAchievements()}
 function renderAchievements(){
- const all=flatAchievements(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value;
- const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
- document.getElementById('mappedCount').textContent=all.length;document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach">${achievementIcons[a.name]?'<img class="ach-icon" src="'+achievementIcons[a.name]+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}</div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value;
+ const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
+ const completed=all.filter(a=>done.has(a.name)).length;
+ document.getElementById('mappedCount').textContent=all.length;
+ document.getElementById('completedCount').textContent=completed;
+ document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
+ document.getElementById('visibleCount').textContent=filtered.length;
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${achievementIcons[a.name]?'<img class="ach-icon" src="'+achievementIcons[a.name]+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'✓ Completed':'Mark Completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');achievementCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
- ['achSearch','achCountry','achIdeology'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
+ ['achSearch','achCountry','achIdeology','achStatus'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function pickAchievement(country,ideology,path){
  const pool=((achievements[country]||{})[ideology]||[]);
