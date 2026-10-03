@@ -241,6 +241,34 @@ header p,.war-header-meta,.war-eyebrow,.console-kicker,.console-status,.instrume
 .command-audit,.command-footnote,.campaign-data-tools .data-note{font-size:10px;line-height:1.45}
 .small{font-weight:500;color:#aaa58f}
 
+
+/* Phase 13A — Generator UI polish */
+.generator-console{position:relative;overflow:hidden}
+.generator-console:before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 49.8%,#c6a65b0d 50%,transparent 50.2%);opacity:.8}
+.generator-console-head{position:relative;z-index:1;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid #5a563f}
+.generator-console-head h2{margin-top:4px}
+.console-status{white-space:nowrap}
+.wheel-instrument{position:relative;padding:18px 48px 10px;border:1px solid #454633;background:radial-gradient(circle at 50% 45%,#292c21 0,#171913 67%,#10120e 100%);box-shadow:inset 0 0 35px #0008,0 8px 20px #0005;border-radius:8px}
+.wheelwrap{max-width:650px}
+.wheelwrap:after{content:'';position:absolute;inset:2.2%;border:1px solid #d1b86b42;border-radius:50%;pointer-events:none;box-shadow:inset 0 0 18px #0007}
+.pointer{top:-11px;border-left-width:20px;border-right-width:20px;border-top-width:42px;filter:drop-shadow(0 3px 2px #000b) drop-shadow(0 0 4px #c6a65b55)}
+.instrument-label{opacity:.78;letter-spacing:1.5px}
+.selector-command{margin-top:14px}
+.selector-command .command-rule{opacity:.75}
+.spin#spin{min-width:220px;margin:8px auto 4px;padding:13px 34px;letter-spacing:1.4px;box-shadow:inset 0 1px #f1d98b55,0 5px 12px #0007;transition:transform .12s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease}
+.spin#spin:hover:not(:disabled){transform:translateY(-1px);border-color:#e1c978;box-shadow:inset 0 1px #fff2b766,0 7px 16px #0009}
+.spin#spin:active:not(:disabled){transform:translateY(1px);box-shadow:inset 0 2px 5px #0008}
+.spin#spin:disabled{cursor:not-allowed;filter:saturate(.55)}
+.result{position:relative;max-width:650px;margin:8px auto 0;padding:12px 14px;min-height:70px;display:flex;flex-direction:column;justify-content:center;border-top:1px solid #454633;border-bottom:1px solid #454633;background:#11130f66}
+.result strong{font-family:var(--display);letter-spacing:.6px;text-shadow:0 1px 2px #000}
+.result .sub{line-height:1.35}
+.command-field select{transition:border-color .15s ease,box-shadow .15s ease}
+.command-field select:focus{outline:none;border-color:#b69b58;box-shadow:0 0 0 2px #b69b5826}
+.command-check label{cursor:pointer}
+.command-reset{transition:background .15s ease,border-color .15s ease,color .15s ease}
+@media(max-width:800px){.wheel-instrument{padding-left:28px;padding-right:28px}.instrument-label{display:none}}
+@media(max-width:520px){.wheel-instrument{padding:13px 10px 8px}.spin#spin{width:min(100%,280px);min-width:0}.result{padding-left:8px;padding-right:8px}.generator-console-head{gap:8px}.console-status{font-size:9px}}
+
 </style>
 </head><body>
 <header class="war-header">
