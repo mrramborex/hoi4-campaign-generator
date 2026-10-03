@@ -14,6 +14,55 @@ main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-column
 #achievementCenter,#campaignHistory{display:none;max-width:1100px;margin:auto;padding:16px}#campaignHistory .card{min-height:300px}.campaign-history-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.campaign-history-card{background:#181b14;border:1px solid #424332;border-left:4px solid #8d7442;border-radius:6px;padding:15px;display:grid;grid-template-columns:82px 1fr;gap:14px}.campaign-history-icon{width:76px;height:76px;object-fit:cover;border:2px solid #6c674e;border-radius:4px;background:#25281e}.campaign-history-fallback{width:76px;height:76px;display:grid;place-items:center;border:2px solid #6c674e;border-radius:4px;background:#25281e;font-size:30px}.campaign-history-card h3{margin:0 0 5px;font:600 18px var(--display);color:#eee1b5;text-transform:uppercase}.campaign-history-card p{margin:3px 0;color:#aaa58f;font-size:13px;line-height:1.45}.campaign-history-card .outcome{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}.campaign-history-card button{padding:5px 8px;background:#24271d;color:#bdb69d;border:1px solid #4d503c;border-radius:3px;font:10px var(--display);letter-spacing:.5px;text-transform:uppercase;cursor:pointer}.campaign-history-card button.active{background:#35402b;color:#e4dfc3;border-color:#71805a}.campaign-history-card button.abandoned.active{background:#4a2924;border-color:#80584f}.campaign-history-empty{text-align:center;padding:55px 20px;color:#8f8a76}.data-tools{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px;padding:12px;background:#171911;border:1px solid #454533;border-radius:6px}.data-tools button,.data-tools label{padding:8px 11px;background:#24271d;color:#c9c2a7;border:1px solid #555744;border-radius:4px;font:11px var(--display);letter-spacing:.7px;text-transform:uppercase;cursor:pointer}.data-tools button:hover,.data-tools label:hover{background:#303426;color:#eee1b5}.data-tools input{display:none}.danger-btn{border-color:#74433c!important;color:#d6aaa2!important}.danger-btn:hover{background:#47251f!important;color:#f2cbc3!important}.campaign-delete{border-color:#65413b!important;color:#c99d95!important}.campaign-delete:hover{background:#42231e!important;color:#f0c4bc!important}.data-note{flex-basis:100%;font-size:11px;color:#817c69;margin-top:2px}@media(max-width:700px){.campaign-history-grid{grid-template-columns:1fr}}.ach-head{display:flex;gap:14px;align-items:end;flex-wrap:wrap;margin-bottom:16px}.ach-head>div{flex:1;min-width:180px}.ach-head input,.ach-head select{width:100%;padding:10px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat{background:#171911;border:1px solid #454533;border-radius:7px;padding:12px;text-align:center}.stat{font-family:var(--display);text-transform:uppercase;letter-spacing:.7px;font-size:12px}.stat b{display:block;font-family:var(--display);font-size:26px;font-weight:500;letter-spacing:1px;color:#e8cf87}.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.ach{background:#181b14;border:1px solid #424332;border-left:4px solid #b69b58;border-radius:6px;padding:13px;display:grid;grid-template-columns:72px 1fr;gap:13px;align-items:start}.ach-icon{width:64px;height:64px;border-radius:4px;border:2px solid #6c674e;box-shadow:0 3px 10px #0009;object-fit:cover}.ach-body{min-width:0}.ach h3{margin:0 0 7px;font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:#eee1b5}.ach p{margin:4px 0;color:#bbb49b;font-family:var(--document);font-size:14px;line-height:1.55;letter-spacing:.1px}.tag{display:inline-block;font-family:var(--typewriter);font-size:11px;padding:3px 6px;margin:5px 4px 0 0;background:#303426;border:1px solid #575a43;border-radius:10px;color:#d7d0b6}.ach-complete{margin-top:10px;padding:5px 10px;background:#24271d;color:#bdb69d;border:1px solid #4d503c;border-radius:3px;font:12px var(--display);font-weight:500;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;transition:.15s ease}.ach-complete:hover{background:#303426;color:#eee1b5;border-color:#777054}.ach-complete.done{background:#2b3524;color:#d5d0b9;border-color:#657052}.ach-complete.done:before{content:'✓ ';color:#c9c58b}.empty{text-align:center;padding:30px;color:#aaa58f}@media(max-width:700px){.ach-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
 @media(max-width:800px){main{grid-template-columns:1fr}.card.side{order:-1}}
 h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:uppercase}.result strong{font-family:var(--display);letter-spacing:1px;text-transform:uppercase}.history b{font-family:var(--display);letter-spacing:1px;text-transform:uppercase}.history div{font-family:var(--typewriter)}.mission-line b{font-family:var(--display);letter-spacing:.6px;text-transform:uppercase}.startCampaign,.spin{font-family:var(--display);text-transform:uppercase;letter-spacing:1.5px}.small{font-family:var(--document)}
+
+/* Phase 11A — HOI4 command-room visual language. Cosmetic only; no generator logic changed. */
+:root{--bg:#0c100e;--panel:#1d211c;--ink:#e8e1c9;--muted:#9f9a86;--accent:#b49a61;--steel:#4d554c;--paper:#c8b98e;--red:#6f201a}
+body{
+ background-color:#0c100e;
+ background-image:
+  linear-gradient(rgba(214,205,167,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(214,205,167,.025) 1px,transparent 1px),
+  radial-gradient(circle at 50% -15%,#343a2d 0,#1a1f19 31%,#0b0e0c 72%);
+ background-size:34px 34px,34px 34px,auto;
+}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;background:linear-gradient(115deg,transparent 0 46%,rgba(185,171,122,.025) 46% 47%,transparent 47% 100%),radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.48) 100%)}
+header{position:relative;padding:28px 16px 13px;border-bottom:1px solid #4b4b3b;background:linear-gradient(180deg,rgba(39,44,35,.94),rgba(15,18,15,.94));box-shadow:0 5px 22px #0009}
+header:before,header:after{content:'';position:absolute;top:17px;width:min(22vw,230px);height:1px;background:linear-gradient(90deg,transparent,#8d7a50)}
+header:before{left:4%}header:after{right:4%;transform:scaleX(-1)}
+h1{color:#e7ddbd;font-size:clamp(32px,5vw,54px);letter-spacing:5px;text-shadow:0 2px #000,0 0 18px #000}
+header p{font-family:var(--typewriter);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8f8a77}
+.topnav{gap:0;margin:18px auto 0;max-width:760px;border:1px solid #545343;border-bottom-color:#292c25;box-shadow:0 3px 10px #0008}
+.navbtn{flex:1;border:0;border-right:1px solid #45483d;border-radius:0;padding:10px 14px;background:linear-gradient(#2c3028,#1b1e19);color:#bcb59c;box-shadow:inset 0 1px #55594b;font-size:12px}
+.navbtn:last-child{border-right:0}.navbtn:hover{background:linear-gradient(#393d32,#24281f);color:#eee3bf}.navbtn.active{background:linear-gradient(#812b22,#4f1714);box-shadow:inset 0 1px #b85c48,inset 0 -2px #2b0b09;color:#f3e6bd;border-color:#685d43}
+main,#achievementCenter,#campaignHistory{position:relative}
+.card{position:relative;background:linear-gradient(145deg,rgba(38,42,34,.98),rgba(24,28,23,.98));border:1px solid #555747;border-radius:2px;box-shadow:0 0 0 1px #10120f,0 10px 28px #000a,inset 0 1px rgba(255,255,255,.035)}
+.card:before{content:'';position:absolute;inset:5px;pointer-events:none;border:1px solid rgba(174,157,105,.10)}
+.card.side{background:linear-gradient(180deg,#242820,#181c17)}
+h2{color:#d8cfb0;border-bottom:1px solid #555342;padding-bottom:9px;margin-bottom:14px;text-shadow:0 1px #000}
+h2:after{content:' // COMMAND';font:9px var(--typewriter);letter-spacing:1.4px;color:#777461}
+.controls label{color:#b8b19a}.controls select,.ach-head input,.ach-head select{border-radius:1px;border-color:#55594b;background:linear-gradient(#141712,#0e110e);box-shadow:inset 0 1px 5px #000;color:#e3dcc5}
+.spin{position:relative;border-radius:2px;background:linear-gradient(#842a22,#591914);border:1px solid #b79759;box-shadow:0 0 0 2px #171914,0 4px 10px #0009,inset 0 1px #b65d4d;padding:13px 38px;text-shadow:0 1px #000}
+.spin:hover{background:linear-gradient(#96362b,#681e18)}
+.pointer{border-top-color:#d5bd78;filter:drop-shadow(0 2px 2px #000) drop-shadow(0 0 4px #8d7442)}
+.result{margin-top:7px;border-top:1px solid #414438;border-bottom:1px solid #414438;background:rgba(9,12,9,.28);padding:11px}.result strong{color:#e0c77f}
+.legend,.campaign-log{border-top-color:#545343}.history div,.campaign-log-item{border-bottom-color:#34382f}
+.small{color:#8e8a77}
+button{transition:background .15s ease,color .15s ease,border-color .15s ease,transform .08s ease}button:active{transform:translateY(1px)}
+.mission,.campaign-history-card,.ach,.stat,.data-tools{border-radius:2px}
+.mission{background:linear-gradient(135deg,#302f25,#191c17 68%);box-shadow:0 0 0 3px #0c0e0c,0 12px 34px #000b}
+.dossier-field,.mission-ach-row{background:linear-gradient(145deg,#171914,#10120f);border-color:#484a3c}
+.mission-badge,.tag{border-radius:1px}
+.ach{background:linear-gradient(145deg,#20241d,#151814);border-color:#484b3e;border-left-color:#9d824c}
+.ach:hover,.campaign-history-card:hover{border-color:#6a6953;box-shadow:0 5px 16px #0006}
+.stat{background:linear-gradient(#20231d,#151814);border-color:#4b4e40}
+.stat b{color:#ddc47e}
+.data-tools{background:#151814;border-color:#484b3e}
+.newCampaign,.mission-secondary,.data-tools button,.data-tools label,.campaign-history-card button{border-radius:1px;background:linear-gradient(#2b3027,#1d211b)}
+.startCampaign{border-radius:2px;background:linear-gradient(#607247,#3f4d32);box-shadow:0 0 0 2px #171914,inset 0 1px #829363}
+canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
+.wheelwrap:after{content:'';position:absolute;inset:2.5%;border-radius:50%;pointer-events:none;box-shadow:inset 0 0 24px #0008,0 0 0 1px rgba(191,169,105,.18)}
+@media(max-width:650px){header{padding-top:20px}.topnav{flex-direction:column}.navbtn{border-right:0;border-bottom:1px solid #45483d}header:before,header:after{display:none}}
+
 </style>
 </head><body>
 <header><h1>HEARTS OF IRON IV</h1><p>War Room • Campaign Generator • Achievement Center • Campaign Archive</p><div class="topnav"><button class="navbtn active" id="navGenerator">🎡 Campaign Generator</button><button class="navbtn" id="navAchievements">🏆 Achievement Center</button><button class="navbtn" id="navCampaigns">📋 Campaign History</button></div></header>
