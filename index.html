@@ -60,13 +60,13 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:
 const C={f:'#795548',c:'#b71c1c',d:'#1565c0',u:'#777'};
 const countries={
 'Afghanistan':['u','c','d','f'],'Argentina':['u','f','d','c'],'Australia':['d','f','c','u'],'Aussa':['u','f','d','c'],'Austria':['u','d','f','c'],'Belgium':['d','f','c','u'],'Brazil':['u','f','d','c'],'British Raj / India':['d','f','c','u'],'Bulgaria':['u','f','c','d'],'Canada':['d','f','c'],'Chile':['d','f','c','u'],'China (Nationalist)':['d','f','c','u'],'Communist China':['c','d','f','u'],'Guangxi Clique':['u','f','d','c'],'Guangdong Clique':['u','f','d','c'],'Yunnan':['u','f','d','c'],'Sichuan Clique':['u','f','d','c'],'Northeastern Army':['u','f','d','c'],'Shanxi':['u','f','d','c'],'Sinkiang':['c','u','d','f'],'Khotan Ma':['u','f','d','c'],'Qinghai Ma':['u','f','d','c'],'Gansu Ma':['u','f','d','c'],'Ningxia Ma':['u','f','d','c'],'Hebei-Chahar':['u','f','d','c'],'Shandong Clique':['u','f','d','c'],'Congo':['d','c','f','u'],'Czechoslovakia':['d','c','f','u'],'Denmark':['d','f','c','u'],'Dutch East Indies / Indonesia':['d','c','f','u'],'Estonia':['d','f','c','u'],'Ethiopia':['u','d','c','f'],'Finland':['d','f','c','u'],'France':['d','f','c','u'],'Germany':['f','c','d','u'],'Greece':['u','f','d','c'],'Hungary':['u','f','c','d'],'Iceland':['d','f','c','u'],'Iran':['u','f','c','d'],'Iraq':['u','f','c','d'],'Italy':['f','c','d','u'],'Japan':['u','f','c','d'],'Latvia':['d','f','c','u'],'Lithuania':['d','f','c','u'],'Manchukuo':['u','f','c'],'Mexico':['d','f','c','u'],'Netherlands':['d','f','c','u'],'New Zealand':['d','f','c'],'Norway':['d','f','c','u'],'Paraguay':['u','f','d','c'],'Philippines':['d','f','c','u'],'Poland':['u','f','c','d'],'Portugal':['u','f','c','d'],'Romania':['u','f','c','d'],'Siam / Thailand':['u','f','d','c'],'South Africa':['d','f','c'],'Soviet Union':['c','u'],'Spain':['f','c','d','u'],'Sweden':['d','f','c','u'],'Switzerland':['d','f','c','u'],'Turkey':['u','f','d','c'],'United Kingdom':['d','f','c','u'],'United States':['d','f','c'],'Uruguay':['d','f','c','u'],'Yugoslavia':['u','f','c','d']};
-const COUNTRY_ROSTER_VERSION='7J.1 — 65-country roster + scalable labels + recognizable procedural flags';
+const COUNTRY_ROSTER_VERSION='10A — 65-country 1936-era procedural flag pass';
 const names={f:'Fascist',c:'Communist',d:'Democratic',u:'Unaligned'};
 const flagType={
 'Afghanistan':['v',['#000','#b21f2d','#007a36']], 'Argentina':['h',['#74acdf','#fff','#74acdf']],  'Australia':['ukbadge',['#012169','#fff','#c8102e']], 'Austria':['h',['#ed2939','#fff','#ed2939']],
 'Aussa':['h',['#1f8f4e','#fff','#d52b1e']], 'Belgium':['v',['#000','#ffd90c','#ef3340']],  'Brazil':['diamond',['#009c3b','#ffdf00','#002776']], 'British Raj / India':['h',['#ff9933','#fff','#138808']], 'Bulgaria':['h',['#fff','#00966e','#d62612']],
-'Canada':['v',['#d80621','#fff','#d80621']], 'Chile':['h',['#fff','#d52b1e']],  'China (Nationalist)':['roc',['#fe0000','#000095','#fff']],  'Communist China':['star',['#de2910','#ffde00']], 'Guangxi Clique':['solid',['#2b8c4b']], 'Guangdong Clique':['solid',['#4a7f45']], 'Yunnan':['solid',['#d7b33e']], 'Sichuan Clique':['solid',['#4878a8']], 'Northeastern Army':['solid',['#8b5a3c']], 'Shanxi':['solid',['#8c6d31']], 'Sinkiang':['solid',['#4d7f62']], 'Khotan Ma':['solid',['#739b55']], 'Qinghai Ma':['solid',['#7a8f54']], 'Gansu Ma':['solid',['#9a8154']], 'Ningxia Ma':['solid',['#71895b']], 'Hebei-Chahar':['solid',['#7b6f52']], 'Shandong Clique':['solid',['#6c8061']],
-'Congo':['solid',['#007fff']], 'Czechoslovakia':['h',['#fff','#d7141a']], 'Denmark':['nordic',['#c60c30','#fff']], 'Dutch East Indies / Indonesia':['h',['#ce1126','#fff']],
+'Canada':['v',['#d80621','#fff','#d80621']], 'Chile':['h',['#fff','#d52b1e']],  'China (Nationalist)':['roc',['#fe0000','#000095','#fff']],  'Communist China':['star',['#de2910','#ffde00']], 'Guangxi Clique':['roc',['#fe0000','#000095','#fff']], 'Guangdong Clique':['roc',['#fe0000','#000095','#fff']], 'Yunnan':['yunnan',['#ffffff','#d71920','#000000']], 'Sichuan Clique':['roc',['#fe0000','#000095','#fff']], 'Northeastern Army':['roc',['#fe0000','#000095','#fff']], 'Shanxi':['roc',['#fe0000','#000095','#fff']], 'Sinkiang':['sinkiang',['#e31b23','#ffd700']], 'Khotan Ma':['maclique',['#c8102e','#ffffff']], 'Qinghai Ma':['maclique',['#c8102e','#ffffff']], 'Gansu Ma':['maclique',['#c8102e','#ffffff']], 'Ningxia Ma':['maclique',['#c8102e','#ffffff']], 'Hebei-Chahar':['fivecolor',['#d71920','#f4d03f','#003f8f','#ffffff','#111111']], 'Shandong Clique':['roc',['#fe0000','#000095','#fff']],
+'Congo':['belgiancongo',['#007fff','#f7d618','#ce1021']], 'Czechoslovakia':['h',['#fff','#d7141a']], 'Denmark':['nordic',['#c60c30','#fff']], 'Dutch East Indies / Indonesia':['h',['#ce1126','#fff']],
 'Estonia':['h',['#4891d9','#000','#fff']], 'Ethiopia':['h',['#078930','#fcd116','#da121a']], 'Finland':['cross',['#fff','#003580']], 'France':['v',['#0055a4','#fff','#ef4135']], 'Germany':['h',['#000','#dd0000','#ffce00']],
 'Greece':['h',['#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf']], 'Hungary':['h',['#ce2939','#fff','#477050']], 'Iceland':['nordic2',['#02529c','#fff','#dc1e35']],
 'Iran':['h',['#239f40','#fff','#da0000']], 'Iraq':['h',['#ce1126','#fff','#000']], 'Italy':['v',['#009246','#fff','#ce2b37']],  'Japan':['circle',['#fff','#bc002d']],
@@ -112,6 +112,16 @@ function paintFlag(country,i,arc){
    rect(x,y,w,h,'#006b54'); rect(x+w*.38,y,w*.18,h,'#ffffff');
  } else if(country==='Sinkiang'||country==='Xinjiang'){
    rect(x,y,w,h,'#e51d36'); rect(x,y,w*.18,h,'#ffd700');
+ } else if(type==='yunnan'){
+   rect(x,y,w,h,c[0]); rect(x,y,w*.18,h,c[1]); rect(x+w*.18,y,w*.05,h,c[2]);
+ } else if(type==='sinkiang'){
+   rect(x,y,w,h,c[0]); rect(x+w*.08,y+h*.08,w*.18,h*.18,c[1]);
+ } else if(type==='maclique'){
+   rect(x,y,w,h,c[0]); ctx.fillStyle=c[1];ctx.beginPath();ctx.arc(x+w*.48,y+h*.50,Math.min(w,h)*.16,0,Math.PI*2);ctx.fill();
+ } else if(type==='fivecolor'){
+   const hh=h/c.length;c.forEach((z,k)=>rect(x,y+k*hh,w,hh+1,z));
+ } else if(type==='belgiancongo'){
+   rect(x,y,w,h,c[0]); ctx.strokeStyle=c[1];ctx.lineWidth=w*.16;ctx.beginPath();ctx.moveTo(x-w*.05,y+h*.90);ctx.lineTo(x+w*1.05,y+h*.10);ctx.stroke();ctx.strokeStyle=c[2];ctx.lineWidth=w*.07;ctx.stroke();
  } else if(type==='h'||type==='v'){
    const ww=w/c.length; c.forEach((z,k)=>rect(x+k*ww,y,ww+1,h,z));
  } else if(type==='v2'){
@@ -1428,6 +1438,8 @@ function warRoomIntegrityTest(){
  expect(badCountryIdeologies.length===0,'country-ideology-schema',badCountryIdeologies.length?JSON.stringify(badCountryIdeologies):'all country ideology arrays valid');
  const missingFlags=Object.keys(countries).filter(country=>!flagType[country]);
  expect(missingFlags.length===0,'country-flag-coverage',missingFlags.join(', '));
+ const genericFlagPlaceholders=Object.keys(countries).filter(country=>flagType[country]?.[0]==='solid');
+ expect(genericFlagPlaceholders.length===0,'country-flag-no-placeholders',genericFlagPlaceholders.join(', '));
  const dirty=['NOT A REAL ACHIEVEMENT',all[0]?.name,String(all[0]?.name||'').replace(/'/g,'’'),null,42];
  const cleaned=normalizeCompleted(dirty);expect(cleaned.length===1,'completion-normalization',cleaned.join(', '));
  expect(sanitizeCampaignLog(null).length===0,'reject-non-array-log');
