@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HOI4 Country & Ideology Wheel</title>
+<style>
+:root{--bg:#151711;--panel:#22261c;--ink:#eee9d6;--muted:#aaa58f;--accent:#b69b58}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#2a2d20,#11130f 65%);color:var(--ink);font-family:Georgia,serif;min-height:100vh}
+header{text-align:center;padding:24px 16px 8px} h1{margin:0;font-size:clamp(28px,5vw,48px);letter-spacing:2px} header p{color:var(--muted);margin:8px}
+main{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1fr 330px;gap:22px}.card{background:#20231a;border:1px solid #4b4b38;border-radius:12px;padding:18px;box-shadow:0 12px 35px #0008}.wheelwrap{position:relative;max-width:680px;margin:auto}.pointer{position:absolute;z-index:4;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:38px solid #e9d18d;filter:drop-shadow(0 2px 2px #000)}canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 7px 12px #000)}button,select{font:inherit}.spin{display:block;margin:18px auto 4px;padding:12px 34px;background:#6e1d17;color:#fff4d4;border:2px solid #c6a65b;border-radius:6px;font-weight:bold;font-size:20px;cursor:pointer}.spin:hover{background:#86261e}.spin:disabled{opacity:.5}.result{text-align:center;min-height:78px;padding:8px}.result strong{font-size:28px;color:#e8cf87}.result .sub{font-size:18px;color:#c9c2a7;margin-top:4px}.controls label{display:block;margin:12px 0 6px;color:#c9c2a7}.controls select{width:100%;padding:8px;background:#11130f;color:#eee9d6;border:1px solid #595944;border-radius:5px}.legend{margin-top:18px;border-top:1px solid #494936;padding-top:12px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:7px}.small{font-size:13px;color:#999580;line-height:1.45}.history{margin-top:14px}.history div{padding:6px 0;border-bottom:1px solid #38382b;font-size:14px}@media(max-width:800px){main{grid-template-columns:1fr}.card.side{order:-1}}
+</style>
+</head><body>
+<header><h1>HEARTS OF IRON IV</h1><p>Country + Ideology + Political Path Campaign Randomizer</p></header>
+<main>
+<section class="card"><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div><button class="spin" id="spin">SPIN COUNTRY</button><div class="result" id="result">Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.</div></section>
+<aside class="card side controls">
+<h2 style="margin-top:0">Campaign Rules</h2>
+<label>Wheel stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for selected country</option><option value="path">Political path</option></select>
+<label><input type="checkbox" id="uniqueOnly" checked disabled> Unique focus trees only</label>
+<label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label>
+<button class="spin" id="reset" style="font-size:15px;padding:8px 16px">RESET</button>
+<div class="legend"><b>Ideology colors</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
+<div class="history"><b>Recent rolls</b><div id="history"></div></div>
+<p class="small">Ideology wheels are filtered to major political routes represented by the country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
+</aside>
+</main>
+<script>
+const C={f:'#795548',c:'#b71c1c',d:'#1565c0',u:'#777'};
+const countries={
+'Afghanistan':['u','c','d','f'],'Argentina':['u','f','d','c'],'Australia':['d','f','c','u'],'Austria':['u','d','f','c'],'Belgium':['d','f','c','u'],'Brazil':['u','f','d','c'],'British Raj / India':['d','f','c','u'],'Bulgaria':['u','f','c','d'],'Canada':['d','f','c'],'Chile':['d','f','c','u'],'China (Nationalist)':['d','f','c','u'],'Communist China':['c','d','f','u'],'Congo':['d','c','f','u'],'Czechoslovakia':['d','c','f','u'],'Denmark':['d','f','c','u'],'Dutch East Indies / Indonesia':['d','c','f','u'],'Estonia':['d','f','c','u'],'Finland':['d','f','c','u'],'France':['d','f','c','u'],'Germany':['f','c','d','u'],'Greece':['u','f','d','c'],'Hungary':['u','f','c','d'],'Iceland':['d','f','c','u'],'Iran':['u','f','c','d'],'Iraq':['u','f','c','d'],'Italy':['f','c','d','u'],'Japan':['u','f','c','d'],'Latvia':['d','f','c','u'],'Lithuania':['d','f','c','u'],'Manchukuo':['u','f','c'],'Mexico':['d','f','c','u'],'Netherlands':['d','f','c','u'],'New Zealand':['d','f','c'],'Norway':['d','f','c','u'],'Paraguay':['u','f','d','c'],'Philippines':['d','f','c','u'],'Poland':['u','f','c','d'],'Portugal':['u','f','c','d'],'Romania':['u','f','c','d'],'Siam / Thailand':['u','f','d','c'],'South Africa':['d','f','c'],'Soviet Union':['c','u'],'Spain':['f','c','d','u'],'Sweden':['d','f','c','u'],'Switzerland':['d','f','c','u'],'Turkey':['u','f','d','c'],'United Kingdom':['d','f','c','u'],'United States':['d','f','c'],'Uruguay':['d','f','c','u'],'Yugoslavia':['u','f','c','d']};
+const names={f:'Fascist',c:'Communist',d:'Democratic',u:'Unaligned'};
+const flagType={
+'Afghanistan':['v',['#000','#b21f2d','#007a36']], 'Argentina':['h',['#74acdf','#fff','#74acdf']], 'Australia':['solid',['#012169']], 'Austria':['h',['#ed2939','#fff','#ed2939']],
+'Belgium':['v',['#000','#ffd90c','#ef3340']], 'Brazil':['solid',['#009c3b']], 'British Raj / India':['h',['#ff9933','#fff','#138808']], 'Bulgaria':['h',['#fff','#00966e','#d62612']],
+'Canada':['v',['#d80621','#fff','#d80621']], 'Chile':['h',['#fff','#d52b1e']], 'China (Nationalist)':['solid',['#fe0000']], 'Communist China':['solid',['#de2910']],
+'Congo':['solid',['#007fff']], 'Czechoslovakia':['h',['#fff','#d7141a']], 'Denmark':['nordic',['#c60c30','#fff']], 'Dutch East Indies / Indonesia':['h',['#ce1126','#fff']],
+'Estonia':['h',['#4891d9','#000','#fff']], 'Finland':['cross',['#fff','#003580']], 'France':['v',['#0055a4','#fff','#ef4135']], 'Germany':['h',['#000','#dd0000','#ffce00']],
+'Greece':['h',['#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf']], 'Hungary':['h',['#ce2939','#fff','#477050']], 'Iceland':['nordic2',['#02529c','#fff','#dc1e35']],
+'Iran':['h',['#239f40','#fff','#da0000']], 'Iraq':['h',['#ce1126','#fff','#000']], 'Italy':['v',['#009246','#fff','#ce2b37']], 'Japan':['solid',['#fff']],
+'Latvia':['h',['#9e3039','#fff','#9e3039']], 'Lithuania':['h',['#fdb913','#006a44','#c1272d']], 'Manchukuo':['solid',['#ffde00']], 'Mexico':['v',['#006847','#fff','#ce1126']],
+'Netherlands':['h',['#ae1c28','#fff','#21468b']], 'New Zealand':['solid',['#012169']], 'Norway':['nordic2',['#ba0c2f','#fff','#00205b']], 'Paraguay':['h',['#d52b1e','#fff','#0038a8']],
+'Philippines':['h',['#0038a8','#ce1126']], 'Poland':['h',['#fff','#dc143c']], 'Portugal':['v2',['#046a38','#da291c']], 'Romania':['v',['#002b7f','#fcd116','#ce1126']],
+'Siam / Thailand':['h',['#a51931','#f4f5f8','#2d2a4a','#2d2a4a','#f4f5f8','#a51931']], 'South Africa':['h',['#de3831','#fff','#007749','#fff','#002395']], 'Soviet Union':['solid',['#cc0000']],
+'Spain':['h',['#aa151b','#f1bf00','#f1bf00','#aa151b']], 'Sweden':['nordic',['#006aa7','#fecc00']], 'Switzerland':['swiss',['#d52b1e','#fff']], 'Turkey':['solid',['#e30a17']],
+'United Kingdom':['uk',['#012169','#fff','#c8102e']], 'United States':['usa',['#b22234','#fff','#3c3b6e']], 'Uruguay':['h',['#fff','#0038a8','#fff','#0038a8','#fff','#0038a8','#fff','#0038a8','#fff']],
+'Yugoslavia':['h',['#0c4076','#fff','#d7141a']]
+};
+function paintFlag(country,i,arc){
+ const cfg=flagType[country]||['solid',['#555']], type=cfg[0], c=cfg[1], mid=(i+.5)*arc;
+ ctx.save(); ctx.clip(); ctx.rotate(mid); const x=45,y=-235,w=345,h=470;
+ const rect=(x0,y0,w0,h0,color)=>{ctx.fillStyle=color;ctx.fillRect(x0,y0,w0,h0)};
+ if(type==='h'){let hh=h/c.length;c.forEach((z,k)=>rect(x,y+k*hh,w,hh+1,z));}
+ else if(type==='v'){let ww=w/c.length;c.forEach((z,k)=>rect(x+k*ww,y,ww+1,h,z));}
+ else if(type==='v2'){rect(x,y,w*.4,h,c[0]);rect(x+w*.4,y,w*.6,h,c[1]);}
+ else if(type==='solid'){rect(x,y,w,h,c[0]);}
+ else if(type==='circle'){rect(x,y,w,h,c[0]);ctx.fillStyle=c[1];ctx.beginPath();ctx.arc(x+w*.58,0,70,0,Math.PI*2);ctx.fill();}
+ else if(type==='cross'){rect(x,y,w,h,c[0]);rect(x+w*.30,y,w*.12,h,c[1]);rect(x,y+h*.43,w,h*.14,c[1]);}
+ else if(type==='nordic'){rect(x,y,w,h,c[0]);rect(x+w*.30,y,w*.12,h,c[1]);rect(x,y+h*.43,w,h*.14,c[1]);}
+ else if(type==='nordic2'){rect(x,y,w,h,c[0]);rect(x+w*.27,y,w*.18,h,c[1]);rect(x,y+h*.39,w,h*.22,c[1]);rect(x+w*.31,y,w*.10,h,c[2]);rect(x,y+h*.445,w,h*.11,c[2]);}
+ else if(type==='swiss'){rect(x,y,w,h,c[0]);rect(x+w*.43,y+h*.27,w*.14,h*.46,c[1]);rect(x+w*.28,y+h*.42,w*.44,h*.16,c[1]);}
+ else if(type==='uk'){rect(x,y,w,h,c[0]);rect(x+w*.42,y,w*.16,h,c[1]);rect(x,y+h*.40,w,h*.20,c[1]);rect(x+w*.455,y,w*.09,h,c[2]);rect(x,y+h*.445,w,h*.11,c[2]);}
+ else if(type==='usa'){let sh=h/13;for(let k=0;k<13;k++)rect(x,y+k*sh,w,sh+1,k%2?c[1]:c[0]);rect(x,y,w*.45,sh*7,c[2]);}
+ else if(type==='diag'){rect(x,y,w,h,c[0]);ctx.fillStyle=c[1];ctx.beginPath();ctx.moveTo(x,y+h*.78);ctx.lineTo(x,y+h);ctx.lineTo(x+w,y+h*.22);ctx.lineTo(x+w,y);ctx.closePath();ctx.fill();ctx.fillStyle=c[2];ctx.beginPath();ctx.moveTo(x,y+h*.88);ctx.lineTo(x,y+h);ctx.lineTo(x+w,y+h*.12);ctx.lineTo(x+w,y);ctx.closePath();ctx.fill();}
+ ctx.restore();
+}
+const paths={
+'Germany':{f:['Historical Reich','Alternative Fascist Power Struggle'],c:['Communist Germany'],d:['Democratic Germany'],u:['Restore the Kaiser','Monarchist Germany']},
+'United Kingdom':{d:['Historical Democratic Britain','Democratic Interventionism'],f:['Fascist Britain'],c:['Communist Britain'],u:['Restore the Monarchy']},
+'United States':{d:['Historical New Deal / Arsenal of Democracy','Democratic Alternate Strategy'],f:['Fascist America'],c:['Communist America']},
+'Soviet Union':{c:['Stalin — Centre','Trotsky — Left Opposition','Bukharin — Right Opposition'],u:['White Russia / Tsarist Restoration']},
+'France':{d:['Historical Democratic France','Little Entente'],f:['Fascist France'],c:['Communist France'],u:['Orléanist Monarchy','Bonapartist Monarchy','Legitimist Monarchy']},
+'Italy':{f:['Mussolini — Historical Fascism','Alternative Fascist Leadership'],c:['Communist Italy'],d:['Democratic Italy'],u:['Monarchist Italy','Papal Italy']},
+'Japan':{u:['Historical Imperial Japan','Imperial Alternative'],f:['Fascist-aligned Japan'],c:['Communist Japan'],d:['Democratic Japan']},
+'Spain':{f:['Nationalist Spain','Falangist Spain','Carlist-aligned Nationalists'],c:['Republican Communist','Anarchist Revolution'],d:['Democratic Republic'],u:['Carlist Spain']},
+'Poland':{u:['Sanation Government','Restore a Monarchy'],f:['Fascist Poland'],c:['Communist Poland'],d:['Democratic Poland']},
+'Australia':{d:['Historical Democratic Australia','Independent Democratic Course'],f:['Fascist Australia'],c:['Communist Australia'],u:['Non-Aligned Australia']},
+'Siam / Thailand':{u:['Royalist / Non-Aligned Siam'],f:['Military Nationalist Thailand'],d:['Democratic Siam'],c:['Communist Siam']},
+'Dutch East Indies / Indonesia':{d:['Loyalist / Democratic East Indies','Independent Democratic Indonesia'],f:['Fascist Indonesia'],c:['Communist Indonesia'],u:['Non-Aligned Indonesia']}
+};
+let selectedIdeology=null;
+let remaining=Object.keys(countries), selected=null, angle=0, spinning=false, hist=[];
+const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),btn=document.getElementById('spin'),res=document.getElementById('result');
+function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[names[selectedIdeology]+' focus-tree route'];}
+function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
+function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path')return '#596247'; const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
+function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
+if(stage.value==='country'){paintFlag(a[i],i,arc);}
+ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(n<=60){ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.lineWidth=3;ctx.strokeStyle='#000';let t=label(a[i]);if(t.length>20)t=t.slice(0,19)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 24px Georgia';ctx.textAlign='center';ctx.fillText('HOI4',0,8);ctx.restore()}
+function spin(){let a=items();if(spinning||!a.length)return;if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;res.innerHTML=`Country: <strong>${w}</strong><div class="sub">Now spin its ideology.</div>`;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} — now spin the political path.</div>`;hist.unshift(`${selected} — ${names[w]}`);stage.value='path';btn.textContent='SPIN POLITICAL PATH';draw()}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[selectedIdeology]} → ${w}</div>`;hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`)}document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
+btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('reset').onclick=()=>{remaining=Object.keys(countries);selected=null;selectedIdeology=null;hist=[];angle=0;stage.value='country';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';document.getElementById('history').innerHTML='';draw()};draw();
+</script></body></html>
