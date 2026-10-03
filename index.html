@@ -902,8 +902,12 @@ function achievementCatalogStats(){
  return {total:all.length,withArt,missingArt:all.length-withArt};
 }
 const CAMPAIGN_LOG_KEY='hoi4CampaignLog';
-function getCampaignLog(){try{return JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]')}catch(e){return []}}
-function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(log.slice(0,50)))}
+function sanitizeCampaignLog(log){
+ if(!Array.isArray(log))return [];
+ return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:x.country.slice(0,80),ideology:String(x.ideology||'').slice(0,40),path:String(x.path||'').slice(0,120),achievement:x.achievement.slice(0,160),icon:typeof x.icon==='string'&&/^https:\/\//.test(x.icon)?x.icon:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
+}
+function getCampaignLog(){try{return sanitizeCampaignLog(JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]'))}catch(e){return []}}
+function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(sanitizeCampaignLog(log)))}
 function renderCampaignLog(){
  const el=document.getElementById('campaignLog');if(!el)return;
  const log=getCampaignLog();
@@ -934,12 +938,16 @@ function exportSaveData(){
  a.href=url;a.download='hoi4-campaign-generator-save.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
  document.getElementById('dataNote').textContent='Backup exported successfully.';
 }
+function normalizeCompleted(list){
+ const catalog=new Map(flatAchievements().map(a=>[normAchievementName(a.name),a.name]));
+ return [...new Set((Array.isArray(list)?list:[]).filter(x=>typeof x==='string').map(x=>catalog.get(normAchievementName(x))).filter(Boolean))];
+}
 function importSaveData(file){
  if(!file)return;const r=new FileReader();
- r.onload=()=>{try{const data=JSON.parse(r.result);if(!data||!['HOI4 War Room','HOI4 Campaign Generator'].includes(data.app)||!Array.isArray(data.completed)||!Array.isArray(data.campaigns))throw new Error('Invalid save');setCompleted(new Set(data.completed));saveCampaignLog(data.campaigns);renderAchievements();renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Save imported successfully — achievement progress and Campaign History restored.'}catch(e){document.getElementById('dataNote').textContent='That file could not be imported. Please select a HOI4 War Room save file.'}document.getElementById('importSave').value=''};r.readAsText(file);
+ r.onload=()=>{try{if(typeof r.result!=='string'||r.result.length>5000000)throw new Error('Save too large');const data=JSON.parse(r.result);if(!data||!['HOI4 War Room','HOI4 Campaign Generator'].includes(data.app)||!Array.isArray(data.completed)||!Array.isArray(data.campaigns))throw new Error('Invalid save');setCompleted(new Set(normalizeCompleted(data.completed)));saveCampaignLog(data.campaigns);renderAchievements();renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Save imported successfully — achievement progress and Campaign History restored.'}catch(e){document.getElementById('dataNote').textContent='That file could not be imported. Please select a valid HOI4 War Room save file.'}document.getElementById('importSave').value=''};r.readAsText(file);
 }
-function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]'))}catch(e){return new Set()}}
-function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify([...set]))}
+function getCompleted(){try{return new Set(normalizeCompleted(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]')))}catch(e){return new Set()}}
+function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify(normalizeCompleted([...set])))}
 function toggleAchievement(name){const done=getCompleted();done.has(name)?done.delete(name):done.add(name);setCompleted(done);renderAchievements()}
 function renderAchievements(){
  const coverage=document.getElementById('artworkCoverage');
@@ -1343,6 +1351,24 @@ function warRoomStressTest(iterations=50000){
  return result;
 }
 window.HOI4WarRoomStressTest=warRoomStressTest;
+function warRoomIntegrityTest(){
+ const all=flatAchievements(),catalog=new Set(all.map(a=>normAchievementName(a.name))),failures=[];
+ const expect=(ok,test,detail='')=>{if(!ok)failures.push({test,detail})};
+ expect(all.length===STEAM_ACHIEVEMENT_TARGET,'catalog-target',all.length+' / '+STEAM_ACHIEVEMENT_TARGET);
+ expect(catalog.size===all.length,'catalog-normalized-unique',catalog.size+' unique / '+all.length);
+ const dirty=['NOT A REAL ACHIEVEMENT',all[0]?.name,String(all[0]?.name||'').replace(/'/g,'’'),null,42];
+ const cleaned=normalizeCompleted(dirty);expect(cleaned.length===1,'completion-normalization',cleaned.join(', '));
+ expect(sanitizeCampaignLog(null).length===0,'reject-non-array-log');
+ expect(sanitizeCampaignLog([{foo:'bar'}]).length===0,'reject-malformed-campaign');
+ const good=sanitizeCampaignLog([{country:'Germany',ideology:'Fascist',path:'Historical Reich',achievement:'True Blitzkrieg',icon:'javascript:alert(1)',time:1,outcome:'victory'}]);
+ expect(good.length===1&&good[0].icon===''&&good[0].outcome==='victory','sanitize-campaign-fields');
+ const audit=auditAchievementIntelligence();
+ const stress=warRoomStressTest(20000);
+ const result={catalog:all.length,failures,auditPassed:audit.passed,stressPassed:stress.passed,passed:failures.length===0&&audit.passed&&stress.passed};
+ console.group('HOI4 War Room Final Integrity Test');console.table({Catalog:result.catalog,'Integrity failures':failures.length,'Rule audit':audit.passed,'20k stress test':stress.passed,'FINAL PASS':result.passed});if(failures.length)console.table(failures);console.groupEnd();
+ return result;
+}
+window.HOI4WarRoomIntegrityTest=warRoomIntegrityTest;
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
