@@ -1305,6 +1305,41 @@ function auditAchievementIntelligence(){
  return result;
 }
 window.HOI4WarRoomAudit=auditAchievementIntelligence;
+function warRoomStressTest(iterations=50000){
+ const all=flatAchievements(),norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'"),originalGetCompleted=getCompleted;
+ const combos=[];Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>(paths[country]?.[ideology]||[names[ideology]+' route']).forEach(path=>combos.push({country,ideology,path}))));
+ const counts=new Map(all.map(a=>[norm(a.name),0])),invalid=[],errors=[];
+ const run=(doneSet,label,runs)=>{
+  window.__warRoomAuditCompleted=doneSet;
+  for(let n=0;n<runs;n++){
+   const x=combos[n%combos.length];
+   try{
+    const a=pickAchievement(x.country,x.ideology,x.path);
+    if(!a){errors.push({scenario:label,type:'no-result',...x});continue}
+    counts.set(norm(a.name),(counts.get(norm(a.name))||0)+1);
+    const ideologyOK=a.ideology==='any'||a.ideology===x.ideology;
+    const countryOK=a.country==='Any Country'||a.country==='Any Minor'||eligibleForCountry(a,x.country);
+    const ruleOK=ruleAllows(a,x.country,x.ideology,x.path);
+    if(!ideologyOK||!countryOK||!ruleOK)invalid.push({scenario:label,achievement:a.name,...x,ideologyOK,countryOK,ruleOK});
+   }catch(e){errors.push({scenario:label,type:'exception',message:e.message,...x})}
+  }
+ };
+ getCompleted=()=>window.__warRoomAuditCompleted||new Set();
+ try{
+  run(new Set(),'0% complete',Math.max(combos.length,Math.floor(iterations*.7)));
+  const shuffled=all.map(a=>a.name).sort((a,b)=>norm(a).localeCompare(norm(b)));
+  run(new Set(shuffled.slice(0,Math.floor(all.length*.5))),'50% complete',Math.max(combos.length,Math.floor(iterations*.2)));
+  const almost=new Set(shuffled.slice(0,-1));run(almost,'292/293 complete',Math.max(combos.length,Math.floor(iterations*.1)));
+ }finally{getCompleted=originalGetCompleted;delete window.__warRoomAuditCompleted}
+ const neverSelected=all.filter(a=>(counts.get(norm(a.name))||0)===0).map(a=>a.name);
+ const ranked=all.map(a=>({achievement:a.name,selections:counts.get(norm(a.name))||0})).sort((a,b)=>b.selections-a.selections);
+ const nonzero=ranked.filter(x=>x.selections>0),avg=nonzero.reduce((t,x)=>t+x.selections,0)/(nonzero.length||1);
+ const overrepresented=nonzero.filter(x=>x.selections>avg*3);
+ const result={iterations,combinations:combos.length,invalid,errors,neverSelected,overrepresented,top:ranked.slice(0,20),passed:invalid.length===0&&errors.length===0&&neverSelected.length===0};
+ console.group('HOI4 War Room Stress Test');console.table({Iterations:iterations,'Campaign combinations':combos.length,'Invalid selections':invalid.length,Errors:errors.length,'Never selected':neverSelected.length,'Heavy outliers':overrepresented.length,Passed:result.passed});if(invalid.length)console.table(invalid.slice(0,50));if(errors.length)console.table(errors.slice(0,50));if(neverSelected.length)console.table(neverSelected.map(achievement=>({achievement})));console.table(result.top);console.groupEnd();
+ return result;
+}
+window.HOI4WarRoomStressTest=warRoomStressTest;
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
