@@ -963,9 +963,9 @@ const achievementRules={
  'Our Other Place in the Sun':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiser','Monarchist Germany']},
  'Big Entente':{countries:['France'],ideologies:['d'],paths:['Little Entente']},
  'Britzkrieg':{countries:['United Kingdom'],ideologies:['u'],paths:['Restore the Monarchy']},
- 'Hail to the Qing':{countries:['Manchukuo'],ideologies:['u'],paths:['Assertiveness / Qing Restoration']},
- 'The Dragon Swallowed the Sun':{countries:['Manchukuo'],ideologies:['u'],paths:['Assertiveness / Independence']},
- 'Made in China':{countries:['Communist China'],ideologies:['c'],paths:['Communist China']},
+ 'Hail to the Qing':{countries:['Manchukuo'],ideologies:['u']},
+ 'The Dragon Swallowed the Sun':{countries:['Manchukuo'],ideologies:['u']},
+ 'Made in China':{countries:['Communist China'],ideologies:['c']},
  'Australia-Hungary':{countries:['Australia']},
  'Team America':{countries:['United States']},
  'Georgia On My Mind':{countries:['United States']},
@@ -985,9 +985,9 @@ const achievementRules={
  'New World Order':{ideologies:['f']},
  "Party like it's 1520":{countries:['Denmark'],ideologies:['c']},
  'Braaaaains!':{countries:['Canada']},
- 'Do You Mined?':{countries:['South Africa']},
+ 'Do You Mined?':{},
  'United Netherlands':{countries:['Netherlands']},
- 'Cut The Strings':{countries:['Australia','British Raj / India','Canada','New Zealand','South Africa']},
+ 'Cut The Strings':{},
  'The Empire Strikes Back':{countries:['United Kingdom'],ideologies:['u'],paths:['Restore the Monarchy']},
  'Why Die For Danzig?':{countries:['Germany']},
  'Canada First':{countries:['Canada']},
@@ -1261,12 +1261,48 @@ function ruleAllows(a,country,ideology,path){
 }
 function achievementPathMatches(a,path){
  if(!a.paths||!a.paths.length)return true;
- const p=path.toLowerCase();
+ const p=String(path||'').toLowerCase();
  return a.paths.some(route=>{
    const r=route.toLowerCase();
    return p===r||p.includes(r)||r.includes(p);
  });
 }
+function auditAchievementIntelligence(){
+ const all=flatAchievements(),issues=[],norm=s=>String(s||'').trim().toLowerCase().replace(/[’‘]/g,"'");
+ const namesSeen=new Map(),supported=new Set(Object.keys(countries));
+ all.forEach(a=>{
+  const n=norm(a.name); if(namesSeen.has(n))issues.push({type:'duplicate',achievement:a.name}); else namesSeen.set(n,true);
+  const r=achievementRule(a);
+  if(r?.countries)r.countries.forEach(c=>{if(!supported.has(c))issues.push({type:'unsupported-rule-country',achievement:a.name,country:c})});
+  if(r?.ideologies)r.ideologies.forEach(i=>{if(!names[i])issues.push({type:'bad-ideology',achievement:a.name,ideology:i})});
+  if(r?.paths)r.paths.forEach(p=>{
+   const owners=(r.countries||[]).filter(c=>Object.values(paths[c]||{}).flat().some(x=>norm(x)===norm(p)));
+   if(!owners.length)issues.push({type:'unmatched-rule-path',achievement:a.name,path:p});
+  });
+ });
+ const combos=[];
+ Object.entries(countries).forEach(([country,ides])=>ides.forEach(ideology=>{
+  const ps=paths[country]?.[ideology]||[names[ideology]+' route'];
+  ps.forEach(path=>{
+   const compatible=all.filter(a=>{
+    const ideologyFits=a.ideology==='any'||a.ideology===ideology;
+    const countryFits=(a.country==='Any Country'||a.country==='Any Minor')||eligibleForCountry(a,country);
+    return ideologyFits&&countryFits&&ruleAllows(a,country,ideology,path);
+   });
+   if(!compatible.length)issues.push({type:'dead-combination',country,ideology,path});
+   combos.push({country,ideology,path,count:compatible.length});
+  });
+ }));
+ const reachable=new Set();
+ combos.forEach(x=>all.forEach(a=>{
+  const ideologyFits=a.ideology==='any'||a.ideology===x.ideology;
+  const countryFits=(a.country==='Any Country'||a.country==='Any Minor')||eligibleForCountry(a,x.country);
+  if(ideologyFits&&countryFits&&ruleAllows(a,x.country,x.ideology,x.path))reachable.add(norm(a.name));
+ }));
+ const unreachable=all.filter(a=>!reachable.has(norm(a.name))).map(a=>a.name);
+ return {achievements:all.length,rules:Object.keys(achievementRules).length,combinations:combos.length,issues,unreachable};
+}
+window.HOI4WarRoomAudit=auditAchievementIntelligence;
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
