@@ -158,6 +158,39 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 @media(max-width:800px){.archive-stats{grid-template-columns:repeat(2,1fr)}.archive-filters{grid-template-columns:1fr 1fr}.archive-search{grid-column:1/-1}}
 @media(max-width:520px){.archive-seal{display:none}.archive-filters{grid-template-columns:1fr}.archive-search{grid-column:auto}.archive-filter-label span:last-child,.archive-index-line span:last-child{display:none}}
 
+
+/* Phase 11F — Campaign Operations Archive */
+.campaign-archive{padding:20px}
+.campaign-archive-head{display:flex;justify-content:space-between;align-items:flex-start;gap:22px;padding:4px 4px 15px;border-bottom:2px solid #676249}
+.campaign-archive-head h2{margin:3px 0 7px;padding:0;border:0;font-size:24px}.campaign-archive-head h2:after{display:none}
+.campaign-archive-kicker{font:8px var(--typewriter);letter-spacing:1.8px;color:#928664}
+.campaign-archive-head .small{max-width:760px;margin:0}
+.archive-stamp{width:70px;height:64px;flex:0 0 70px;border:2px double #78544a;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9c7065;font:13px var(--display);letter-spacing:1.5px;line-height:1.05;text-align:center;transform:rotate(-3deg);opacity:.8}
+.archive-stamp small{font:7px var(--typewriter);letter-spacing:1.5px;margin-top:4px}
+.campaign-archive-stats{grid-template-columns:repeat(3,1fr);gap:6px;margin:11px 0 15px}
+.campaign-archive-stats .stat{padding:9px 7px;border-top:2px solid #625a41;font-size:9px}.campaign-archive-stats .stat b{font-size:21px}
+.archive-tools-label,.campaign-index-label{display:flex;justify-content:space-between;gap:10px;font:8px var(--typewriter);letter-spacing:1.5px;color:#817a64}
+.archive-tools-label{margin:4px 2px 5px}
+.campaign-data-tools{margin:0 0 15px;border-radius:1px;border-color:#48493c;background:#151813}
+.campaign-data-tools button,.campaign-data-tools label{border-radius:1px;font-size:9px}
+.campaign-data-tools .data-note{font-family:var(--typewriter);font-size:9px}
+.campaign-index-label{padding:7px 3px;border-top:1px solid #55503d;border-bottom:1px solid #3d4035;margin-bottom:9px;color:#928664}
+.campaign-archive .campaign-history-grid{gap:9px}
+.campaign-archive .campaign-history-card{position:relative;grid-template-columns:76px 1fr;padding:14px 12px 11px;border-radius:1px;border-left:3px solid #897448;background:linear-gradient(105deg,#22251e,#151814);box-shadow:0 4px 13px #0007}
+.campaign-file-no{position:absolute;right:8px;top:7px;color:#5e5d4e;font:7px var(--typewriter);letter-spacing:1.2px}
+.campaign-archive .campaign-history-icon,.campaign-archive .campaign-history-fallback{margin-top:8px;border-radius:1px;border-color:#776b49;box-shadow:0 0 0 2px #11130f,0 3px 9px #0009}
+.campaign-history-body{min-width:0}.campaign-history-date{font:7px var(--typewriter);letter-spacing:1.1px;color:#716d5b;margin:0 0 2px}
+.campaign-archive .campaign-history-card h3{font-size:20px;margin:0 45px 4px 0;color:#e2d7b5}
+.campaign-route{display:flex;gap:7px;align-items:center;margin:3px 0 8px!important;color:#a9a38d!important}.campaign-route b{color:#c8bc98}
+.campaign-decoration{padding:7px 8px;background:#121510;border:1px solid #3d4035;border-left:2px solid #71613d}
+.campaign-decoration>span{font:7px var(--typewriter);letter-spacing:1.2px;color:#77715d}
+.campaign-decoration p{margin:3px 0 0!important;color:#c9c1a6!important}.campaign-decoration strong{font:7px var(--typewriter);color:#9cab7a;margin-left:5px}
+.campaign-archive .outcome{margin-top:9px;padding-top:8px;border-top:1px solid #383b31}
+.campaign-archive .outcome button{font-size:9px;border-radius:1px}
+.campaign-history-empty{border:1px dashed #4d4d40;background:#151713;font-family:var(--typewriter);letter-spacing:.5px}
+.campaign-history-empty b{color:#a39776;letter-spacing:1.5px}
+@media(max-width:520px){.campaign-archive{padding:15px 12px}.archive-stamp{display:none}.campaign-index-label span:last-child,.archive-tools-label span:last-child{display:none}.campaign-archive .campaign-history-card{grid-template-columns:62px 1fr}.campaign-file-no{display:none}}
+
 </style>
 </head><body>
 <header class="war-header">
@@ -206,11 +239,12 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 <div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED CAMPAIGN INTELLIGENCE</span></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
-<section id="campaignHistory"><div class="card">
-<h2 style="margin-top:0">📋 Campaign History</h2>
-<p class="small">Your locked-in campaigns are saved in this browser. Record how each run ended and keep a personal archive of your HOI4 campaigns.</p>
-<div class="stats"><div class="stat"><b id="historyTotal">0</b>Campaigns</div><div class="stat"><b id="historyVictories">0</b>Victories</div><div class="stat"><b id="historyActive">0</b>Active</div></div>
-<div class="data-tools"><button id="exportSave" type="button">⬇ Export Save</button><label for="importSave">⬆ Import Save</label><input id="importSave" type="file" accept=".json,application/json"><button class="danger-btn" id="clearFullHistory" type="button">✕ Clear History</button><div class="data-note" id="dataNote">Backup your Campaign History and achievement completion progress to a file, or restore it on another browser/device.</div></div>
+<section id="campaignHistory"><div class="card campaign-archive">
+<div class="campaign-archive-head"><div><span class="campaign-archive-kicker">GENERAL STAFF • AFTER ACTION RECORDS</span><h2>Campaign Operations Archive</h2><p class="small">Filed operations from previous War Room assignments. Review active commands, confirmed victories, abandoned operations, and campaign achievement records.</p></div><div class="archive-stamp">WAR<br>ROOM<small>ARCHIVE</small></div></div>
+<div class="stats campaign-archive-stats"><div class="stat"><b id="historyTotal">0</b>Operations Filed</div><div class="stat"><b id="historyVictories">0</b>Confirmed Victories</div><div class="stat"><b id="historyActive">0</b>Active Commands</div></div>
+<div class="archive-tools-label"><span>RECORDS OFFICE</span><span>ARCHIVE TRANSFER & MAINTENANCE</span></div>
+<div class="data-tools campaign-data-tools"><button id="exportSave" type="button">↓ EXPORT ARCHIVE</button><label for="importSave">↑ IMPORT ARCHIVE</label><input id="importSave" type="file" accept=".json,application/json"><button class="danger-btn" id="clearFullHistory" type="button">× CLEAR ARCHIVE</button><div class="data-note" id="dataNote">Backup your Campaign History and achievement completion progress to a file, or restore it on another browser/device.</div></div>
+<div class="campaign-index-label"><span>OPERATION FILES</span><span>STATUS • ASSIGNMENT • DECORATION</span></div>
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
 <script>
@@ -1179,7 +1213,7 @@ function renderCampaignHistory(){
  document.getElementById('historyTotal').textContent=log.length;
  document.getElementById('historyVictories').textContent=log.filter(x=>x.outcome==='victory').length;
  document.getElementById('historyActive').textContent=log.filter(x=>!x.outcome||x.outcome==='active').length;
- grid.innerHTML=log.length?log.map(x=>`<article class="campaign-history-card">${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="">':'<div class="campaign-history-fallback">🏆</div>'}<div><h3>${x.country}</h3><p><b>${x.ideology}</b> → ${x.path}</p><p>🏆 ${x.achievement} ${done.has(x.achievement)?'✓':''}</p><p>${new Date(x.time).toLocaleDateString()}</p><div class="outcome"><button class="${x.outcome==='active'?'active':''}" onclick="setCampaignOutcome(${x.time},'active')">Active</button><button class="${x.outcome==='victory'?'active':''}" onclick="setCampaignOutcome(${x.time},'victory')">Victory</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" onclick="if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">Remove</button></div></div></article>`).join(''):'<div class="campaign-history-empty">No campaigns have been locked in yet.<br>Generate a campaign and press START CAMPAIGN to add your first entry.</div>';
+ grid.innerHTML=log.length?log.map((x,i)=>`<article class="campaign-history-card"><div class="campaign-file-no">OPERATION FILE ${String(log.length-i).padStart(3,'0')}</div>${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="">':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-body"><div class="campaign-history-date">FILED ${new Date(x.time).toLocaleDateString()}</div><h3>${x.country}</h3><p class="campaign-route"><b>${x.ideology}</b><span>→</span>${x.path}</p><div class="campaign-decoration"><span>DECORATION DIRECTIVE</span><p>${x.achievement} ${done.has(x.achievement)?'<strong>✓ COMPLETED</strong>':''}</p></div><div class="outcome"><button class="${x.outcome==='active'?'active':''}" onclick="setCampaignOutcome(${x.time},'active')">Active</button><button class="${x.outcome==='victory'?'active':''}" onclick="setCampaignOutcome(${x.time},'victory')">Victory</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" onclick="if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">Remove</button></div></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES ON RECORD</b><br>Generate a campaign and press START CAMPAIGN to file your first operation.</div>';
 }
 function logCurrentCampaign(){
  if(!selected||!selectedIdeology||!currentMission)return;
