@@ -221,6 +221,26 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 @media(prefers-reduced-motion:reduce){.card,.mission,.wheel-instrument,.achievement-archive .ach,.campaign-archive .campaign-history-card{animation:none}button{transition:none}}
 @media(max-width:800px){.command-panel{order:-1}.command-panel-head small{display:none}}
 
+
+/* Phase 11G.1 — small-type clarity pass */
+header p,.war-header-meta,.war-eyebrow,.console-kicker,.console-status,.instrument-label,
+.generator-console>.result:before,.orders-classification,.orders-file,.orders-country-label,
+.orders-section-label,.orders-authorization,.archive-kicker,.archive-filter-label,
+.archive-index-line,.campaign-archive-kicker,.archive-tools-label,.campaign-index-label,
+.campaign-file-no,.campaign-history-date,.campaign-decoration>span,.archive-seal small,
+.archive-stamp small,.command-panel-head>span,.command-panel-head small,.command-field label,
+.command-audit,.command-panel .legend p,.command-panel .history div,.command-footnote,
+.campaign-data-tools .data-note{
+ -webkit-font-smoothing:antialiased;
+ text-rendering:geometricPrecision;
+ font-weight:600;
+}
+.console-kicker,.orders-classification,.archive-kicker,.campaign-archive-kicker{font-size:9px}
+.war-header-meta,.war-eyebrow,.archive-filter-label,.archive-index-line,.archive-tools-label,.campaign-index-label{font-size:9px}
+.command-panel-head>span,.command-panel-head small,.campaign-file-no,.campaign-history-date,.campaign-decoration>span,.archive-seal small,.archive-stamp small{font-size:8px}
+.command-audit,.command-footnote,.campaign-data-tools .data-note{font-size:10px;line-height:1.45}
+.small{font-weight:500;color:#aaa58f}
+
 </style>
 </head><body>
 <header class="war-header">
