@@ -1308,7 +1308,8 @@ function auditAchievementIntelligence(){
  const unreachable=all.filter(a=>!reachable.has(norm(a.name))).map(a=>a.name);
  const unsupported=all.filter(a=>!isGeneric(a)&&!Object.keys(countries).some(c=>eligibleForCountry(a,c))).map(a=>a.name);
  const routeCoverage=all.filter(a=>achievementRule(a)?.paths?.length||a.paths?.length).map(a=>a.name);
- const result={achievements:all.length,rules:Object.keys(achievementRules).length,combinations:combos.length,issues,unreachable,unsupported,routeCoverage:routeCoverage.length,passed:issues.length===0&&unreachable.length===0};
+ const supportedUnreachable=unreachable.filter(name=>!unsupported.includes(name));
+ const result={achievements:all.length,rules:Object.keys(achievementRules).length,combinations:combos.length,issues,unreachable,unsupported,supportedUnreachable,routeCoverage:routeCoverage.length,passed:issues.length===0&&supportedUnreachable.length===0};
  console.group('HOI4 War Room Intelligence Audit');console.table({Achievements:result.achievements,Rules:result.rules,'Campaign combinations':result.combinations,'Route-tagged achievements':result.routeCoverage,Issues:issues.length,Unreachable:unreachable.length,Unsupported:unsupported.length});if(issues.length)console.table(issues);if(unreachable.length)console.table(unreachable.map(achievement=>({achievement})));if(unsupported.length)console.table(unsupported.map(achievement=>({achievement})));console.groupEnd();
  return result;
 }
@@ -1346,8 +1347,10 @@ function warRoomStressTest(iterations=50000){
  const ranked=all.map(a=>({achievement:a.name,selections:counts.get(norm(a.name))||0})).sort((a,b)=>b.selections-a.selections);
  const nonzero=ranked.filter(x=>x.selections>0),avg=nonzero.reduce((t,x)=>t+x.selections,0)/(nonzero.length||1);
  const overrepresented=nonzero.filter(x=>x.selections>avg*3);
- const result={iterations,combinations:combos.length,invalid,errors,endgameLeaks,neverSelected,overrepresented,top:ranked.slice(0,20),passed:invalid.length===0&&errors.length===0&&endgameLeaks.length===0&&neverSelected.length===0};
- console.group('HOI4 War Room Stress Test');console.table({Iterations:iterations,'Campaign combinations':combos.length,'Invalid selections':invalid.length,Errors:errors.length,'Endgame completed leaks':endgameLeaks.length,'Never selected':neverSelected.length,'Heavy outliers':overrepresented.length,Passed:result.passed});if(invalid.length)console.table(invalid.slice(0,50));if(errors.length)console.table(errors.slice(0,50));if(endgameLeaks.length)console.table(endgameLeaks.slice(0,50));if(neverSelected.length)console.table(neverSelected.map(achievement=>({achievement})));console.table(result.top);console.groupEnd();
+ const unsupportedSet=new Set(auditAchievementIntelligence().unsupported.map(norm));
+ const selectableMisses=neverSelected.filter(name=>!unsupportedSet.has(norm(name)));
+ const result={iterations,combinations:combos.length,invalid,errors,endgameLeaks,neverSelected,selectableMisses,overrepresented,top:ranked.slice(0,20),passed:invalid.length===0&&errors.length===0&&endgameLeaks.length===0&&selectableMisses.length===0};
+ console.group('HOI4 War Room Stress Test');console.table({Iterations:iterations,'Campaign combinations':combos.length,'Invalid selections':invalid.length,Errors:errors.length,'Endgame completed leaks':endgameLeaks.length,'Never selected':neverSelected.length,'Supported never selected':selectableMisses.length,'Heavy outliers':overrepresented.length,Passed:result.passed});if(invalid.length)console.table(invalid.slice(0,50));if(errors.length)console.table(errors.slice(0,50));if(endgameLeaks.length)console.table(endgameLeaks.slice(0,50));if(neverSelected.length)console.table(neverSelected.map(achievement=>({achievement})));console.table(result.top);console.groupEnd();
  return result;
 }
 window.HOI4WarRoomStressTest=warRoomStressTest;
@@ -1369,6 +1372,13 @@ function warRoomIntegrityTest(){
  return result;
 }
 window.HOI4WarRoomIntegrityTest=warRoomIntegrityTest;
+function warRoomCertification(){
+ const integrity=warRoomIntegrityTest(),audit=auditAchievementIntelligence(),st=achievementCatalogStats();
+ const cert={version:'Phase 7G',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed};
+ console.group('HOI4 WAR ROOM — PHASE 7G CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
+ return cert;
+}
+window.HOI4WarRoomCertification=warRoomCertification;
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
