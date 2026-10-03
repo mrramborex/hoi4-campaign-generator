@@ -142,11 +142,11 @@ const achievementIcons={
 'Australia-Hungary':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/a6b2994d77249c12fd89f86207c2b29b0a969d3d.jpg'
 };
 const achievementCountries=[
-'Afghanistan','Argentina','Australia','Austria','Belgium','Brazil','British Raj / India','Bulgaria','Canada','Chile',
-'China (Nationalist)','Colombia','Communist China','Congo','Czechoslovakia','Denmark','Dutch East Indies / Indonesia','Egypt','Estonia','Ethiopia',
+'Afghanistan','Argentina','Australia','Austria','Belgium','Bolivia','Brazil','British Raj / India','Bulgaria','Canada','Chile',
+'China (Nationalist)','Colombia','Communist China','Colombia','Congo','Czechoslovakia','Denmark','Dutch East Indies / Indonesia','Egypt','Estonia','Ethiopia',
 'Finland','France','Germany','Greece','Hungary','Iceland','Iran','Iraq','Italy','Japan','Khalistan','Kurdistan','Latvia','Lithuania','Luxembourg',
-'Manchukuo','Mexico','Netherlands','New Zealand','Northeastern Army','Norway','Paraguay','Philippines','Poland','Portugal','Romania','Sami',
-'Siam / Thailand','South Africa','Soviet Union','Spain','Sweden','Switzerland','Tannu Tuva','Turkey','United Kingdom','United States','Uruguay','Yugoslavia'
+'Manchukuo','Mexico','Netherlands','New Zealand','Northeastern Army','Norway','Paraguay','Philippines','Poland','Peru','Portugal','Romania','Sami',
+'Siam / Thailand','South Africa','Soviet Union','Spain','Sweden','Switzerland','Tannu Tuva','Turkey','United Kingdom','United States','Uruguay','Venezuela','Yugoslavia'
 ];
 const achievementAliases={
 'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
@@ -155,6 +155,11 @@ const achievementAliases={
 'Chinese Warlord':['Northeastern Army'],
 'British Subject':['Australia','British Raj / India','Canada','New Zealand','South Africa'],
 'Yugoslavia / Bulgaria':['Yugoslavia','Bulgaria'],
+'Condor Legion Countries':['Chile','Bolivia','Peru','Ecuador','Venezuela','Colombia'],
+'Argentina / Chile':['Argentina','Chile'],
+'Austria / Belgium / Netherlands':['Austria','Belgium','Netherlands'],
+'Australia / New Zealand':['Australia','New Zealand'],
+'Indonesia / Philippines':['Dutch East Indies / Indonesia','Philippines'],
 'Austria / Hungary':['Austria','Hungary'],
 'South/Central American Country':['Argentina','Brazil','Chile','Colombia','Paraguay','Uruguay'],
 'Any Minor':[],
@@ -545,6 +550,46 @@ phase2Achievements.push(
 {name:'Bullseye',objective:'Successfully launch a raid on a Landmark.',country:'Any Country',ideology:'any'},
 {name:'This time for Africa',objective:'As Ethiopia, found the African Union and have it encompass at least 13 different countries with capitals in Africa.',country:'Ethiopia',ideology:'any'},
 {name:'Hellenic Civility',objective:'Win the Greek Civil War before 1937.',country:'Greece',ideology:'any'}
+);
+
+
+phase2Achievements.push(
+{name:'Revenge for the triple alliance',objective:'As Paraguay, declare war on Argentina, Brazil and Uruguay within the same month.',country:'Paraguay',ideology:'any'},
+{name:'True Condor Legion',objective:'As Chile, Bolivia, Peru, Ecuador, Venezuela or Colombia, send volunteers to Germany.',country:'Condor Legion Countries',ideology:'any'},
+{name:'Naval Arms Race',objective:'As Germany led by an Admiral, capitulate the United Kingdom.',country:'Germany',ideology:'any'},
+{name:'Woman in a High Castle',objective:'As Germany with a female leader, either annex the USA including Alaska and Hawaii, or have an American puppet that owns all American starting states including Alaska and Hawaii.',country:'Germany',ideology:'any'},
+{name:'Revenge for 1925',objective:'As Iraq, form the Hashemite Arab Federation and defeat Saudi Arabia.',country:'Iraq',ideology:'any'},
+{name:'Cheese your fighter.',objective:'As Norway, with Peder Jarlsberg as country leader, own Telemark, Glouchestershire, Normandy, Lombardia and Holland.',country:'Norway',ideology:'any'},
+{name:'Cod wars',objective:'As Iceland, capitulate the UK.',country:'Iceland',ideology:'any'},
+{name:'Lamento Boliviano',objective:'As Argentina, own all of Latin America except Bolivia.',country:'Argentina',ideology:'any'},
+{name:'Reconquistadors',objective:'As Argentina or Chile, have a Conquistadors national spirit active while holding all Spanish cores.',country:'Argentina / Chile',ideology:'any'},
+{name:'Hispanics of the world unite!',objective:'As Chile, form the Hispanic Alliance and have at least 8 Hispanic nations in your faction.',country:'Chile',ideology:'any'},
+{name:'Edelweiss Seedelweiss',objective:'As Austria, have a coastline, at least 10 Battleships and have Georg von Trapp as an Admiral.',country:'Austria',ideology:'any'},
+{name:'Otto-man',objective:'As Austria or Hungary, led by Otto von Habsburg, control the starting states of Austria, Hungary, Czechoslovakia, Romania, Bulgaria, Greece and Turkey as well as the states in Polish Galicia, Slovenia and Croatia.',country:'Austria / Hungary',ideology:'u'},
+{name:'Brentry',objective:'As Austria, Belgium or the Netherlands, be the leader of the EU and have the United Kingdom join your faction.',country:'Austria / Belgium / Netherlands',ideology:'any'},
+{name:'The Magic School Bus',objective:'With the Per Albin Bus, drive to Cape Town.',country:'Sweden',ideology:'any'},
+{name:'Red Hot Chile Peppers',objective:'As Communist Chile, control California.',country:'Chile',ideology:'c'},
+{name:'The Dragon Rises',objective:'As Welsh Argentina, control Wales.',country:'Argentina',ideology:'any'},
+{name:'King of What?',objective:'Have Jaque Antoine Bernard as King of Chile and control Paris.',country:'Chile',ideology:'u'},
+{name:'Chilean Empire',objective:'Control all mainland states that border the Pacific in South America, North America and Asia.',country:'Chile',ideology:'any'},
+{name:'America Decolonized!',objective:'As Mapuche Chile, liberate all native people in North and South America.',country:'Chile',ideology:'any'},
+{name:'Tsar Bomba',objective:'As Tsarist Russia, complete the Special Project for thermonuclear bombs.',country:'Soviet Union',ideology:'u'},
+{name:'An Equivalent Exchange',objective:'As Democratic Japan, complete the focus Foreign Exchange Allocation Policy and capitulate Fascist Germany.',country:'Japan',ideology:'d'},
+{name:'The Juannines',objective:'As the Philippines, have cores and control all of Spain.',country:'Philippines',ideology:'any'},
+{name:'Cobalt Sea',objective:'As the Philippines, launch nuclear missiles from a nuclear submarine.',country:'Philippines',ideology:'any'},
+{name:'Waltzing Matilda',objective:'Deploy 25 Heavy Tank Battalions as Australia.',country:'Australia',ideology:'any'},
+{name:'The 7th State',objective:'As Australia, own and fully control New Zealand.',country:'Australia',ideology:'any'},
+{name:'The rightside up',objective:'As Australia, own and fully control Jan Mayen.',country:'Australia',ideology:'any'},
+{name:'A Succulent Chinese Meal',objective:'As Australia, annex and own one province in China.',country:'Australia',ideology:'any'},
+{name:'ANZAC',objective:"As Australia or New Zealand, have an Army HQ in Greece and ensure that Greece doesn't capitulate until 1945.",country:'Australia / New Zealand',ideology:'any'},
+{name:'Noone Will Notice the Difference',objective:'As Indonesia, station Gustav Adolf Ilgen in Stockholm.',country:'Dutch East Indies / Indonesia',ideology:'any'},
+{name:'Java-Script',objective:'As the Dutch East Indies or Indonesia, research the Advanced Computing Machine and fully upgrade the Cryptology Department while your capital is on the island of Java.',country:'Dutch East Indies / Indonesia',ideology:'any'},
+{name:'The Man of Medan',objective:'Sink 100 convoys as Indonesia.',country:'Dutch East Indies / Indonesia',ideology:'any'},
+{name:'Maphilindia',objective:'As Indonesia or the Philippines, form Maphilindo and control all Indian core states.',country:'Indonesia / Philippines',ideology:'any'},
+{name:'Old Zealand',objective:'As New Zealand, control and own the states of Brabant (Zeeland) and Sjaelland (Zealand).',country:'New Zealand',ideology:'any'},
+{name:'Hail to the King',objective:'As Siam, form Greater Thailand before King Ananda is 15 years old.',country:'Siam / Thailand',ideology:'any'},
+{name:'Grand Siam',objective:'As Siam, capitulate 4 nations within one year.',country:'Siam / Thailand',ideology:'any'},
+{name:'Thai fighters',objective:'As Siam, have 10 aces.',country:'Siam / Thailand',ideology:'any'}
 );
 
 const genericAchievements=[
