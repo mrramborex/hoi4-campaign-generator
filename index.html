@@ -935,7 +935,7 @@ function exportSaveData(){
 }
 function importSaveData(file){
  if(!file)return;const r=new FileReader();
- r.onload=()=>{try{const data=JSON.parse(r.result);if(data.app!=='HOI4 War Room'||!Array.isArray(data.completed)||!Array.isArray(data.campaigns))throw new Error('Invalid save');setCompleted(new Set(data.completed));saveCampaignLog(data.campaigns);renderAchievements();renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Save imported successfully — achievement progress and Campaign History restored.'}catch(e){document.getElementById('dataNote').textContent='That file could not be imported. Please select a HOI4 War Room save file.'}document.getElementById('importSave').value=''};r.readAsText(file);
+ r.onload=()=>{try{const data=JSON.parse(r.result);if(!data||!['HOI4 War Room','HOI4 Campaign Generator'].includes(data.app)||!Array.isArray(data.completed)||!Array.isArray(data.campaigns))throw new Error('Invalid save');setCompleted(new Set(data.completed));saveCampaignLog(data.campaigns);renderAchievements();renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Save imported successfully — achievement progress and Campaign History restored.'}catch(e){document.getElementById('dataNote').textContent='That file could not be imported. Please select a HOI4 War Room save file.'}document.getElementById('importSave').value=''};r.readAsText(file);
 }
 function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]'))}catch(e){return new Set()}}
 function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify([...set]))}
@@ -958,6 +958,31 @@ function initAchievementCenter(){document.getElementById('steamTotal').textConte
  ['achSearch','achCountry','achIdeology','achStatus','achArtwork'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
+const achievementRules={
+ 'Monarchy is Back in Fashion':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiser','Monarchist Germany']},
+ 'Our Other Place in the Sun':{countries:['Germany'],ideologies:['u'],paths:['Restore the Kaiser','Monarchist Germany']},
+ 'Big Entente':{countries:['France'],ideologies:['d'],paths:['Little Entente']},
+ 'Britzkrieg':{countries:['United Kingdom'],ideologies:['u'],paths:['Restore the Monarchy']},
+ 'Hail to the Qing':{countries:['Manchukuo'],ideologies:['u'],paths:['Assertiveness / Qing Restoration']},
+ 'The Dragon Swallowed the Sun':{countries:['Manchukuo'],ideologies:['u'],paths:['Assertiveness / Independence']},
+ 'Made in China':{countries:['Communist China'],ideologies:['c'],paths:['Communist China']},
+ 'Australia-Hungary':{countries:['Australia']},
+ 'Team America':{countries:['United States']},
+ 'Georgia On My Mind':{countries:['United States']},
+ 'Operation Sea Lion':{countries:['Germany']},
+ 'District 9':{countries:['South Africa']},
+ 'Sunrise Invasion':{countries:['Japan']},
+ 'Tojo Shot First':{countries:['Japan']},
+ 'I Swear I’m Not a Byzantophile':{countries:['Greece']}
+};
+function achievementRule(a){return achievementRules[a.name]||null}
+function ruleAllows(a,country,ideology,path){
+ const r=achievementRule(a);if(!r)return true;
+ if(r.countries&&!r.countries.includes(country))return false;
+ if(r.ideologies&&!r.ideologies.includes(ideology))return false;
+ if(path&&r.paths&&!r.paths.some(x=>{const p=path.toLowerCase(),q=x.toLowerCase();return p===q||p.includes(q)||q.includes(p)}))return false;
+ return true;
+}
 function achievementPathMatches(a,path){
  if(!a.paths||!a.paths.length)return true;
  const p=path.toLowerCase();
@@ -969,8 +994,8 @@ function achievementPathMatches(a,path){
 function pickAchievement(country,ideology,path){
  const done=getCompleted(),all=flatAchievements();
  const ideologyFits=a=>a.ideology==='any'||a.ideology===ideology;
- const countryPool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&ideologyFits(a));
- const genericPool=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&ideologyFits(a));
+ const countryPool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
+ const genericPool=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
  const routeExact=countryPool.filter(a=>a.paths&&achievementPathMatches(a,path));
  const countryGeneral=countryPool.filter(a=>!a.paths||!hasCuratedPaths(country,ideology));
  const choose=(pool,scope)=>{
