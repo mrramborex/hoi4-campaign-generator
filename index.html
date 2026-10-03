@@ -1433,8 +1433,8 @@ function warRoomIntegrityTest(){
 window.HOI4WarRoomIntegrityTest=warRoomIntegrityTest;
 function warRoomCertification(){
  const integrity=warRoomIntegrityTest(),audit=auditAchievementIntelligence(),st=achievementCatalogStats(),runtime=warRoomRuntimeGuard(),source=warRoomSourceAudit();
- const cert={version:'Phase 9B',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,sourceValidated:SOURCE_VALIDATED_COUNT,sourceTarget:STEAM_ACHIEVEMENT_TARGET,runtimePassed:runtime.passed,sourceAuditPassed:source.passed,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed&&runtime.passed&&source.passed&&SOURCE_VALIDATED_COUNT===STEAM_ACHIEVEMENT_TARGET&&Object.keys(countries).length===65};
- console.group('HOI4 WAR ROOM — PHASE 9B CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Source validated':cert.sourceValidated+' / '+cert.sourceTarget,'Runtime guard':cert.runtimePassed,'Source audit':cert.sourceAuditPassed,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
+ const cert={version:'Phase 9C',catalog:st.total,artwork:st.withArt,rules:Object.keys(achievementRules).length,supportedCountries:Object.keys(countries).length,sourceValidated:SOURCE_VALIDATED_COUNT,sourceTarget:STEAM_ACHIEVEMENT_TARGET,runtimePassed:runtime.passed,sourceAuditPassed:source.passed,unsupportedAchievements:audit.unsupported,supportedUnreachable:audit.supportedUnreachable,passed:integrity.passed&&runtime.passed&&source.passed&&SOURCE_VALIDATED_COUNT===STEAM_ACHIEVEMENT_TARGET&&Object.keys(countries).length===65};
+ console.group('HOI4 WAR ROOM — PHASE 9C CERTIFICATION');console.table({Catalog:cert.catalog,Artwork:cert.artwork,Rules:cert.rules,'Supported countries':cert.supportedCountries,'Source validated':cert.sourceValidated+' / '+cert.sourceTarget,'Runtime guard':cert.runtimePassed,'Source audit':cert.sourceAuditPassed,'Unsupported achievements':cert.unsupportedAchievements.length,'Supported unreachable':cert.supportedUnreachable.length,'CERTIFIED PASS':cert.passed});console.groupEnd();
  return cert;
 }
 window.HOI4WarRoomCertification=warRoomCertification;
@@ -1454,6 +1454,25 @@ function warRoomRuntimeGuard(){
  return result;
 }
 window.HOI4WarRoomRuntimeGuard=warRoomRuntimeGuard;
+function warRoomReleaseGate(){
+ const cert=warRoomCertification(),checks={
+  spinnerButton:typeof document.getElementById('spin')?.onclick==='function',
+  stageSelector:typeof document.getElementById('stage')?.onchange==='function',
+  achievementsButton:typeof document.getElementById('navAchievements')?.onclick==='function',
+  generatorButton:typeof document.getElementById('navGenerator')?.onclick==='function',
+  campaignsButton:typeof document.getElementById('navCampaigns')?.onclick==='function',
+  wheelCanvas:!!document.getElementById('wheel')?.getContext,
+  countryRoster:Object.keys(countries).length===65,
+  achievementCatalog:flatAchievements().length===STEAM_ACHIEVEMENT_TARGET,
+  certification:cert.passed
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ const result={phase:'9C',checks,failures,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 9C RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 9C RELEASE GATE FAILED',result);
+ return result;
+}
+window.HOI4WarRoomReleaseGate=warRoomReleaseGate;
 function warRoomSourceAudit(){
  const all=flatAchievements(),byName=new Map(all.map(a=>[normAchievementName(a.name),a])),checks=[
   ['Pride and Extreme Prejudice','Any Country','Sink the British Pride of the Fleet.'],
@@ -1614,4 +1633,5 @@ document.getElementById('reset').onclick=()=>resetCampaign(true);
 document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');window.scrollTo({top:0,behavior:'smooth'})};
 draw();
 warRoomRuntimeGuard();
+warRoomReleaseGate();
 </script></body></html>
