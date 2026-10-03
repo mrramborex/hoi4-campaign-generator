@@ -44,7 +44,7 @@ h2{font-family:var(--display);font-weight:600;letter-spacing:2px;text-transform:
 </main>
 <section id="achievementCenter"><div class="card">
 <h2 style="margin-top:0">🏆 Achievement Center</h2>
-<p class="small">Browse verified HOI4 achievements and see which campaigns they fit. Steam currently lists 293 total achievements; this curated route database will grow as we map each one to the generator.</p>
+<p class="small">Browse all 293 Steam achievements and see which campaigns they fit. Country, political-route, and artwork metadata are progressively verified to improve campaign matching.</p>
 <div class="stats"><div class="stat"><b id="steamTotal">—</b>Steam Catalog Target</div><div class="stat"><b id="mappedCount">0</b>Unique Mapped</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Showing</div></div>
 <div class="ach-head"><div><label>Search</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All</option><option value="open">Not completed</option><option value="done">Completed</option></select></div></div>
 <div class="ach-grid" id="achievementGrid"></div>
@@ -168,11 +168,14 @@ const achievementIcons={
 };
 const achievementCountries=[
 'Afghanistan','Argentina','Australia','Austria','Belgium','Bolivia','Brazil','British Raj / India','Bulgaria','Canada','Chile',
-'China (Nationalist)','Colombia','Communist China','Colombia','Congo','Czechoslovakia','Denmark','Dutch East Indies / Indonesia','Egypt','Estonia','Ethiopia',
+'China (Nationalist)','Colombia','Communist China','Congo','Czechoslovakia','Denmark','Dutch East Indies / Indonesia','Egypt','Estonia','Ethiopia',
 'Finland','France','Germany','Greece','Hungary','Iceland','Iran','Iraq','Italy','Japan','Khalistan','Kurdistan','Latvia','Lithuania','Luxembourg',
 'Manchukuo','Mexico','Netherlands','New Zealand','Northeastern Army','Norway','Paraguay','Philippines','Poland','Peru','Portugal','Romania','Sami',
 'Siam / Thailand','South Africa','Soviet Union','Spain','Sweden','Switzerland','Tannu Tuva','Turkey','United Kingdom','United States','Uruguay','Venezuela','Yugoslavia'
 ];
+function normAchievementName(n){return String(n||'').trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"')}
+const achievementIconIndex=Object.fromEntries(Object.entries(achievementIcons).map(([k,v])=>[normAchievementName(k),v]));
+function getAchievementIcon(name){return achievementIconIndex[normAchievementName(name)]||''}
 const achievementAliases={
 'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
 'Scandinavia':['Denmark','Sweden','Norway','Finland','Iceland'],
@@ -655,7 +658,7 @@ function renderCampaignHistory(){
 function logCurrentCampaign(){
  if(!selected||!selectedIdeology||!currentMission)return;
  const path=document.getElementById('dossierPath').textContent;
- const entry={country:selected,ideology:names[selectedIdeology],path,achievement:currentMission.name,icon:achievementIcons[currentMission.name]||'',time:Date.now()};
+ const entry={country:selected,ideology:names[selectedIdeology],path,achievement:currentMission.name,icon:getAchievementIcon(currentMission.name)||'',time:Date.now()};
  const log=getCampaignLog().filter(x=>!(x.country===entry.country&&x.ideology===entry.ideology&&x.path===entry.path&&x.achievement===entry.achievement));
  log.unshift(entry);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory();
 }
@@ -681,12 +684,13 @@ function renderAchievements(){
  document.getElementById('completedCount').textContent=completed;
  document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
  document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${achievementIcons[a.name]?'<img class="ach-icon" src="'+achievementIcons[a.name]+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');achievementCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
  ['achSearch','achCountry','achIdeology','achStatus'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
+function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
 function achievementPathMatches(a,path){
  if(!a.paths||!a.paths.length)return true;
  const p=path.toLowerCase();
@@ -701,7 +705,7 @@ function pickAchievement(country,ideology,path){
  const countryPool=all.filter(a=>a.country!=='Any Country'&&a.country!=='Any Minor'&&eligibleForCountry(a,country)&&ideologyFits(a));
  const genericPool=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&ideologyFits(a));
  const routeExact=countryPool.filter(a=>a.paths&&achievementPathMatches(a,path));
- const countryGeneral=countryPool.filter(a=>!a.paths);
+ const countryGeneral=countryPool.filter(a=>!a.paths||!hasCuratedPaths(country,ideology));
  const choose=(pool,scope)=>{
    if(!pool.length)return null;
    const open=pool.filter(a=>!done.has(a.name)),choices=open.length?open:pool;
@@ -719,7 +723,7 @@ function pickAchievement(country,ideology,path){
  a=choose(countryGeneral,'country');if(a)return a;
  return choose(genericPool,'generic');
 }
-let currentMission=null;
+let currentMission=null,currentPath=null;
 function updateMissionAchievement(a){
  currentMission=a;
  const completeBtn=document.getElementById('completeMissionAchievement');
@@ -728,6 +732,7 @@ function updateMissionAchievement(a){
  completeBtn.textContent=getCompleted().has(a.name)?'✓ ACHIEVEMENT COMPLETED':'✓ MARK ACHIEVEMENT COMPLETE';
 }
 function showMission(path){
+ currentPath=path;
  const a=pickAchievement(selected,selectedIdeology,path);
  const mission=document.getElementById('mission');
  document.getElementById('missionCountry').textContent='🌍 '+selected;
@@ -740,7 +745,7 @@ function showMission(path){
    const status=a._wasCompleted?'Completed':'Unfinished';
    const match=a._scope==='route'?'Route Matched':a._scope==='country'?'Country Matched':'Generic Challenge';
    document.getElementById('missionBadges').innerHTML='<span class="mission-badge '+(a._wasCompleted?'done':'open')+'">'+status+'</span><span class="mission-badge '+a._scope+'">'+match+'</span>';
-   const mi=document.getElementById('missionAchIcon'),mf=document.getElementById('missionAchFallback'); if(achievementIcons[a.name]){mi.src=achievementIcons[a.name];mi.alt=a.name+' Steam achievement icon';mi.style.display='block';mf.style.display='none'}else{mi.removeAttribute('src');mi.style.display='none';mf.style.display='block'}
+   const mi=document.getElementById('missionAchIcon'),mf=document.getElementById('missionAchFallback'); if(getAchievementIcon(a.name)){mi.src=getAchievementIcon(a.name);mi.alt=a.name+' Steam achievement icon';mi.style.display='block';mf.style.display='none'}else{mi.removeAttribute('src');mi.style.display='none';mf.style.display='block'}
    document.getElementById('missionNote').textContent=a._wasCompleted?'All compatible unfinished targets are cleared; selecting a completed achievement for this campaign.':(a._scope==='route'?'Unfinished achievement matched to this political route.':a._scope==='country'?'Unfinished achievement matched to this country and ideology.':'Unfinished generic achievement selected for this campaign.');
    updateMissionAchievement(a);
  }else{
@@ -770,10 +775,10 @@ document.getElementById('exportSave').onclick=exportSaveData;
 document.getElementById('clearFullHistory').onclick=clearCampaignHistory;
 document.getElementById('importSave').onchange=e=>importSaveData(e.target.files[0]);
 document.getElementById('clearCampaignLog').onclick=()=>{localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()};
-document.getElementById('rerollAchievement').onclick=()=>{if(!selected||!selectedIdeology||stage.value!=='path')return;const its=items();const pathText=document.getElementById('missionCountry').textContent.split(' — ').slice(2).join(' — ');showMission(pathText||its[0]||'')};
+document.getElementById('rerollAchievement').onclick=()=>{if(!selected||!selectedIdeology||stage.value!=='path'||!currentPath)return;showMission(currentPath)};
 document.getElementById('completeMissionAchievement').onclick=()=>{if(!currentMission)return;const done=getCompleted();done.add(currentMission.name);setCompleted(done);currentMission._wasCompleted=true;document.getElementById('completeMissionAchievement').textContent='✓ ACHIEVEMENT COMPLETED';const badges=document.getElementById('missionBadges');const first=badges.querySelector('.mission-badge');if(first){first.classList.remove('open');first.classList.add('done');first.textContent='Completed'}document.getElementById('missionNote').textContent='Achievement marked completed. Future campaign rolls will prioritize unfinished targets.';renderAchievements()};
 btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('startCampaign').onclick=()=>{logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
-function resetCampaign(clearHistory=true){remaining=Object.keys(countries);selected=null;selectedIdeology=null;currentMission=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
+function resetCampaign(clearHistory=true){remaining=Object.keys(countries);selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
 document.getElementById('reset').onclick=()=>resetCampaign(true);
 document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');window.scrollTo({top:0,behavior:'smooth'})};
 draw();
