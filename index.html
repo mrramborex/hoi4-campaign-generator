@@ -118,7 +118,7 @@ const achievements={
  f:[{name:'Operation Sea Lion',objective:'Control British mainland as Germany.'}]
 },
 'Australia':{d:[{name:'Australia-Hungary',objective:'As Australia, own all core territory of Hungary.'}]},
-'Japan':{u:[{name:'Sunrise Invasion',objective:'As Japan, conquer Mexico and then Europe before 1945.'},{name:'Tojo Shot First',objective:'As Japan, nuke a core territory of the United States before the U.S. develops nuclear weapons.'}]},
+'Japan':{u:[{name:'Sunrise Invasion',objective:'As Japan, conquer Mexico then Europe before 1945.'},{name:'Tojo Shot First',objective:'As Japan, nuke a core territory of the United States before the U.S. develops nuclear weapons.'}]},
 'Manchukuo':{u:[{name:'Hail to the Qing',objective:'As Manchukuo, restore the Qing dynasty.',paths:['Assertiveness / Qing Restoration']},{name:'The Dragon Swallowed the Sun',objective:'As Manchukuo, break free from Japan and annex your former overlord without being in a faction.',paths:['Assertiveness / Independence']}]},
 'Greece':{u:[{name:"I Swear I’m Not a Byzantophile",objective:'As Greece, Form Byzantine Empire.',paths:['Byzantine Empire']}]},
 'United States':{d:[{name:'Team America',objective:'As the U.S.A., drop a nuclear bomb on Paris.'},{name:'Georgia On My Mind',objective:'As the U.S.A., own and fully control all three Georgias.'}]},
@@ -667,7 +667,7 @@ Object.assign(achievementIcons,{
 'Not much fun in Stalingrad':'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg'
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
-const SOURCE_VALIDATION_BATCH='8F — Steam catalog deep-block';
+const SOURCE_VALIDATION_BATCH='8G — Steam catalog continuation';
 const STEAM_ACHIEVEMENT_TARGET=293;
 
 // Phase 2B — verified against Steam's public HOI4 achievement catalog.
@@ -679,12 +679,12 @@ phase2Achievements.push(
 {name:'Crusader Kings III',objective:'As Poland, crown a King (or Queen) and capture Jerusalem.',country:'Poland',ideology:'u'},
 {name:'Death or Dishonor or Cake',objective:'As Romania, own a slice of all your starting neighbors.',country:'Romania',ideology:'any'},
 {name:"My Ships Don't Lie",objective:'As Colombia, form Gran Colombia and have 10 Carriers and 10 Battleships.',country:'Colombia',ideology:'any'},
-{name:'Crush the Dream',objective:'As a Communist United Kingdom, puppet the U.S.A.',country:'United Kingdom',ideology:'c'},
+{name:'Crush the Dream',objective:'As a Communist United Kingdom, crush the American Dream by puppeting the U.S.A.',country:'United Kingdom',ideology:'c'},
 {name:'Bevrijding',objective:'As the Netherlands, liberate the continental Netherlands after relocating the government to the East Indies.',country:'Netherlands',ideology:'any'},
 {name:'Finnish Him!',objective:'As Finland, defeat the Soviet Union without joining a faction.',country:'Finland',ideology:'any'},
 {name:'The Romanovs laugh last',objective:'Restore the Romanovs to the throne and conquer Germany, Hungary, Austria, Czechoslovakia, Turkey, and Bulgaria.',country:'Soviet Union',ideology:'u'},
 {name:'Holy, Roman, and an Empire',objective:'As the Pope, restore Rome.',country:'Italy',ideology:'u'},
-{name:'This time it will stick',objective:'As an Allied nation in a faction with democratic Britain, enforce a peace deal on Germany that disarms the Rhineland and makes it a demilitarized zone.',country:'Any Country',ideology:'d'},
+{name:'This time it will stick',objective:'As any Allied Nation (in faction with a democratic Britain), enforce a peacedeal on Germany that disarms the Rhineland and makes it a demilitarized zone.',country:'Any Country',ideology:'d'},
 {name:'American Prometheus',objective:'As the U.S.A., have Robert Oppenheimer complete the Manhattan Project.',country:'United States',ideology:'any'},
 {name:'Crusader Kings 2',objective:'As South Africa, finish the Anti-Colonialist Crusade focus, release all European colonies via the focus, and take London.',country:'South Africa',ideology:'c',paths:['Anti-Colonialist Crusade']},
 {name:'The weapons of the Third Emu War',objective:'As Australia, use a nuclear bomb on core Australian territory.',country:'Australia',ideology:'any'},
@@ -697,13 +697,13 @@ phase2Achievements.push(
 {name:'Go Ahead, Macau My Day',objective:'As Portugal, create a collaboration government in Macau and have it own all Chinese states.',country:'Portugal',ideology:'any'},
 {name:'Dracula’s Revenge',objective:'As Yugoslavia, establish the autonomous region of Transylvania and have it own all Romanian cores.',country:'Yugoslavia',ideology:'any'},
 {name:'Totally Not Cool, Bromania',objective:'As Romania, change sides in the war and capitulate a former ally.',country:'Romania',ideology:'any'},
-{name:'Master Puppeteer',objective:'As Bulgaria, complete The Fate of the Balkans while having 5 or more Balkan puppets.',country:'Bulgaria',ideology:'any'},
+{name:'Master Puppeteer',objective:'As Bulgaria, complete the focus The Fate of the Balkans while having 5 or more Balkan puppets.',country:'Bulgaria',ideology:'any'},
 {name:'It has my name on it',objective:'As any Baltic State, conquer the entire shoreline of the Baltic Sea.',country:'Baltic State',ideology:'any'},
 {name:'This Achievement is Cheesy',objective:'As Latvia, form Ostland and occupy Vasterbotten.',country:'Latvia',ideology:'any'},
-{name:'...and you get a canton, everybody gets a canton!',objective:'As Switzerland, have 24 states.',country:'Switzerland',ideology:'any'},
+{name:'...and you get a canton, everybody gets a canton!',objective:'As Switzerland, have 24 states',country:'Switzerland',ideology:'any'},
 {name:'You Shall Not Pass',objective:'As Switzerland, win a defensive war without ever losing Western Swiss Alps, Eastern Swiss Alps, or Ticino.',country:'Switzerland',ideology:'any'},
 {name:'By merit alone',objective:'Promote a Unit Commander to a general, and reach max level.',country:'Any Country',ideology:'any'},
-{name:'Somehow He Has Returned',objective:'As Argentina, have Señor Hitler become country leader.',country:'Argentina',ideology:'f'},
+{name:'Somehow He Has Returned',objective:'As Argentina, have Senor Hitler become country leader',country:'Argentina',ideology:'f'},
 {name:'Our Chief Weapon is Surprise...',objective:'As Spain, have at least 5 spies and stage 5 coups against other nations.',country:'Spain',ideology:'any'},
 {name:'Prussia of the Balkans',objective:'As Bulgaria, capitulate Turkey while also controlling the rest of the Balkans, including Greece.',country:'Bulgaria',ideology:'any'},
 {name:'The Lion King',objective:'As Haile Selassie, declare yourself King of Kings and control Kenya and Tanzania.',country:'Ethiopia',ideology:'u'},
@@ -781,7 +781,7 @@ phase2Achievements.push(
 phase2Achievements.push(
 {name:'Bearer of Artillery',objective:'Gain Vojtek as commander.',country:'Poland',ideology:'any'},
 {name:'Battlecry',objective:'As a warlord, conquer all of China and Japan.',country:'Chinese Warlord',ideology:'any'},
-{name:'A Land of Fire',objective:'Tierra del Fuego means "The Land of Fire".',country:'Argentina',ideology:'any'},
+{name:'A Land of Fire',objective:'Tierra del Fuego means "The Land of Fire"',country:'Argentina',ideology:'any'},
 {name:'Now This is Getting Childish',objective:'As Yugoslavia or Bulgaria, be at war while both countries are ruled by a child.',country:'Yugoslavia / Bulgaria',ideology:'any'},
 {name:'Siberian Tiger',objective:'As Tannu Tuva, form Siberia.',country:'Tannu Tuva',ideology:'any'},
 {name:'Weltpolitik',objective:'As Germany, take control of all of your former colonies.',country:'Germany',ideology:'any'},
@@ -1432,7 +1432,9 @@ function warRoomSourceAudit(){
   ['Nobody expects...','Spain','As Nationalist Spain in Axis manage to take Paris before the Germans.'],
   ["Team America","United States","As the U.S.A., drop a nuclear bomb on Paris."],
   ["The Dragon Swallowed the Sun","Manchukuo","As Manchukuo, break free from Japan and annex your former Overlord without being in a faction."],
-  ["Georgia On My Mind","United States","As the U.S.A., own and fully control all three Georgias."], ],mismatches=[];
+  ["Georgia On My Mind","United States","As the U.S.A., own and fully control all three Georgias."],
+  ["Sunrise Invasion","Japan","As Japan, conquer Mexico then Europe before 1945."],
+  ["Australia-Hungary","Australia","As Australia, own all core territory of Hungary."], ],mismatches=[];
  checks.forEach(([name,country,objective])=>{const a=byName.get(normAchievementName(name));if(!a||a.country!==country||normAchievementName(a.objective)!==normAchievementName(objective))mismatches.push({name,expectedCountry:country,actualCountry:a?.country||'MISSING',expectedObjective:objective,actualObjective:a?.objective||'MISSING'})});
  const result={validated:SOURCE_VALIDATION_VERSION,steamTarget:STEAM_ACHIEVEMENT_TARGET,spotChecks:checks.length,mismatches,passed:mismatches.length===0};
  console.group('HOI4 War Room Source Validation');console.table({Validated:result.validated,'Steam catalog target':result.steamTarget,'Authoritative spot checks':result.spotChecks,Mismatches:mismatches.length,Passed:result.passed});if(mismatches.length)console.table(mismatches);console.groupEnd();return result;
