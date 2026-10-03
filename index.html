@@ -191,6 +191,36 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
 .campaign-history-empty b{color:#a39776;letter-spacing:1.5px}
 @media(max-width:520px){.campaign-archive{padding:15px 12px}.archive-stamp{display:none}.campaign-index-label span:last-child,.archive-tools-label span:last-child{display:none}.campaign-archive .campaign-history-card{grid-template-columns:62px 1fr}.campaign-file-no{display:none}}
 
+
+/* Phase 11G — final War Room cohesion and control-panel polish */
+.command-panel{padding:16px 15px 15px}
+.command-panel-head{position:relative;margin:-2px -2px 13px;padding:4px 2px 11px;border-bottom:2px solid #5d5944}
+.command-panel-head>span{font:7px var(--typewriter);letter-spacing:1.5px;color:#827b65}
+.command-panel-head h2{margin:3px 0 0!important;padding:0;border:0;font-size:18px}.command-panel-head h2:after{display:none}
+.command-panel-head small{position:absolute;right:2px;bottom:12px;color:#666657;font:7px var(--typewriter);letter-spacing:1px}
+.command-field{padding:9px;background:#151813;border:1px solid #44473a;border-top:2px solid #625a41}
+.command-field label{display:block;margin:0 0 5px;color:#948a70;font:8px var(--typewriter);letter-spacing:1.2px;text-transform:uppercase}
+.command-panel .command-field select{border-radius:1px}
+.command-check{margin-top:8px;padding:8px 9px;background:#181b16;border:1px solid #3f4237}
+.command-check label{margin:0;font-size:11px;color:#b8b19a}
+.command-check input{accent-color:#7b704e}
+.command-audit{margin:6px 2px 0;padding:7px 8px;border-left:2px solid #746641;background:#12140f;font:9px var(--typewriter);color:#88816d}
+.command-reset{width:100%;margin:11px 0 0!important;padding:9px!important;font-size:11px!important;letter-spacing:1.2px}
+.command-panel .legend,.command-panel .history,.command-panel .campaign-log{margin-top:14px;padding-top:10px;border-top:1px solid #494936}
+.command-panel .legend>b,.command-panel .history>b,.command-panel .campaign-log-head>b{font:10px var(--display);letter-spacing:1px;text-transform:uppercase;color:#c5b995}
+.command-panel .legend p{margin:7px 0;font:10px var(--typewriter);color:#a39d88}
+.command-panel .dot{width:9px;height:9px;border-radius:1px;box-shadow:0 0 0 1px #111}
+.command-panel .history div{font-size:11px;font-family:var(--typewriter);color:#a9a28b}
+.command-panel .campaign-log-item{border-bottom-color:#34372e}
+.command-panel .campaign-log-icon,.command-panel .campaign-log-fallback{border-radius:1px}
+.command-footnote{margin-top:13px;padding-top:10px;border-top:1px dashed #3f4035;font:9px var(--typewriter);color:#777362}
+#achievementCenter,#campaignHistory{max-width:1180px}
+#generator{max-width:1180px}
+.card,.mission,.wheel-instrument,.achievement-archive .ach,.campaign-archive .campaign-history-card{animation:warRoomIn .22s ease-out}
+@keyframes warRoomIn{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.card,.mission,.wheel-instrument,.achievement-archive .ach,.campaign-archive .campaign-history-card{animation:none}button{transition:none}}
+@media(max-width:800px){.command-panel{order:-1}.command-panel-head small{display:none}}
+
 </style>
 </head><body>
 <header class="war-header">
@@ -220,15 +250,15 @@ canvas{filter:drop-shadow(0 9px 14px #000) saturate(.9)}
   <button class="newCampaign" id="newCampaign" type="button">NEW CAMPAIGN</button>
   <div class="mission-note" id="missionNote">Campaign generated. Good luck, commander.</div>
 </div></section>
-<aside class="card side controls">
-<h2 style="margin-top:0">Campaign Rules</h2>
-<label>Wheel stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for selected country</option><option value="path">Political path</option></select>
-<label><input type="checkbox" id="uniqueOnly" checked disabled> Dedicated / special national content only</label><div class="small" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
-<label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label>
-<button class="spin" id="reset" style="font-size:15px;padding:8px 16px">RESET</button>
-<div class="legend"><b>Ideology colors</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
-<div class="history"><b>Recent rolls</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Campaign Log</b><button id="clearCampaignLog" type="button">CLEAR</button></div><div id="campaignLog"></div></div>
-<p class="small">Ideology wheels are filtered to major political routes represented by the country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
+<aside class="card side controls command-panel">
+<div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Campaign Rules</h2><small>OPERATION PARAMETERS</small></div>
+<div class="command-field"><label>Wheel Stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for selected country</option><option value="path">Political path</option></select></div>
+<div class="command-check"><label><input type="checkbox" id="uniqueOnly" checked disabled> Dedicated / special national content only</label></div><div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
+<div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
+<button class="spin command-reset" id="reset">RESET GENERATOR</button>
+<div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
+<div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Field Campaign Log</b><button id="clearCampaignLog" type="button">CLEAR</button></div><div id="campaignLog"></div></div>
+<p class="small command-footnote">Political alignment wheels are filtered to major routes represented by each country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
 </main>
 <section id="achievementCenter"><div class="card achievement-archive">
@@ -1708,9 +1738,9 @@ function warRoomReleaseGate(){
   certification:cert.passed
  };
  const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
- const result={phase:'9G',checks,failures,passed:failures.length===0};
- if(result.passed)console.info('HOI4 WAR ROOM — PHASE 9G RELEASE GATE PASSED',result);
- else console.error('HOI4 WAR ROOM — PHASE 9G RELEASE GATE FAILED',result);
+ const result={phase:'11G',checks,failures,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 11G RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 11G RELEASE GATE FAILED',result);
  return result;
 }
 window.HOI4WarRoomReleaseGate=warRoomReleaseGate;
