@@ -117,6 +117,20 @@ const achievements={
 'Communist China':{c:[{name:'Made in China',objective:'As Communist China, have over 100 military factories.'}]}
 };
 const achievementIcons={
+'Wunderwaffen':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/fbf243ea05816c416a5ef68724efce3ba91a0b02.jpg',
+'True Blitzkrieg':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/f40268049bc6edea78d4889bdeafd26e664b59d5.jpg',
+'I SEE EVERYTHING':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/c34b93eef11e58a699c979409ef8771491d759f8.jpg',
+'You Will Never Kill Me Alive':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/0fbdf0d9b7e4d717bf6c067218bde3eaf71f71d7.jpg',
+'Man of a Thousand Faces, Every One the Same':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/2debb7e2c845018aa7698a76f9eec4e42a70d945.jpg',
+'Why Die For Danzig?':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/8000f0ab63d7df54ee5c6e99446a52535396b008.jpg',
+'Canada First':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/918493e597c6855b8aa890466ac7b5df12b5c929.jpg',
+'Cut The Strings':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/13ba4e3b3d3ecdc6fb9fc5e60f9f66a44ce34412.jpg',
+'The Empire Strikes Back':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/1300e5b37c3a954122bb3ca50cd89418e29c471a.jpg',
+'Not much fun in Stalingrad':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/168de685a3142de45f167d9db4280c19d697c350.jpg',
+'Braaaaains!':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/a828e61bb5ca374b27047ebabb6832bcc3d6b5c8.jpg',
+'The Revolution Triumphant':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/908a0c644a23d69040174dd00b67003dda66c9bc.jpg',
+'Do You Mined?':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/4b70f58bdc10ad4bea8af5f7adc84ea498f3fa02.jpg',
+'United Netherlands':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/393846349c827ef979071d3011bebf400fd707c4.jpg',
 'Friend in Need':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/1711682a1ce7e05b13d9eadb02fb3d0a687eb1d3.jpg',
 "We'll build it in a day":'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e9c17d490b437bf479db5d8943f4469b5a6b218d.jpg',
 'Transport Tycoon':'https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e3dfdda7bedacf5272cb9df1dc98ecee8d9a16b7.jpg',
@@ -606,7 +620,7 @@ function flatAchievements(){
  let out=[...genericAchievements,...phase2Achievements];
  Object.entries(achievements).forEach(([country,ides])=>Object.entries(ides).forEach(([ideology,list])=>list.forEach(a=>out.push({...a,country,ideology}))));
  const seen=new Set();
- return out.filter(a=>{const k=a.name.trim().toLowerCase();if(seen.has(k))return false;seen.add(k);return true});
+ return out.filter(a=>{const k=a.name.trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"');if(seen.has(k))return false;seen.add(k);return true});
 }
 const COMPLETED_KEY='hoi4CompletedAchievements';
 function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]'))}catch(e){return new Set()}}
