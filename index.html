@@ -2350,6 +2350,7 @@ async function syncSteamAchievements(){
    const all=flatAchievements(),completed=all.filter(a=>normalized.has(a.name)).length;
    document.getElementById('completedCount').textContent=completed;
    document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
+   updateSteamHomeSummary();
    state.className='steam-sync-state sync-ok';state.textContent='STEAM SYNCED';
    note.textContent=`Steam reports ${mapped.steamUnlocked} unlocked HOI4 achievements. ${mapped.matched.length} matched War Room records; ${added} newly added${removed?', '+removed+' from the previous account cleared':''}.${mapped.unmatched.length?' '+mapped.unmatched.length+' record(s) need mapping review.':''} Archive cards will refresh when you filter or reopen the archive.`;
  }catch(error){
