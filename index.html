@@ -298,6 +298,34 @@ header p,.war-header-meta,.war-eyebrow,.console-kicker,.console-status,.instrume
 @media(max-width:650px){.mission-actions{grid-template-columns:1fr}.mission-ach-row{gap:12px}.orders-file{min-width:52px}}
 @media(max-width:420px){.mission-ach-row{grid-template-columns:64px 1fr}.mission-ach-art{width:60px;height:60px}.mission-ach-row .mission-line span{font-size:15px}.mission-country{font-size:25px}}
 
+
+/* Phase 13C — Achievement Intelligence Archive polish + Campaign Rules header overlap fix */
+.command-panel-head{padding-right:2px;padding-bottom:14px}
+.command-panel-head h2{padding-right:118px!important;line-height:1.12}
+.command-panel-head small{bottom:15px;white-space:nowrap}
+@media(max-width:980px){.command-panel-head h2{padding-right:0!important}.command-panel-head small{position:static;display:block;margin-top:5px}}
+.achievement-archive{box-shadow:0 0 0 1px #0d0f0c,0 16px 36px #0008}
+.archive-head{position:relative}
+.archive-head h2{line-height:1.08}
+.archive-seal{box-shadow:inset 0 0 18px #0008,0 4px 10px #0006}
+.archive-stats .stat{background:linear-gradient(180deg,#1b1e17,#131610);box-shadow:inset 0 1px #ffffff08}
+.archive-stats .stat b{text-shadow:0 1px 2px #000}
+.archive-filters{box-shadow:inset 0 0 20px #0004}
+.archive-filters input,.archive-filters select{transition:border-color .15s ease,box-shadow .15s ease}
+.archive-filters input:focus,.archive-filters select:focus{outline:none;border-color:#9c8958;box-shadow:0 0 0 2px #b69b5824}
+.achievement-archive .ach{transition:transform .12s ease,border-color .15s ease,background .15s ease,box-shadow .15s ease;box-shadow:0 3px 8px #0004}
+.achievement-archive .ach:hover{transform:translateY(-1px);border-left-color:#c2a45d;background:linear-gradient(100deg,#252920,#171a15);box-shadow:0 6px 14px #0006}
+.achievement-archive .ach h3{line-height:1.18;overflow-wrap:anywhere}
+.achievement-archive .ach p{margin-top:6px}
+.achievement-archive .ach-icon{transition:transform .15s ease,border-color .15s ease}
+.achievement-archive .ach:hover .ach-icon{transform:scale(1.025);border-color:#a18d58}
+.achievement-archive .tag{line-height:1.25}
+.achievement-archive .ach-complete{transition:transform .12s ease,background .15s ease,border-color .15s ease,color .15s ease}
+.achievement-archive .ach-complete:hover{transform:translateY(-1px)}
+.achievement-archive .ach-complete:active{transform:translateY(1px)}
+.achievement-archive .empty{margin:8px 0;padding:48px 20px;border:1px dashed #4c4b3c;background:#141610}
+@media(max-width:620px){.achievement-archive .ach{grid-template-columns:58px 1fr;gap:11px}.achievement-archive .ach-icon{width:54px;height:54px}.achievement-archive .ach h3{font-size:15px;padding-right:28px}.achievement-archive .ach p{font-size:12px}}
+
 </style>
 </head><body>
 <header class="war-header">
