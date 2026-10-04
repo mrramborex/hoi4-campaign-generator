@@ -4,12 +4,22 @@
 
 const HOI4_APP_ID = 394360;
 
-function json(status, body) {
+function corsHeaders(request) {
+  const origin=request.headers.get("Origin")||"*";
+  return {
+    "access-control-allow-origin": origin,
+    "access-control-allow-methods": "POST, OPTIONS",
+    "access-control-allow-headers": "Content-Type",
+    "vary": "Origin"
+  };
+}
+function json(status, body, request) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store"
+      "cache-control": "no-store",
+      ...corsHeaders(request)
     }
   });
 }
@@ -89,23 +99,23 @@ async function getHoi4Achievements(steamid, key) {
 
 export default {
   async fetch(request, env) {
-    if (request.method === "OPTIONS") return new Response(null, { status: 204 });
-    if (request.method !== "POST") return json(405, { ok: false, error: "method_not_allowed" });
-    if (!env || !env.STEAM_WEB_API_KEY) return json(503, { ok: false, error: "steam_proxy_not_configured" });
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(request) });
+    if (request.method !== "POST") return json(405, { ok: false, error: "method_not_allowed" }, request);
+    if (!env || !env.STEAM_WEB_API_KEY) return json(503, { ok: false, error: "steam_proxy_not_configured" }, request);
 
     let body;
-    try { body = await request.json(); } catch { return json(400, { ok: false, error: "invalid_request" }); }
+    try { body = await request.json(); } catch { return json(400, { ok: false, error: "invalid_request" }, request); }
     const profile = parseProfile(body && body.profile);
-    if (!profile) return json(400, { ok: false, error: "invalid_profile" });
+    if (!profile) return json(400, { ok: false, error: "invalid_profile" }, request);
 
     try {
       const resolved = await resolveSteamId(profile, env.STEAM_WEB_API_KEY);
-      if (!resolved) return json(404, { ok: false, error: "profile_not_found" });
+      if (!resolved) return json(404, { ok: false, error: "profile_not_found" }, request);
 
       const achievementData = await getHoi4Achievements(resolved.steamid, env.STEAM_WEB_API_KEY);
       if (achievementData.error) {
         const status = achievementData.error === "private_or_unavailable" ? 403 : 502;
-        return json(status, { ok: false, error: achievementData.error, steamid: resolved.steamid, appid: HOI4_APP_ID });
+        return json(status, { ok: false, error: achievementData.error, steamid: resolved.steamid, appid: HOI4_APP_ID }, request);
       }
 
       return json(200, {
@@ -120,9 +130,9 @@ export default {
         unlockedCount: achievementData.unlockedCount,
         unlocked: achievementData.unlocked,
         syncedAt: new Date().toISOString()
-      });
+      }, request);
     } catch {
-      return json(502, { ok: false, error: "steam_unavailable" });
+      return json(502, { ok: false, error: "steam_unavailable" }, request);
     }
   }
 };
