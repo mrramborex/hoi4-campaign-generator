@@ -616,7 +616,7 @@ img,canvas{max-width:100%}
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetCampaign(true)">RESET GENERATOR</button>
 <div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
-<div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Campaign Log</b><button id="clearCampaignLog" type="button">CLEAR</button></div><div id="campaignLog"></div></div>
+<div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Campaign Log</b><button id="clearCampaignLog" type="button" onclick="localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()">CLEAR</button></div><div id="campaignLog"></div></div>
 <p class="small command-footnote">Political alignment wheels are filtered to major routes represented by each country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
 </main>
@@ -632,7 +632,7 @@ img,canvas{max-width:100%}
 <div class="campaign-archive-head"><div><span class="campaign-archive-kicker">GENERAL STAFF • AFTER ACTION RECORDS</span><h2>Campaign Operations Archive</h2><p class="small">Filed operations from previous War Room assignments. Review active commands, confirmed victories, abandoned operations, and campaign achievement records.</p></div><div class="archive-stamp">WAR<br>ROOM<small>ARCHIVE</small></div></div>
 <div class="stats campaign-archive-stats"><div class="stat"><b id="historyTotal">0</b>Operations Filed</div><div class="stat"><b id="historyVictories">0</b>Confirmed Victories</div><div class="stat"><b id="historyActive">0</b>Active Commands</div></div>
 <div class="archive-tools-label"><span>RECORDS OFFICE</span><span>ARCHIVE TRANSFER & MAINTENANCE</span></div>
-<div class="data-tools campaign-data-tools"><button id="exportSave" type="button">↓ EXPORT ARCHIVE</button><label for="importSave">↑ IMPORT ARCHIVE</label><input id="importSave" type="file" accept=".json,application/json"><button class="danger-btn" id="clearFullHistory" type="button">× CLEAR ARCHIVE</button><div class="data-note" id="dataNote">Backup your Campaign History and achievement completion progress to a file, or restore it on another browser/device.</div></div>
+<div class="data-tools campaign-data-tools"><button id="exportSave" type="button">↓ EXPORT ARCHIVE</button><label for="importSave">↑ IMPORT ARCHIVE</label><input id="importSave" type="file" accept=".json,application/json"><button class="danger-btn" id="clearFullHistory" type="button" onclick="clearCampaignHistory()">× CLEAR ARCHIVE</button><div class="data-note" id="dataNote">Backup your Campaign History and achievement completion progress to a file, or restore it on another browser/device.</div></div>
 <div class="campaign-index-label"><span>OPERATION FILES</span><span>STATUS • ASSIGNMENT • DECORATION</span></div>
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
