@@ -606,7 +606,7 @@ img,canvas{max-width:100%}
   <div class="orders-authorization">COMMAND AUTHORIZATION</div>
   <div class="mission-actions"><button class="mission-secondary" id="rerollAchievement" type="button" onclick="if(selected&&selectedIdeology&&stage.value==='path'&&currentPath)showMission(currentPath)">↻ REROLL ACHIEVEMENT</button><button class="mission-secondary" id="completeMissionAchievement" type="button" onclick="completeCurrentMissionAchievement()">✓ MARK ACHIEVEMENT COMPLETE</button></div>
   <button class="startCampaign" id="startCampaign" type="button" onclick="logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';this.textContent='CAMPAIGN LOCKED IN'">START CAMPAIGN</button>
-  <button class="newCampaign" id="newCampaign" type="button" onclick="resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('');window.scrollTo({top:0,behavior:'smooth'})">NEW CAMPAIGN</button>
+  <button class="newCampaign" id="newCampaign" type="button" onclick="resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'});">NEW CAMPAIGN</button>
   <div class="mission-note" id="missionNote">Campaign generated. Good luck, commander.</div>
 </div></section>
 <aside class="card side controls command-panel">
@@ -615,7 +615,7 @@ img,canvas{max-width:100%}
 <div class="command-check"><label><input type="checkbox" id="uniqueOnly" checked disabled> Dedicated / special national content only</label></div><div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetCampaign(true)">RESET GENERATOR</button>
-<div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
+<div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#806354"></span>Fascist</p><p><span class="dot" style="background:#8a4f49"></span>Communist</p><p><span class="dot" style="background:#58757d"></span>Democratic</p><p><span class="dot" style="background:#817a61"></span>Unaligned / Non-Aligned</p></div>
 <div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Campaign Log</b><button id="clearCampaignLog" type="button" onclick="localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()">CLEAR</button></div><div id="campaignLog"></div></div>
 <p class="small command-footnote">Political alignment wheels are filtered to major routes represented by each country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
@@ -781,7 +781,8 @@ const paths={
 'Dutch East Indies / Indonesia':{d:['Loyalist / Democratic East Indies','Independent Democratic Indonesia'],f:['Fascist Indonesia'],c:['Communist Indonesia'],u:['Non-Aligned Indonesia']},
 'Communist China':{c:['Mao Zedong — Communist China']},
 'China (Nationalist)':{d:['End Military Primacy — Tutelage / Constitutional Route'],u:['Kuomintang National Government'],f:['Authoritarian Nationalist Alignment'],c:['Communist-aligned Republican China']},
-'Manchukuo':{u:['Imperial Manchukuo'],f:['Japanese-aligned Fascist Manchukuo'],c:["Zhao Shangzhi's Coup / People's Republic"],d:['New Beiyang Government / Republic of China']}
+'Manchukuo':{u:['Imperial Manchukuo'],f:['Japanese-aligned Fascist Manchukuo'],c:["Zhao Shangzhi's Coup / People's Republic"],d:['New Beiyang Government / Republic of China']},
+'Greece':{d:['Venizelist Republic / Megali Idea'],f:['Byzantine Restoration'],c:['Communist Greece'],u:['Metaxas Regime','Monarchist Restoration']}
 };
 const achievements={
 'Germany':{
@@ -2308,7 +2309,7 @@ let remaining=shuffledCountries(), selected=null, angle=0, spinning=false, hist=
 const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),btn=document.getElementById('spin'),res=document.getElementById('result');
 function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[selected+' — '+names[selectedIdeology]+' political route'];}
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
-function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path')return '#596247'; const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
+function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path'){const pp=['#4f5946','#66583f','#46585c','#624d47','#56523f','#4b5550'];return pp[i%pp.length]} const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
 function paintIdeologyInsignia(ideology,i,arc){
  // Counter-rotate the complete ideology plate so its artwork and lettering remain
  // horizontal while the wheel turns beneath it.
@@ -2336,12 +2337,24 @@ function paintIdeologyInsignia(ideology,i,arc){
  ctx.fillStyle='#f1e7c8';ctx.font='bold 11px Georgia';ctx.fillText(cfg.title,0,61);
  ctx.restore();
 }
+function paintPathPlate(path,i,arc){
+ ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(218,0);ctx.rotate(-((i+.5)*arc+angle));
+ ctx.shadowColor='rgba(0,0,0,.7)';ctx.shadowBlur=9;
+ ctx.fillStyle='rgba(22,23,17,.92)';ctx.strokeStyle='#bca967';ctx.lineWidth=2.5;
+ ctx.beginPath();ctx.roundRect(-88,-35,176,70,7);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
+ ctx.strokeStyle='rgba(222,205,145,.32)';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(-80,-27,160,54,4);ctx.stroke();
+ ctx.fillStyle='#c9b66f';ctx.font='bold 9px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('POLITICAL DIRECTIVE',0,-19);
+ ctx.strokeStyle='#756b48';ctx.beginPath();ctx.moveTo(-65,-8);ctx.lineTo(65,-8);ctx.stroke();
+ let t=String(path),lines=[];if(t.length>24){const words=t.split(' ');let line='';for(const w of words){if((line+' '+w).trim().length>22){lines.push(line.trim());line=w}else line=(line+' '+w).trim()}if(line)lines.push(line.trim())}else lines=[t];
+ ctx.fillStyle='#f0e6c6';ctx.font='bold 11px Georgia';lines.slice(0,2).forEach((line,j)=>ctx.fillText(line,0,5+j*14));
+ ctx.restore();
+}
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
-if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideology'){paintIdeologyInsignia(a[i],i,arc);}
+if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideology'){paintIdeologyInsignia(a[i],i,arc);}else if(stage.value==='path'){paintPathPlate(a[i],i,arc);}
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
-ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(stage.value!=='ideology'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?248:210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?8:n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=dense?3:4;ctx.lineWidth=dense?2:3;ctx.strokeStyle='#000';let t=label(a[i]);const max=dense?16:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
+ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?248:210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?8:n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=dense?3:4;ctx.lineWidth=dense?2:3;ctx.strokeStyle='#000';let t=label(a[i]);const max=dense?16:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
 const FIELD_INTELLIGENCE=[
  'Game Tip • Keep an eye on supply hubs and railways. A strong division can still collapse when its supply network cannot keep up.',
@@ -2392,7 +2405,7 @@ function bindPrimaryGeneratorControls(){const spinButton=document.getElementById
 bindPrimaryGeneratorControls();document.getElementById('startCampaign').onclick=()=>{logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
 function resetCampaign(clearHistory=true){remaining=shuffledCountries();selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent=randomFieldIntelligence();if(clearHistory)document.getElementById('history').innerHTML='';draw()}
 document.getElementById('reset').onclick=()=>resetCampaign(true);
-document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');window.scrollTo({top:0,behavior:'smooth'})};
+document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
 draw();
 warRoomRuntimeGuard();
 warRoomReleaseGate();
