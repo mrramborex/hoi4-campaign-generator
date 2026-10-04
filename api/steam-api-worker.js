@@ -57,6 +57,36 @@ async function resolveSteamId(profile, key) {
   return { steamid: resolved.steamid, resolution: "vanity" };
 }
 
+
+// Phase 14E — HOI4 achievement retrieval.
+async function getHoi4Achievements(steamid, key) {
+  const data = await steamGet("ISteamUserStats/GetPlayerAchievements/v1/", {
+    steamid,
+    appid: HOI4_APP_ID,
+    l: "english"
+  }, key);
+  const stats = data && data.playerstats;
+  if (!stats || stats.success === false) {
+    const message = String((stats && stats.error) || "").toLowerCase();
+    if (message.includes("private") || message.includes("profile")) {
+      return { error: "private_or_unavailable" };
+    }
+    return { error: "achievement_data_unavailable" };
+  }
+  const achievements = Array.isArray(stats.achievements) ? stats.achievements : [];
+  const unlocked = achievements.filter(a => Number(a.achieved) === 1).map(a => ({
+    apiname: String(a.apiname || ""),
+    name: String(a.name || ""),
+    unlocktime: Number(a.unlocktime || 0)
+  }));
+  return {
+    gameName: String(stats.gameName || "Hearts of Iron IV"),
+    totalReturned: achievements.length,
+    unlocked,
+    unlockedCount: unlocked.length
+  };
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") return new Response(null, { status: 204 });
@@ -72,6 +102,12 @@ export default {
       const resolved = await resolveSteamId(profile, env.STEAM_WEB_API_KEY);
       if (!resolved) return json(404, { ok: false, error: "profile_not_found" });
 
+      const achievementData = await getHoi4Achievements(resolved.steamid, env.STEAM_WEB_API_KEY);
+      if (achievementData.error) {
+        const status = achievementData.error === "private_or_unavailable" ? 403 : 502;
+        return json(status, { ok: false, error: achievementData.error, steamid: resolved.steamid, appid: HOI4_APP_ID });
+      }
+
       return json(200, {
         ok: true,
         steamid: resolved.steamid,
@@ -79,8 +115,11 @@ export default {
         normalizedProfile: profile.normalized,
         resolution: resolved.resolution,
         appid: HOI4_APP_ID,
-        proxy: "ready",
-        next: "achievement_retrieval"
+        gameName: achievementData.gameName,
+        totalReturned: achievementData.totalReturned,
+        unlockedCount: achievementData.unlockedCount,
+        unlocked: achievementData.unlocked,
+        syncedAt: new Date().toISOString()
       });
     } catch {
       return json(502, { ok: false, error: "steam_unavailable" });
