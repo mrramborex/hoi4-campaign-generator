@@ -2310,18 +2310,32 @@ function items(){if(stage.value==='country')return remaining;if(stage.value==='i
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
 function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path')return '#596247'; const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
 function paintIdeologyInsignia(ideology,i,arc){
+ // Large period-inspired War Room emblems: readable at wheel scale, original artwork,
+ // and deliberately distinct from real-world party insignia.
  ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(205,0);ctx.rotate(-(i+.5)*arc-angle);
- ctx.fillStyle='rgba(15,16,12,.78)';ctx.strokeStyle='#d4c58a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,42,0,Math.PI*2);ctx.fill();ctx.stroke();
- ctx.strokeStyle='#f0e3b0';ctx.fillStyle='#f0e3b0';ctx.lineWidth=5;ctx.lineCap='round';ctx.lineJoin='round';
- if(ideology==='d'){
-  ctx.beginPath();ctx.moveTo(-22,-15);ctx.lineTo(22,-15);ctx.moveTo(-18,-4);ctx.lineTo(18,-4);ctx.moveTo(-14,7);ctx.lineTo(14,7);ctx.moveTo(-9,18);ctx.lineTo(9,18);ctx.stroke();
- }else if(ideology==='c'){
-  ctx.beginPath();ctx.arc(-4,2,17,.2,4.9);ctx.stroke();ctx.beginPath();ctx.moveTo(2,-16);ctx.lineTo(22,14);ctx.moveTo(12,-3);ctx.lineTo(23,-13);ctx.stroke();
- }else if(ideology==='f'){
-  ctx.beginPath();ctx.moveTo(-20,18);ctx.lineTo(-5,-20);ctx.lineTo(5,2);ctx.lineTo(20,-18);ctx.lineTo(8,20);ctx.lineTo(-2,-2);ctx.closePath();ctx.fill();
- }else{
-  ctx.beginPath();ctx.moveTo(0,-24);ctx.lineTo(21,-8);ctx.lineTo(13,22);ctx.lineTo(-13,22);ctx.lineTo(-21,-8);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.arc(0,0,8,0,Math.PI*2);ctx.fill();
- }
+ const cfg={
+  d:{letter:'D',title:'LIBERTY',sub:'PARLIAMENT',accent:'#dce8ef'},
+  c:{letter:'C',title:'PEOPLE',sub:'REVOLUTION',accent:'#f0d6c8'},
+  f:{letter:'F',title:'AUTHORITY',sub:'NATIONAL',accent:'#ead0c7'},
+  u:{letter:'U',title:'CROWN',sub:'NON-ALIGNED',accent:'#e8e0c2'}
+ }[ideology]||{letter:'?',title:'UNKNOWN',sub:'POLITICAL',accent:'#e8dfc0'};
+ // shadow + outer medal
+ ctx.shadowColor='rgba(0,0,0,.75)';ctx.shadowBlur=12;
+ ctx.fillStyle='rgba(20,21,16,.96)';ctx.strokeStyle='#d7c47d';ctx.lineWidth=4;
+ ctx.beginPath();ctx.arc(0,0,58,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
+ ctx.strokeStyle='rgba(239,220,157,.45)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,49,0,Math.PI*2);ctx.stroke();
+ // four compass/ribbon ticks
+ ctx.strokeStyle='#9f8c52';ctx.lineWidth=3;
+ for(let k=0;k<4;k++){ctx.save();ctx.rotate(k*Math.PI/2);ctx.beginPath();ctx.moveTo(0,-64);ctx.lineTo(0,-53);ctx.stroke();ctx.restore()}
+ // central heraldic shield
+ ctx.fillStyle='rgba(255,255,255,.035)';ctx.strokeStyle=cfg.accent;ctx.lineWidth=2.5;
+ ctx.beginPath();ctx.moveTo(-27,-28);ctx.lineTo(27,-28);ctx.lineTo(23,11);ctx.quadraticCurveTo(0,38,0,38);ctx.quadraticCurveTo(-23,11,-23,11);ctx.closePath();ctx.fill();ctx.stroke();
+ ctx.fillStyle=cfg.accent;ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=5;
+ ctx.font='bold 34px Georgia';ctx.fillText(cfg.letter,0,-3);ctx.shadowBlur=0;
+ // small star and archival lettering make the icon feel like a stamped 1930s dossier seal.
+ ctx.font='bold 12px Georgia';ctx.fillStyle='#d7c47d';ctx.fillText('★',0,23);
+ ctx.font='bold 8px Georgia';ctx.letterSpacing='1px';ctx.fillStyle='#f0e6c4';ctx.fillText(cfg.title,0,-45);
+ ctx.font='bold 6px Georgia';ctx.fillStyle='#a99d78';ctx.fillText(cfg.sub,0,47);
  ctx.restore();
 }
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
