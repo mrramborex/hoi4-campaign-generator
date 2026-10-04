@@ -353,6 +353,76 @@ header p,.war-header-meta,.war-eyebrow,.console-kicker,.console-status,.instrume
 @media(max-width:700px){.campaign-archive .campaign-history-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.campaign-archive .campaign-history-card{gap:10px;padding:13px 10px 10px}.campaign-archive .campaign-history-icon,.campaign-archive .campaign-history-fallback{width:58px;height:58px}.campaign-archive .campaign-history-card h3{font-size:17px;margin-right:0}.campaign-route{font-size:11px}.campaign-data-tools button,.campaign-data-tools label{flex:1 1 130px;text-align:center}}
 
+
+/* Phase 13E — Responsive / resolution pass */
+html,body{max-width:100%;overflow-x:hidden}
+img,canvas{max-width:100%}
+#generator>*{min-width:0}
+@media(max-width:1050px){
+ #generator{grid-template-columns:minmax(0,1fr) 300px;gap:16px}
+ .generator-console{padding-left:14px;padding-right:14px}
+ .wheel-instrument{padding-left:30px;padding-right:30px}
+ .command-panel{padding-left:12px;padding-right:12px}
+}
+@media(max-width:880px){
+ header{padding-left:12px;padding-right:12px}
+ .war-header{padding-left:12px;padding-right:12px}
+ .topnav{flex-wrap:wrap}
+ .navbtn{flex:1 1 150px;max-width:230px}
+ #generator{grid-template-columns:1fr;gap:14px}
+ .command-panel{order:2}
+ .generator-console{order:1}
+ .wheel-instrument{max-width:680px}
+ .command-panel-head small{position:absolute;display:block;right:2px;bottom:15px}
+ .command-panel-head h2{padding-right:118px!important}
+}
+@media(max-width:700px){
+ #generator,#achievementCenter,#campaignHistory{padding-left:10px;padding-right:10px}
+ .generator-console-head{flex-wrap:wrap}
+ .console-status{margin-left:auto}
+ .wheel-instrument{padding-left:20px;padding-right:20px}
+ .result strong{font-size:clamp(21px,6vw,28px)}
+ .result .sub{font-size:clamp(14px,4vw,18px)}
+ .mission{max-width:100%}
+ .archive-head,.campaign-archive-head{gap:12px}
+ .archive-head h2,.campaign-archive-head h2{font-size:clamp(19px,5vw,24px)}
+ .archive-stats,.campaign-archive-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+ header{padding-top:16px}
+ h1{font-size:clamp(26px,9vw,38px);letter-spacing:1.8px}
+ header p{font-size:12px}
+ .topnav{gap:6px}
+ .navbtn{flex:1 1 calc(50% - 6px);padding:8px 7px;font-size:11px}
+ .generator-console{padding:10px 8px 14px}
+ .generator-console-head{padding-left:3px;padding-right:3px}
+ .generator-console-head h2{font-size:16px}
+ .console-status{white-space:normal;text-align:center}
+ .wheel-instrument{padding:12px 7px 8px}
+ .pointer{border-left-width:15px;border-right-width:15px;border-top-width:32px}
+ .selector-command{width:100%;gap:6px}
+ .selector-command .command-rule{min-width:12px}
+ .selector-command .spin{min-width:0;width:min(230px,72vw);padding-left:18px;padding-right:18px;font-size:17px}
+ .command-panel-head h2{padding-right:0!important}
+ .command-panel-head small{position:static;display:block;margin-top:5px}
+ .mission-country:after{display:none}
+ .mission-dossier{grid-template-columns:1fr}
+ .archive-head .small,.campaign-archive-head .small{font-size:12px}
+ .archive-stats,.campaign-archive-stats{grid-template-columns:1fr 1fr}
+ .archive-stats .stat:last-child:nth-child(odd){grid-column:1/-1}
+ .campaign-data-tools{padding:9px}
+}
+@media(max-width:380px){
+ #generator,#achievementCenter,#campaignHistory{padding-left:6px;padding-right:6px}
+ .navbtn{flex-basis:100%;max-width:none}
+ .wheel-instrument{padding-left:3px;padding-right:3px}
+ .selector-command .command-rule{display:none}
+ .selector-command .spin{width:100%}
+ .archive-stats,.campaign-archive-stats{grid-template-columns:1fr}
+ .archive-stats .stat:last-child:nth-child(odd){grid-column:auto}
+ .mission{padding-left:10px;padding-right:10px}
+}
+
 </style>
 </head><body>
 <header class="war-header">
