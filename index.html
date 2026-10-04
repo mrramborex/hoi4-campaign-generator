@@ -2235,4 +2235,39 @@ document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);documen
 draw();
 warRoomRuntimeGuard();
 warRoomReleaseGate();
-</script></body></html>
+</script><!-- Phase 14A — Steam profile-link integration architecture -->
+<script type="application/json" id="steamIntegrationArchitecture">
+{
+  "version": 1,
+  "mode": "profile-link-no-login",
+  "appid": 394360,
+  "profileInputs": ["steamcommunity.com/id/{vanity}", "steamcommunity.com/profiles/{steamid64}", "steamid64"],
+  "backendContract": {
+    "endpoint": "/api/steam/hoi4-achievements",
+    "method": "POST",
+    "request": {"profile": "Steam profile URL, vanity name, or SteamID64"},
+    "response": {
+      "ok": true,
+      "steamid": "SteamID64",
+      "profileName": "display name when available",
+      "unlocked": ["Steam achievement API names"],
+      "totalReturned": 0,
+      "syncedAt": "ISO-8601 timestamp"
+    }
+  },
+  "security": [
+    "Never expose the Steam Web API key in index.html or browser JavaScript.",
+    "Resolve vanity URLs and query Steam achievements only through the server-side API proxy.",
+    "Treat Steam profile input as untrusted and validate accepted profile formats."
+  ],
+  "clientSyncPolicy": {
+    "sourceOfTruth": "existing hoi4CompletedAchievements localStorage set",
+    "action": "merge matched Steam-unlocked achievements into completed set",
+    "deleteArchiveRecords": false,
+    "spinnerBehavior": "existing completed-achievement exclusion remains authoritative",
+    "manualCompletion": "preserved"
+  },
+  "errorStates": ["invalid_profile", "profile_not_found", "private_or_unavailable", "steam_unavailable", "mapping_incomplete"]
+}
+</script>
+</body></html>
