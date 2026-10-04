@@ -637,7 +637,7 @@ img,canvas{max-width:100%}
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
 <script>
-const C={f:'#795548',c:'#b71c1c',d:'#1565c0',u:'#777'};
+const C={f:'#665044',c:'#70443f',d:'#465d63',u:'#65604f'};
 const countries={
 'Afghanistan':['u','c','d','f'],'Argentina':['u','f','d','c'],'Australia':['d','f','c'],'Aussa':['u'],'Austria':['u','d','f','c'],'Belgium':['d','f','c'],'Brazil':['u','f','d','c'],'British Raj / India':['d','f','c','u'],'Bulgaria':['u','f','c','d'],'Canada':['d','f','c'],'Chile':['d','f','c','u'],'China (Nationalist)':['u','d','f','c'],'Communist China':['c'],'Guangxi Clique':['u','c'],'Guangdong Clique':['u','c'],'Yunnan':['u','c'],'Sichuan Clique':['u','c'],'Northeastern Army':['u','c'],'Shanxi':['u','c'],'Sinkiang':['c','u'],'Khotan Ma':['u','c'],'Qinghai Ma':['u','c'],'Gansu Ma':['u','c'],'Ningxia Ma':['u','c'],'Hebei-Chahar':['u','c'],'Shandong Clique':['u','c'],'Congo':['d','c','f','u'],'Czechoslovakia':['d','c','f','u'],'Denmark':['d','f','c','u'],'Dutch East Indies / Indonesia':['d','c','f','u'],'Estonia':['d','f','c','u'],'Ethiopia':['u','d','c','f'],'Finland':['d','f','c','u'],'France':['d','f','c','u'],'Germany':['f','c','d','u'],'Greece':['u','f','d','c'],'Hungary':['u','f','c','d'],'Iceland':['d','f','c','u'],'Iran':['u','f','c','d'],'Iraq':['u','f','d'],'Italy':['f','c','d','u'],'Japan':['u','f','c','d'],'Latvia':['d','f','c','u'],'Lithuania':['d','f','c','u'],'Manchukuo':['u','f','c','d'],'Mexico':['d','f','c','u'],'Netherlands':['d','f','c','u'],'New Zealand':['d','f','c'],'Norway':['d','f','c','u'],'Paraguay':['u','f','d'],'Philippines':['d','f','c','u'],'Poland':['u','f','c','d'],'Portugal':['u','f','c','d'],'Romania':['u','f','c','d'],'Siam / Thailand':['u','f','d'],'South Africa':['d','f','c'],'Soviet Union':['c','u','f'],'Spain':['f','c','d','u'],'Sweden':['d','f','c','u'],'Switzerland':['d','f','u'],'Turkey':['u','f','d','c'],'United Kingdom':['d','f','c','u'],'United States':['d','f','c'],'Uruguay':['d','f','u'],'Yugoslavia':['u','f','c','d']};
 const COUNTRY_ROSTER_VERSION='12A.3 — final focus-tree-only ideology matrix; explicit national/shared focus outcomes only';
@@ -2310,32 +2310,30 @@ function items(){if(stage.value==='country')return remaining;if(stage.value==='i
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
 function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path')return '#596247'; const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
 function paintIdeologyInsignia(ideology,i,arc){
- // Large period-inspired War Room emblems: readable at wheel scale, original artwork,
- // and deliberately distinct from real-world party insignia.
- ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(205,0);ctx.rotate(-(i+.5)*arc-angle);
+ // Counter-rotate the complete ideology plate so its artwork and lettering remain
+ // horizontal while the wheel turns beneath it.
+ ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(205,0);ctx.rotate(-((i+.5)*arc+angle));
  const cfg={
-  d:{letter:'D',title:'LIBERTY',sub:'PARLIAMENT',accent:'#dce8ef'},
-  c:{letter:'C',title:'PEOPLE',sub:'REVOLUTION',accent:'#f0d6c8'},
-  f:{letter:'F',title:'AUTHORITY',sub:'NATIONAL',accent:'#ead0c7'},
-  u:{letter:'U',title:'CROWN',sub:'NON-ALIGNED',accent:'#e8e0c2'}
- }[ideology]||{letter:'?',title:'UNKNOWN',sub:'POLITICAL',accent:'#e8dfc0'};
- // shadow + outer medal
- ctx.shadowColor='rgba(0,0,0,.75)';ctx.shadowBlur=12;
- ctx.fillStyle='rgba(20,21,16,.96)';ctx.strokeStyle='#d7c47d';ctx.lineWidth=4;
- ctx.beginPath();ctx.arc(0,0,58,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
- ctx.strokeStyle='rgba(239,220,157,.45)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,49,0,Math.PI*2);ctx.stroke();
- // four compass/ribbon ticks
- ctx.strokeStyle='#9f8c52';ctx.lineWidth=3;
- for(let k=0;k<4;k++){ctx.save();ctx.rotate(k*Math.PI/2);ctx.beginPath();ctx.moveTo(0,-64);ctx.lineTo(0,-53);ctx.stroke();ctx.restore()}
- // central heraldic shield
+  d:{letter:'D',title:'DEMOCRATIC',accent:'#d6e0dc'},
+  c:{letter:'C',title:'COMMUNIST',accent:'#e2c9b6'},
+  f:{letter:'F',title:'FASCIST',accent:'#dfc7ae'},
+  u:{letter:'U',title:'UNALIGNED',accent:'#e2d9b8'}
+ }[ideology]||{letter:'?',title:'UNKNOWN',accent:'#e8dfc0'};
+ ctx.shadowColor='rgba(0,0,0,.72)';ctx.shadowBlur=10;
+ ctx.fillStyle='rgba(20,21,16,.94)';ctx.strokeStyle='#c8b46e';ctx.lineWidth=4;
+ ctx.beginPath();ctx.arc(0,-12,52,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
+ ctx.strokeStyle='rgba(235,216,153,.42)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,-12,44,0,Math.PI*2);ctx.stroke();
+ ctx.strokeStyle='#95834e';ctx.lineWidth=3;
+ for(let k=0;k<4;k++){ctx.save();ctx.translate(0,-12);ctx.rotate(k*Math.PI/2);ctx.beginPath();ctx.moveTo(0,-58);ctx.lineTo(0,-49);ctx.stroke();ctx.restore()}
  ctx.fillStyle='rgba(255,255,255,.035)';ctx.strokeStyle=cfg.accent;ctx.lineWidth=2.5;
- ctx.beginPath();ctx.moveTo(-27,-28);ctx.lineTo(27,-28);ctx.lineTo(23,11);ctx.quadraticCurveTo(0,38,0,38);ctx.quadraticCurveTo(-23,11,-23,11);ctx.closePath();ctx.fill();ctx.stroke();
- ctx.fillStyle=cfg.accent;ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=5;
- ctx.font='bold 34px Georgia';ctx.fillText(cfg.letter,0,-3);ctx.shadowBlur=0;
- // small star and archival lettering make the icon feel like a stamped 1930s dossier seal.
- ctx.font='bold 12px Georgia';ctx.fillStyle='#d7c47d';ctx.fillText('★',0,23);
- ctx.font='bold 8px Georgia';ctx.letterSpacing='1px';ctx.fillStyle='#f0e6c4';ctx.fillText(cfg.title,0,-45);
- ctx.font='bold 6px Georgia';ctx.fillStyle='#a99d78';ctx.fillText(cfg.sub,0,47);
+ ctx.beginPath();ctx.moveTo(-24,-38);ctx.lineTo(24,-38);ctx.lineTo(20,-5);ctx.quadraticCurveTo(0,18,0,18);ctx.quadraticCurveTo(-20,-5,-20,-5);ctx.closePath();ctx.fill();ctx.stroke();
+ ctx.fillStyle=cfg.accent;ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;
+ ctx.font='bold 31px Georgia';ctx.fillText(cfg.letter,0,-15);ctx.shadowBlur=0;
+ ctx.font='bold 11px Georgia';ctx.fillStyle='#d1bd78';ctx.fillText('★',0,4);
+ // Ideology name sits below the medal rather than across the artwork.
+ ctx.fillStyle='rgba(18,19,15,.88)';ctx.strokeStyle='#9f8e59';ctx.lineWidth=1.5;
+ ctx.beginPath();ctx.roundRect(-55,47,110,28,5);ctx.fill();ctx.stroke();
+ ctx.fillStyle='#f1e7c8';ctx.font='bold 11px Georgia';ctx.fillText(cfg.title,0,61);
  ctx.restore();
 }
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
@@ -2343,7 +2341,7 @@ if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideolo
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
-ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(stage.value!=='country'||n<=90){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?248:210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?8:n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=dense?3:4;ctx.lineWidth=dense?2:3;ctx.strokeStyle='#000';let t=label(a[i]);const max=dense?16:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
+ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(stage.value!=='ideology'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?248:210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?8:n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=dense?3:4;ctx.lineWidth=dense?2:3;ctx.strokeStyle='#000';let t=label(a[i]);const max=dense?16:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
 const FIELD_INTELLIGENCE=[
  'Game Tip • Keep an eye on supply hubs and railways. A strong division can still collapse when its supply network cannot keep up.',
