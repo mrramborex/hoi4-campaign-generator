@@ -504,6 +504,31 @@ img,canvas{max-width:100%}
  .wheel-instrument{max-width:610px}
 }
 
+
+/* Phase 13F — restrained command-room micro-interactions */
+@keyframes commandPulse{0%,100%{box-shadow:0 0 0 0 rgba(198,166,91,0)}50%{box-shadow:0 0 0 3px rgba(198,166,91,.10)}}
+@keyframes lampReady{0%,100%{opacity:.72;box-shadow:0 0 3px #879a57}50%{opacity:1;box-shadow:0 0 8px #a8bd70}}
+@keyframes dossierIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes resultFlash{0%{background:rgba(182,155,88,.12)}100%{background:rgba(9,12,9,.28)}}
+.navbtn,.spin,.startCampaign,.newCampaign,.mission-secondary,.ach-complete,.campaign-history-card button,.data-tools button,.data-tools label{
+ transition:background .16s ease,color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .10s ease,filter .16s ease
+}
+.navbtn:hover{box-shadow:inset 0 1px #666b5a,inset 0 -2px rgba(0,0,0,.32)}
+.navbtn.active{animation:commandPulse 2.8s ease-in-out infinite}
+.spin:not(:disabled):hover,.startCampaign:hover{filter:brightness(1.08);box-shadow:0 0 0 2px #171914,0 6px 15px #000b,inset 0 1px rgba(255,255,255,.15)}
+.spin:not(:disabled):active,.startCampaign:active,.newCampaign:active,.mission-secondary:active,.ach-complete:active,.campaign-history-card button:active,.data-tools button:active,.data-tools label:active{transform:translateY(1px) scale(.995)}
+.spin:disabled{cursor:not-allowed;filter:saturate(.55)}
+.status-lamp{animation:lampReady 2.2s ease-in-out infinite}
+.mission.show{animation:dossierIn .28s ease-out both}
+.result.result-flash{animation:resultFlash .42s ease-out}
+.ach,.campaign-history-card{transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.ach:hover,.campaign-history-card:hover{transform:translateY(-1px)}
+.controls select,.ach-head input,.ach-head select{transition:border-color .16s ease,box-shadow .16s ease}
+.controls select:focus,.ach-head input:focus,.ach-head select:focus{outline:none;border-color:#9d824c;box-shadow:inset 0 1px 5px #000,0 0 0 2px rgba(182,155,88,.13)}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
 </style>
 </head><body>
 <header class="war-header">
@@ -2187,7 +2212,9 @@ if(stage.value==='country'){paintFlag(a[i],i,arc);}
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
 ctx.strokeStyle='#c6b878';ctx.lineWidth=1;ctx.stroke();if(stage.value!=='country'||n<=90){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?248:210,0);ctx.fillStyle='#fff8df';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?8:n>40?10:n>25?12:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=dense?3:4;ctx.lineWidth=dense?2:3;ctx.strokeStyle='#000';let t=label(a[i]);const max=dense?16:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
-function spin(){let a=items();if(spinning||!a.length)return;if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;res.innerHTML=`Country: <strong>${w}</strong><div class="sub">Now spin its ideology.</div>`;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;const routeOptions=(paths[selected]&&paths[selected][w])||[names[w]+' focus-tree route'];hist.unshift(`${selected} — ${names[w]}`);stage.value='path';if(routeOptions.length===1){const onlyPath=routeOptions[0];res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} → ${onlyPath}</div>`;hist.unshift(`${selected} — ${names[w]} — ${onlyPath}`);btn.textContent='POLITICAL PATH AUTO-SELECTED';draw();showMission(onlyPath)}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} — now spin the political path.</div>`;btn.textContent='SPIN POLITICAL PATH';draw()}}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[selectedIdeology]} → ${w}</div>`;hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`);showMission(w)}document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
+
+function flashWarRoomResult(){const el=document.getElementById('result');if(!el)return;el.classList.remove('result-flash');void el.offsetWidth;el.classList.add('result-flash')}
+function spin(){let a=items();if(spinning||!a.length)return;if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;res.innerHTML=`Country: <strong>${w}</strong><div class="sub">Now spin its ideology.</div>`;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;const routeOptions=(paths[selected]&&paths[selected][w])||[names[w]+' focus-tree route'];hist.unshift(`${selected} — ${names[w]}`);stage.value='path';if(routeOptions.length===1){const onlyPath=routeOptions[0];res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} → ${onlyPath}</div>`;hist.unshift(`${selected} — ${names[w]} — ${onlyPath}`);btn.textContent='POLITICAL PATH AUTO-SELECTED';draw();showMission(onlyPath)}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[w]} — now spin the political path.</div>`;btn.textContent='SPIN POLITICAL PATH';draw()}}else{res.innerHTML=`<strong>${selected}</strong><div class="sub">${names[selectedIdeology]} → ${w}</div>`;hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`);showMission(w)}flashWarRoomResult();document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
 function showSection(which){document.getElementById('generator').style.display=which==='generator'?'grid':'none';document.getElementById('achievementCenter').style.display=which==='achievements'?'block':'none';document.getElementById('campaignHistory').style.display=which==='campaigns'?'block':'none';document.getElementById('navGenerator').classList.toggle('active',which==='generator');document.getElementById('navAchievements').classList.toggle('active',which==='achievements');document.getElementById('navCampaigns').classList.toggle('active',which==='campaigns')}
 document.getElementById('navGenerator').onclick=()=>showSection('generator');
 document.getElementById('navAchievements').onclick=()=>{showSection('achievements');renderAchievements()};
