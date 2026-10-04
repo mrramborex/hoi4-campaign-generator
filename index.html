@@ -587,7 +587,7 @@ img,canvas{max-width:100%}
 <!-- Phase 14I — Release Candidate 2: Steam integration QA gates passed -->
 <main id="generator">
 <!-- Phase 14H.1 — Steam-first campaign workflow -->
-<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>.</div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
+<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>. <button type="button" id="clearAchievementProgress" onclick="clearAchievementProgress()">Clear completed achievements</button>.</div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
 <section class="card generator-console">
 <div class="generator-console-head"><div><span class="console-kicker">GENERAL STAFF RANDOMIZATION DEVICE</span><h2>Strategic Campaign Selector</h2></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
 <div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div></div>
@@ -1632,6 +1632,17 @@ function importSaveData(file){
 function getCompleted(){try{return new Set(normalizeCompleted(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]')))}catch(e){return new Set()}}
 function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify(normalizeCompleted([...set])))}
 function toggleAchievement(name){const done=getCompleted();done.has(name)?done.delete(name):done.add(name);setCompleted(done);renderAchievements()}
+function clearAchievementProgress(){
+ if(!getCompleted().size)return;
+ if(!confirm('Clear all completed achievement progress from this browser? Campaign History will be kept.'))return;
+ localStorage.removeItem(COMPLETED_KEY);
+ steamProfileSyncedThisSession=false;
+ renderAchievements();updateSteamHomeSummary();
+ const state=document.getElementById('steamSyncState'),note=document.getElementById('steamSyncNote'),input=document.getElementById('steamProfileInput');
+ if(state){state.className='steam-sync-state';state.textContent='NOT LINKED'}
+ if(note)note.textContent='Completed achievement progress cleared. You can track achievements manually or sync a Steam profile again.';
+ if(input)input.value='';
+}
 
 // Phase 14F — Steam achievement catalog mapping.
 // Steam supplies both an internal API name and the localized display name. The audited
@@ -2298,8 +2309,23 @@ const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document
 function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[selected+' — '+names[selectedIdeology]+' political route'];}
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
 function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path')return '#596247'; const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
+function paintIdeologyInsignia(ideology,i,arc){
+ ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(205,0);ctx.rotate(-(i+.5)*arc-angle);
+ ctx.fillStyle='rgba(15,16,12,.78)';ctx.strokeStyle='#d4c58a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,42,0,Math.PI*2);ctx.fill();ctx.stroke();
+ ctx.strokeStyle='#f0e3b0';ctx.fillStyle='#f0e3b0';ctx.lineWidth=5;ctx.lineCap='round';ctx.lineJoin='round';
+ if(ideology==='d'){
+  ctx.beginPath();ctx.moveTo(-22,-15);ctx.lineTo(22,-15);ctx.moveTo(-18,-4);ctx.lineTo(18,-4);ctx.moveTo(-14,7);ctx.lineTo(14,7);ctx.moveTo(-9,18);ctx.lineTo(9,18);ctx.stroke();
+ }else if(ideology==='c'){
+  ctx.beginPath();ctx.arc(-4,2,17,.2,4.9);ctx.stroke();ctx.beginPath();ctx.moveTo(2,-16);ctx.lineTo(22,14);ctx.moveTo(12,-3);ctx.lineTo(23,-13);ctx.stroke();
+ }else if(ideology==='f'){
+  ctx.beginPath();ctx.moveTo(-20,18);ctx.lineTo(-5,-20);ctx.lineTo(5,2);ctx.lineTo(20,-18);ctx.lineTo(8,20);ctx.lineTo(-2,-2);ctx.closePath();ctx.fill();
+ }else{
+  ctx.beginPath();ctx.moveTo(0,-24);ctx.lineTo(21,-8);ctx.lineTo(13,22);ctx.lineTo(-13,22);ctx.lineTo(-21,-8);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.arc(0,0,8,0,Math.PI*2);ctx.fill();
+ }
+ ctx.restore();
+}
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();
-if(stage.value==='country'){paintFlag(a[i],i,arc);}
+if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideology'){paintIdeologyInsignia(a[i],i,arc);}
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
