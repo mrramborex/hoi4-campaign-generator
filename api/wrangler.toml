@@ -1,4 +1,4 @@
-name = "hoi4-war-room-steam-api"
+name = "hoi4-campaign-generator"
 main = "steam-api-worker.js"
 compatibility_date = "2026-10-03"
 
