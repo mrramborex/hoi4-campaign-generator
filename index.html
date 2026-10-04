@@ -531,7 +531,7 @@ img,canvas{max-width:100%}
 
 
 /* Phase 14B — Steam profile sync interface */
-.steam-sync-home{grid-column:1/-1}.steam-sync-home .steam-sync-panel{margin:0}.steam-sync-panel{margin:0 0 15px;padding:12px 13px;background:linear-gradient(100deg,#171c1b,#131711);border:1px solid #4a5146;border-left:3px solid #667f8b;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.steam-sync-home{grid-column:1/-1}.steam-sync-home .steam-sync-panel{margin:0;border-color:#5c5947;border-left:4px solid #8b794d;background:linear-gradient(110deg,#1b1d18,#131510);box-shadow:inset 0 1px rgba(255,255,255,.025),0 5px 18px rgba(0,0,0,.2)}.steam-sync-home .steam-sync-kicker{color:#a7925d}.steam-sync-home .steam-sync-head h3{font-family:var(--display);letter-spacing:1.3px}.steam-sync-home .steam-sync-form button{background:#403a29;border-color:#81734d;color:#e5d9b4}.steam-sync-home .steam-sync-form button:hover{background:#50472f}.steam-sync-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0 3px}.steam-sync-metric{padding:8px 10px;border:1px solid #3f4135;background:#11130f;text-align:center}.steam-sync-metric b{display:block;color:#d9cfad;font:600 17px var(--display);letter-spacing:.6px}.steam-sync-metric span{display:block;margin-top:2px;color:#777b6c;font:8px var(--typewriter);letter-spacing:1px;text-transform:uppercase}.steam-sync-details{margin-top:7px;text-align:right;color:#8c8c7c;font:9px var(--typewriter)}.steam-sync-details button{border:0;background:none;padding:0;color:#aa9864;font:inherit;letter-spacing:.4px;text-decoration:underline;cursor:pointer}@media(max-width:650px){.steam-sync-summary{grid-template-columns:1fr 1fr}.steam-sync-metric:last-child{grid-column:1/-1}}.steam-sync-panel{margin:0 0 15px;padding:12px 13px;background:linear-gradient(100deg,#171c1b,#131711);border:1px solid #4a5146;border-left:3px solid #667f8b;box-shadow:inset 0 1px rgba(255,255,255,.025)}
 .steam-sync-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:9px}
 .steam-sync-kicker{display:block;font:8px var(--typewriter);letter-spacing:1.7px;color:#8098a0;margin-bottom:3px}
 .steam-sync-head h3{margin:0;font:600 15px var(--display);letter-spacing:1px;text-transform:uppercase;color:#d9dfd7}
@@ -557,7 +557,7 @@ img,canvas{max-width:100%}
 <!-- Phase 13I — Release Candidate: Phase 13 audit gates passed -->
 <main id="generator">
 <!-- Phase 14H.1 — Steam-first campaign workflow -->
-<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
+<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>.</div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
 <section class="card generator-console">
 <div class="generator-console-head"><div><span class="console-kicker">GENERAL STAFF RANDOMIZATION DEVICE</span><h2>Strategic Campaign Selector</h2></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
 <div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div></div>
@@ -1638,7 +1638,7 @@ function renderAchievements(){
  const completed=all.filter(a=>done.has(a.name)).length;
  document.getElementById('mappedCount').textContent=all.length;
  document.getElementById('completedCount').textContent=completed;
- document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
+ document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';updateSteamHomeSummary();
  document.getElementById('visibleCount').textContent=filtered.length;
  document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
@@ -2322,6 +2322,11 @@ warRoomReleaseGate();
 // Phase 14G — live Steam sync and automatic completion/exclusion.
 const STEAM_SYNC_ENDPOINT='https://hoi4-campaign-generator.mrramborex.workers.dev';
 const steamSyncButton=document.getElementById('steamSyncButton');
+function updateSteamHomeSummary(){
+ const all=flatAchievements(),done=getCompleted(),completed=all.filter(a=>done.has(a.name)).length,open=Math.max(0,all.length-completed);
+ const ce=document.getElementById('steamHomeCompleted'),oe=document.getElementById('steamHomeOpen'),pe=document.getElementById('steamHomePct');
+ if(ce)ce.textContent=completed;if(oe)oe.textContent=open;if(pe)pe.textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
+}
 let steamSyncInFlight=false;
 async function syncSteamAchievements(){
  const input=document.getElementById('steamProfileInput'),note=document.getElementById('steamSyncNote'),state=document.getElementById('steamSyncState'),value=input.value.trim();
@@ -2353,6 +2358,8 @@ async function syncSteamAchievements(){
  }finally{clearTimeout(timeout);steamSyncInFlight=false;steamSyncButton.disabled=false;steamSyncButton.textContent='SYNC STEAM'}
 }
 if(steamSyncButton){steamSyncButton.addEventListener('click',syncSteamAchievements);document.getElementById('steamProfileInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();syncSteamAchievements()}})}
+const steamViewAchievements=document.getElementById('steamViewAchievements');if(steamViewAchievements)steamViewAchievements.addEventListener('click',()=>document.getElementById('navAchievements').click());updateSteamHomeSummary();
 // Phase 14H — sync/error/privacy handling.
+// Phase 14H.2 — themed Steam service record summary.
 </script>
 </body></html>
