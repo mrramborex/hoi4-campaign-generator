@@ -2340,17 +2340,18 @@ async function syncSteamAchievements(){
    if(!response.ok||!payload.ok)throw Object.assign(new Error(payload.error||'steam_unavailable'),{code:payload.error||'steam_unavailable'});
    const mapped=previewSteamAchievementSync(payload);
    if(mapped.catalogTotal!==STEAM_ACHIEVEMENT_TARGET)throw Object.assign(new Error('catalog_mismatch'),{code:'catalog_mismatch'});
-   const done=getCompleted(),before=done.size;
-   mapped.matched.forEach(a=>done.add(a.name));
-   const normalized=new Set(normalizeCompleted([...done]));
+   // A Steam sync represents the currently entered Steam account, not a union of every
+   // account ever tested in this browser. Replace the Steam-derived completion snapshot.
+   const before=getCompleted(),normalized=new Set(normalizeCompleted(mapped.matched.map(a=>a.name)));
    setCompleted(normalized);
-   const added=normalized.size-before;
+   const added=[...normalized].filter(name=>!before.has(name)).length;
+   const removed=[...before].filter(name=>!normalized.has(name)).length;
    // Update summary counters without rebuilding all 293 archive cards during network completion.
    const all=flatAchievements(),completed=all.filter(a=>normalized.has(a.name)).length;
    document.getElementById('completedCount').textContent=completed;
    document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
    state.className='steam-sync-state sync-ok';state.textContent='STEAM SYNCED';
-   note.textContent=`Steam reports ${mapped.steamUnlocked} unlocked HOI4 achievements. ${mapped.matched.length} matched War Room records; ${added} newly marked complete.${mapped.unmatched.length?' '+mapped.unmatched.length+' record(s) need mapping review.':''} Archive cards will refresh when you filter or reopen the archive.`;
+   note.textContent=`Steam reports ${mapped.steamUnlocked} unlocked HOI4 achievements. ${mapped.matched.length} matched War Room records; ${added} newly added${removed?', '+removed+' from the previous account cleared':''}.${mapped.unmatched.length?' '+mapped.unmatched.length+' record(s) need mapping review.':''} Archive cards will refresh when you filter or reopen the archive.`;
  }catch(error){
    state.className='steam-sync-state sync-error';state.textContent='SYNC FAILED';
    const messages={invalid_profile:'That Steam profile link is not valid.',profile_not_found:'Steam could not resolve that profile.',private_or_unavailable:'Steam achievement data is private or unavailable.',achievement_data_unavailable:'Steam did not return HOI4 achievement data.',steam_proxy_not_configured:'The Steam sync service is not configured.',steam_unavailable:'Steam could not be reached. Please try again.',catalog_mismatch:'Steam sync stopped because the local achievement catalog did not pass its safety check.'};
