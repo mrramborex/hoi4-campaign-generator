@@ -534,8 +534,9 @@ img,canvas{max-width:100%}
 <header class="war-header">
 <div class="war-header-meta"><span>STRATEGIC COMMAND</span><span>1936 • WAR ROOM</span><span>CAMPAIGN OPERATIONS</span></div>
 <div class="war-title-wrap"><span class="war-wing">◆ ━━━</span><div><div class="war-eyebrow">GENERAL STAFF • CAMPAIGN COMMAND</div><h1>HEARTS OF IRON IV</h1><p>War Room • Campaign Generator • Achievement Center • Campaign Archive</p></div><span class="war-wing">━━━ ◆</span></div>
-<div class="topnav"><button class="navbtn active" id="navGenerator">Campaign Generator</button><button class="navbtn" id="navAchievements">Achievement Center</button><button class="navbtn" id="navCampaigns">Campaign History</button></div>
+<div class="topnav"><button class="navbtn active" id="navGenerator">Campaign Generator</button><button class="navbtn" id="navAchievements">Achievement Archive</button><button class="navbtn" id="navCampaigns">Campaign History</button></div>
 </header>
+<!-- Phase 13G — text and terminology consistency audit -->
 <main id="generator">
 <section class="card generator-console">
 <div class="generator-console-head"><div><span class="console-kicker">GENERAL STAFF RANDOMIZATION DEVICE</span><h2>Strategic Campaign Selector</h2></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
@@ -560,20 +561,20 @@ img,canvas{max-width:100%}
 </div></section>
 <aside class="card side controls command-panel">
 <div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Campaign Rules</h2><small>OPERATION PARAMETERS</small></div>
-<div class="command-field"><label>Wheel Stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for selected country</option><option value="path">Political path</option></select></div>
+<div class="command-field"><label>Wheel Stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for Selected Country</option><option value="path">Political Path</option></select></div>
 <div class="command-check"><label><input type="checkbox" id="uniqueOnly" checked disabled> Dedicated / special national content only</label></div><div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset">RESET GENERATOR</button>
 <div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#795548"></span>Fascist</p><p><span class="dot" style="background:#b71c1c"></span>Communist</p><p><span class="dot" style="background:#1565c0"></span>Democratic</p><p><span class="dot" style="background:#777"></span>Unaligned / Non-Aligned</p></div>
-<div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Field Campaign Log</b><button id="clearCampaignLog" type="button">CLEAR</button></div><div id="campaignLog"></div></div>
+<div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Campaign Log</b><button id="clearCampaignLog" type="button">CLEAR</button></div><div id="campaignLog"></div></div>
 <p class="small command-footnote">Political alignment wheels are filtered to major routes represented by each country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
 </main>
 <section id="achievementCenter"><div class="card achievement-archive">
 <div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Intelligence Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes.</p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
-<div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Records Shown</div></div>
+<div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Visible Records</div></div>
 <div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
-<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All records</option><option value="open">Not completed</option><option value="done">Completed</option></select></div></div>
+<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div></div>
 <div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED CAMPAIGN INTELLIGENCE</span></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
@@ -2176,7 +2177,7 @@ function showMission(path){
  currentPath=path;
  const a=pickAchievement(selected,selectedIdeology,path);
  const mission=document.getElementById('mission');
- document.getElementById('missionCountry').textContent='🌍 '+selected;
+ document.getElementById('missionCountry').textContent=selected;
  document.getElementById('dossierCountry').textContent=selected;
  document.getElementById('dossierIdeology').textContent=names[selectedIdeology];
  document.getElementById('dossierPath').textContent=path;
@@ -2225,7 +2226,7 @@ document.getElementById('clearFullHistory').onclick=clearCampaignHistory;
 document.getElementById('importSave').onchange=e=>importSaveData(e.target.files[0]);
 document.getElementById('clearCampaignLog').onclick=()=>{localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()};
 document.getElementById('rerollAchievement').onclick=()=>{if(!selected||!selectedIdeology||stage.value!=='path'||!currentPath)return;showMission(currentPath)};
-document.getElementById('completeMissionAchievement').onclick=()=>{if(!currentMission)return;const done=getCompleted();done.add(currentMission.name);setCompleted(done);currentMission._wasCompleted=true;document.getElementById('completeMissionAchievement').textContent='✓ ACHIEVEMENT COMPLETED';const badges=document.getElementById('missionBadges');const first=badges.querySelector('.mission-badge');if(first){first.classList.remove('open');first.classList.add('done');first.textContent='Completed'}document.getElementById('missionNote').textContent='Achievement marked completed. Future campaign rolls will prioritize unfinished targets.';renderAchievements()};
+document.getElementById('completeMissionAchievement').onclick=()=>{if(!currentMission)return;const done=getCompleted();done.add(currentMission.name);setCompleted(done);currentMission._wasCompleted=true;document.getElementById('completeMissionAchievement').textContent='✓ ACHIEVEMENT COMPLETED';const badges=document.getElementById('missionBadges');const first=badges.querySelector('.mission-badge');if(first){first.classList.remove('open');first.classList.add('done');first.textContent='Completed'}document.getElementById('missionNote').textContent='Achievement marked complete. Future campaign rolls will prioritize unfinished targets.';renderAchievements()};
 btn.onclick=spin;stage.onchange=()=>{btn.textContent=stage.value==='country'?'SPIN COUNTRY':stage.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()};document.getElementById('startCampaign').onclick=()=>{logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
 function resetCampaign(clearHistory=true){remaining=shuffledCountries();selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent='Spin to choose your next campaign. Country wedges use clean flag artwork with the country name over it.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
 document.getElementById('reset').onclick=()=>resetCampaign(true);
