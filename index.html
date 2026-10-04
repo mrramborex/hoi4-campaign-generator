@@ -632,8 +632,8 @@ img,canvas{max-width:100%}
 <section id="campaignHistory"><div class="card campaign-archive">
 <div class="campaign-archive-head"><div><span class="campaign-archive-kicker">GENERAL STAFF • AFTER ACTION RECORDS</span><h2>Campaign Operations Archive</h2><p class="small">Filed operations from previous War Room assignments. Review active commands, confirmed victories, abandoned operations, and campaign achievement records.</p></div><div class="archive-stamp">WAR<br>ROOM<small>ARCHIVE</small></div></div>
 <div class="stats campaign-archive-stats"><div class="stat"><b id="historyTotal">0</b>Operations Filed</div><div class="stat"><b id="historyVictories">0</b>Confirmed Victories</div><div class="stat"><b id="historyActive">0</b>Active Commands</div></div>
-<div class="archive-tools-label"><span>RECORDS OFFICE</span><span>ARCHIVE TRANSFER & MAINTENANCE</span></div>
-<div class="data-tools campaign-data-tools"><button id="exportSave" type="button">↓ EXPORT ARCHIVE</button><label for="importSave">↑ IMPORT ARCHIVE</label><input id="importSave" type="file" accept=".json,application/json"><button class="danger-btn" id="clearFullHistory" type="button" onclick="clearCampaignHistory()">× CLEAR ARCHIVE</button><div class="data-note" id="dataNote">Backup your Campaign History and achievement completion progress to a file, or restore it on another browser/device.</div></div>
+<div class="archive-tools-label"><span>RECORDS OFFICE</span><span>ARCHIVE MAINTENANCE</span></div>
+<div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearFullHistory" type="button" onclick="clearCampaignHistory()">× CLEAR ARCHIVE</button><div class="data-note">Campaign History is stored locally in this browser.</div></div>
 <div class="campaign-index-label"><span>OPERATION FILES</span><span>STATUS • ASSIGNMENT • DECORATION</span></div>
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
@@ -1617,19 +1617,9 @@ function logCurrentCampaign(){
  log.unshift(entry);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory();
 }
 const COMPLETED_KEY='hoi4CompletedAchievements';
-function exportSaveData(){
- const data={app:'HOI4 War Room',version:1,exportedAt:new Date().toISOString(),completed:[...getCompleted()],campaigns:getCampaignLog()};
- const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download='hoi4-campaign-generator-save.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
- document.getElementById('dataNote').textContent='Backup exported successfully.';
-}
 function normalizeCompleted(list){
  const catalog=new Map(flatAchievements().map(a=>[normAchievementName(a.name),a.name]));
  return [...new Set((Array.isArray(list)?list:[]).filter(x=>typeof x==='string').map(x=>catalog.get(normAchievementName(x))).filter(Boolean))];
-}
-function importSaveData(file){
- if(!file)return;const r=new FileReader();
- r.onload=()=>{try{if(typeof r.result!=='string'||r.result.length>5000000)throw new Error('Save too large');const data=JSON.parse(r.result);if(!data||!['HOI4 War Room','HOI4 Campaign Generator'].includes(data.app)||!Array.isArray(data.completed)||!Array.isArray(data.campaigns))throw new Error('Invalid save');setCompleted(new Set(normalizeCompleted(data.completed)));saveCampaignLog(data.campaigns);renderAchievements();renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Save imported successfully — achievement progress and Campaign History restored.'}catch(e){document.getElementById('dataNote').textContent='That file could not be imported. Please select a valid HOI4 War Room save file.'}document.getElementById('importSave').value=''};r.readAsText(file);
 }
 function getCompleted(){try{return new Set(normalizeCompleted(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]')))}catch(e){return new Set()}}
 function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify(normalizeCompleted([...set])))}
@@ -2402,9 +2392,7 @@ document.getElementById('navGenerator').onclick=()=>showSection('generator');
 document.getElementById('navAchievements').onclick=()=>{showSection('achievements');renderAchievements()};
 document.getElementById('navCampaigns').onclick=()=>{showSection('campaigns');renderCampaignHistory()};
 initAchievementCenter();renderCampaignLog();renderCampaignHistory();
-document.getElementById('exportSave').onclick=exportSaveData;
 document.getElementById('clearFullHistory').onclick=clearCampaignHistory;
-document.getElementById('importSave').onchange=e=>importSaveData(e.target.files[0]);
 document.getElementById('clearCampaignLog').onclick=()=>{localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()};
 document.getElementById('rerollAchievement').onclick=()=>{if(!selected||!selectedIdeology||stage.value!=='path'||!currentPath)return;showMission(currentPath)};
 function completeCurrentMissionAchievement(){if(!currentMission)return;const done=getCompleted();done.add(currentMission.name);setCompleted(done);currentMission._wasCompleted=true;document.getElementById('completeMissionAchievement').textContent='✓ ACHIEVEMENT COMPLETED';const badges=document.getElementById('missionBadges');const first=badges.querySelector('.mission-badge');if(first){first.classList.remove('open');first.classList.add('done');first.textContent='Completed'}document.getElementById('missionNote').textContent='Achievement marked complete. Future campaign rolls will prioritize unfinished targets.';renderAchievements()}
