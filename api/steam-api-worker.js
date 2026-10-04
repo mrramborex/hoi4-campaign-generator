@@ -14,15 +14,29 @@ function json(status, body) {
   });
 }
 
+// Phase 14D — canonical Steam profile parsing and SteamID64 resolution.
 function parseProfile(value) {
-  const input = String(value || "").trim();
-  if (/^7656119\d{10}$/.test(input)) return { steamid: input };
+  let input = String(value || "").trim();
+  if (!input) return null;
+  if (/^7656119\d{10}$/.test(input)) return { type: "steamid64", steamid: input, normalized: input };
+
+  // Accept copied Steam Community links with or without a scheme.
+  if (/^(?:www\.)?steamcommunity\.com\//i.test(input)) input = "https://" + input;
   let url;
   try { url = new URL(input); } catch { return null; }
   if (!/(^|\.)steamcommunity\.com$/i.test(url.hostname)) return null;
+
   const parts = url.pathname.split("/").filter(Boolean);
-  if (parts[0] === "profiles" && /^7656119\d{10}$/.test(parts[1] || "")) return { steamid: parts[1] };
-  if (parts[0] === "id" && /^[A-Za-z0-9_-]{2,64}$/.test(parts[1] || "")) return { vanity: parts[1] };
+  if (parts.length !== 2) return null;
+  const kind = (parts[0] || "").toLowerCase();
+  const identity = decodeURIComponent(parts[1] || "").trim();
+
+  if (kind === "profiles" && /^7656119\d{10}$/.test(identity)) {
+    return { type: "steamid64", steamid: identity, normalized: "https://steamcommunity.com/profiles/" + identity };
+  }
+  if (kind === "id" && /^[A-Za-z0-9_-]{2,64}$/.test(identity)) {
+    return { type: "vanity", vanity: identity, normalized: "https://steamcommunity.com/id/" + identity };
+  }
   return null;
 }
 
@@ -36,11 +50,11 @@ async function steamGet(path, params, key) {
 }
 
 async function resolveSteamId(profile, key) {
-  if (profile.steamid) return profile.steamid;
+  if (profile.type === "steamid64" && profile.steamid) return { steamid: profile.steamid, resolution: "direct" };
   const data = await steamGet("ISteamUser/ResolveVanityURL/v1/", { vanityurl: profile.vanity, url_type: 1 }, key);
   const resolved = data && data.response;
-  if (!resolved || Number(resolved.success) !== 1 || !resolved.steamid) return null;
-  return resolved.steamid;
+  if (!resolved || Number(resolved.success) !== 1 || !/^7656119\d{10}$/.test(resolved.steamid || "")) return null;
+  return { steamid: resolved.steamid, resolution: "vanity" };
 }
 
 export default {
@@ -55,13 +69,15 @@ export default {
     if (!profile) return json(400, { ok: false, error: "invalid_profile" });
 
     try {
-      const steamid = await resolveSteamId(profile, env.STEAM_WEB_API_KEY);
-      if (!steamid) return json(404, { ok: false, error: "profile_not_found" });
+      const resolved = await resolveSteamId(profile, env.STEAM_WEB_API_KEY);
+      if (!resolved) return json(404, { ok: false, error: "profile_not_found" });
 
-      // 14C proves the secure server boundary. Achievement retrieval is enabled in 14E.
       return json(200, {
         ok: true,
-        steamid,
+        steamid: resolved.steamid,
+        profileType: profile.type,
+        normalizedProfile: profile.normalized,
+        resolution: resolved.resolution,
         appid: HOI4_APP_ID,
         proxy: "ready",
         next: "achievement_retrieval"
