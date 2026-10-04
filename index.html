@@ -2358,13 +2358,7 @@ async function syncSteamAchievements(){
  }finally{clearTimeout(timeout);steamSyncInFlight=false;steamSyncButton.disabled=false;steamSyncButton.textContent='SYNC STEAM'}
 }
 if(steamSyncButton){steamSyncButton.addEventListener('click',syncSteamAchievements);document.getElementById('steamProfileInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();syncSteamAchievements()}})}
-function resetSteamSessionDisplay(){
- const input=document.getElementById('steamProfileInput'),state=document.getElementById('steamSyncState'),note=document.getElementById('steamSyncNote');
- if(input)input.value='';if(state){state.className='steam-sync-state';state.textContent='NOT LINKED'}if(note)note.textContent='Paste a Steam /id/ or /profiles/ link, then sync your achievement record.';
- ['steamHomeCompleted','steamHomeOpen','steamHomePct'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—'});
-}
-const steamViewAchievements=document.getElementById('steamViewAchievements');if(steamViewAchievements)steamViewAchievements.addEventListener('click',()=>document.getElementById('navAchievements').click());resetSteamSessionDisplay();
-const resetGeneratorButton=document.getElementById('reset');if(resetGeneratorButton)resetGeneratorButton.addEventListener('click',resetSteamSessionDisplay);
+const steamViewAchievements=document.getElementById('steamViewAchievements');if(steamViewAchievements)steamViewAchievements.addEventListener('click',()=>document.getElementById('navAchievements').click());updateSteamHomeSummary();
 // Steam summary is injected ahead of the generator in the main grid; redraw after the final layout settles.
 requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)});
 // Phase 14H — sync/error/privacy handling.
