@@ -531,7 +531,7 @@ img,canvas{max-width:100%}
 
 
 /* Phase 14B — Steam profile sync interface */
-.steam-sync-panel{margin:0 0 15px;padding:12px 13px;background:linear-gradient(100deg,#171c1b,#131711);border:1px solid #4a5146;border-left:3px solid #667f8b;box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.steam-sync-home{grid-column:1/-1}.steam-sync-home .steam-sync-panel{margin:0}.steam-sync-panel{margin:0 0 15px;padding:12px 13px;background:linear-gradient(100deg,#171c1b,#131711);border:1px solid #4a5146;border-left:3px solid #667f8b;box-shadow:inset 0 1px rgba(255,255,255,.025)}
 .steam-sync-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:9px}
 .steam-sync-kicker{display:block;font:8px var(--typewriter);letter-spacing:1.7px;color:#8098a0;margin-bottom:3px}
 .steam-sync-head h3{margin:0;font:600 15px var(--display);letter-spacing:1px;text-transform:uppercase;color:#d9dfd7}
@@ -556,6 +556,8 @@ img,canvas{max-width:100%}
 <!-- Phase 13G — text and terminology consistency audit -->
 <!-- Phase 13I — Release Candidate: Phase 13 audit gates passed -->
 <main id="generator">
+<!-- Phase 14H.1 — Steam-first campaign workflow -->
+<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
 <section class="card generator-console">
 <div class="generator-console-head"><div><span class="console-kicker">GENERAL STAFF RANDOMIZATION DEVICE</span><h2>Strategic Campaign Selector</h2></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
 <div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div></div>
@@ -591,7 +593,6 @@ img,canvas{max-width:100%}
 <section id="achievementCenter"><div class="card achievement-archive">
 <div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Intelligence Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes.</p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
 <div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Visible Records</div></div>
-<div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div>
 <div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
 <div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div></div>
 <div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED CAMPAIGN INTELLIGENCE</span></div>
@@ -2202,17 +2203,15 @@ function pickAchievement(country,ideology,path){
  const recent=getCampaignLog().slice(0,12).map(x=>x.achievement),remaining=all.filter(a=>!done.has(a.name)).length;
  const chooseWeighted=(pool,scope)=>{
   if(!pool.length)return null;
-  const open=pool.filter(a=>!done.has(a.name)),choices=open.length?open:pool;
-  const weighted=choices.map(a=>({a,w:Math.max(.18,1-Math.min(4,recent.filter(n=>n===a.name).length)*.22)}));
+  const weighted=pool.map(a=>({a,w:Math.max(.18,1-Math.min(4,recent.filter(n=>n===a.name).length)*.22)}));
   const total=weighted.reduce((t,x)=>t+x.w,0);let roll=Math.random()*total,pick=weighted[weighted.length-1].a;
   for(const x of weighted){roll-=x.w;if(roll<=0){pick=x.a;break}}
-  return {...pick,_wasCompleted:!open.length,_scope:scope,_remaining:remaining};
+  return {...pick,_wasCompleted:false,_scope:scope,_remaining:remaining};
  };
  const routeOpen=routeExact.filter(a=>!done.has(a.name)),countryOpen=countryGeneral.filter(a=>!done.has(a.name));
  if(routeOpen.length)return chooseWeighted(routeOpen,'route');
  if(countryOpen.length)return chooseWeighted(countryOpen,'country');
- if(routeExact.length)return chooseWeighted(routeExact,'route');
- return chooseWeighted(countryGeneral,'country');
+ return null;
 }
 let currentMission=null,currentPath=null;
 function updateMissionAchievement(a){
@@ -2240,9 +2239,9 @@ function showMission(path){
    document.getElementById('missionNote').textContent=a._wasCompleted?'All compatible unfinished country targets are cleared; selecting a completed achievement for this campaign.':(a._scope==='route'?'Unfinished achievement matched to this political route.':'Unfinished achievement matched to this country and ideology.');
    updateMissionAchievement(a);
  }else{
-   document.getElementById('missionAchIcon').style.display='none';document.getElementById('missionAchFallback').style.display='block';document.getElementById('missionBadges').innerHTML='<span class="mission-badge generic">Open Challenge</span>';document.getElementById('missionAchievement').textContent='Open Campaign Challenge';
-   document.getElementById('missionObjective').textContent='Complete this political path and take your nation to a major-power victory.';
-   document.getElementById('missionNote').textContent='No country-specific achievement is compatible with this campaign route. Generic archive achievements are intentionally excluded from spinner assignments.';updateMissionAchievement(null);
+   document.getElementById('missionAchIcon').style.display='none';document.getElementById('missionAchFallback').style.display='block';document.getElementById('missionBadges').innerHTML='<span class="mission-badge done">No Outstanding Decorations</span>';document.getElementById('missionAchievement').textContent='No Unfinished Achievement Available';
+   document.getElementById('missionObjective').textContent='All compatible achievement assignments for this country, ideology, and political route are already complete, or no country-specific achievement is mapped to this route.';
+   document.getElementById('missionNote').textContent='War Room will not assign a completed achievement. Start a new campaign to roll another route with an unfinished objective.';updateMissionAchievement(null);
  }
  mission.classList.add('show');
  mission.scrollIntoView({behavior:'smooth',block:'nearest'});
