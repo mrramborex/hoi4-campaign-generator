@@ -269,6 +269,35 @@ header p,.war-header-meta,.war-eyebrow,.console-kicker,.console-status,.instrume
 @media(max-width:800px){.wheel-instrument{padding-left:28px;padding-right:28px}.instrument-label{display:none}}
 @media(max-width:520px){.wheel-instrument{padding:13px 10px 8px}.spin#spin{width:min(100%,280px);min-width:0}.result{padding-left:8px;padding-right:8px}.generator-console-head{gap:8px}.console-status{font-size:9px}}
 
+
+/* Phase 13B — Campaign Orders / Results polish */
+.mission.show{animation:ordersReveal .28s ease-out both}
+@keyframes ordersReveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mission{box-shadow:0 0 0 3px #0d0f0c,0 16px 34px #000a,inset 0 1px #d8c57a12}
+.mission:after{inset:8px;border-color:#bea96f2e}
+.orders-header{padding-bottom:13px;margin-bottom:15px}
+.orders-file{box-shadow:inset 0 0 12px #0008}
+.mission-country{font-size:clamp(27px,4vw,35px);line-height:1.08;text-shadow:0 2px 2px #000}
+.mission-dossier{margin-top:8px;margin-bottom:18px}
+.dossier-field{min-height:54px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(180deg,#181a14,#12140f)}
+.dossier-value{line-height:1.3;overflow-wrap:anywhere}
+.orders-section-label{border-bottom:1px solid #484536;padding-bottom:5px;margin-top:18px}
+.mission-ach-row{gap:16px;padding:14px;box-shadow:inset 0 0 20px #0005}
+.mission-ach-row .mission-line span{display:inline-block;margin-top:4px;font-size:18px;line-height:1.3}
+.mission-objective{line-height:1.55;box-shadow:inset 0 0 16px #0004}
+.mission-badges{gap:6px;margin-top:10px}
+.mission-badge{box-shadow:inset 0 1px #ffffff0a}
+.orders-authorization{display:flex;align-items:center;gap:10px;letter-spacing:1.8px}
+.orders-authorization:before,.orders-authorization:after{content:'';height:1px;flex:1;background:#4c4939}
+.mission-secondary,.startCampaign,.newCampaign{transition:transform .12s ease,background .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease}
+.mission-secondary:hover,.newCampaign:hover{transform:translateY(-1px);border-color:#77765c}
+.mission-secondary:active,.newCampaign:active,.startCampaign:active{transform:translateY(1px)}
+.startCampaign{box-shadow:inset 0 1px #fff2b738,0 5px 14px #0007}
+.startCampaign:hover{transform:translateY(-1px);border-color:#dfc576;box-shadow:inset 0 1px #fff2b74d,0 7px 18px #0009}
+.mission-note{padding-top:9px;border-top:1px dashed #454334;line-height:1.45}
+@media(max-width:650px){.mission-actions{grid-template-columns:1fr}.mission-ach-row{gap:12px}.orders-file{min-width:52px}}
+@media(max-width:420px){.mission-ach-row{grid-template-columns:64px 1fr}.mission-ach-art{width:60px;height:60px}.mission-ach-row .mission-line span{font-size:15px}.mission-country{font-size:25px}}
+
 </style>
 </head><body>
 <header class="war-header">
