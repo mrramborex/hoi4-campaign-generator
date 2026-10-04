@@ -624,7 +624,7 @@ img,canvas{max-width:100%}
 <div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Intelligence Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes.</p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
 <div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Visible Records</div></div>
 <div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
-<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div></div>
+<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div><div class="archive-generic-toggle"><label>Generic</label><label class="command-check"><input id="achGeneric" type="checkbox" checked> Any Country / Any Minor</label></div></div>
 <div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED CAMPAIGN INTELLIGENCE</span></div><div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearAchievementProgressArchive" type="button" onclick="clearAchievementProgress()">× CLEAR COMPLETED ACHIEVEMENTS</button></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
@@ -1675,8 +1675,8 @@ function previewSteamAchievementSync(payload){
  return {...result,steamid:String(payload&&payload.steamid||''),steamUnlocked:Number(payload&&payload.unlockedCount||result.totalReceived),steamTotal:Number(payload&&payload.totalReturned||0)};
 }
 function renderAchievements(){
- const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value;
- const filtered=all.filter(a=>(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
+ const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,showGeneric=document.getElementById('achGeneric').checked;
+ const filtered=all.filter(a=>(showGeneric||(a.country!=='Any Country'&&a.country!=='Any Minor'))&&(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
  const completed=all.filter(a=>done.has(a.name)).length;
  document.getElementById('mappedCount').textContent=all.length;
  document.getElementById('completedCount').textContent=completed;
@@ -1686,7 +1686,7 @@ function renderAchievements(){
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
- ['achSearch','achCountry','achIdeology','achStatus'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
+ ['achSearch','achCountry','achIdeology','achStatus','achGeneric'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
 const achievementRules={
@@ -2311,30 +2311,33 @@ function items(){if(stage.value==='country')return remaining;if(stage.value==='i
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
 function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path'){const pp=['#4f5946','#66583f','#46585c','#624d47','#56523f','#4b5550'];return pp[i%pp.length]} const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
 function paintIdeologyInsignia(ideology,i,arc){
- // Counter-rotate the complete ideology plate so its artwork and lettering remain
- // horizontal while the wheel turns beneath it.
  ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(205,0);ctx.rotate(-((i+.5)*arc+angle));
- const cfg={
-  d:{letter:'D',title:'DEMOCRATIC',accent:'#d6e0dc'},
-  c:{letter:'C',title:'COMMUNIST',accent:'#e2c9b6'},
-  f:{letter:'F',title:'FASCIST',accent:'#dfc7ae'},
-  u:{letter:'U',title:'UNALIGNED',accent:'#e2d9b8'}
- }[ideology]||{letter:'?',title:'UNKNOWN',accent:'#e8dfc0'};
- ctx.shadowColor='rgba(0,0,0,.72)';ctx.shadowBlur=10;
- ctx.fillStyle='rgba(20,21,16,.94)';ctx.strokeStyle='#c8b46e';ctx.lineWidth=4;
+ const cfg={d:{title:'DEMOCRATIC',accent:'#d6e0dc'},c:{title:'COMMUNIST',accent:'#e2c9b6'},f:{title:'FASCIST',accent:'#dfc7ae'},u:{title:'UNALIGNED',accent:'#e2d9b8'}}[ideology];
+ ctx.shadowColor='rgba(0,0,0,.72)';ctx.shadowBlur=10;ctx.fillStyle='rgba(20,21,16,.94)';ctx.strokeStyle='#c8b46e';ctx.lineWidth=4;
  ctx.beginPath();ctx.arc(0,-12,52,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
- ctx.strokeStyle='rgba(235,216,153,.42)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,-12,44,0,Math.PI*2);ctx.stroke();
- ctx.strokeStyle='#95834e';ctx.lineWidth=3;
- for(let k=0;k<4;k++){ctx.save();ctx.translate(0,-12);ctx.rotate(k*Math.PI/2);ctx.beginPath();ctx.moveTo(0,-58);ctx.lineTo(0,-49);ctx.stroke();ctx.restore()}
- ctx.fillStyle='rgba(255,255,255,.035)';ctx.strokeStyle=cfg.accent;ctx.lineWidth=2.5;
- ctx.beginPath();ctx.moveTo(-24,-38);ctx.lineTo(24,-38);ctx.lineTo(20,-5);ctx.quadraticCurveTo(0,18,0,18);ctx.quadraticCurveTo(-20,-5,-20,-5);ctx.closePath();ctx.fill();ctx.stroke();
- ctx.fillStyle=cfg.accent;ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;
- ctx.font='bold 31px Georgia';ctx.fillText(cfg.letter,0,-15);ctx.shadowBlur=0;
- ctx.font='bold 11px Georgia';ctx.fillStyle='#d1bd78';ctx.fillText('★',0,4);
- // Ideology name sits below the medal rather than across the artwork.
- ctx.fillStyle='rgba(18,19,15,.88)';ctx.strokeStyle='#9f8e59';ctx.lineWidth=1.5;
- ctx.beginPath();ctx.roundRect(-55,47,110,28,5);ctx.fill();ctx.stroke();
- ctx.fillStyle='#f1e7c8';ctx.font='bold 11px Georgia';ctx.fillText(cfg.title,0,61);
+ ctx.strokeStyle='rgba(235,216,153,.4)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,-12,43,0,Math.PI*2);ctx.stroke();
+ ctx.strokeStyle=cfg.accent;ctx.fillStyle=cfg.accent;ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';
+ if(ideology==='d'){
+  // Classical assembly / civic columns.
+  ctx.beginPath();ctx.moveTo(-27,-25);ctx.lineTo(0,-39);ctx.lineTo(27,-25);ctx.closePath();ctx.stroke();
+  [-19,-6,7,20].forEach(x=>{ctx.beginPath();ctx.moveTo(x,-22);ctx.lineTo(x,4);ctx.stroke()});
+  ctx.beginPath();ctx.moveTo(-29,7);ctx.lineTo(29,7);ctx.moveTo(-24,14);ctx.lineTo(24,14);ctx.stroke();
+ }else if(ideology==='c'){
+  // Industrial gear + rising star.
+  ctx.beginPath();ctx.arc(0,-8,21,0,Math.PI*2);ctx.stroke();
+  for(let k=0;k<8;k++){ctx.save();ctx.rotate(k*Math.PI/4);ctx.beginPath();ctx.moveTo(0,-27);ctx.lineTo(0,-33);ctx.stroke();ctx.restore()}
+  ctx.beginPath();ctx.arc(0,-8,7,0,Math.PI*2);ctx.stroke();ctx.font='bold 17px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('★',0,-8);
+ }else if(ideology==='f'){
+  // Severe military eagle/chevron motif without historical party insignia.
+  ctx.beginPath();ctx.moveTo(0,-35);ctx.lineTo(0,11);ctx.moveTo(0,-23);ctx.lineTo(-30,-9);ctx.lineTo(-15,-4);ctx.lineTo(0,-11);ctx.lineTo(15,-4);ctx.lineTo(30,-9);ctx.lineTo(0,-23);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(-18,14);ctx.lineTo(0,3);ctx.lineTo(18,14);ctx.stroke();
+ }else{
+  // Crown and shield for monarchist/non-aligned routes.
+  ctx.beginPath();ctx.moveTo(-25,-10);ctx.lineTo(-19,-31);ctx.lineTo(-7,-18);ctx.lineTo(0,-35);ctx.lineTo(8,-18);ctx.lineTo(20,-31);ctx.lineTo(25,-10);ctx.closePath();ctx.stroke();
+  ctx.beginPath();ctx.moveTo(-21,-4);ctx.lineTo(21,-4);ctx.lineTo(17,15);ctx.lineTo(-17,15);ctx.closePath();ctx.stroke();
+ }
+ ctx.fillStyle='rgba(18,19,15,.9)';ctx.strokeStyle='#9f8e59';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(-55,47,110,28,5);ctx.fill();ctx.stroke();
+ ctx.fillStyle='#f1e7c8';ctx.font='bold 11px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(cfg.title,0,61);
  ctx.restore();
 }
 function paintPathPlate(path,i,arc){
