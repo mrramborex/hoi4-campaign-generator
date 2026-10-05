@@ -814,6 +814,67 @@ body{background:
  .generator-console-head:after,.command-panel:after,.steam-sync-home:before,.selector-command:before{display:none}
 }
 
+/* Phase 17B — Global shell and command navigation */
+html{background:#070a08}
+body{min-height:100vh;background:
+ radial-gradient(ellipse at 50% -12%,#343c2e 0,#151b15 31%,#090d0a 68%,#050705 100%) fixed!important}
+body:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;background:
+ repeating-linear-gradient(90deg,transparent 0 95px,#b6a06708 96px,transparent 97px 192px),
+ linear-gradient(90deg,#0008,transparent 16% 84%,#0008)}
+.war-header{position:relative;overflow:hidden;padding:15px 24px 14px!important;border-top:1px solid #776845;border-bottom:1px solid #9c8650!important;background:
+ linear-gradient(180deg,#20271d 0,#151b15 52%,#0b0f0c 100%)!important;
+ box-shadow:0 8px 30px #000b,inset 0 -1px #000,inset 0 1px #a9945c20!important}
+.war-header:before{content:"";position:absolute;inset:0;pointer-events:none;background:
+ linear-gradient(90deg,transparent 0 9%,#b09a5e13 9.1% 9.2%,transparent 9.3% 90.7%,#b09a5e13 90.8% 90.9%,transparent 91%),
+ radial-gradient(ellipse at 50% 0,#c2ad6c0e,transparent 48%)}
+.war-header:after{content:"GENERAL STAFF HEADQUARTERS • CAMPAIGN COMMAND";position:absolute;left:18px;bottom:8px;color:#9d8a5861;font:7px var(--typewriter);letter-spacing:1.7px;writing-mode:vertical-rl;transform:rotate(180deg)}
+.war-header-meta{position:relative;z-index:1;max-width:1160px!important;margin:0 auto 5px!important;padding:0 9px 6px!important;border-bottom:1px solid #5c543d;color:#b0a174!important;font-size:8px!important;letter-spacing:2.2px!important}
+.war-title-wrap{position:relative;z-index:1;max-width:1120px!important;margin:0 auto!important;padding:7px 0 12px!important}
+.war-title-wrap>div{position:relative;padding:0 30px}
+.war-title-wrap>div:before,.war-title-wrap>div:after{content:"";position:absolute;top:50%;width:28px;height:1px;background:#a58d52}
+.war-title-wrap>div:before{left:-8px}.war-title-wrap>div:after{right:-8px}
+.war-title-wrap h1{margin:3px 0 2px!important;font-size:clamp(38px,4.5vw,67px)!important;line-height:.98!important;letter-spacing:5px!important;color:#f0e2ba!important;text-shadow:0 2px 1px #000,0 0 22px #c2a76510!important}
+.war-eyebrow{font-size:8px!important;letter-spacing:3px!important;color:#c2a85f!important}
+.war-title-wrap p{margin-top:8px!important;font-size:8px!important;letter-spacing:2px!important;color:#9d947a!important}
+.war-wing{color:#b89d5a!important;font-size:12px!important;opacity:.75}
+.topnav{position:relative;z-index:2;max-width:920px!important;margin:6px auto -15px!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:0!important;border:1px solid #776a49!important;border-bottom:3px solid #080b08!important;background:#0b0f0c!important;box-shadow:0 6px 0 #050705,0 12px 28px #000a!important}
+.topnav:before,.topnav:after{content:"◆";position:absolute;top:50%;transform:translateY(-50%);color:#a88f51;font-size:8px}
+.topnav:before{left:-26px}.topnav:after{right:-26px}
+.topnav .navbtn{position:relative!important;min-height:52px!important;padding:10px 15px!important;border:0!important;border-right:1px solid #4e4b3b!important;border-radius:0!important;background:linear-gradient(#242a21,#191e18)!important;color:#cfc4a3!important;font-family:var(--display)!important;font-size:12px!important;letter-spacing:1.1px!important;text-transform:uppercase!important;box-shadow:inset 0 1px #ffffff08!important}
+.topnav .navbtn:last-child{border-right:0!important}
+.topnav .navbtn:before{content:"▸";margin-right:8px;color:#8f835f;font-size:8px}
+.topnav .navbtn:hover{background:linear-gradient(#333a2d,#22281f)!important;color:#f0dfad!important}
+.topnav .navbtn.active{background:linear-gradient(180deg,#91352a,#641d18)!important;color:#fff0c7!important;box-shadow:inset 0 1px #ffffff18,inset 0 -3px #42100d!important}
+.topnav .navbtn.active:before{content:"◆";color:#e1c76e}
+.topnav .support-navbtn{background:linear-gradient(#2b3025,#20251d)!important;color:#dfd0a5!important}
+.topnav .support-navbtn:hover{background:linear-gradient(#3a402f,#292f23)!important}
+main#generator,#achievementsPage,#campaignsPage{position:relative}
+main#generator{margin-top:0!important}
+@media(max-width:820px){
+ .war-header{padding-left:14px!important;padding-right:14px!important}
+ .war-title-wrap h1{letter-spacing:3px!important}
+ .topnav{grid-template-columns:1fr 1fr!important;max-width:620px!important;margin-bottom:-14px!important}
+ .topnav .navbtn:nth-child(2){border-right:0!important}
+ .topnav .navbtn{min-height:46px!important}
+}
+@media(max-width:520px){
+ .war-header{padding-top:10px!important}
+ .war-header-meta{display:none!important}
+ .war-title-wrap{padding-top:5px!important}
+ .war-title-wrap>div{padding:0 8px}
+ .war-title-wrap>div:before,.war-title-wrap>div:after,.war-wing{display:none!important}
+ .war-title-wrap h1{font-size:31px!important;letter-spacing:2px!important}
+ .war-eyebrow{font-size:7px!important;letter-spacing:1.7px!important}
+ .war-title-wrap p{font-size:7px!important;letter-spacing:1px!important}
+ .topnav{grid-template-columns:1fr 1fr!important;width:100%!important}
+ .topnav .navbtn{font-size:10px!important;padding:8px 6px!important}
+ .topnav .support-navbtn{grid-column:auto!important}
+}
+@media(max-width:360px){
+ .topnav{grid-template-columns:1fr!important}
+ .topnav .navbtn{border-right:0!important;border-bottom:1px solid #4e4b3b!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
