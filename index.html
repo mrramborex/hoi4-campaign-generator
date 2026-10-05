@@ -959,6 +959,17 @@ body:after{content:"";position:fixed;z-index:-2;inset:0;pointer-events:none;back
   repeating-linear-gradient(0deg,transparent 0 79px,#b19b5e26 80px,transparent 81px 160px)!important}
 }
 
+/* Phase 17B.3 — environment stacking fix */
+html{background:#050705!important}
+body{isolation:isolate!important}
+body:before,body:after{z-index:0!important}
+.war-header{position:relative!important;z-index:3!important}
+#generator,#achievementsPage,#campaignsPage{position:relative!important;z-index:2!important}
+.support-overlay{z-index:10000!important}
+@media(max-width:650px){
+ body:before,body:after{display:none!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
