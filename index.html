@@ -918,6 +918,47 @@ body:after{content:"";position:fixed;z-index:-2;inset:0;pointer-events:none;back
  body:before,body:after{display:none}
 }
 
+/* Phase 17B.2 — visible command-bunker outer environment */
+@media(min-width:1250px){
+ body{background:
+  linear-gradient(90deg,#090d0a 0 13.5%,transparent 13.6% 86.4%,#090d0a 86.5% 100%),
+  radial-gradient(ellipse at 50% 18%,#313a2c 0,#171d16 35%,#090d0a 76%) fixed!important}
+ body:before{opacity:1!important;background:
+  linear-gradient(90deg,
+   #111710 0 3.8%,#293026 3.9% 4.1%,#0a0e0b 4.2% 7.4%,#88764a 7.45% 7.55%,
+   #151b15 7.6% 12.2%,#4f4934 12.25% 12.35%,transparent 12.4% 87.6%,
+   #4f4934 87.65% 87.75%,#151b15 87.8% 92.4%,#88764a 92.45% 92.55%,
+   #0a0e0b 92.6% 95.8%,#293026 95.9% 96.1%,#111710 96.2% 100%),
+  repeating-linear-gradient(0deg,transparent 0 79px,#b19b5e24 80px,transparent 81px 160px)!important}
+ body:after{opacity:1!important;background:
+  /* left instrument stack */
+  linear-gradient(#9d895844,#9d895844) 2.2% 27%/7.5% 1px no-repeat,
+  linear-gradient(#9d895844,#9d895844) 2.2% 43%/7.5% 1px no-repeat,
+  linear-gradient(#9d895844,#9d895844) 2.2% 59%/7.5% 1px no-repeat,
+  radial-gradient(circle,#bba55f 0 2px,#1a2119 3px 8px,#796a463d 9px 10px,transparent 11px) 5.8% 34%/24px 24px no-repeat,
+  radial-gradient(circle,#87975a 0 2px,#1a2119 3px 8px,#796a463d 9px 10px,transparent 11px) 8.2% 50%/24px 24px no-repeat,
+  /* right instrument stack */
+  linear-gradient(#9d895844,#9d895844) 90.3% 27%/7.5% 1px no-repeat,
+  linear-gradient(#9d895844,#9d895844) 90.3% 43%/7.5% 1px no-repeat,
+  linear-gradient(#9d895844,#9d895844) 90.3% 59%/7.5% 1px no-repeat,
+  radial-gradient(circle,#a64e43 0 2px,#1a2119 3px 8px,#796a463d 9px 10px,transparent 11px) 91.8% 34%/24px 24px no-repeat,
+  radial-gradient(circle,#bba55f 0 2px,#1a2119 3px 8px,#796a463d 9px 10px,transparent 11px) 94.2% 50%/24px 24px no-repeat,
+  /* large strategic plotting arcs */
+  radial-gradient(ellipse at 50% 58%,transparent 0 42%,#b39a5c20 42.15% 42.3%,transparent 42.45% 54%,#b39a5c12 54.15% 54.3%,transparent 54.45%),
+  linear-gradient(116deg,transparent 0 10.8%,#c0a66535 10.9% 11%,transparent 11.1%),
+  linear-gradient(64deg,transparent 0 89%,#c0a66535 89.1% 89.2%,transparent 89.3%)!important}
+ .war-header{border-left:1px solid #665b3f;border-right:1px solid #665b3f}
+}
+@media(min-width:1550px){
+ body:before{background:
+  linear-gradient(90deg,
+   #0c110d 0 2.7%,#2d3529 2.8% 3%,#080c09 3.1% 6%,#9b8550 6.05% 6.15%,
+   #151b15 6.2% 11.8%,#514a34 11.85% 11.95%,transparent 12% 88%,
+   #514a34 88.05% 88.15%,#151b15 88.2% 93.8%,#9b8550 93.85% 93.95%,
+   #080c09 94% 96.9%,#2d3529 97% 97.2%,#0c110d 97.3% 100%),
+  repeating-linear-gradient(0deg,transparent 0 79px,#b19b5e26 80px,transparent 81px 160px)!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
