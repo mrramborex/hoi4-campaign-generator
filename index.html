@@ -678,7 +678,7 @@ const flagType={
 'Aussa':['aussa1936',['#c8102e']], 'Belgium':['v',['#000','#ffd90c','#ef3340']],  'Brazil':['diamond',['#009c3b','#ffdf00','#002776']], 'British Raj / India':['h',['#ff9933','#fff','#138808']], 'Bulgaria':['h',['#fff','#00966e','#d62612']],
 'Canada':['v',['#d80621','#fff','#d80621']], 'Chile':['h',['#fff','#d52b1e']],  'China (Nationalist)':['roc',['#fe0000','#000095','#fff']],  'Communist China':['star',['#de2910','#ffde00']], 'Guangxi Clique':['roc',['#fe0000','#000095','#fff']], 'Guangdong Clique':['roc',['#fe0000','#000095','#fff']], 'Yunnan':['yunnan',['#ffffff','#d71920','#000000']], 'Sichuan Clique':['roc',['#fe0000','#000095','#fff']], 'Northeastern Army':['roc',['#fe0000','#000095','#fff']], 'Shanxi':['roc',['#fe0000','#000095','#fff']], 'Sinkiang':['sinkiang',['#e31b23','#ffd700']], 'Khotan Ma':['maclique',['#c8102e','#ffffff']], 'Qinghai Ma':['maclique',['#c8102e','#ffffff']], 'Gansu Ma':['maclique',['#c8102e','#ffffff']], 'Ningxia Ma':['maclique',['#c8102e','#ffffff']], 'Hebei-Chahar':['fivecolor',['#d71920','#f4d03f','#003f8f','#ffffff','#111111']], 'Shandong Clique':['roc',['#fe0000','#000095','#fff']],
 'Congo':['belgiancongo',['#007fff','#f7d618','#ce1021']], 'Czechoslovakia':['h',['#fff','#d7141a']], 'Denmark':['nordic',['#c60c30','#fff']], 'Dutch East Indies / Indonesia':['h',['#ce1126','#fff']],
-'Estonia':['h',['#4891d9','#000','#fff']], 'Ethiopia':['h',['#078930','#fcd116','#da121a']], 'Finland':['cross',['#fff','#003580']], 'France':['v',['#0055a4','#fff','#ef4135']], 'Germany':['h',['#000','#dd0000','#ffce00']],
+'Estonia':['h',['#4891d9','#000','#fff']], 'Ethiopia':['h',['#078930','#fcd116','#da121a']], 'Finland':['cross',['#fff','#003580']], 'France':['v',['#0055a4','#fff','#ef4135']], 'Germany':['germany1936',['#111111','#f2eee2','#b51f2e']],
 'Greece':['h',['#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf','#fff','#0d5eaf']], 'Hungary':['h',['#ce2939','#fff','#477050']], 'Iceland':['nordic2',['#02529c','#fff','#dc1e35']],
 'Iran':['h',['#239f40','#fff','#da0000']], 'Iraq':['h',['#ce1126','#fff','#000']], 'Italy':['v',['#009246','#fff','#ce2b37']],  'Japan':['circle',['#fff','#bc002d']],
 'Latvia':['h',['#9e3039','#fff','#9e3039']], 'Lithuania':['h',['#fdb913','#006a44','#c1272d']],  'Manchukuo':['manchukuo',['#ffde00','#000','#fff','#0033a0','#d71920']], 'Mexico':['v',['#006847','#fff','#ce1126']],
@@ -735,7 +735,12 @@ function paintFlag(country,i,arc){
  } else if(country==='Soviet Union'){
    rect(x,y,w,h,'#cc0000'); rect(x,y,w*.24,h*.24,'#ffd700');
  } else if(country==='Japan'){
-   rect(x,y,w,h,'#ffffff'); rect(x+w*.40,y,w*.20,h,'#bc002d');
+   rect(x,y,w,h,'#ffffff');
+   ctx.fillStyle='#bc002d';ctx.beginPath();ctx.arc(x+w*.52,0,72,0,Math.PI*2);ctx.fill();
+ } else if(country==='Germany'){
+   // Period-style black/white/red German flag treatment, intentionally without Nazi symbolism.
+   // Horizontal bands in wheel-local coordinates keep the design readable on both dense and Major wheels.
+   rect(x,y,w,h,'#111111');rect(x,y+h/3,w,h/3,'#f2eee2');rect(x,y+2*h/3,w,h/3,'#b51f2e');
  } else if(country==='China (Nationalist)'){
    rect(x,y,w,h,'#fe0000'); rect(x,y,w*.34,h,'#000095'); rect(x+w*.10,y,w*.10,h,'#ffffff');
  } else if(country==='Communist China'){
@@ -781,7 +786,7 @@ function paintFlag(country,i,arc){
  } else if(type==='usa'){
    const ww=w/13; for(let k=0;k<13;k++) rect(x+k*ww,y,ww+1,h,k%2===0?c[0]:c[1]); rect(x,y,w*.43,h*.52,c[2]);
  } else if(type==='circle'||type==='japan'){
-   rect(x,y,w,h,c[0]); rect(x+w*.40,y,w*.20,h,c[1]);
+   rect(x,y,w,h,c[0]);ctx.fillStyle=c[1];ctx.beginPath();ctx.arc(x+w*.52,0,72,0,Math.PI*2);ctx.fill();
  } else if(type==='roc'){
    rect(x,y,w,h,c[0]); rect(x,y,w*.34,h,c[1]); rect(x+w*.10,y,w*.10,h,c[2]);
  } else if(type==='prc'||type==='ussr'){
