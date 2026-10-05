@@ -628,7 +628,34 @@ img,canvas{max-width:100%}
 .support-no-pressure{margin:13px 0 16px!important;text-align:center;color:#e2d5ae!important;font-style:italic}
 .support-disclaimer{padding-top:13px;border-top:1px solid #5e5943;color:#8f8a77!important;font-size:10px!important;line-height:1.45!important}
 body.support-modal-open{overflow:hidden}
-@media(max-width:520px){.support-overlay{padding:12px}.support-dialog{padding:24px 20px 20px;max-height:calc(100vh - 24px)}.support-dialog h2{font-size:23px}.support-navbtn{width:100%}}
+
+/* Phase 16C — Mobile / responsive support hardening */
+.support-overlay{padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+.support-dialog{max-height:calc(100dvh - 40px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.support-close{min-width:44px;min-height:44px;top:8px;right:8px}
+.support-tip{min-height:46px;touch-action:manipulation}
+@media(max-width:820px){
+ .topnav{flex-wrap:wrap}
+ .support-navbtn{flex:0 1 auto}
+}
+@media(max-width:520px){
+ .topnav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .topnav .navbtn{width:100%;min-height:44px;padding:9px 10px;font-size:11px}
+ .support-navbtn{grid-column:1/-1}
+ .support-overlay{align-items:flex-start;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+ .support-dialog{width:100%;max-height:calc(100dvh - 24px);padding:24px 18px 20px;margin:auto 0}
+ .support-dialog h2{font-size:23px;line-height:1.12;margin-right:46px}
+ .support-kicker{padding-right:42px;line-height:1.4}
+ .support-dialog p{font-size:14px;line-height:1.6}
+ .support-drink{line-height:1.4}
+ .support-tip{min-height:48px}
+}
+@media(max-width:360px){
+ .topnav{grid-template-columns:1fr}
+ .support-navbtn{grid-column:auto}
+ .support-dialog{padding-left:16px;padding-right:16px}
+ .support-dialog h2{font-size:21px}
+}
 @media(prefers-reduced-motion:reduce){.support-overlay,.support-dialog,.support-tip{transition:none!important}}
 
 </style>
