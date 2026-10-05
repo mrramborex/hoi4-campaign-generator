@@ -1150,6 +1150,24 @@ const achievementCountries=[
 function normAchievementName(n){return String(n||'').trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"')}
 const achievementIconIndex=Object.fromEntries(Object.entries(achievementIcons).map(([k,v])=>[normAchievementName(k),v]));
 function getAchievementIcon(name){return achievementIconIndex[normAchievementName(name)]||''}
+/* Phase 15A — Achievement Artwork Audit
+   Canonical display path: achievementIcons -> normalized achievementIconIndex -> getAchievementIcon().
+   Audit finding: artwork data is currently assembled from multiple legacy blocks and multiple Steam CDN hosts.
+   Phase 15B/15C will validate loadability and exact achievement-to-icon identity for all 293 entries.
+   Known user-reported targets: new Chinese achievement artwork load failures and "This is going to be LIT" artwork mismatch.
+*/
+function auditAchievementArtworkMap(){
+ const all=flatAchievements(),seen=new Map(),missing=[],duplicates=[],hosts={};
+ for(const a of all){
+  const key=normAchievementName(a.name),url=getAchievementIcon(a.name);
+  if(!url)missing.push(a.name);
+  if(seen.has(key))duplicates.push(a.name);else seen.set(key,a.name);
+  if(url){try{const h=new URL(url).hostname;hosts[h]=(hosts[h]||0)+1}catch(e){hosts.invalid=(hosts.invalid||0)+1}}
+ }
+ return {phase:'15A',catalog:all.length,mapped:all.length-missing.length,missing,duplicateCatalogNames:duplicates,hosts,
+ knownTargets:['New Chinese achievement artwork load failures','This is going to be LIT — wrong artwork']};
+}
+window.HOI4AchievementArtworkAudit=auditAchievementArtworkMap;
 const achievementAliases={
 'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
 'Scandinavia':['Denmark','Sweden','Norway','Finland','Iceland'],
