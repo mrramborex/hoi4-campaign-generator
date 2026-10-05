@@ -2612,4 +2612,14 @@ requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)});
 // Phase 14H — sync/error/privacy handling.
 // Phase 14H.2 — themed Steam service record summary.
 </script>
+
+<!-- Phase 16A — Ko-fi link-only support integration -->
+<script>
+const WAR_ROOM_SUPPORT_URL='https://ko-fi.com/HoI4WarRoom';
+function openWarRoomSupport(){
+  const win=window.open(WAR_ROOM_SUPPORT_URL,'_blank','noopener,noreferrer');
+  if(win)win.opener=null;
+}
+window.HOI4WarRoomSupport={phase:'16A',provider:'Ko-fi',mode:'public-link-only',url:WAR_ROOM_SUPPORT_URL,open:openWarRoomSupport};
+</script>
 </body></html>
