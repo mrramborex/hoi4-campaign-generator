@@ -1216,7 +1216,8 @@ function auditAchievementArtworkRuntime(){
   records.push({name:a.name,key,mapped:!!url,url});
  }
  const duplicateArtwork=[...duplicateUrls.entries()].filter(([,names])=>names.length>1).map(([url,names])=>({url,names}));
- const result={phase:'15F',catalog:all.length,target:STEAM_ACHIEVEMENT_TARGET,mapped:records.filter(x=>x.mapped).length,missing,invalid,duplicateArtwork,passed:all.length===STEAM_ACHIEVEMENT_TARGET&&missing.length===0&&invalid.length===0};
+ const suspiciousDuplicateArtwork=duplicateArtwork.filter(x=>new Set(x.names.map(normAchievementName)).size>1);
+ const result={phase:'15F',catalog:all.length,target:STEAM_ACHIEVEMENT_TARGET,mapped:records.filter(x=>x.mapped).length,missing,invalid,duplicateArtwork,suspiciousDuplicateArtwork,passed:all.length===STEAM_ACHIEVEMENT_TARGET&&missing.length===0&&invalid.length===0&&suspiciousDuplicateArtwork.length===0};
  if(result.passed)console.info('HOI4 WAR ROOM — PHASE 15F ARTWORK RUNTIME MAP PASSED',result);
  else console.error('HOI4 WAR ROOM — PHASE 15F ARTWORK RUNTIME MAP FAILED',result);
  return result;
