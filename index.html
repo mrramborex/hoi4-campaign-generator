@@ -667,6 +667,75 @@ img,canvas{max-width:100%}
 }
 
 
+/* Phase 17A.3 — Generator operations-table layout prototype */
+#generator{max-width:1380px!important;grid-template-columns:minmax(680px,1fr) 330px!important;gap:24px!important;padding:32px 26px 46px!important;background:
+ radial-gradient(circle at 39% 43%,transparent 0 24%,#06080655 58%,#020302a8 100%),
+ linear-gradient(90deg,#172019dd,#22291fbb 48%,#121711e8),
+ repeating-linear-gradient(0deg,transparent 0 34px,#b5a2680b 35px,transparent 36px 70px)!important;
+ border:1px solid #383b30;border-top-color:#716545;box-shadow:inset 0 0 100px #000b,0 24px 60px #0008}
+#generator:before{inset:0!important;height:auto!important;background:
+ linear-gradient(115deg,transparent 0 16%,#a48f5520 16.1% 16.25%,transparent 16.35% 100%),
+ linear-gradient(24deg,transparent 0 61%,#a48f5515 61.1% 61.25%,transparent 61.35% 100%),
+ radial-gradient(circle at 43% 45%,transparent 0 28%,#0008 74%)!important;mask-image:none!important}
+#generator:after{content:"EUROPEAN THEATER • GENERAL STAFF OPERATIONS TABLE"!important;top:10px!important;left:28px!important;color:#c2ab6a66!important}
+.steam-sync-home{grid-column:1/-1!important;position:relative;z-index:4}
+.steam-sync-home .steam-sync-panel{display:grid!important;grid-template-columns:minmax(180px,.8fr) minmax(360px,1.8fr) minmax(280px,1.15fr)!important;align-items:center!important;gap:15px!important;margin:0!important;padding:9px 12px!important;border:1px solid #5b5845!important;border-left:3px solid #927d4e!important;background:linear-gradient(90deg,#111510f2,#1b2019f2)!important;box-shadow:0 7px 20px #0008!important}
+.steam-sync-home .steam-sync-head{margin:0!important;align-items:center!important}
+.steam-sync-home .steam-sync-head h3{font-size:12px!important}
+.steam-sync-home .steam-sync-kicker{font-size:7px!important}
+.steam-sync-home .steam-sync-copy,.steam-sync-home .steam-sync-privacy{display:none!important}
+.steam-sync-home .steam-sync-form{grid-column:2!important;grid-row:1!important}
+.steam-sync-home .steam-sync-form input{padding:8px!important}
+.steam-sync-home .steam-sync-form button{padding:8px 12px!important}
+.steam-sync-home .steam-sync-summary{grid-column:3!important;grid-row:1!important;margin:0!important;gap:4px!important}
+.steam-sync-home .steam-sync-metric{padding:5px!important;background:#0b0e0b!important}
+.steam-sync-home .steam-sync-metric b{font-size:13px!important}
+.steam-sync-home .steam-sync-metric span{font-size:6px!important}
+.steam-sync-home .steam-sync-details,.steam-sync-home .steam-sync-note{display:none!important}
+.generator-console{grid-column:1!important;min-height:760px;padding:0 30px 30px!important;background:
+ radial-gradient(circle at 50% 45%,#3a3f30 0 8%,#1c211a 43%,#0b0e0b 77%)!important;border-color:#8d7a4d!important}
+.generator-console:before{inset:13px!important;border-color:#c5ad6828!important}
+.generator-console-head{margin:0 -30px 24px!important;padding:19px 25px 17px!important;background:linear-gradient(90deg,#0c100d,#333b2c 42%,#171c15)!important}
+.generator-console-head h2{font-size:28px!important;letter-spacing:2.7px!important}
+.operation-subtitle{color:#9b9277!important}
+.wheel-instrument{width:min(680px,92%)!important;max-width:680px!important;padding:31px!important;background:
+ radial-gradient(circle,#30362a 0 51%,#0d100d 51.5% 58%,#8c7b50 58.5% 59%,#151914 60% 65%,#4a493d 66% 68%,#080b08 69% 100%)!important}
+.wheel-instrument:before{content:"N"!important;left:50%!important;top:7px!important;transform:translateX(-50%)!important;font:700 9px var(--typewriter)!important}
+.wheel-instrument:after{content:"S"!important;right:auto!important;left:50%!important;top:auto!important;bottom:7px!important;transform:translateX(-50%)!important;font:700 9px var(--typewriter)!important}
+.instrument-left{left:5px!important}.instrument-right{right:5px!important}
+.selector-command{margin-top:34px!important}
+.generator-console>.result{max-width:720px!important;margin-top:30px!important;background:linear-gradient(90deg,#0a0d0b,#1d221a,#0a0d0b)!important}
+.command-panel{grid-column:2!important;align-self:start!important;position:sticky!important;top:18px!important;padding:0 15px 18px!important;background:linear-gradient(160deg,#30352a,#151914 62%,#0b0e0b)!important;border-color:#85764e!important}
+.command-panel-head{margin:0 -15px 20px!important;padding:18px 15px 16px!important;background:linear-gradient(110deg,#121610,#292f24)!important}
+.command-panel-head h2{font-size:21px!important;max-width:190px}
+.command-panel-head:before{content:"OP-17 / CONTROL";display:block;margin-bottom:7px;color:#a79055;font:7px var(--typewriter);letter-spacing:1.5px}
+.command-field{margin-top:2px!important;padding:14px!important}
+.command-panel .legend{margin-top:16px!important}
+.command-panel .history,.command-panel .campaign-log{margin-top:10px!important}
+.command-footnote{font-size:8px!important;line-height:1.5!important}
+.mission{position:relative;z-index:3}
+@media(min-width:1100px){
+ .generator-console{transform:perspective(1600px) rotateX(.35deg);transform-origin:50% 0}
+ .command-panel{margin-top:18px}
+}
+@media(max-width:1050px){
+ #generator{grid-template-columns:1fr!important;padding:24px 18px 38px!important}
+ .generator-console,.command-panel{grid-column:1!important}
+ .command-panel{position:relative!important;top:auto!important;margin-top:0!important}
+ .steam-sync-home .steam-sync-panel{grid-template-columns:1fr 1.7fr!important}
+ .steam-sync-home .steam-sync-summary{grid-column:1/-1!important;grid-row:2!important}
+}
+@media(max-width:650px){
+ #generator{padding:14px 10px 28px!important}
+ .steam-sync-home .steam-sync-panel{display:block!important;padding:10px!important}
+ .steam-sync-home .steam-sync-form{margin-top:8px}
+ .steam-sync-home .steam-sync-summary{margin-top:7px!important}
+ .generator-console{min-height:0;padding:0 12px 20px!important}
+ .generator-console-head{margin:0 -12px 18px!important}
+ .generator-console-head h2{font-size:21px!important}
+ .wheel-instrument{width:100%!important;padding:17px!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
