@@ -2723,5 +2723,26 @@ function auditWarRoomSupportSecurity(){
 }
 window.HOI4WarRoomSupportSecurityAudit=auditWarRoomSupportSecurity;
 
+/* Phase 16E — Final Support system QA / release certification */
+function warRoomPhase16ReleaseGate(){
+ const phase15=typeof warRoomPhase15ReleaseGate==='function'?warRoomPhase15ReleaseGate():null;
+ const security=typeof auditWarRoomSupportSecurity==='function'?auditWarRoomSupportSecurity():null;
+ const checks={
+  phase15Certified:!!(phase15&&phase15.passed),
+  countryRoster:typeof countries!=='undefined'&&Object.keys(countries).length===65,
+  achievementCatalog:typeof flatAchievements==='function'&&flatAchievements().length===293,
+  supportIntegration:!!(window.HOI4WarRoomSupport&&window.HOI4WarRoomSupport.phase==='16A'&&window.HOI4WarRoomSupport.uiPhase==='16B'),
+  responsiveSupport:!!(supportOverlay&&supportDialog&&supportOpenButton&&supportCloseButton&&supportTipButton),
+  securityCertified:!!(security&&security.pass),
+  canonicalDestination:WAR_ROOM_SUPPORT_URL==='https://ko-fi.com/HoI4WarRoom'
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ const result={phase:'16E',checks,failures,countries:typeof countries!=='undefined'?Object.keys(countries).length:null,achievements:typeof flatAchievements==='function'?flatAchievements().length:null,supportDestination:WAR_ROOM_SUPPORT_URL,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 16E SUPPORT RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 16E SUPPORT RELEASE GATE FAILED',result);
+ return result;
+}
+window.HOI4WarRoomPhase16ReleaseGate=warRoomPhase16ReleaseGate;
+
 </script>
 </body></html>
