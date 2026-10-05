@@ -606,46 +606,66 @@ img,canvas{max-width:100%}
 #countryRoster option{background:#20251b;color:#f2e8c9}
 #countryRoster:focus{outline:none;border-color:#b69b58!important;box-shadow:0 0 0 2px #b69b5826}
 
-/* Phase 17A — Operation Overhaul: Generator Prototype */
-#generator{position:relative;isolation:isolate}
-#generator:before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:min(760px,78vh);pointer-events:none;background:radial-gradient(ellipse at 38% 30%,#62634412 0 18%,transparent 55%),repeating-linear-gradient(18deg,transparent 0 42px,#a99b6710 43px,transparent 44px 86px);mask-image:linear-gradient(#000,transparent)}
-.generator-console{position:relative;overflow:hidden;border-color:#625b43!important;border-radius:4px!important;background:linear-gradient(145deg,#252a22 0%,#171b16 58%,#11140f 100%)!important;box-shadow:0 18px 42px #000a,inset 0 0 0 1px #9c895d18,inset 0 -28px 70px #0007!important}
-.generator-console:before{content:"";position:absolute;inset:8px;pointer-events:none;border:1px solid #c1aa6a12}
-.generator-console:after{content:"GENERAL STAFF // CAMPAIGN OPERATIONS";position:absolute;right:16px;bottom:8px;color:#82765755;font:7px var(--typewriter);letter-spacing:1.5px;pointer-events:none}
-.generator-console-head{position:relative;z-index:2;margin:0 0 17px;padding:11px 12px 13px;border:1px solid #4d4b3b;background:linear-gradient(90deg,#11140f,#20251d 52%,#11140f);box-shadow:inset 0 1px #ffffff08,inset 0 -8px 20px #0006}
-.generator-console-head h2{font-size:21px;text-transform:uppercase;color:#eadcae;text-shadow:0 2px #000}
-.operation-subtitle{display:block;margin-top:4px;color:#77725e;font:8px var(--typewriter);letter-spacing:1.6px}
-.console-status{border-color:#566046;background:#0d110d;box-shadow:inset 0 0 8px #000,0 0 0 1px #111;color:#aeb991}
-.wheel-instrument{max-width:720px;padding:23px;border:1px solid #756c50;background:radial-gradient(circle at 50% 47%,#343a2e 0 46%,#20251e 47% 57%,#0d100d 73%);box-shadow:0 0 0 3px #0c0f0c,0 0 0 5px #554f3c,0 15px 34px #000b,inset 0 0 0 5px #181c16,inset 0 0 36px #000c}
-.wheel-instrument:before,.wheel-instrument:after{content:"✦";color:#9a895c;font-size:12px}
-.wheel-instrument .wheelwrap{max-width:650px;border-radius:50%;box-shadow:0 0 0 2px #a58f5838,0 0 0 9px #0b0e0b,0 0 0 11px #5d57443d,0 13px 32px #000d}
-.wheel-instrument .wheelwrap:before{inset:0;border:2px solid #b9a46a55;box-shadow:inset 0 0 20px #000b,0 0 0 3px #24291f,0 0 0 5px #7c704d33}
-.wheel-instrument .pointer{top:-13px;border-left-width:20px;border-right-width:20px;border-top:42px solid #c8ad63;filter:drop-shadow(0 3px 2px #000) drop-shadow(0 0 2px #ead693)}
-.instrument-label{color:#948765;letter-spacing:1.5px}
-.selector-command{max-width:610px;margin-top:25px}
-.selector-command .spin{min-width:300px;padding:13px 26px;border-radius:2px;border-color:#b99d59;background:linear-gradient(#76271f,#531712);font-family:var(--display);font-size:14px;letter-spacing:1.4px;box-shadow:inset 0 1px #ffffff1a,0 5px 14px #0008;text-transform:uppercase}
-.selector-command .spin:hover{background:linear-gradient(#8a3025,#641d16);box-shadow:inset 0 1px #ffffff20,0 6px 16px #0009}
-.command-rule{background:linear-gradient(90deg,transparent,#9b8958 70%,#c2aa68)}
-.generator-console>.result{position:relative;max-width:660px;min-height:82px;margin-top:24px;padding:13px 18px 12px;border-top:1px solid #514d3b;border-bottom:1px solid #37382d;background:#0d100c66;color:#aaa58f}
-.generator-console>.result:before{content:"FIELD INTELLIGENCE // GENERAL STAFF BRIEFING";color:#a18e5f}
-.command-panel{position:relative;border-radius:4px!important;border-color:#5c5845!important;background:linear-gradient(160deg,#22271e,#151913 72%)!important;box-shadow:0 15px 34px #0009,inset 0 0 0 1px #9d8b5d12!important}
-.command-panel:before{content:"";position:absolute;inset:7px;pointer-events:none;border:1px solid #b29a5b10}
-.command-panel-head{position:relative;margin:-3px -3px 16px;padding:11px 10px 12px;border-bottom:1px solid #625b43;background:#10130f}
-.command-panel-head h2{margin:3px 0 2px;color:#e3d4a8;font-size:18px;text-transform:uppercase;letter-spacing:1.3px}
-.command-panel-head span,.command-panel-head small{font:8px var(--typewriter);letter-spacing:1.4px;color:#887d61}
-.command-field{position:relative;padding:11px 10px 12px;border:1px solid #444638;background:#11140f}
-.command-field label{color:#a99b72}
-.command-panel .command-check{margin:12px 0;padding:10px;border-top:1px solid #3f4033;border-bottom:1px solid #3f4033;background:#171b15}
-.command-panel .command-reset{border-radius:2px;background:#272c22;border-color:#69634d;color:#d5c9a8;font-size:11px;letter-spacing:1.1px}
-.command-panel .legend{padding:12px 10px;border:1px solid #3f4033;background:#11140f}
-.command-panel .legend>b,.command-panel .history>b,.campaign-log-head b{font-family:var(--display);font-size:11px;letter-spacing:.8px;color:#c9ba8f;text-transform:uppercase}
+/* Phase 17A.2 — Operation Overhaul: high-contrast Generator Prototype */
+#generator{position:relative;isolation:isolate;max-width:1240px;grid-template-columns:minmax(0,1fr) 350px;gap:28px;padding-top:26px}
+#generator:before{content:"";position:absolute;z-index:-2;inset:0 -40px -20px;pointer-events:none;background:linear-gradient(#0a0d0bdb,#0d100dd9),repeating-linear-gradient(27deg,transparent 0 48px,#8f805922 49px,transparent 50px 96px);border-top:1px solid #6f65492e}
+#generator:after{content:"OPERATION THEATER // EUROPE 1936";position:absolute;z-index:-1;top:5px;left:18px;color:#a795642e;font:8px var(--typewriter);letter-spacing:2.5px}
+.generator-console{position:relative;overflow:visible!important;padding:0 22px 26px!important;border:1px solid #7b6c48!important;border-radius:2px!important;background:linear-gradient(155deg,#30362a 0,#171c17 38%,#0d110e 100%)!important;box-shadow:0 0 0 5px #090c0a,0 0 0 6px #5f563d,0 26px 60px #000d,inset 0 0 70px #0008!important}
+.generator-console:before{content:"";position:absolute;z-index:0;inset:10px;pointer-events:none;border:1px solid #c9ae641c;background:linear-gradient(90deg,transparent 49.8%,#b29c5c0c 50%,transparent 50.2%)}
+.generator-console:after{content:"GENERAL STAFF • AUTHORIZED CAMPAIGN ASSIGNMENT DEVICE";position:absolute;right:22px;bottom:9px;color:#9a895c6b;font:7px var(--typewriter);letter-spacing:1.6px;pointer-events:none}
+.generator-console-head{position:relative;z-index:2;margin:0 -22px 26px!important;padding:17px 20px 15px!important;border:0!important;border-bottom:2px solid #9b8551!important;background:linear-gradient(90deg,#10140f,#33392b 48%,#121610)!important;box-shadow:0 7px 18px #0009,inset 0 -1px #000!important}
+.generator-console-head:before{content:"◆";position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#c0a45c;font-size:8px}
+.generator-console-head>div:first-child{padding-left:7px}
+.generator-console-head h2{margin:2px 0 0!important;font-size:25px!important;line-height:1!important;text-transform:uppercase;color:#f0dfad!important;letter-spacing:2px!important;text-shadow:0 2px 2px #000}
+.console-kicker{color:#b19a62!important;letter-spacing:2.1px!important}
+.operation-subtitle{display:block;margin-top:7px;color:#8b866f;font:8px var(--typewriter);letter-spacing:2px}
+.console-status{padding:7px 10px!important;border:1px solid #667151!important;background:#080c08!important;color:#b9c49b!important;box-shadow:inset 0 0 12px #000,0 0 8px #6e7b4218!important}
+.status-lamp{background:#a6b963!important;box-shadow:0 0 8px #b2c76e!important}
+.wheel-instrument{position:relative;max-width:700px!important;margin:0 auto!important;padding:34px!important;border:0!important;border-radius:50%!important;aspect-ratio:1;background:radial-gradient(circle,#2f352a 0 49%,#161b16 50% 57%,#74684b 57.5% 58.2%,#111510 59% 65%,#3e4035 66% 68%,#090c09 69% 100%)!important;box-shadow:0 0 0 2px #9c895b,0 0 0 9px #0a0d0a,0 0 0 11px #4f4938,0 28px 48px #000d,inset 0 0 55px #000!important}
+.wheel-instrument:before,.wheel-instrument:after{content:"◆"!important;position:absolute!important;z-index:5!important;top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;color:#b69b58!important;font-size:11px!important}
+.wheel-instrument:before{left:11px!important}.wheel-instrument:after{right:11px!important}
+.wheel-instrument .wheelwrap{max-width:none!important;width:100%;border-radius:50%;box-shadow:0 0 0 3px #090c09,0 0 0 5px #a38c553d,0 18px 35px #000e!important}
+.wheel-instrument .wheelwrap:before{inset:0!important;border:2px solid #d1b86b66!important;box-shadow:inset 0 0 30px #000d,0 0 0 7px #171b15,0 0 0 9px #6e634746!important}
+.wheel-instrument .pointer{top:-21px!important;border-left-width:24px!important;border-right-width:24px!important;border-top:52px solid #d2b663!important;filter:drop-shadow(0 4px 2px #000) drop-shadow(0 0 4px #d9bf70)!important}
+.instrument-label{z-index:6!important;color:#c2ad70!important;font-size:7px!important;letter-spacing:1.8px!important;text-shadow:0 1px #000}
+.instrument-left{left:13px!important}.instrument-right{right:13px!important}
+.selector-command{position:relative;z-index:2;max-width:650px!important;margin:32px auto 10px!important;gap:16px!important}
+.selector-command .spin{min-width:330px!important;margin:0!important;padding:15px 28px!important;border:1px solid #d1b161!important;border-radius:1px!important;background:linear-gradient(#8c3025,#5a1813)!important;color:#fff0c5!important;font:700 14px var(--display)!important;letter-spacing:1.7px!important;text-transform:uppercase;box-shadow:0 0 0 3px #0b0d0a,0 7px 17px #000b,inset 0 1px #ffffff2b!important}
+.selector-command .spin:hover{background:linear-gradient(#a03a2d,#6a2018)!important;transform:translateY(-1px)}
+.command-rule{height:2px!important;background:linear-gradient(90deg,transparent,#6f6448 35%,#d0b263)!important}
+.generator-console>.result{position:relative;z-index:2;max-width:670px!important;min-height:92px!important;margin:27px auto 0!important;padding:17px 20px 15px!important;border:1px solid #494b3c!important;border-left:4px solid #8d7a4e!important;background:linear-gradient(90deg,#0b0f0c,#161a14)!important;color:#b9b39e!important;text-align:left!important;box-shadow:inset 0 0 18px #0008}
+.generator-console>.result:before{content:"FIELD INTELLIGENCE // GENERAL STAFF BRIEFING"!important;display:block!important;margin-bottom:9px!important;color:#c0a563!important;font-size:8px!important;letter-spacing:1.8px!important}
+.command-panel{position:relative;padding:0 16px 18px!important;border:1px solid #756947!important;border-radius:2px!important;background:linear-gradient(160deg,#292e24,#121612 72%)!important;box-shadow:0 0 0 4px #090c0a,0 0 0 5px #4c4737,0 22px 46px #000c,inset 0 0 40px #0007!important}
+.command-panel:before{content:"";position:absolute;inset:8px;pointer-events:none;border:1px solid #b29a5b16}
+.command-panel-head{position:relative;margin:0 -16px 18px!important;padding:15px 16px 13px!important;border:0!important;border-bottom:2px solid #8d794c!important;background:linear-gradient(90deg,#0d110d,#252a20)!important;box-shadow:0 6px 15px #0008}
+.command-panel-head:after{content:"AUTHORIZED";position:absolute;right:12px;top:13px;padding:3px 5px;border:1px solid #665e46;color:#81775e;font:7px var(--typewriter);letter-spacing:1px}
+.command-panel-head h2{margin:4px 0 3px!important;color:#ead9a8!important;font-size:19px!important;text-transform:uppercase;letter-spacing:1.5px}
+.command-panel-head span,.command-panel-head small{font:8px var(--typewriter)!important;letter-spacing:1.5px!important;color:#95865f!important}
+.command-field{padding:13px!important;border:1px solid #53513e!important;border-left:3px solid #89784d!important;background:#0d110e!important;box-shadow:inset 0 0 15px #0006}
+.command-field label{color:#c2b181!important}
+.command-field select{margin-top:3px;padding:10px!important;border-radius:1px!important;border-color:#666047!important;background:#171b15!important}
+.command-audit{margin:9px 2px 0;padding:8px;border-bottom:1px solid #383a30;color:#777564!important}
+.command-panel .command-check{margin:13px 0!important;padding:11px!important;border:1px solid #454638!important;background:#111510!important}
+.command-panel .command-reset{margin:0 0 14px!important;padding:10px!important;border:1px solid #665f49!important;border-radius:1px!important;background:#24291f!important;color:#d5c9a8!important;font:700 10px var(--display)!important;letter-spacing:1.3px!important}
+.command-panel .legend{margin-top:0!important;padding:13px!important;border:1px solid #444638!important;background:#0d110e!important}
+.command-panel .legend>b,.command-panel .history>b,.campaign-log-head b{font-family:var(--display)!important;font-size:11px!important;letter-spacing:1px!important;color:#d1bf8c!important;text-transform:uppercase}
+.command-panel .history,.command-panel .campaign-log{padding:11px;border-left:1px solid #444638;border-right:1px solid #444638;background:#10140f}
+.command-footnote{padding:10px;border-top:1px solid #494638;color:#77715f!important}
+@media(max-width:900px){#generator{grid-template-columns:1fr}.command-panel{max-width:none}.wheel-instrument{max-width:680px!important}}
 @media(max-width:650px){
- .generator-console-head{align-items:flex-start}
- .operation-subtitle{letter-spacing:1px}
- .wheel-instrument{padding:13px}
- .selector-command .spin{min-width:0;width:100%;font-size:12px}
- .generator-console>.result{margin-top:19px;padding-left:10px;padding-right:10px}
+ #generator{padding:12px!important;gap:18px}
+ .generator-console{padding:0 12px 20px!important}
+ .generator-console-head{margin:0 -12px 18px!important;padding:14px 13px!important}
+ .generator-console-head h2{font-size:20px!important}
+ .console-status{font-size:7px!important;padding:5px 6px!important}
+ .operation-subtitle{letter-spacing:1.1px}
+ .wheel-instrument{padding:20px!important}
+ .instrument-label{display:none!important}
+ .selector-command{margin-top:24px!important}
+ .selector-command .spin{min-width:0!important;width:100%;font-size:11px!important;padding:13px 12px!important}
+ .generator-console>.result{margin-top:20px!important;padding:13px!important}
 }
+
 
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
