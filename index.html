@@ -606,6 +606,47 @@ img,canvas{max-width:100%}
 #countryRoster option{background:#20251b;color:#f2e8c9}
 #countryRoster:focus{outline:none;border-color:#b69b58!important;box-shadow:0 0 0 2px #b69b5826}
 
+/* Phase 17A — Operation Overhaul: Generator Prototype */
+#generator{position:relative;isolation:isolate}
+#generator:before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:min(760px,78vh);pointer-events:none;background:radial-gradient(ellipse at 38% 30%,#62634412 0 18%,transparent 55%),repeating-linear-gradient(18deg,transparent 0 42px,#a99b6710 43px,transparent 44px 86px);mask-image:linear-gradient(#000,transparent)}
+.generator-console{position:relative;overflow:hidden;border-color:#625b43!important;border-radius:4px!important;background:linear-gradient(145deg,#252a22 0%,#171b16 58%,#11140f 100%)!important;box-shadow:0 18px 42px #000a,inset 0 0 0 1px #9c895d18,inset 0 -28px 70px #0007!important}
+.generator-console:before{content:"";position:absolute;inset:8px;pointer-events:none;border:1px solid #c1aa6a12}
+.generator-console:after{content:"GENERAL STAFF // CAMPAIGN OPERATIONS";position:absolute;right:16px;bottom:8px;color:#82765755;font:7px var(--typewriter);letter-spacing:1.5px;pointer-events:none}
+.generator-console-head{position:relative;z-index:2;margin:0 0 17px;padding:11px 12px 13px;border:1px solid #4d4b3b;background:linear-gradient(90deg,#11140f,#20251d 52%,#11140f);box-shadow:inset 0 1px #ffffff08,inset 0 -8px 20px #0006}
+.generator-console-head h2{font-size:21px;text-transform:uppercase;color:#eadcae;text-shadow:0 2px #000}
+.operation-subtitle{display:block;margin-top:4px;color:#77725e;font:8px var(--typewriter);letter-spacing:1.6px}
+.console-status{border-color:#566046;background:#0d110d;box-shadow:inset 0 0 8px #000,0 0 0 1px #111;color:#aeb991}
+.wheel-instrument{max-width:720px;padding:23px;border:1px solid #756c50;background:radial-gradient(circle at 50% 47%,#343a2e 0 46%,#20251e 47% 57%,#0d100d 73%);box-shadow:0 0 0 3px #0c0f0c,0 0 0 5px #554f3c,0 15px 34px #000b,inset 0 0 0 5px #181c16,inset 0 0 36px #000c}
+.wheel-instrument:before,.wheel-instrument:after{content:"✦";color:#9a895c;font-size:12px}
+.wheel-instrument .wheelwrap{max-width:650px;border-radius:50%;box-shadow:0 0 0 2px #a58f5838,0 0 0 9px #0b0e0b,0 0 0 11px #5d57443d,0 13px 32px #000d}
+.wheel-instrument .wheelwrap:before{inset:0;border:2px solid #b9a46a55;box-shadow:inset 0 0 20px #000b,0 0 0 3px #24291f,0 0 0 5px #7c704d33}
+.wheel-instrument .pointer{top:-13px;border-left-width:20px;border-right-width:20px;border-top:42px solid #c8ad63;filter:drop-shadow(0 3px 2px #000) drop-shadow(0 0 2px #ead693)}
+.instrument-label{color:#948765;letter-spacing:1.5px}
+.selector-command{max-width:610px;margin-top:25px}
+.selector-command .spin{min-width:300px;padding:13px 26px;border-radius:2px;border-color:#b99d59;background:linear-gradient(#76271f,#531712);font-family:var(--display);font-size:14px;letter-spacing:1.4px;box-shadow:inset 0 1px #ffffff1a,0 5px 14px #0008;text-transform:uppercase}
+.selector-command .spin:hover{background:linear-gradient(#8a3025,#641d16);box-shadow:inset 0 1px #ffffff20,0 6px 16px #0009}
+.command-rule{background:linear-gradient(90deg,transparent,#9b8958 70%,#c2aa68)}
+.generator-console>.result{position:relative;max-width:660px;min-height:82px;margin-top:24px;padding:13px 18px 12px;border-top:1px solid #514d3b;border-bottom:1px solid #37382d;background:#0d100c66;color:#aaa58f}
+.generator-console>.result:before{content:"FIELD INTELLIGENCE // GENERAL STAFF BRIEFING";color:#a18e5f}
+.command-panel{position:relative;border-radius:4px!important;border-color:#5c5845!important;background:linear-gradient(160deg,#22271e,#151913 72%)!important;box-shadow:0 15px 34px #0009,inset 0 0 0 1px #9d8b5d12!important}
+.command-panel:before{content:"";position:absolute;inset:7px;pointer-events:none;border:1px solid #b29a5b10}
+.command-panel-head{position:relative;margin:-3px -3px 16px;padding:11px 10px 12px;border-bottom:1px solid #625b43;background:#10130f}
+.command-panel-head h2{margin:3px 0 2px;color:#e3d4a8;font-size:18px;text-transform:uppercase;letter-spacing:1.3px}
+.command-panel-head span,.command-panel-head small{font:8px var(--typewriter);letter-spacing:1.4px;color:#887d61}
+.command-field{position:relative;padding:11px 10px 12px;border:1px solid #444638;background:#11140f}
+.command-field label{color:#a99b72}
+.command-panel .command-check{margin:12px 0;padding:10px;border-top:1px solid #3f4033;border-bottom:1px solid #3f4033;background:#171b15}
+.command-panel .command-reset{border-radius:2px;background:#272c22;border-color:#69634d;color:#d5c9a8;font-size:11px;letter-spacing:1.1px}
+.command-panel .legend{padding:12px 10px;border:1px solid #3f4033;background:#11140f}
+.command-panel .legend>b,.command-panel .history>b,.campaign-log-head b{font-family:var(--display);font-size:11px;letter-spacing:.8px;color:#c9ba8f;text-transform:uppercase}
+@media(max-width:650px){
+ .generator-console-head{align-items:flex-start}
+ .operation-subtitle{letter-spacing:1px}
+ .wheel-instrument{padding:13px}
+ .selector-command .spin{min-width:0;width:100%;font-size:12px}
+ .generator-console>.result{margin-top:19px;padding-left:10px;padding-right:10px}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
@@ -689,9 +730,9 @@ body.support-modal-open{overflow:hidden}
 <!-- Phase 14H.1 — Steam-first campaign workflow -->
 <section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>. <button type="button" id="clearAchievementProgress" onclick="clearAchievementProgress()">Clear completed achievements</button>.</div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
 <section class="card generator-console">
-<div class="generator-console-head"><div><span class="console-kicker">GENERAL STAFF RANDOMIZATION DEVICE</span><h2>Strategic Campaign Selector</h2></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
+<div class="generator-console-head"><div><span class="console-kicker">COUNTRY SELECTION • GENERAL STAFF AUTHORIZATION</span><h2>Operation Assignment</h2><span class="operation-subtitle">STRATEGIC CAMPAIGN COMMAND TABLE</span></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
 <div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div></div>
-<div class="selector-command"><span class="command-rule"></span><button class="spin" id="spin" type="button" onclick="spin()">SPIN COUNTRY</button><span class="command-rule"></span></div>
+<div class="selector-command"><span class="command-rule"></span><button class="spin" id="spin" type="button" onclick="spin()">INITIATE COUNTRY SELECTION</button><span class="command-rule"></span></div>
 <div class="result" id="result">Historical Fact • Germany remilitarized the Rhineland in March 1936, violating the post-WWI settlement without triggering a military response from Britain or France.</div>
 <div class="mission" id="mission">
   <div class="orders-header"><div><span class="orders-classification">GENERAL STAFF • OPERATIONS DIRECTIVE</span><div class="mission-kicker">YOUR CAMPAIGN ORDERS</div></div><div class="orders-file">FILE<br><strong>1936</strong></div></div>
@@ -710,7 +751,7 @@ body.support-modal-open{overflow:hidden}
   <div class="mission-note" id="missionNote">Campaign generated. Good luck, commander.</div>
 </div></section>
 <aside class="card side controls command-panel">
-<div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Campaign Rules</h2><small>OPERATION PARAMETERS</small></div>
+<div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Operation Parameters</h2><small>CAMPAIGN RULES • GENERAL STAFF</small></div>
 <input id="stage" type="hidden" value="country">
 <div class="command-field"><label>Country Roster</label><select id="countryRoster" onchange="changeCountryRoster()"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
 <div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
