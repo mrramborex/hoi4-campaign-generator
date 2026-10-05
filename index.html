@@ -1106,6 +1106,27 @@ body:after{z-index:0!important;opacity:1!important;background:
  .war-brand-unified .war-brand-mark small{font-size:5px!important}
 }
 
+/* Phase 17B-R.2 — unified masthead responsive geometry repair */
+@media(min-width:1121px){
+ .phase17b-benchmark{height:94px!important;min-height:94px!important;grid-template-columns:minmax(390px,1fr) minmax(620px,760px)!important;grid-template-rows:94px!important;align-items:stretch!important}
+ .phase17b-benchmark .war-brand-unified{grid-column:1!important;grid-row:1!important;min-width:0!important}
+ .phase17b-benchmark .topnav{grid-column:2!important;grid-row:1!important;align-self:stretch!important;min-width:0!important}
+}
+@media(min-width:761px) and (max-width:1120px){
+ .phase17b-benchmark{height:86px!important;min-height:86px!important;display:grid!important;grid-template-columns:minmax(280px,36%) minmax(480px,64%)!important;grid-template-rows:86px!important;padding:0 10px!important;gap:0!important}
+ .phase17b-benchmark .war-brand-unified{grid-column:1!important;grid-row:1!important;height:auto!important;border-bottom:0!important;padding-left:8px!important;justify-content:flex-start!important}
+ .phase17b-benchmark .topnav{grid-column:2!important;grid-row:1!important;height:86px!important;margin:0!important}
+ .phase17b-benchmark .topnav .navbtn{min-height:86px!important;padding:6px 5px!important;font-size:8px!important}
+ .phase17b-benchmark .topnav .navbtn .navicon{height:23px!important;font-size:16px!important}
+ .war-brand-unified .war-brand-mark b{font-size:19px!important;letter-spacing:1px!important}
+ .war-brand-unified .war-brand-mark strong{font-size:11px!important;letter-spacing:2.7px!important}
+ .war-brand-unified .war-brand-mark small{font-size:5px!important;letter-spacing:1.1px!important}
+}
+@media(max-width:760px){
+ .phase17b-benchmark{height:auto!important;min-height:0!important;display:block!important}
+ .phase17b-benchmark .topnav{grid-column:auto!important;grid-row:auto!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
