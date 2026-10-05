@@ -601,6 +601,10 @@ img,canvas{max-width:100%}
 #achievementCenter .generic-toggle input{width:13px!important;height:13px!important;min-width:13px!important;margin:0!important;padding:0!important}
 @media(max-width:760px){#achievementCenter .archive-filters{grid-template-columns:1fr 1fr!important}#achievementCenter .archive-filters .archive-search{grid-column:1/-1!important}#achievementCenter .generic-toggle{grid-column:1/-1!important}}
 @media(max-width:520px){#achievementCenter .archive-filters{grid-template-columns:1fr!important}#achievementCenter .archive-filters .archive-search{grid-column:auto!important}}
+
+#countryRoster{background:#151912!important;color:#eee4c5!important;border-color:#756c49!important;font-weight:600}
+#countryRoster option{background:#20251b;color:#f2e8c9}
+#countryRoster:focus{outline:none;border-color:#b69b58!important;box-shadow:0 0 0 2px #b69b5826}
 </style>
 </head><body>
 <header class="war-header">
@@ -638,7 +642,7 @@ img,canvas{max-width:100%}
 <aside class="card side controls command-panel">
 <div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Campaign Rules</h2><small>OPERATION PARAMETERS</small></div>
 <input id="stage" type="hidden" value="country">
-<div class="command-field"><label>Country Roster</label><select id="countryRoster"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
+<div class="command-field"><label>Country Roster</label><select id="countryRoster" onchange="changeCountryRoster()"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
 <div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetCampaign(true)">RESET GENERATOR</button>
@@ -2341,7 +2345,7 @@ function paintIdeologyInsignia(ideology,i,arc){
  // Approved rendered emblem sheet, cropped per ideology and kept upright while the wheel rotates.
  if(ideologySheet.complete&&ideologySheet.naturalWidth){
    ctx.shadowColor='rgba(0,0,0,.8)';ctx.shadowBlur=10;
-   ctx.save();ctx.beginPath();ctx.arc(0,-9,43,0,Math.PI*2);ctx.clip();ctx.drawImage(ideologySheet,sx+9,12,102,104,-47,-56,94,96);ctx.restore();
+   ctx.save();ctx.beginPath();ctx.arc(0,-8,43,0,Math.PI*2);ctx.clip();ctx.drawImage(ideologySheet,sx+7,7,106,106,-48,-56,96,96);ctx.restore();
    ctx.shadowBlur=0;
  }else{
    ctx.fillStyle='rgba(20,21,16,.94)';ctx.strokeStyle='#b7a05f';ctx.lineWidth=3;
@@ -2414,7 +2418,8 @@ document.getElementById('completeMissionAchievement').onclick=completeCurrentMis
 function bindPrimaryGeneratorControls(){const spinButton=document.getElementById('spin'),stageSelector=document.getElementById('stage');if(spinButton){spinButton.onclick=spin;spinButton.addEventListener('click',spin)}if(stageSelector){stageSelector.onchange=()=>{spinButton.textContent=stageSelector.value==='country'?'SPIN COUNTRY':stageSelector.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()}}}
 bindPrimaryGeneratorControls();document.getElementById('startCampaign').onclick=()=>{logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
 function resetCampaign(clearHistory=true){remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 293 / 293 Steam achievements validated';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent=randomFieldIntelligence();if(clearHistory)document.getElementById('history').innerHTML='';draw()}
-document.getElementById('countryRoster').onchange=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('')};
+function changeCountryRoster(){resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('');requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)})}
+document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=()=>resetCampaign(true);
 document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
 draw();
