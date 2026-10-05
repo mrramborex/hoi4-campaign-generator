@@ -1171,6 +1171,23 @@ function auditAchievementArtworkMap(){
  knownTargets:[],phase15B:{correctedChineseMappings:7,brokenImageFallbacks:true,source:'Steam global achievement artwork links'},phase15C:{wikiVisualOverride:'This is going to be LIT — Lithuanian flag',correctedShiftedMappings:['Avenging the Sack of Baghdad','Hunt for the Desert Fox','Declare Military Emergency','Paradisus Paradoxum','Revenge for 1925'],rule:'Paradox Wiki visual identity takes precedence when Steam global artwork conflicts'}};
 }
 window.HOI4AchievementArtworkAudit=auditAchievementArtworkMap;
+/* Phase 15D — Dedicated China artwork gate.
+   The eight newly-added China/PRC/Warlord achievements were revalidated after 15B against
+   Steam's current 293-achievement catalog. Legacy China/Manchukuo artwork remains on the
+   same canonical lookup path and is included here so future audits can target the set. */
+const CHINA_ARTWORK_AUDIT=[
+ 'Made in China','Hail to the Qing','The Dragon Swallowed the Sun','Sun Tzu Reborn',
+ 'Romance of the Three Kingdoms','Awake and Angry','Panda-monium','Make a Man Out Of You',
+ "Genghis Khan't",'The Neverending Story','Its all coming together','The Coast is Clear',
+ 'A Fullmetal Brotherhood','Battle Royale','The Winner takes it all','Master Infiltrator',
+ 'I Have Avenged You, Father!'
+];
+function auditChinaAchievementArtwork(){
+ const catalog=new Map(flatAchievements().map(a=>[normAchievementName(a.name),a]));
+ const records=CHINA_ARTWORK_AUDIT.map(name=>({name,inCatalog:catalog.has(normAchievementName(name)),icon:getAchievementIcon(name)}));
+ return {phase:'15D',checked:records.length,missingCatalog:records.filter(x=>!x.inCatalog).map(x=>x.name),missingArtwork:records.filter(x=>!x.icon).map(x=>x.name),records};
+}
+window.HOI4ChinaArtworkAudit=auditChinaAchievementArtwork;
 const achievementAliases={
 'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
 'Scandinavia':['Denmark','Sweden','Norway','Finland','Iceland'],
