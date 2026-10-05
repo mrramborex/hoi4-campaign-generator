@@ -605,16 +605,59 @@ img,canvas{max-width:100%}
 #countryRoster{background:#151912!important;color:#eee4c5!important;border-color:#756c49!important;font-weight:600}
 #countryRoster option{background:#20251b;color:#f2e8c9}
 #countryRoster:focus{outline:none;border-color:#b69b58!important;box-shadow:0 0 0 2px #b69b5826}
+
+/* Phase 16B — Support the War Room UI */
+.support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
+.support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
+.support-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:#050704c9;backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}
+.support-overlay.open{opacity:1;visibility:visible}
+.support-dialog{position:relative;width:min(430px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:28px 28px 24px;border:1px solid #8b7b4d;background:linear-gradient(145deg,#24281d,#171a14 72%);color:#eee4c5;box-shadow:0 24px 70px #000c,inset 0 0 0 1px #d6bb6c14;transform:translateY(8px) scale(.985);transition:transform .18s ease}
+.support-overlay.open .support-dialog{transform:none}
+.support-dialog:before{content:"";position:absolute;inset:6px;pointer-events:none;border:1px solid #c3a75a24}
+.support-close{position:absolute;z-index:2;top:10px;right:11px;width:34px;height:34px;border:1px solid #6f6748;background:#151811;color:#d8c895;font:700 20px/1 Arial;cursor:pointer}
+.support-close:hover{border-color:#b69b58;color:#fff1c8}
+.support-kicker{display:block;margin-bottom:5px;color:#a99763;font-size:10px;font-weight:800;letter-spacing:1.8px}
+.support-dialog h2{margin:0 38px 14px 0;color:#f1e3b7;font-family:Georgia,serif;font-size:27px;line-height:1.05;letter-spacing:.6px}
+.support-rule{height:1px;margin:0 0 18px;background:linear-gradient(90deg,#a88f4e,transparent)}
+.support-dialog h3{margin:0 0 10px;color:#e9ddbb;font-size:17px}
+.support-dialog p{margin:0 0 15px;color:#c9c1a6;font-size:14px;line-height:1.55}
+.support-drink{margin:20px 0 9px;text-align:center;color:#d6bc70;font-size:12px;font-weight:900;letter-spacing:1.5px}
+.support-tip{display:block;width:100%;padding:13px 18px;border:1px solid #a78d4e;background:linear-gradient(#5c6132,#414624);color:#fff3c8;font-size:13px;font-weight:900;letter-spacing:1.5px;text-align:center;cursor:pointer;box-shadow:inset 0 1px #ffffff20,0 5px 14px #0007}
+.support-tip:hover{background:linear-gradient(#686e38,#4f542b);border-color:#c2a45d;transform:translateY(-1px)}
+.support-tip:active{transform:translateY(1px)}
+.support-no-pressure{margin:13px 0 16px!important;text-align:center;color:#e2d5ae!important;font-style:italic}
+.support-disclaimer{padding-top:13px;border-top:1px solid #5e5943;color:#8f8a77!important;font-size:10px!important;line-height:1.45!important}
+body.support-modal-open{overflow:hidden}
+@media(max-width:520px){.support-overlay{padding:12px}.support-dialog{padding:24px 20px 20px;max-height:calc(100vh - 24px)}.support-dialog h2{font-size:23px}.support-navbtn{width:100%}}
+@media(prefers-reduced-motion:reduce){.support-overlay,.support-dialog,.support-tip{transition:none!important}}
+
 </style>
 </head><body>
 <header class="war-header">
 <div class="war-header-meta"><span>STRATEGIC COMMAND</span><span>1936 • WAR ROOM</span><span>CAMPAIGN OPERATIONS</span></div>
 <div class="war-title-wrap"><span class="war-wing">◆ ━━━</span><div><div class="war-eyebrow">GENERAL STAFF • CAMPAIGN COMMAND</div><h1>HEARTS OF IRON IV</h1><p>War Room • Campaign Generator • Achievement Center • Campaign Archive</p></div><span class="war-wing">━━━ ◆</span></div>
-<div class="topnav"><button class="navbtn active" id="navGenerator">Campaign Generator</button><button class="navbtn" id="navAchievements">Achievement Archive</button><button class="navbtn" id="navCampaigns">Campaign History</button></div>
+<div class="topnav"><button class="navbtn active" id="navGenerator">Campaign Generator</button><button class="navbtn" id="navAchievements">Achievement Archive</button><button class="navbtn" id="navCampaigns">Campaign History</button><button class="navbtn support-navbtn" id="navSupport" type="button">☕ Support the War Room</button></div>
 </header>
 <!-- Phase 13G — text and terminology consistency audit -->
 <!-- Phase 13I — Release Candidate: Phase 13 audit gates passed -->
 <!-- Phase 14I — Release Candidate 2: Steam integration QA gates passed -->
+
+<!-- Phase 16B — Support the War Room UI -->
+<div class="support-overlay" id="supportOverlay" aria-hidden="true">
+ <div class="support-dialog" id="supportDialog" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+  <button class="support-close" id="supportClose" type="button" aria-label="Close support window">×</button>
+  <span class="support-kicker">GENERAL STAFF • VOLUNTARY SUPPORT</span>
+  <h2 id="supportTitle">SUPPORT THE WAR ROOM</h2>
+  <div class="support-rule"></div>
+  <h3>Enjoying the campaign generator?</h3>
+  <p>The War Room is free and will stay free. If it's helped start a few campaigns—or caused a few questionable invasions—you can leave a voluntary tip to help keep the project going.</p>
+  <div class="support-drink">☕ BUY THE COMMANDER A DRINK</div>
+  <button class="support-tip" id="supportTip" type="button">LEAVE A TIP</button>
+  <p class="support-no-pressure">No pressure. Keep conquering.</p>
+  <p class="support-disclaimer">The HOI4 War Room is an unofficial fan-made project and is not affiliated with or endorsed by Paradox Interactive.</p>
+ </div>
+</div>
+
 <main id="generator">
 <!-- Phase 14H.1 — Steam-first campaign workflow -->
 <section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>. <button type="button" id="clearAchievementProgress" onclick="clearAchievementProgress()">Clear completed achievements</button>.</div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
@@ -2620,6 +2663,21 @@ function openWarRoomSupport(){
   const win=window.open(WAR_ROOM_SUPPORT_URL,'_blank','noopener,noreferrer');
   if(win)win.opener=null;
 }
+
 window.HOI4WarRoomSupport={phase:'16A',provider:'Ko-fi',mode:'public-link-only',url:WAR_ROOM_SUPPORT_URL,open:openWarRoomSupport};
+const supportOverlay=document.getElementById('supportOverlay'),supportDialog=document.getElementById('supportDialog'),supportOpenButton=document.getElementById('navSupport'),supportCloseButton=document.getElementById('supportClose'),supportTipButton=document.getElementById('supportTip');
+let supportLastFocus=null;
+function setSupportModal(open){
+ if(!supportOverlay)return;
+ if(open){supportLastFocus=document.activeElement;supportOverlay.classList.add('open');supportOverlay.setAttribute('aria-hidden','false');document.body.classList.add('support-modal-open');requestAnimationFrame(()=>supportCloseButton&&supportCloseButton.focus())}
+ else{supportOverlay.classList.remove('open');supportOverlay.setAttribute('aria-hidden','true');document.body.classList.remove('support-modal-open');if(supportLastFocus&&supportLastFocus.focus)supportLastFocus.focus()}
+}
+if(supportOpenButton)supportOpenButton.addEventListener('click',()=>setSupportModal(true));
+if(supportCloseButton)supportCloseButton.addEventListener('click',()=>setSupportModal(false));
+if(supportTipButton)supportTipButton.addEventListener('click',openWarRoomSupport);
+if(supportOverlay)supportOverlay.addEventListener('click',e=>{if(e.target===supportOverlay)setSupportModal(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&supportOverlay&&supportOverlay.classList.contains('open'))setSupportModal(false);if(e.key==='Tab'&&supportOverlay&&supportOverlay.classList.contains('open')&&supportDialog){const focusable=[...supportDialog.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);if(focusable.length){const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}});
+window.HOI4WarRoomSupport={...window.HOI4WarRoomSupport,uiPhase:'16B',show:()=>setSupportModal(true),hide:()=>setSupportModal(false)};
+
 </script>
 </body></html>
