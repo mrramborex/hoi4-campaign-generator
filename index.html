@@ -1223,6 +1223,27 @@ function auditAchievementArtworkRuntime(){
  return result;
 }
 window.HOI4AchievementArtworkRuntimeAudit=auditAchievementArtworkRuntime;
+/* Phase 15G — Final production QA / release gate.
+   Extends the established War Room release gate with the complete Phase 15 artwork suite,
+   so a future achievement-art regression cannot pass through the older Phase 12F gate. */
+function warRoomPhase15ReleaseGate(){
+ const base=warRoomReleaseGate(),artwork=auditAchievementArtworkMap(),china=auditChinaAchievementArtwork(),runtimeArt=auditAchievementArtworkRuntime(),resilience=window.HOI4AchievementArtworkResilience||{};
+ const checks={
+  baseReleaseGate:base.passed,
+  achievementCatalog:runtimeArt.catalog===STEAM_ACHIEVEMENT_TARGET,
+  artworkMapped:artwork.mapped===STEAM_ACHIEVEMENT_TARGET&&artwork.missing.length===0,
+  chinaArtwork:china.missingCatalog.length===0&&china.missingArtwork.length===0,
+  artworkRuntime:runtimeArt.passed,
+  artworkResilience:resilience.phase==='15E'&&resilience.archiveFallback===true&&resilience.missionFallback===true&&resilience.campaignLogFallback===true&&resilience.campaignHistoryFallback===true&&resilience.safeEmbeddedSvg===true,
+  countryRoster:Object.keys(countries).length===65
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ const result={phase:'15G',checks,failures,catalog:runtimeArt.catalog,mapped:runtimeArt.mapped,countries:Object.keys(countries).length,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 15G FINAL RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 15G FINAL RELEASE GATE FAILED',result);
+ return result;
+}
+window.HOI4WarRoomPhase15ReleaseGate=warRoomPhase15ReleaseGate;
 const achievementAliases={
 'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
 'Scandinavia':['Denmark','Sweden','Norway','Finland','Iceland'],
