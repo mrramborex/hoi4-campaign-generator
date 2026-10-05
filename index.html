@@ -1067,17 +1067,17 @@ const achievementIcons={
 "The Merry Band":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/07d70de5bf16641e81fbd16348394544dd27397a.jpg",
 "I'm playing both sides, so I always come out on top":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/4ad9a6b06f5dfa1e8f847998b99f6836eff49900.jpg",
 "Savior of the holy lands":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/bbd2d89bd4707c10b37810eaa36f82c6bbab8e7e.jpg",
-"Its all coming together":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/775e3b1e364415a3fa54cfd88e3340b949fd5ed9.jpg",
-"The Coast is Clear":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/cdfd0f7b0163f73b61dd2d32a7c19e6b3a365c50.jpg",
-"A Fullmetal Brotherhood":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/7e62a89eeab99bfbc6ef5eeb72cb0cbd5539cbd3.jpg",
+"Its all coming together":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/16421485cc557cd4cb452c95e17141ed946c563f.jpg",
+"The Coast is Clear":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/66bfd8d0824599f0c023d6d00a49744ce2a06c09.jpg",
+"A Fullmetal Brotherhood":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9b5ad20cb4472d60fee9d7169ddef56a57850731.jpg",
 "The Sun Will Never Set":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/b4af556887c28e0fcace448873618b033abf90d4.jpg",
 "From Rags to Admiral Stripes":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9441049a5f66f8436e4fcf1e758e01f4acb37075.jpg",
 "Doctrine of Choice":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/b820be63fdd6a82c12eae10bcfe03804a2505f80.jpg",
-"The Neverending Story":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/8c4d8658388d7edb4df0f8f1c917a30f9578146a.jpg",
-"The Winner takes it all":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e06b92e4a6a65cc99b9cf9d1a1db8fb6c32f6e18.jpg",
-"Master Infiltrator":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/4f69c9fc0fb8504a893bba7433e7ed2ef0a1e591.jpg",
+"The Neverending Story":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/477644a975bb4aa15d9f279e90261b5f6bab91e3.jpg",
+"The Winner takes it all":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/f72098d515c2efdbda10b67951ec837f1b50b8f9.jpg",
+"Master Infiltrator":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/69e83c7dbe1a14efede3693eaaef9790fd63e694.jpg",
 "Kuťáci":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/33107ddcedc75a8eb2e5d4e61723a91cf2fc20ce.jpg",
-"Battle Royale":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/c1b728740062a51f960456005085b325ef72b084.jpg",
+"Battle Royale":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/905c1851b8c338b422eed2175ae20b2530230d10.jpg",
 "It's 1812 All Over Again":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/163e9bdd2e8eeb89ed12350edb1c006c9fe950fa.jpg",
 "House of Kurds":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e9c5f5f7486749eea91e90b2d5f3625afccaee26.jpg",
 "A Great Hunger":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/264cabf19d1049f7f405dfcb039fa29a5b5b775c.jpg",
@@ -1165,7 +1165,7 @@ function auditAchievementArtworkMap(){
   if(url){try{const h=new URL(url).hostname;hosts[h]=(hosts[h]||0)+1}catch(e){hosts.invalid=(hosts.invalid||0)+1}}
  }
  return {phase:'15A',catalog:all.length,mapped:all.length-missing.length,missing,duplicateCatalogNames:duplicates,hosts,
- knownTargets:['New Chinese achievement artwork load failures','This is going to be LIT — wrong artwork']};
+ knownTargets:['This is going to be LIT — artwork identity review in 15C'],phase15B:{correctedChineseMappings:7,brokenImageFallbacks:true,source:'Steam global achievement artwork links'}};
 }
 window.HOI4AchievementArtworkAudit=auditAchievementArtworkMap;
 const achievementAliases={
@@ -1729,7 +1729,7 @@ function renderAchievements(){
  document.getElementById('completedCount').textContent=completed;
  document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';updateSteamHomeSummary();
  document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy">':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling&&(this.nextElementSibling.style.display=\'grid\')"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
@@ -2337,7 +2337,7 @@ function showMission(path){
    const status=a._wasCompleted?'Completed':'Unfinished';
    const match=a._scope==='route'?'Route Matched':a._scope==='country'?'Country Matched':a._scope==='generic'?'General Achievement':'Special Directive';
    document.getElementById('missionBadges').innerHTML='<span class="mission-badge '+(a._wasCompleted?'done':'open')+'">'+status+'</span><span class="mission-badge '+a._scope+'">'+match+'</span>';
-   const mi=document.getElementById('missionAchIcon'),mf=document.getElementById('missionAchFallback'); if(getAchievementIcon(a.name)){mi.src=getAchievementIcon(a.name);mi.alt=a.name+' Steam achievement icon';mi.style.display='block';mf.style.display='none'}else{mi.removeAttribute('src');mi.style.display='none';mf.style.display='block'}
+   const mi=document.getElementById('missionAchIcon'),mf=document.getElementById('missionAchFallback'); if(getAchievementIcon(a.name)){mi.onerror=()=>{mi.style.display='none';mf.style.display='block'};mi.onload=()=>{mi.style.display='block';mf.style.display='none'};mi.src=getAchievementIcon(a.name);mi.alt=a.name+' Steam achievement icon';mi.style.display='block';mf.style.display='none'}else{mi.removeAttribute('src');mi.style.display='none';mf.style.display='block'}
    document.getElementById('missionNote').textContent=a._scope==='conquest'?'No compatible unfinished achievement remains for this country. High Command has issued a world conquest directive.':a._scope==='generic'?'No country-specific achievement is available; an unfinished general achievement has been assigned.':(a._scope==='route'?'Unfinished achievement matched to this political route.':'Unfinished achievement matched to this country and ideology.');
    updateMissionAchievement(a);
  }else{
