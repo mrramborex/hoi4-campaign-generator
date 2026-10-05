@@ -637,11 +637,12 @@ img,canvas{max-width:100%}
 </div></section>
 <aside class="card side controls command-panel">
 <div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Campaign Rules</h2><small>OPERATION PARAMETERS</small></div>
-<div class="command-field"><label>Wheel Stage</label><select id="stage"><option value="country">Country</option><option value="ideology">Ideology for Selected Country</option><option value="path">Political Path</option></select></div>
-<div class="command-check"><label><input type="checkbox" id="uniqueOnly" checked disabled> Dedicated / special national content only</label></div><div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
+<input id="stage" type="hidden" value="country">
+<div class="command-field"><label>Country Roster</label><select id="countryRoster"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
+<div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetCampaign(true)">RESET GENERATOR</button>
-<div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#5f5a50"></span>Fascist</p><p><span class="dot" style="background:#8a4b40"></span>Communist</p><p><span class="dot" style="background:#456c7d"></span>Democratic</p><p><span class="dot" style="background:#806b45"></span>Unaligned / Non-Aligned</p></div>
+<div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#66675f"></span>Fascist</p><p><span class="dot" style="background:#94493e"></span>Communist</p><p><span class="dot" style="background:#44758a"></span>Democratic</p><p><span class="dot" style="background:#8b7142"></span>Unaligned / Non-Aligned</p></div>
 <div class="history"><b>Recent Selections</b><div id="history"></div></div><div class="campaign-log"><div class="campaign-log-head"><b>Campaign Log</b><button id="clearCampaignLog" type="button" onclick="localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()">CLEAR</button></div><div id="campaignLog"></div></div>
 <p class="small command-footnote">Political alignment wheels are filtered to major routes represented by each country's unique tree. Some routes involve civil wars, formables, leader changes, or special mechanics rather than a simple ideology switch.</p>
 </aside>
@@ -663,7 +664,7 @@ img,canvas{max-width:100%}
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
 <script>
-const C={f:'#34332f',c:'#744137',d:'#334f5d',u:'#665334'};
+const C={f:'#3f403b',c:'#7d3d34',d:'#31576a',u:'#735c34'};
 const countries={
 'Afghanistan':['u','c','d','f'],'Argentina':['u','f','d','c'],'Australia':['d','f','c'],'Aussa':['u'],'Austria':['u','d','f','c'],'Belgium':['d','f','c'],'Brazil':['u','f','d','c'],'British Raj / India':['d','f','c','u'],'Bulgaria':['u','f','c','d'],'Canada':['d','f','c'],'Chile':['d','f','c','u'],'China (Nationalist)':['u','d','f','c'],'Communist China':['c'],'Guangxi Clique':['u','c'],'Guangdong Clique':['u','c'],'Yunnan':['u','c'],'Sichuan Clique':['u','c'],'Northeastern Army':['u','c'],'Shanxi':['u','c'],'Sinkiang':['c','u'],'Khotan Ma':['u','c'],'Qinghai Ma':['u','c'],'Gansu Ma':['u','c'],'Ningxia Ma':['u','c'],'Hebei-Chahar':['u','c'],'Shandong Clique':['u','c'],'Congo':['d','c','f','u'],'Czechoslovakia':['d','c','f','u'],'Denmark':['d','f','c','u'],'Dutch East Indies / Indonesia':['d','c','f','u'],'Estonia':['d','f','c','u'],'Ethiopia':['u','d','c','f'],'Finland':['d','f','c','u'],'France':['d','f','c','u'],'Germany':['f','c','d','u'],'Greece':['u','f','d','c'],'Hungary':['u','f','c','d'],'Iceland':['d','f','c','u'],'Iran':['u','f','c','d'],'Iraq':['u','f','d'],'Italy':['f','c','d','u'],'Japan':['u','f','c','d'],'Latvia':['d','f','c','u'],'Lithuania':['d','f','c','u'],'Manchukuo':['u','f','c','d'],'Mexico':['d','f','c','u'],'Netherlands':['d','f','c','u'],'New Zealand':['d','f','c'],'Norway':['d','f','c','u'],'Paraguay':['u','f','d'],'Philippines':['d','f','c','u'],'Poland':['u','f','c','d'],'Portugal':['u','f','c','d'],'Romania':['u','f','c','d'],'Siam / Thailand':['u','f','d'],'South Africa':['d','f','c'],'Soviet Union':['c','u','f'],'Spain':['f','c','d','u'],'Sweden':['d','f','c','u'],'Switzerland':['d','f','u'],'Turkey':['u','f','d','c'],'United Kingdom':['d','f','c','u'],'United States':['d','f','c'],'Uruguay':['d','f','u'],'Yugoslavia':['u','f','c','d']};
 const COUNTRY_ROSTER_VERSION='12A.3 — final focus-tree-only ideology matrix; explicit national/shared focus outcomes only';
@@ -2317,8 +2318,15 @@ function showMission(path){
  mission.classList.add('show');
  mission.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+const majorCountries=new Set(['France','Germany','Italy','Japan','Soviet Union','United Kingdom','United States']);
+function countryRosterPool(){
+ const mode=document.getElementById('countryRoster')?.value||'all',all=Object.keys(countries);
+ if(mode==='major')return all.filter(x=>majorCountries.has(x));
+ if(mode==='minor')return all.filter(x=>!majorCountries.has(x));
+ return all;
+}
 function shuffledCountries(){
- return Object.keys(countries).sort((a,b)=>a.localeCompare(b));
+ return countryRosterPool().sort((a,b)=>a.localeCompare(b));
 }
 let selectedIdeology=null;
 let remaining=shuffledCountries(), selected=null, angle=0, spinning=false, hist=[];
@@ -2333,7 +2341,7 @@ function paintIdeologyInsignia(ideology,i,arc){
  // Approved rendered emblem sheet, cropped per ideology and kept upright while the wheel rotates.
  if(ideologySheet.complete&&ideologySheet.naturalWidth){
    ctx.shadowColor='rgba(0,0,0,.8)';ctx.shadowBlur=10;
-   ctx.drawImage(ideologySheet,sx,0,120,160,-48,-64,96,128);
+   ctx.save();ctx.beginPath();ctx.arc(0,-9,43,0,Math.PI*2);ctx.clip();ctx.drawImage(ideologySheet,sx+9,12,102,104,-47,-56,94,96);ctx.restore();
    ctx.shadowBlur=0;
  }else{
    ctx.fillStyle='rgba(20,21,16,.94)';ctx.strokeStyle='#b7a05f';ctx.lineWidth=3;
@@ -2405,7 +2413,8 @@ function completeCurrentMissionAchievement(){if(!currentMission)return;const don
 document.getElementById('completeMissionAchievement').onclick=completeCurrentMissionAchievement;;
 function bindPrimaryGeneratorControls(){const spinButton=document.getElementById('spin'),stageSelector=document.getElementById('stage');if(spinButton){spinButton.onclick=spin;spinButton.addEventListener('click',spin)}if(stageSelector){stageSelector.onchange=()=>{spinButton.textContent=stageSelector.value==='country'?'SPIN COUNTRY':stageSelector.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()}}}
 bindPrimaryGeneratorControls();document.getElementById('startCampaign').onclick=()=>{logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';document.getElementById('startCampaign').textContent='CAMPAIGN LOCKED IN';};
-function resetCampaign(clearHistory=true){remaining=shuffledCountries();selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent=randomFieldIntelligence();if(clearHistory)document.getElementById('history').innerHTML='';draw()}
+function resetCampaign(clearHistory=true){remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 293 / 293 Steam achievements validated';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');document.getElementById('startCampaign').textContent='START CAMPAIGN';btn.textContent='SPIN COUNTRY';res.textContent=randomFieldIntelligence();if(clearHistory)document.getElementById('history').innerHTML='';draw()}
+document.getElementById('countryRoster').onchange=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('')};
 document.getElementById('reset').onclick=()=>resetCampaign(true);
 document.getElementById('newCampaign').onclick=()=>{resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
 draw();
