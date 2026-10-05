@@ -1153,6 +1153,12 @@ const achievementArtworkOverrides={
  [normAchievementName('This is going to be LIT')]:`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><rect width="96" height="32" fill="#fdb913"/><rect y="32" width="96" height="32" fill="#006a44"/><rect y="64" width="96" height="32" fill="#c1272d"/></svg>')}`
 };
 function getAchievementIcon(name){const key=normAchievementName(name);return achievementArtworkOverrides[key]||achievementIconIndex[key]||''}
+function achievementImageError(img){
+ if(!img)return;
+ img.style.display='none';
+ const fallback=img.nextElementSibling;
+ if(fallback&&fallback.classList&&(fallback.classList.contains('ach-icon')||fallback.classList.contains('campaign-log-fallback')||fallback.classList.contains('campaign-history-fallback')))fallback.style.display='grid';
+}
 /* Phase 15A — Achievement Artwork Audit
    Canonical display path: achievementIcons -> normalized achievementIconIndex -> getAchievementIcon().
    Audit finding: artwork data is currently assembled from multiple legacy blocks and multiple Steam CDN hosts.
@@ -1188,6 +1194,11 @@ function auditChinaAchievementArtwork(){
  return {phase:'15D',checked:records.length,missingCatalog:records.filter(x=>!x.inCatalog).map(x=>x.name),missingArtwork:records.filter(x=>!x.icon).map(x=>x.name),records};
 }
 window.HOI4ChinaArtworkAudit=auditChinaAchievementArtwork;
+/* Phase 15E — Resilient achievement image handling.
+   Broken or retired artwork URLs now fail closed to themed placeholders in the archive,
+   mission dossier, campaign log and campaign history. Campaign records also preserve
+   vetted embedded SVG overrides alongside HTTPS artwork without allowing arbitrary data URLs. */
+window.HOI4AchievementArtworkResilience={phase:'15E',archiveFallback:true,missionFallback:true,campaignLogFallback:true,campaignHistoryFallback:true,safeEmbeddedSvg:true};
 const achievementAliases={
 'Greece / Bulgaria / Turkey':['Greece','Bulgaria','Turkey'],
 'Scandinavia':['Denmark','Sweden','Norway','Finland','Iceland'],
@@ -1665,14 +1676,14 @@ function achievementCatalogStats(){
 const CAMPAIGN_LOG_KEY='hoi4CampaignLog';
 function sanitizeCampaignLog(log){
  if(!Array.isArray(log))return [];
- return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:x.country.slice(0,80),ideology:String(x.ideology||'').slice(0,40),path:String(x.path||'').slice(0,120),achievement:x.achievement.slice(0,160),icon:typeof x.icon==='string'&&/^https:\/\//.test(x.icon)?x.icon:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
+ return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:x.country.slice(0,80),ideology:String(x.ideology||'').slice(0,40),path:String(x.path||'').slice(0,120),achievement:x.achievement.slice(0,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
 }
 function getCampaignLog(){try{return sanitizeCampaignLog(JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]'))}catch(e){return []}}
 function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(sanitizeCampaignLog(log)))}
 function renderCampaignLog(){
  const el=document.getElementById('campaignLog');if(!el)return;
  const log=getCampaignLog();
- el.innerHTML=log.length?log.slice(0,6).map(x=>`<div class="campaign-log-item">${x.icon?'<img class="campaign-log-icon" src="'+x.icon+'" alt="">':'<div class="campaign-log-fallback">🏆</div>'}<div><div class="campaign-log-title">${x.country} — ${x.achievement}</div><div class="campaign-log-sub">${x.ideology} → ${x.path}</div></div></div>`).join(''):'<div class="campaign-log-empty">No campaigns locked in yet.</div>';
+ el.innerHTML=log.length?log.slice(0,6).map(x=>`<div class="campaign-log-item">${x.icon?'<img class="campaign-log-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-log-fallback" style="display:none">🏆</div>':'<div class="campaign-log-fallback">🏆</div>'}<div><div class="campaign-log-title">${x.country} — ${x.achievement}</div><div class="campaign-log-sub">${x.ideology} → ${x.path}</div></div></div>`).join(''):'<div class="campaign-log-empty">No campaigns locked in yet.</div>';
 }
 function removeCampaign(time){const log=getCampaignLog().filter(x=>x.time!==time);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory()}
 function clearCampaignHistory(){if(!getCampaignLog().length)return;if(!confirm('Clear all Campaign History? Your achievement completion progress will NOT be deleted.'))return;localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Campaign History cleared. Achievement completion progress was kept.'}
@@ -1683,7 +1694,7 @@ function renderCampaignHistory(){
  document.getElementById('historyTotal').textContent=log.length;
  document.getElementById('historyVictories').textContent=log.filter(x=>x.outcome==='victory').length;
  document.getElementById('historyActive').textContent=log.filter(x=>!x.outcome||x.outcome==='active').length;
- grid.innerHTML=log.length?log.map((x,i)=>`<article class="campaign-history-card"><div class="campaign-file-no">OPERATION FILE ${String(log.length-i).padStart(3,'0')}</div>${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="">':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-body"><div class="campaign-history-date">FILED ${new Date(x.time).toLocaleDateString()}</div><h3>${x.country}</h3><p class="campaign-route"><b>${x.ideology}</b><span>→</span>${x.path}</p><div class="campaign-decoration"><span>DECORATION DIRECTIVE</span><p>${x.achievement} ${done.has(x.achievement)?'<strong>✓ COMPLETED</strong>':''}</p></div><div class="outcome"><button class="${x.outcome==='active'?'active':''}" onclick="setCampaignOutcome(${x.time},'active')">Active</button><button class="${x.outcome==='victory'?'active':''}" onclick="setCampaignOutcome(${x.time},'victory')">Victory</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" onclick="if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">Remove</button></div></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES ON RECORD</b><br>Generate a campaign and press START CAMPAIGN to file your first operation.</div>';
+ grid.innerHTML=log.length?log.map((x,i)=>`<article class="campaign-history-card"><div class="campaign-file-no">OPERATION FILE ${String(log.length-i).padStart(3,'0')}</div>${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-history-fallback" style="display:none">★</div>':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-body"><div class="campaign-history-date">FILED ${new Date(x.time).toLocaleDateString()}</div><h3>${x.country}</h3><p class="campaign-route"><b>${x.ideology}</b><span>→</span>${x.path}</p><div class="campaign-decoration"><span>DECORATION DIRECTIVE</span><p>${x.achievement} ${done.has(x.achievement)?'<strong>✓ COMPLETED</strong>':''}</p></div><div class="outcome"><button class="${x.outcome==='active'?'active':''}" onclick="setCampaignOutcome(${x.time},'active')">Active</button><button class="${x.outcome==='victory'?'active':''}" onclick="setCampaignOutcome(${x.time},'victory')">Victory</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" onclick="if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">Remove</button></div></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES ON RECORD</b><br>Generate a campaign and press START CAMPAIGN to file your first operation.</div>';
 }
 function logCurrentCampaign(){
  if(!selected||!selectedIdeology||!currentMission)return;
