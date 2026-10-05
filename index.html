@@ -765,6 +765,55 @@ img,canvas{max-width:100%}
  .console-kicker,.operation-subtitle{font-size:8px!important}
 }
 
+/* Phase 17A.5 — physical command-table concept pass */
+body{background:
+ radial-gradient(ellipse at 50% 0,#22291f 0,#101510 36%,#070a08 78%) fixed!important}
+#generator{position:relative!important;overflow:hidden;background:
+ linear-gradient(#0a0d0ad9,#0a0d0ad9),
+ repeating-linear-gradient(90deg,transparent 0 159px,#b6a36b0b 160px,transparent 161px 320px),
+ repeating-linear-gradient(0deg,transparent 0 119px,#b6a36b0a 120px,transparent 121px 240px),
+ radial-gradient(ellipse at 39% 42%,#48503b 0,#242b21 42%,#101510 76%)!important;
+ border:1px solid #776946!important;border-bottom:8px solid #090c09!important;box-shadow:0 3px 0 #a08b5638,0 28px 70px #000d,inset 0 0 120px #000b!important}
+#generator:before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;background:
+ linear-gradient(122deg,transparent 0 12%,#b7a26524 12.1% 12.22%,transparent 12.32% 100%),
+ linear-gradient(31deg,transparent 0 68%,#b7a2651e 68.1% 68.22%,transparent 68.32% 100%),
+ radial-gradient(circle at 15% 75%,transparent 0 7%,#a8925320 7.2% 7.35%,transparent 7.5% 100%)!important}
+.generator-console{overflow:hidden!important;border:1px solid #9a8450!important;border-bottom:5px solid #070907!important;background:
+ radial-gradient(circle at 50% 42%,#343a2d 0 22%,#171c16 58%,#0a0d0b 100%)!important;
+ box-shadow:0 0 0 5px #080b08,0 0 0 6px #77694a,0 22px 50px #000e,inset 0 0 75px #000b!important}
+.generator-console:after{content:"GENERAL STAFF • OPERATION ASSIGNMENT • 1936"!important;bottom:10px!important;color:#d0b86d55!important}
+.generator-console-head{background:
+ linear-gradient(90deg,#0c100d 0 3%,#30382a 3.2% 72%,#151a14 72.2%)!important;
+ border-bottom:2px solid #b09758!important}
+.generator-console-head:after{content:"CLASSIFIED";position:absolute;right:25px;bottom:7px;color:#a94c43;border:1px solid #7f3d37;padding:2px 5px;font:7px var(--typewriter);letter-spacing:1.4px;transform:rotate(-2deg);opacity:.65}
+.wheel-instrument{box-shadow:
+ 0 0 0 2px #b79b59,0 0 0 8px #090c09,0 0 0 11px #57503d,
+ 0 26px 45px #000e,inset 0 0 65px #000!important}
+.wheel-instrument:before,.wheel-instrument:after{color:#e0c575!important}
+.wheel-instrument .wheelwrap:after{content:"";position:absolute;inset:-15px;border:1px dashed #a58e5438;border-radius:50%;pointer-events:none}
+.command-panel{border:1px solid #9a8450!important;border-bottom:5px solid #070907!important;background:
+ linear-gradient(150deg,#34392d 0,#1b2019 46%,#0c100d 100%)!important;
+ box-shadow:0 0 0 5px #080b08,0 0 0 6px #665c43,0 22px 48px #000d,inset 0 0 55px #0009!important}
+.command-panel:after{content:"GENERAL STAFF\A CAMPAIGN CONTROL";white-space:pre;position:absolute;right:-37px;top:50%;transform:rotate(90deg);color:#aa965c3d;font:7px var(--typewriter);letter-spacing:1.5px;pointer-events:none}
+.command-panel-head{background:linear-gradient(100deg,#0b0e0c,#30362a)!important;border-bottom-color:#ae9456!important}
+.command-field,.command-panel .legend,.command-panel .history,.command-panel .campaign-log{background:#090c0af0!important}
+.command-check{background:#151a14!important}
+.steam-sync-home .steam-sync-panel{border-top:2px solid #89764c!important;background:
+ linear-gradient(90deg,#0b0e0cf2,#1d231bf2 50%,#0b0e0cf2)!important;
+ box-shadow:0 5px 0 #080a08,0 10px 25px #0008!important}
+.steam-sync-home:before{content:"PERSONNEL RECORD / ACHIEVEMENT UPLINK";position:absolute;right:12px;top:-13px;color:#b09b625c;font:7px var(--typewriter);letter-spacing:1.4px}
+.selector-command:before{content:"AUTHORIZATION REQUIRED";position:absolute;top:-16px;color:#9b895e;font:7px var(--typewriter);letter-spacing:1.3px}
+.generator-console>.result:after{content:"INTEL // VERIFIED";position:absolute;right:12px;top:8px;color:#78806a;font:7px var(--typewriter);letter-spacing:1px}
+@media(min-width:1051px){
+ #generator{padding-top:38px!important}
+ .generator-console:before{background:
+  linear-gradient(90deg,transparent 49.85%,#c4ad6b0e 50%,transparent 50.15%),
+  linear-gradient(0deg,transparent 49.85%,#c4ad6b0b 50%,transparent 50.15%)!important}
+}
+@media(max-width:650px){
+ .generator-console-head:after,.command-panel:after,.steam-sync-home:before,.selector-command:before{display:none}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
@@ -2700,7 +2749,7 @@ if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideolo
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
-ctx.strokeStyle='#c6b878';ctx.lineWidth=stage.value==='ideology'?1.45:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?258:210,0);ctx.fillStyle='#fff9e6';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?10:n>40?11:n>25?13:18}px Georgia`;ctx.shadowColor='#000';ctx.shadowBlur=dense?4:4;ctx.lineWidth=dense?3:3;ctx.strokeStyle='#050605';let t=label(a[i]);const max=dense?15:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
+ctx.strokeStyle='#c6b878';ctx.lineWidth=stage.value==='ideology'?1.45:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
 const FIELD_INTELLIGENCE=[
  'Game Tip • Keep an eye on supply hubs and railways. A strong division can still collapse when its supply network cannot keep up.',
