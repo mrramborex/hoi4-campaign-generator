@@ -738,9 +738,12 @@ function paintFlag(country,i,arc){
    rect(x,y,w,h,'#ffffff');
    ctx.fillStyle='#bc002d';ctx.beginPath();ctx.arc(x+w*.52,0,72,0,Math.PI*2);ctx.fill();
  } else if(country==='Germany'){
-   // Period-style black/white/red German flag treatment, intentionally without Nazi symbolism.
-   // Horizontal bands in wheel-local coordinates keep the design readable on both dense and Major wheels.
-   rect(x,y,w,h,'#111111');rect(x,y+h/3,w,h/3,'#f2eee2');rect(x,y+2*h/3,w,h/3,'#b51f2e');
+   // Wedge-aware black/white/red period treatment. On the dense 65-country wheel a normal
+   // horizontal tricolor intersects mostly the white center band, so bias the bands around
+   // the wedge centreline to guarantee all three colors remain visible at narrow slice widths.
+   rect(x,y,w,h,'#111111');
+   rect(x,y+h*.43,w,h*.14,'#f2eee2');
+   rect(x,y+h*.57,w,h*.43,'#b51f2e');
  } else if(country==='China (Nationalist)'){
    rect(x,y,w,h,'#fe0000'); rect(x,y,w*.34,h,'#000095'); rect(x+w*.10,y,w*.10,h,'#ffffff');
  } else if(country==='Communist China'){
