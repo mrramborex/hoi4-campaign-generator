@@ -1082,6 +1082,32 @@ body:after{z-index:0!important;opacity:1!important;background:
  .phase17b-benchmark .topnav .navbtn{font-size:6px!important;letter-spacing:.2px!important}
 }
 
+/* Phase 17B-R.1 — unified Hearts of Iron IV War Room masthead */
+.phase17b-benchmark{grid-template-columns:minmax(430px,1fr) 650px!important}
+.war-brand-unified{border-right:0!important;padding-left:8px!important;justify-content:flex-start!important}
+.war-brand-unified .war-brand-mark{line-height:.9!important}
+.war-brand-unified .war-brand-mark b{font-size:29px!important;letter-spacing:2.2px!important;color:#eee0b7!important}
+.war-brand-unified .war-brand-mark strong{margin-top:4px;font-size:15px!important;letter-spacing:4.8px!important;color:#c8b275!important}
+.war-brand-unified .war-brand-mark small{margin-top:6px!important;font-size:6px!important;letter-spacing:1.8px!important;color:#82785c!important}
+.war-title-spacer{display:none!important}
+@media(min-width:1500px){
+ .phase17b-benchmark{grid-template-columns:minmax(500px,1fr) 760px!important}
+}
+@media(max-width:1120px){
+ .phase17b-benchmark{grid-template-columns:270px 1fr!important}
+ .phase17b-benchmark .war-title-spacer{display:none!important}
+ .war-brand-unified .war-brand-mark b{font-size:20px!important;letter-spacing:1.3px!important}
+ .war-brand-unified .war-brand-mark strong{font-size:12px!important;letter-spacing:3px!important}
+}
+@media(max-width:760px){
+ .phase17b-benchmark{display:block!important}
+ .war-brand-unified{height:58px!important;justify-content:center!important;border-bottom:1px solid #4d4633!important}
+ .war-brand-unified .war-brand-mark{align-items:center}
+ .war-brand-unified .war-brand-mark b{font-size:20px!important}
+ .war-brand-unified .war-brand-mark strong{font-size:11px!important}
+ .war-brand-unified .war-brand-mark small{font-size:5px!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
@@ -1137,8 +1163,8 @@ body.support-modal-open{overflow:hidden}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
-<div class="war-brand" aria-label="HOI4 War Room"><div class="war-brand-mark"><b>HOI4</b><strong>WAR ROOM</strong><small>CAMPAIGN GENERATOR</small></div><div class="war-brand-plane" aria-hidden="true">✈</div></div>
-<div class="war-title-wrap"><div><div class="war-eyebrow">GENERAL STAFF • STRATEGIC CAMPAIGN COMMAND</div><h1>HOI4 WAR ROOM</h1><p>Campaign Operations Center</p></div></div>
+<div class="war-brand war-brand-unified" aria-label="Hearts of Iron IV War Room"><div class="war-brand-mark"><b>HEARTS OF IRON IV</b><strong>WAR ROOM</strong><small>CAMPAIGN OPERATIONS CENTER</small></div></div>
+<div class="war-title-wrap war-title-spacer" aria-hidden="true"></div>
 <div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navicon">⌂</span><span>Generator</span></button><button class="navbtn" id="navAchievements"><span class="navicon">★</span><span>Achievements</span></button><button class="navbtn" id="navCampaigns"><span class="navicon">☷</span><span>Campaigns</span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navicon">▣</span><span>Support</span></button></div>
 </header>
 <!-- Phase 13G — text and terminology consistency audit -->
