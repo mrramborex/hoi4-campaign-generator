@@ -2343,7 +2343,8 @@ function paintIdeologyInsignia(ideology,i,arc){
  const mid=(i+.5)*arc,r=220,title=(names[ideology]||'Ideology').toUpperCase();
  ctx.save();ctx.rotate(mid);ctx.translate(r,0);ctx.rotate(-(angle+mid));
  ctx.font='bold 20px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';
- ctx.lineWidth=5;ctx.strokeStyle='rgba(6,7,5,.98)';ctx.strokeText(title,0,0);
+ // Rounded joins prevent sharp miter spikes on letters such as M at canvas scale.
+ ctx.lineJoin='round';ctx.miterLimit=2;ctx.lineWidth=3;ctx.strokeStyle='rgba(6,7,5,.98)';ctx.strokeText(title,0,0);
  ctx.fillStyle='#f0dda5';ctx.fillText(title,0,0);
  ctx.strokeStyle='rgba(202,171,91,.82)';ctx.lineWidth=1.5;
  ctx.beginPath();ctx.moveTo(-48,20);ctx.lineTo(48,20);ctx.stroke();
