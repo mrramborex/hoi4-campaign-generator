@@ -2706,5 +2706,22 @@ if(supportOverlay)supportOverlay.addEventListener('click',e=>{if(e.target===supp
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&supportOverlay&&supportOverlay.classList.contains('open'))setSupportModal(false);if(e.key==='Tab'&&supportOverlay&&supportOverlay.classList.contains('open')&&supportDialog){const focusable=[...supportDialog.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled);if(focusable.length){const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}});
 window.HOI4WarRoomSupport={...window.HOI4WarRoomSupport,uiPhase:'16B',show:()=>setSupportModal(true),hide:()=>setSupportModal(false)};
 
+/* Phase 16D — Support security and link certification */
+function auditWarRoomSupportSecurity(){
+ const expected='https://ko-fi.com/HoI4WarRoom';
+ const buttons=[supportOpenButton,supportCloseButton,supportTipButton].filter(Boolean);
+ const checks={
+  fixedHttpsDestination:WAR_ROOM_SUPPORT_URL===expected&&WAR_ROOM_SUPPORT_URL.startsWith('https://'),
+  publicLinkOnly:window.HOI4WarRoomSupport&&window.HOI4WarRoomSupport.mode==='public-link-only',
+  isolatedExternalOpen:openWarRoomSupport.toString().includes("'_blank','noopener,noreferrer'"),
+  openerDetached:openWarRoomSupport.toString().includes('win.opener=null'),
+  nonSubmittingButtons:buttons.every(button=>button.type==='button'),
+  modalSemantics:!!(supportDialog&&supportDialog.getAttribute('role')==='dialog'&&supportDialog.getAttribute('aria-modal')==='true'),
+  labelledDialog:!!(supportDialog&&supportDialog.getAttribute('aria-labelledby')==='supportTitle')
+ };
+ return {phase:'16D',pass:Object.values(checks).every(Boolean),destination:expected,checks};
+}
+window.HOI4WarRoomSupportSecurityAudit=auditWarRoomSupportSecurity;
+
 </script>
 </body></html>
