@@ -2346,7 +2346,7 @@ function prepareIdeologyArt(){
   const w=work.getContext('2d',{willReadFrequently:true});
   w.drawImage(ideologySheet,n*120,0,120,120,0,0,120,120);
   const im=w.getImageData(0,0,120,120),p=im.data,seen=new Uint8Array(14400),q=[];
-  const dark=i=>{const r=p[i],g=p[i+1],b=p[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);return mx<92&&(mx-mn)<38};
+  const dark=i=>{const r=p[i],g=p[i+1],b=p[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);return mx<42&&(mx-mn)<18};
   const add=(x,y)=>{if(x<0||y<0||x>=120||y>=120)return;const k=y*120+x;if(seen[k])return;const z=k*4;if(!dark(z))return;seen[k]=1;q.push(k)};
   for(let x=0;x<120;x++){add(x,0);add(x,119)}for(let y=0;y<120;y++){add(0,y);add(119,y)}
   for(let h=0;h<q.length;h++){const k=q[h],x=k%120,y=(k/120)|0,z=k*4;p[z+3]=0;add(x-1,y);add(x+1,y);add(x,y-1);add(x,y+1)}
@@ -2365,8 +2365,8 @@ function paintIdeologyInsignia(ideology,i,arc){
  const art=ideologyArt[ideology];
  if(art){
   // Give the approved emblem room to breathe and keep every ideology at identical scale.
-  ctx.shadowColor='rgba(0,0,0,.68)';ctx.shadowBlur=8;
-  ctx.drawImage(art,-55,-66,110,110);ctx.shadowBlur=0;
+  ctx.shadowColor='rgba(0,0,0,.88)';ctx.shadowBlur=11;ctx.shadowOffsetY=2;
+  ctx.drawImage(art,-57,-68,114,114);ctx.shadowBlur=0;ctx.shadowOffsetY=0;
  }
  // Plain engraved caption beneath the emblem; no UI box competing with the artwork.
  ctx.textAlign='center';ctx.textBaseline='middle';
