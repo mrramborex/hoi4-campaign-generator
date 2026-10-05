@@ -875,6 +875,49 @@ main#generator{margin-top:0!important}
  .topnav .navbtn{border-right:0!important;border-bottom:1px solid #4e4b3b!important}
 }
 
+/* Phase 17B.1 — command-room environment framing */
+body{position:relative!important;background:
+ radial-gradient(ellipse at 50% 12%,#30382b 0,#171d16 27%,#0a0e0b 62%,#040604 100%) fixed!important}
+body:before{content:"";position:fixed!important;z-index:-3!important;inset:0!important;pointer-events:none;background:
+ linear-gradient(90deg,#050705 0 4.8%,transparent 4.9% 95.1%,#050705 95.2% 100%),
+ linear-gradient(90deg,transparent 0 8%,#9d89532c 8.05% 8.12%,transparent 8.18% 91.82%,#9d89532c 91.88% 91.95%,transparent 92%),
+ repeating-linear-gradient(0deg,transparent 0 118px,#ad9a6410 119px,transparent 120px 238px),
+ repeating-linear-gradient(90deg,transparent 0 154px,#ad9a640c 155px,transparent 156px 310px)!important}
+body:after{content:"";position:fixed;z-index:-2;inset:0;pointer-events:none;background:
+ radial-gradient(circle at 7% 31%,#c0a65b13 0 1px,transparent 2px),
+ radial-gradient(circle at 93% 31%,#c0a65b13 0 1px,transparent 2px),
+ linear-gradient(116deg,transparent 0 10.5%,#a48d5220 10.6% 10.72%,transparent 10.82% 100%),
+ linear-gradient(64deg,transparent 0 89.2%,#a48d5220 89.3% 89.42%,transparent 89.52% 100%)}
+.war-header{box-shadow:0 2px 0 #9c86503b,0 13px 38px #000d,inset 0 -1px #000,inset 0 1px #a9945c20!important}
+#generator,#achievementsPage,#campaignsPage{z-index:1}
+#generator{box-shadow:
+ -1px 0 #a58d5738,1px 0 #a58d5738,
+ 0 3px 0 #a08b5638,0 30px 75px #000e,
+ inset 0 0 120px #000b!important}
+@media(min-width:1200px){
+ body:before{background:
+  linear-gradient(90deg,#040604 0 5.4%,#10150f 5.5% 7.2%,#77694433 7.25% 7.35%,transparent 7.4% 92.6%,#77694433 92.65% 92.75%,#10150f 92.8% 94.5%,#040604 94.6% 100%),
+  repeating-linear-gradient(0deg,transparent 0 118px,#ad9a6412 119px,transparent 120px 238px),
+  repeating-linear-gradient(90deg,transparent 0 154px,#ad9a640e 155px,transparent 156px 310px)!important}
+ .war-header:before{background:
+  linear-gradient(90deg,#0006 0 6%,transparent 14% 86%,#0006 94%),
+  linear-gradient(90deg,transparent 0 8%,#b39b5d1c 8.1% 8.18%,transparent 8.25% 91.75%,#b39b5d1c 91.82% 91.9%,transparent 92%),
+  radial-gradient(ellipse at 50% 0,#c2ad6c10,transparent 48%)!important}
+}
+@media(min-width:1550px){
+ body:after{background:
+  linear-gradient(90deg,transparent 0 3.7%,#050705 3.8% 5.8%,#8876492b 5.9% 6%,transparent 6.1% 93.9%,#8876492b 94% 94.1%,#050705 94.2% 96.2%,transparent 96.3%),
+  linear-gradient(118deg,transparent 0 12%,#a68f5325 12.08% 12.18%,transparent 12.28% 100%),
+  linear-gradient(62deg,transparent 0 87.72%,#a68f5325 87.82% 87.92%,transparent 88% 100%),
+  radial-gradient(ellipse at 50% 55%,transparent 0 55%,#0009 100%)}
+}
+@media(max-width:900px){
+ body:before,body:after{opacity:.45}
+}
+@media(max-width:650px){
+ body:before,body:after{display:none}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
