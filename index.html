@@ -1880,7 +1880,7 @@ function buildAchievementIconIndex(){return Object.fromEntries(Object.entries(ac
 function getAchievementIconIndex(){return buildAchievementIconIndex()}
 const achievementArtworkOverrides={
  [normAchievementName('This is going to be LIT')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/d757ac90b60d6720d85f59ea10a6b1f39525125a.jpg",
- [normAchievementName('Spies Trade')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/048010fc5d3361e59709ed0641fb3d519a232e13.jpg"
+ [normAchievementName('Spies Trade')]:"https://www.trueachievements.com/imagestore/mob/0008670900/8670953.jpg"
 };
 function getAchievementIcon(name){const key=normAchievementName(name);return achievementArtworkOverrides[key]||getAchievementIconIndex()[key]||''}
 function achievementImageError(img){
