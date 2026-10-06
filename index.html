@@ -1757,6 +1757,41 @@ header .topnav .support-navbtn:hover{border-color:#8b6a48!important;background:l
  header .topnav .navlabel small{font-size:5.8px!important}
 }
 
+
+/* Phase 17G.5 — content-frame alignment and navigation legibility */
+@media(min-width:1281px){
+ .war-header{
+  grid-template-columns:minmax(430px,1fr) minmax(820px,950px)!important;
+  padding-left:max(26px,calc((100vw - 1540px)/2))!important;
+  padding-right:max(26px,calc((100vw - 1540px)/2))!important;
+ }
+ header .topnav .navlabel b{
+  max-width:160px!important;
+  font-size:12px!important;
+  font-weight:700!important;
+  line-height:1.16!important;
+  letter-spacing:.18px!important;
+  color:#e4d8b1!important;
+  text-shadow:0 1px 1px #000!important;
+ }
+ header .topnav .navlabel small{
+  font-size:7px!important;
+  font-weight:700!important;
+  line-height:1.15!important;
+  letter-spacing:.38px!important;
+  color:#a69c7b!important;
+  opacity:.9!important;
+ }
+ header .topnav .navicon{font-size:16px!important;color:#d0ad4f!important}
+ header .topnav .navbtn.active .navlabel b{color:#fff0bb!important}
+ header .topnav .navbtn.active .navlabel small{color:#c9bb8c!important}
+}
+@media(min-width:1500px){
+ .war-header{
+  grid-template-columns:minmax(500px,1fr) 950px!important;
+ }
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
