@@ -1146,44 +1146,6 @@ body:after{z-index:0!important;opacity:1!important;background:
  .generator-console-head:before,.generator-console-head:after{display:none!important}
 }
 
-/* Phase 17C — mechanical country selector benchmark pass */
-.wheel-instrument{position:relative!important;padding:34px 58px 26px!important;border-radius:2px!important;border:1px solid #665b3f!important;background:
- radial-gradient(circle at 50% 47%,#2d3026 0 48%,#121610 69%,#080b08 100%)!important;
- box-shadow:inset 0 0 75px #000d,0 12px 30px #000a!important}
-.wheel-instrument:before,.wheel-instrument:after{content:"●"!important;top:50%!important;color:#b09454!important;font-size:10px!important;text-shadow:0 0 0 3px #1a1d17,0 0 0 4px #5e573f!important}
-.wheel-instrument .wheelwrap{position:relative!important;border-radius:50%!important;box-shadow:
- 0 0 0 2px #c0a25d,
- 0 0 0 6px #26271f,
- 0 0 0 9px #070907,
- 0 0 0 13px #7b6c47,
- 0 0 0 17px #151812,
- 0 0 0 20px #a58b50,
- 0 20px 42px #000f!important}
-.wheel-instrument .wheelwrap:before{content:""!important;position:absolute!important;inset:-17px!important;z-index:3!important;border:2px solid #171a14!important;border-radius:50%!important;box-shadow:
- inset 0 0 0 2px #8e7948,
- inset 0 0 0 7px #080a08,
- inset 0 0 0 9px #554d35,
- inset 0 0 24px #000!important;pointer-events:none!important}
-.wheel-instrument .wheelwrap:after{content:""!important;position:absolute!important;inset:-27px!important;z-index:2!important;border-radius:50%!important;border:1px dashed #a58c543d!important;box-shadow:0 0 0 1px #050705,0 0 0 3px #4f4935!important;pointer-events:none!important}
-.wheel-instrument .pointer{top:-35px!important;z-index:9!important;border-left-width:27px!important;border-right-width:27px!important;border-top:58px solid #d0ad54!important;filter:drop-shadow(0 5px 2px #000) drop-shadow(0 0 2px #e1c46c)!important}
-.wheel-instrument .pointer:before{content:"";position:absolute;left:-12px;top:-56px;width:24px;height:12px;background:linear-gradient(#6d6040,#26271f);border:1px solid #b39754;box-shadow:0 2px 4px #000}
-.wheel-instrument .pointer:after{content:"";position:absolute;left:-5px;top:-51px;width:10px;height:10px;border-radius:50%;background:#171a14;box-shadow:inset 0 0 0 2px #a68d50,0 1px 2px #000}
-.instrument-label{color:#cbb36e!important;opacity:.82!important}
-.instrument-left{left:15px!important}.instrument-right{right:15px!important}
-@media(min-width:1051px){
- .wheel-instrument{background:
-  linear-gradient(90deg,#090c09 0 5%,transparent 5.2% 94.8%,#090c09 95% 100%),
-  radial-gradient(circle at 50% 47%,#31352a 0 45%,#171b15 66%,#090c09 100%)!important}
-}
-@media(max-width:650px){
- .wheel-instrument{padding:24px 20px 18px!important}
- .wheel-instrument .wheelwrap{box-shadow:0 0 0 2px #b99b58,0 0 0 6px #11140f,0 0 0 9px #6f6242,0 12px 24px #000e!important}
- .wheel-instrument .wheelwrap:before{inset:-8px!important}
- .wheel-instrument .wheelwrap:after{inset:-13px!important}
- .wheel-instrument .pointer{top:-22px!important;border-left-width:20px!important;border-right-width:20px!important;border-top-width:44px!important}
- .wheel-instrument .pointer:before,.wheel-instrument .pointer:after{display:none!important}
-}
-
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
@@ -3119,7 +3081,7 @@ if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideolo
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
-ctx.strokeStyle='#c6b878';ctx.lineWidth=stage.value==='ideology'?1.45:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HOI4',0,-9);ctx.font='bold 10px Georgia';ctx.fillText('WAR ROOM',0,7);ctx.restore()}
+ctx.strokeStyle='#c6b878';ctx.lineWidth=stage.value==='ideology'?1.45:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
 const FIELD_INTELLIGENCE=[
  'Game Tip • Keep an eye on supply hubs and railways. A strong division can still collapse when its supply network cannot keep up.',
