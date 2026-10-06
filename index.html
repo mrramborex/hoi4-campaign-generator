@@ -2119,6 +2119,20 @@ header .topnav .navlabel{padding-top:25px!important}
  .special-orders-status{align-items:flex-start;flex-direction:column}
 }
 
+
+/* Phase 17G.11 — Special Orders experimental campaign integration */
+.special-order-control{margin-top:10px!important}
+.special-order-control small{display:block;margin-top:7px;color:#5b4b32;font-size:8px;line-height:1.5}
+.mission-special-order{margin-top:14px}
+.mission-special-order[hidden],.campaign-file-special[hidden]{display:none!important}
+.special-order-line{border-left:3px solid #7d5d31!important;background:#dbc18478!important}
+.special-order-line b{color:#5f3e20!important;font-family:var(--display)!important;font-size:18px!important;letter-spacing:.7px!important}
+.special-order-line span{display:inline-block;margin-top:5px;color:#3f3423!important;line-height:1.5!important}
+.campaign-special-tag{margin-top:7px;padding-top:6px;border-top:1px dashed #8e7046;color:#5a4529;font:700 8px var(--typewriter);letter-spacing:.45px}
+.campaign-special-tag b{color:#7b3f2f}
+.campaign-file-special{border-left:4px solid #77562f!important}
+.campaign-file-special h3{margin-bottom:5px!important;color:#5f3e20!important}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -2163,6 +2177,7 @@ header .topnav .navlabel{padding-top:25px!important}
   <div class="mission-ach-row"><div class="mission-ach-art"><img class="mission-ach-icon" id="missionAchIcon" alt=""><div class="mission-ach-fallback" id="missionAchFallback">★</div></div><div class="mission-line"><b>Achievement</b><br><span id="missionAchievement"></span></div></div>
   <div class="orders-section-label"><span>MISSION OBJECTIVE</span><span>PRIORITY: ACTIVE</span></div>
   <div class="mission-line mission-objective"><b>Objective:</b> <span id="missionObjective"></span></div>
+  <div class="mission-special-order" id="missionSpecialOrder" hidden><div class="orders-section-label"><span>SPECIAL ORDER</span><span>SECONDARY MISSION • OPTIONAL</span></div><div class="mission-line special-order-line"><b id="missionSpecialOrderName"></b><br><span id="missionSpecialOrderObjective"></span></div></div>
   <div class="mission-badges" id="missionBadges"></div>
   <div class="orders-authorization">COMMAND AUTHORIZATION</div>
   <div class="mission-actions"><button class="mission-secondary" id="rerollAchievement" type="button" onclick="if(selected&&selectedIdeology&&stage.value==='path'&&currentPath)showMission(currentPath)">↻ REROLL ACHIEVEMENT</button><button class="mission-secondary" id="completeMissionAchievement" type="button" onclick="completeCurrentMissionAchievement()">✓ MARK ACHIEVEMENT COMPLETE</button></div>
@@ -2175,6 +2190,7 @@ header .topnav .navlabel{padding-top:25px!important}
 <input id="stage" type="hidden" value="country">
 <div class="command-field"><label>Country Roster</label><select id="countryRoster" onchange="changeCountryRoster()"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
 <div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
+<div class="command-field special-order-control"><label>Special Orders</label><select id="specialOrdersMode"><option value="off">Disabled — Standard Campaign</option><option value="enabled">Enabled — Assign One Secondary Mission</option></select><small>Optional. When enabled, High Command adds one compatible Special Order after the primary assignment is generated.</small></div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetGenerator()">RESET GENERATOR</button>
 <div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#5b5549"></span>Fascist</p><p><span class="dot" style="background:#9a3b35"></span>Communist</p><p><span class="dot" style="background:#3d7390"></span>Democratic</p><p><span class="dot" style="background:#9a804d"></span>Unaligned / Non-Aligned</p></div>
@@ -2236,12 +2252,12 @@ header .topnav .navlabel{padding-top:25px!important}
     <article><b>LIMITED CONSCRIPTION</b><p>Do not raise your conscription law above Extensive Conscription.</p></article>
     <article><b>NO COLLABORATION</b><p>Complete the operation without establishing collaboration governments.</p></article>
    </div>
-   <div class="special-orders-status"><span>IMPLEMENTATION STATUS</span><strong>GENERATOR ASSIGNMENT CONTROLS — PHASE 17G.11</strong></div>
+   <div class="special-orders-status"><span>IMPLEMENTATION STATUS</span><strong>ACTIVE • CONFIGURE IN OPERATION PARAMETERS</strong></div>
   </section>
   <footer class="orders-footer"><span>GENERAL STAFF • HOI4 WAR ROOM</span><strong>PLAY THE ASSIGNMENT. WRITE THE HISTORY.</strong></footer>
  </div>
 </section>
-<div class="campaign-file-modal" id="campaignFileModal" aria-hidden="true" onclick="if(event.target===this)closeCampaignFile()"><article class="campaign-file-document" role="dialog" aria-modal="true" aria-labelledby="campaignFileTitle"><button class="campaign-file-close" type="button" aria-label="Close campaign file" onclick="closeCampaignFile()">×</button><div class="campaign-file-tab">OPERATION FILE</div><div class="campaign-file-classification">GENERAL STAFF • CAMPAIGN RECORD</div><div class="campaign-file-heading"><div><span id="campaignFileNumber">#000</span><h2 id="campaignFileTitle">Campaign File</h2><p id="campaignFileRoute"></p></div><img id="campaignFileArt" alt=""></div><div class="campaign-file-rule"></div><section class="campaign-file-section"><span>ACHIEVEMENT ASSIGNMENT</span><h3 id="campaignFileAchievement"></h3></section><section class="campaign-file-section campaign-file-objective"><span>OFFICIAL ACHIEVEMENT REQUIREMENT</span><p id="campaignFileObjective"></p></section><section class="campaign-file-section campaign-file-orders"><span>HOW TO COMPLETE THE ASSIGNMENT</span><p id="campaignFileHow"></p></section><footer><span id="campaignFileDate"></span><strong id="campaignFileStatus"></strong></footer></article></div>
+<div class="campaign-file-modal" id="campaignFileModal" aria-hidden="true" onclick="if(event.target===this)closeCampaignFile()"><article class="campaign-file-document" role="dialog" aria-modal="true" aria-labelledby="campaignFileTitle"><button class="campaign-file-close" type="button" aria-label="Close campaign file" onclick="closeCampaignFile()">×</button><div class="campaign-file-tab">OPERATION FILE</div><div class="campaign-file-classification">GENERAL STAFF • CAMPAIGN RECORD</div><div class="campaign-file-heading"><div><span id="campaignFileNumber">#000</span><h2 id="campaignFileTitle">Campaign File</h2><p id="campaignFileRoute"></p></div><img id="campaignFileArt" alt=""></div><div class="campaign-file-rule"></div><section class="campaign-file-section"><span>ACHIEVEMENT ASSIGNMENT</span><h3 id="campaignFileAchievement"></h3></section><section class="campaign-file-section campaign-file-objective"><span>OFFICIAL ACHIEVEMENT REQUIREMENT</span><p id="campaignFileObjective"></p></section><section class="campaign-file-section campaign-file-orders"><span>HOW TO COMPLETE THE ASSIGNMENT</span><p id="campaignFileHow"></p></section><section class="campaign-file-section campaign-file-special" id="campaignFileSpecial" hidden><span>SPECIAL ORDER • SECONDARY MISSION</span><h3 id="campaignFileSpecialName"></h3><p id="campaignFileSpecialObjective"></p></section><footer><span id="campaignFileDate"></span><strong id="campaignFileStatus"></strong></footer></article></div>
 <script>
 const C={f:'#4b463d',c:'#8a332f',d:'#315f78',u:'#8a7345'};
 const countries={
@@ -3297,14 +3313,14 @@ function achievementCatalogStats(){
 const CAMPAIGN_LOG_KEY='hoi4CampaignLog';
 function sanitizeCampaignLog(log){
  if(!Array.isArray(log))return [];
- return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:x.country.slice(0,80),ideology:String(x.ideology||'').slice(0,40),path:String(x.path||'').slice(0,120),achievement:x.achievement.slice(0,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
+ return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:x.country.slice(0,80),ideology:String(x.ideology||'').slice(0,40),path:String(x.path||'').slice(0,120),achievement:x.achievement.slice(0,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',specialOrder:String(x.specialOrder||'').slice(0,80),specialOrderObjective:String(x.specialOrderObjective||'').slice(0,240),time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
 }
 function getCampaignLog(){try{return sanitizeCampaignLog(JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]'))}catch(e){return []}}
 function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(sanitizeCampaignLog(log)))}
 function renderCampaignLog(){
  const el=document.getElementById('campaignLog');if(!el)return;
  const log=getCampaignLog();
- el.innerHTML=log.length?log.slice(0,6).map(x=>`<div class="campaign-log-item">${x.icon?'<img class="campaign-log-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-log-fallback" style="display:none">🏆</div>':'<div class="campaign-log-fallback">🏆</div>'}<div><div class="campaign-log-title">${x.country} — ${x.achievement}</div><div class="campaign-log-sub">${x.ideology} → ${x.path}</div></div></div>`).join(''):'<div class="campaign-log-empty">No campaigns locked in yet.</div>';
+ el.innerHTML=log.length?log.slice(0,6).map(x=>`<div class="campaign-log-item">${x.icon?'<img class="campaign-log-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-log-fallback" style="display:none">🏆</div>':'<div class="campaign-log-fallback">🏆</div>'}<div><div class="campaign-log-title">${x.country} — ${x.achievement}</div><div class="campaign-log-sub">${x.ideology} → ${x.path}${x.specialOrder?' • Special Order: '+x.specialOrder:''}</div></div></div>`).join(''):'<div class="campaign-log-empty">No campaigns locked in yet.</div>';
 }
 function removeCampaign(time){const log=getCampaignLog().filter(x=>x.time!==time);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory()}
 function clearCampaignHistory(){if(!getCampaignLog().length)return;if(!confirm('Clear all Campaign History? Your achievement completion progress will NOT be deleted.'))return;localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory();document.getElementById('dataNote').textContent='Campaign History cleared. Achievement completion progress was kept.'}
@@ -3315,9 +3331,9 @@ function renderCampaignHistory(){
  document.getElementById('historyTotal').textContent=log.length;
  document.getElementById('historyVictories').textContent=log.filter(x=>x.outcome==='victory').length;
  document.getElementById('historyActive').textContent=log.filter(x=>!x.outcome||x.outcome==='active').length;
- let records=log.map((x,i)=>({...x,_fileNo:log.length-i})).filter(x=>!search||[x.country,x.ideology,x.path,x.achievement].join(' ').toLowerCase().includes(search));
+ let records=log.map((x,i)=>({...x,_fileNo:log.length-i})).filter(x=>!search||[x.country,x.ideology,x.path,x.achievement,x.specialOrder||''].join(' ').toLowerCase().includes(search));
  if(sort==='oldest')records.sort((a,b)=>a.time-b.time);else if(sort==='country')records.sort((a,b)=>a.country.localeCompare(b.country)||b.time-a.time);else records.sort((a,b)=>b.time-a.time);
- grid.innerHTML=records.length?records.map(x=>`<article class="campaign-history-card" role="button" tabindex="0" onclick="openCampaignFile(${x.time})" onkeydown="if(event.key==='Enter'){openCampaignFile(${x.time})}">${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-history-fallback" style="display:none">★</div>':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-assignment"><div class="campaign-file-no">#${String(x._fileNo).padStart(3,'0')}</div><h3>${x.country}</h3><div class="campaign-ideology">${x.ideology}</div><div class="campaign-path">${x.path}</div></div><div class="campaign-decoration"><span>ACHIEVEMENT OBJECTIVE</span><p>${x.achievement}</p>${done.has(x.achievement)?'<strong>✓ ACHIEVEMENT COMPLETED</strong>':''}</div><div class="campaign-history-date">${new Date(x.time).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</div><div class="outcome"><button class="${x.outcome==='victory'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'victory')">Completed</button><button class="${(!x.outcome||x.outcome==='active')?'active in-progress':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'active')">In Progress</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" title="Remove operation" aria-label="Remove operation" onclick="event.stopPropagation();if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">•••</button></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES MATCH</b><br>'+(log.length?'Adjust the campaign search to show more filed operations.':'Generate a campaign and press START CAMPAIGN to file your first operation.')+'</div>';
+ grid.innerHTML=records.length?records.map(x=>`<article class="campaign-history-card" role="button" tabindex="0" onclick="openCampaignFile(${x.time})" onkeydown="if(event.key==='Enter'){openCampaignFile(${x.time})}">${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-history-fallback" style="display:none">★</div>':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-assignment"><div class="campaign-file-no">#${String(x._fileNo).padStart(3,'0')}</div><h3>${x.country}</h3><div class="campaign-ideology">${x.ideology}</div><div class="campaign-path">${x.path}</div></div><div class="campaign-decoration"><span>ACHIEVEMENT OBJECTIVE</span><p>${x.achievement}</p>${done.has(x.achievement)?'<strong>✓ ACHIEVEMENT COMPLETED</strong>':''}${x.specialOrder?'<div class="campaign-special-tag"><b>SPECIAL ORDER</b> '+x.specialOrder+'</div>':''}</div><div class="campaign-history-date">${new Date(x.time).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</div><div class="outcome"><button class="${x.outcome==='victory'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'victory')">Completed</button><button class="${(!x.outcome||x.outcome==='active')?'active in-progress':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'active')">In Progress</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" title="Remove operation" aria-label="Remove operation" onclick="event.stopPropagation();if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">•••</button></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES MATCH</b><br>'+(log.length?'Adjust the campaign search to show more filed operations.':'Generate a campaign and press START CAMPAIGN to file your first operation.')+'</div>';
 }
 
 
@@ -3326,6 +3342,7 @@ function openCampaignFile(time){
  const log=getCampaignLog(),x=log.find(v=>v.time===time);if(!x)return;const rec=campaignAchievementRecord(x.achievement),m=document.getElementById('campaignFileModal');
  document.getElementById('campaignFileNumber').textContent='#'+String(Math.max(1,log.length-log.indexOf(x))).padStart(3,'0');document.getElementById('campaignFileTitle').textContent=x.country;document.getElementById('campaignFileRoute').textContent=x.ideology+' • '+x.path;document.getElementById('campaignFileAchievement').textContent=x.achievement;
  const req=rec?.objective||'Official requirement unavailable in the local achievement catalog.';document.getElementById('campaignFileObjective').textContent=req;document.getElementById('campaignFileHow').textContent='Campaign orders: '+req+' Use the assigned nation and political route shown in this file, then satisfy every condition in the achievement requirement.';
+ const special=document.getElementById('campaignFileSpecial');if(x.specialOrder){special.hidden=false;document.getElementById('campaignFileSpecialName').textContent=x.specialOrder;document.getElementById('campaignFileSpecialObjective').textContent=x.specialOrderObjective||''}else{special.hidden=true}
  document.getElementById('campaignFileDate').textContent='FILED '+new Date(x.time).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});document.getElementById('campaignFileStatus').textContent=x.outcome==='victory'?'COMPLETED':x.outcome==='abandoned'?'ABANDONED':'IN PROGRESS';
  const art=document.getElementById('campaignFileArt'),src=getAchievementIcon(x.achievement)||x.icon||'';art.src=src;art.style.display=src?'block':'none';m.classList.add('show');m.setAttribute('aria-hidden','false');document.body.classList.add('file-open')
 }
@@ -3335,7 +3352,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCampaignFile()}
 function logCurrentCampaign(){
  if(!selected||!selectedIdeology||!currentMission)return;
  const path=document.getElementById('dossierPath').textContent;
- const entry={country:selected,ideology:names[selectedIdeology],path,achievement:currentMission.name,icon:getAchievementIcon(currentMission.name)||'',time:Date.now()};
+ const entry={country:selected,ideology:names[selectedIdeology],path,achievement:currentMission.name,icon:getAchievementIcon(currentMission.name)||'',specialOrder:currentSpecialOrder?.name||'',specialOrderObjective:currentSpecialOrder?.objective||'',time:Date.now()};
  const log=getCampaignLog().filter(x=>!(x.country===entry.country&&x.ideology===entry.ideology&&x.path===entry.path&&x.achievement===entry.achievement));
  log.unshift(entry);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory();
 }
@@ -3991,6 +4008,28 @@ function updateMissionAchievement(a){
  completeBtn.style.display='block';
  if(a._customDirective){completeBtn.style.display='none';return}completeBtn.textContent=getCompleted().has(a.name)?'✓ ACHIEVEMENT COMPLETED':'✓ MARK ACHIEVEMENT COMPLETE';
 }
+const SPECIAL_ORDERS=[
+ {id:'ironman',name:'Ironman',objective:'Complete the assigned operation with Ironman Mode enabled.',exclude:/no ironman|non-ironman/i},
+ {id:'historical',name:'Historical Command',objective:'Run the operation with Historical AI Focuses enabled.',exclude:/historical ai.*off|disable historical/i},
+ {id:'no-retreat',name:'No Retreat',objective:'Do not manually delete trapped divisions simply to avoid their destruction.'},
+ {id:'lone-wolf',name:'Lone Wolf',objective:'Do not join or create a faction unless faction membership is required by the primary objective.',exclude:/join (?:a |the )?faction|create (?:a |the )?faction|lead (?:a |the )?faction|allies faction|axis faction|comintern/i},
+ {id:'limited-conscription',name:'Limited Conscription',objective:'Do not raise your conscription law above Extensive Conscription.',exclude:/service by requirement|all adults serve|scraping the barrel|conscription law/i},
+ {id:'no-collaboration',name:'No Collaboration',objective:'Complete the operation without establishing collaboration governments.',exclude:/collaboration government/i}
+];
+let currentSpecialOrder=null;
+function specialOrdersEnabled(){return document.getElementById('specialOrdersMode')?.value==='enabled'}
+function pickSpecialOrder(achievement){
+ if(!specialOrdersEnabled())return null;
+ const requirement=String(achievement?.objective||'');
+ const pool=SPECIAL_ORDERS.filter(order=>!order.exclude||!order.exclude.test(requirement));
+ if(!pool.length)return null;
+ return pool[Math.floor(Math.random()*pool.length)];
+}
+function renderCurrentSpecialOrder(){
+ const wrap=document.getElementById('missionSpecialOrder');if(!wrap)return;
+ if(!currentSpecialOrder){wrap.hidden=true;document.getElementById('missionSpecialOrderName').textContent='';document.getElementById('missionSpecialOrderObjective').textContent='';return}
+ wrap.hidden=false;document.getElementById('missionSpecialOrderName').textContent=currentSpecialOrder.name;document.getElementById('missionSpecialOrderObjective').textContent=currentSpecialOrder.objective;
+}
 function showMission(path){
  currentPath=path;
  const a=pickAchievement(selected,selectedIdeology,path);
@@ -4000,6 +4039,7 @@ function showMission(path){
  document.getElementById('dossierIdeology').textContent=names[selectedIdeology];
  document.getElementById('dossierPath').textContent=path;
  if(a){
+   currentSpecialOrder=pickSpecialOrder(a);renderCurrentSpecialOrder();
    document.getElementById('missionAchievement').textContent=a.name;
    document.getElementById('missionObjective').textContent=a.objective;
    const status=a._wasCompleted?'Completed':'Unfinished';
@@ -4009,6 +4049,7 @@ function showMission(path){
    document.getElementById('missionNote').textContent=a._scope==='conquest'?'No compatible unfinished achievement remains for this country. High Command has issued a world conquest directive.':a._scope==='generic'?'No country-specific achievement is available; an unfinished general achievement has been assigned.':(a._scope==='route'?'Unfinished achievement matched to this political route.':'Unfinished achievement matched to this country and ideology.');
    updateMissionAchievement(a);
  }else{
+   currentSpecialOrder=null;renderCurrentSpecialOrder();
    document.getElementById('missionAchIcon').style.display='none';document.getElementById('missionAchFallback').style.display='block';document.getElementById('missionBadges').innerHTML='<span class="mission-badge done">No Outstanding Decorations</span>';document.getElementById('missionAchievement').textContent='No Unfinished Achievement Available';
    document.getElementById('missionObjective').textContent='All compatible achievement assignments for this country, ideology, and political route are already complete, or no country-specific achievement is mapped to this route.';
    document.getElementById('missionNote').textContent='War Room will not assign a completed achievement. Start a new campaign to roll another route with an unfinished objective.';updateMissionAchievement(null);
@@ -4103,6 +4144,7 @@ document.getElementById('navGenerator').onclick=()=>showSection('generator');
 document.getElementById('navAchievements').onclick=()=>{showSection('achievements');renderAchievements()};
 document.getElementById('navCampaigns').onclick=()=>{showSection('campaigns');renderCampaignHistory()};
 document.getElementById('navOrders').onclick=()=>showSection('orders');
+const specialOrdersMode=document.getElementById('specialOrdersMode');if(specialOrdersMode)specialOrdersMode.addEventListener('change',()=>{if(currentMission&&currentPath){currentSpecialOrder=pickSpecialOrder(currentMission);renderCurrentSpecialOrder()}});
 initAchievementCenter();renderCampaignLog();renderCampaignHistory();
 document.getElementById('clearFullHistory').onclick=clearCampaignHistory;
 document.getElementById('clearCampaignLog').onclick=()=>{localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()};
