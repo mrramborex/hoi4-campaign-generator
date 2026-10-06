@@ -1360,6 +1360,45 @@ body:after{z-index:0!important;opacity:1!important;background:
  .outcome{grid-column:1/-1!important}
 }
 
+/* Phase 17F.3 — file-folder headers + history readability */
+.generator-console-head,.archive-head,.campaign-archive-head{
+ position:relative!important;
+ background:
+  linear-gradient(180deg,#20251f 0,#171c17 100%)!important;
+ border:1px solid #675a3d!important;
+ border-bottom:3px solid #9a8149!important;
+ box-shadow:0 5px 12px #0008,inset 0 1px #ffffff0a!important
+}
+.generator-console-head:after,.archive-head:after,.campaign-archive-head:after{
+ content:""!important;position:absolute!important;left:20px!important;top:-9px!important;width:150px!important;height:9px!important;
+ background:#78643c!important;border:1px solid #9a8149!important;border-bottom:0!important;border-radius:3px 8px 0 0!important;
+ box-shadow:0 -2px 4px #0005!important
+}
+.generator-console-head{padding-left:26px!important}
+.archive-head,.campaign-archive-head{background:
+ linear-gradient(180deg,#20251f 0,#171c17 100%)!important}
+.archive-head:before,.campaign-archive-head:before{
+ content:"GENERAL STAFF FILE"!important;position:absolute!important;right:108px!important;top:10px!important;
+ color:#8f7d50!important;font:7px var(--typewriter)!important;letter-spacing:1.4px!important;opacity:.8!important
+}
+.archive-head h2,.campaign-archive-head h2{color:#eee1ba!important;text-shadow:0 1px 1px #000!important}
+.archive-kicker,.campaign-archive-kicker{color:#b6a36f!important}
+.archive-head .small,.campaign-archive-head .small{color:#bbb5a0!important}
+.history-sort select{color:#eee7d2!important;background:#111916!important;color-scheme:dark!important;font-weight:700!important}
+.history-sort select option{color:#eee7d2!important;background:#111916!important;font-family:Georgia,serif!important;font-weight:700!important}
+.campaign-decoration>span{
+ color:#c6b57f!important;
+ font-size:8px!important;
+ font-weight:700!important;
+ letter-spacing:1.35px!important;
+ text-shadow:0 1px #000!important
+}
+.campaign-decoration p{color:#eee4c7!important;font-size:14px!important}
+@media(max-width:700px){
+ .generator-console-head:after,.archive-head:after,.campaign-archive-head:after{left:12px!important;width:112px!important}
+ .archive-head:before,.campaign-archive-head:before{display:none!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
