@@ -1982,12 +1982,76 @@ header .topnav .navlabel{padding-top:25px!important}
  header .topnav .navlabel small{font-size:6.5px!important}
 }
 
+
+/* Phase 17G.9 — raised file-tab navigation */
+@media(min-width:821px){
+ header .topnav{align-items:end!important;padding-top:10px!important;overflow:visible!important}
+ header .topnav .navbtn{
+  position:relative!important;
+  height:calc(100% - 10px)!important;
+  min-height:94px!important;
+  align-self:end!important;
+  margin:0!important;
+  padding:15px 10px 13px!important;
+  border:1px solid #4e4a35!important;
+  border-bottom:0!important;
+  border-radius:7px 7px 0 0!important;
+  background:linear-gradient(180deg,#171b15,#10130f)!important;
+  box-shadow:inset 0 1px #887b5422!important;
+  transition:height .16s ease,background .16s ease,border-color .16s ease!important
+ }
+ header .topnav .navbtn:first-child,header .topnav .navbtn:last-child{border-radius:7px 7px 0 0!important}
+ header .topnav .navbtn+ .navbtn{border-left-color:#625a3f!important}
+ header .topnav .navbtn.active{
+  height:100%!important;
+  min-height:104px!important;
+  z-index:3!important;
+  border-color:#9a844b!important;
+  border-bottom:0!important;
+  border-radius:9px 9px 0 0!important;
+  background:linear-gradient(180deg,#514f2f 0,#414326 68%,#35391f 100%)!important;
+  box-shadow:inset 0 2px #d4bc6c55,inset 0 -4px #c6a65b,0 -3px 8px #0005!important
+ }
+ header .topnav .navbtn.active:before{
+  content:"";position:absolute;left:13px;right:13px;top:7px;height:1px;
+  background:#d4bc6c66;border-radius:2px
+ }
+ header .topnav .navbtn.active:after{bottom:0!important}
+ header .topnav .navlabel{
+  padding-top:0!important;
+  gap:7px!important;
+  justify-content:center!important;
+  align-items:center!important;
+  height:100%!important
+ }
+ header .topnav .navlabel b{
+  max-width:165px!important;
+  font-size:12px!important;
+  line-height:1.15!important;
+  letter-spacing:.12px!important
+ }
+ header .topnav .navlabel small{
+  font-size:7.5px!important;
+  line-height:1.15!important;
+  letter-spacing:.2px!important
+ }
+ header .topnav .navicon{display:none!important}
+ header .topnav .navbtn:hover:not(.active){
+  height:calc(100% - 6px)!important;
+  background:linear-gradient(180deg,#22261c,#151812)!important
+ }
+}
+@media(min-width:821px) and (max-width:1280px){
+ header .topnav .navlabel b{font-size:10px!important}
+ header .topnav .navlabel small{font-size:6.5px!important}
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
 <div class="war-brand war-brand-unified" aria-label="Hearts of Iron IV War Room"><div class="war-brand-mark"><b>HEARTS OF IRON IV</b><strong>WAR ROOM</strong><small>CAMPAIGN OPERATIONS CENTER</small></div></div>
 <div class="war-title-wrap war-title-spacer" aria-hidden="true"></div>
-<div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navicon">OP</span><span class="navlabel"><b>Operations</b><small>Campaign Generator</small></span></button><button class="navbtn" id="navAchievements"><span class="navicon">AR</span><span class="navlabel"><b>Achievement Archive</b><small>Service Records</small></span></button><button class="navbtn" id="navCampaigns"><span class="navicon">CR</span><span class="navlabel"><b>Campaign Records</b><small>Filed Operations</small></span></button><button class="navbtn" id="navOrders"><span class="navicon">SO</span><span class="navlabel"><b>Standing Orders</b><small>Rules &amp; Doctrine</small></span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navicon">WR</span><span class="navlabel"><b>Support the War Room</b><small>Back the Project</small></span></button></div>
+<div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navlabel"><b>Operations</b><small>Campaign Generator</small></span></button><button class="navbtn" id="navAchievements"><span class="navlabel"><b>Achievement Archive</b><small>Service Records</small></span></button><button class="navbtn" id="navCampaigns"><span class="navlabel"><b>Campaign Records</b><small>Filed Operations</small></span></button><button class="navbtn" id="navOrders"><span class="navlabel"><b>Standing Orders</b><small>Rules &amp; Doctrine</small></span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navlabel"><b>Support the War Room</b><small>Back the Project</small></span></button></div>
 </header>
 <!-- Phase 13G — text and terminology consistency audit -->
 <!-- Phase 13I — Release Candidate: Phase 13 audit gates passed -->
