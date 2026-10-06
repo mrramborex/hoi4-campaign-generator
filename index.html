@@ -1591,12 +1591,45 @@ body.support-modal-open{overflow:hidden}
 @media(max-width:760px){#standingOrders{padding:16px 8px 32px}.orders-manual{padding:36px 20px 28px 45px}.orders-binding{left:7px}.orders-grid,.directive-grid{grid-template-columns:1fr}.orders-head h2{font-size:30px}.orders-stamp{font-size:13px}.orders-footer{flex-direction:column}.directive-head{align-items:flex-start}}
 @media(max-width:440px){.orders-manual{padding-left:38px;padding-right:14px}.orders-binding{width:23px}.orders-binding span{width:13px;height:13px}.orders-head{display:block}.orders-stamp{display:inline-block;margin-top:15px}.directive-head{display:block}.directive-head>strong{display:inline-block;margin-top:8px}}
 
+
+/* Phase 17G.2 — War Room command navigation */
+header .topnav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:0!important;margin:0!important;align-self:stretch!important;min-width:0!important}
+header .topnav .navbtn{position:relative;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;min-width:0!important;min-height:92px!important;padding:12px 14px!important;border:0!important;border-left:1px solid #4c4936!important;border-radius:0!important;background:#10140f!important;color:#cfc39b!important;box-shadow:none!important;text-align:left!important}
+header .topnav .navbtn:last-child{border-right:1px solid #4c4936!important}
+header .topnav .navbtn:hover{background:#191d15!important;color:#efe1b5!important}
+header .topnav .navbtn.active{background:linear-gradient(#45462a,#353820)!important;color:#f2df9c!important;box-shadow:inset 0 -4px #c6a65b!important}
+header .topnav .navbtn.active:after{content:"";position:absolute;left:18%;right:18%;bottom:0;height:1px;background:#f0d27a99}
+header .topnav .navicon{flex:0 0 auto;width:18px;font-size:16px!important;line-height:1;text-align:center;color:#c6a65b!important}
+header .topnav .navlabel{display:flex;min-width:0;flex-direction:column;gap:4px;line-height:1.05}
+header .topnav .navlabel b{font:700 10px var(--display);letter-spacing:.7px;text-transform:uppercase;white-space:nowrap}
+header .topnav .navlabel small{font:700 6px var(--typewriter);letter-spacing:.9px;text-transform:uppercase;color:#77745e;white-space:nowrap}
+header .topnav .navbtn.active .navlabel small,header .topnav .navbtn:hover .navlabel small{color:#a9a17e}
+header .topnav .support-navbtn{background:#151812!important;color:#d8c895!important}
+header .topnav .support-navbtn .navicon{color:#a97b50!important}
+header .topnav .support-navbtn:hover{background:#211b14!important;color:#f0d5aa!important}
+@media(max-width:1100px){
+ header .topnav .navbtn{padding:10px 8px!important;gap:5px!important}
+ header .topnav .navicon{width:14px;font-size:13px!important}
+ header .topnav .navlabel b{font-size:8px;letter-spacing:.35px}
+ header .topnav .navlabel small{font-size:5px;letter-spacing:.5px}
+}
+@media(max-width:820px){
+ header .topnav{grid-template-columns:repeat(5,minmax(104px,1fr))!important;overflow-x:auto!important;scrollbar-width:thin}
+ header .topnav .navbtn{min-height:68px!important}
+}
+@media(max-width:520px){
+ header .topnav{display:grid!important;grid-template-columns:repeat(5,minmax(98px,1fr))!important;gap:0!important}
+ header .topnav .navbtn{width:auto!important;min-height:62px!important;padding:8px 7px!important}
+ header .topnav .support-navbtn{grid-column:auto!important}
+ header .topnav .navlabel small{display:none}
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
 <div class="war-brand war-brand-unified" aria-label="Hearts of Iron IV War Room"><div class="war-brand-mark"><b>HEARTS OF IRON IV</b><strong>WAR ROOM</strong><small>CAMPAIGN OPERATIONS CENTER</small></div></div>
 <div class="war-title-wrap war-title-spacer" aria-hidden="true"></div>
-<div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navicon">⌂</span><span>Generator</span></button><button class="navbtn" id="navAchievements"><span class="navicon">★</span><span>Achievements</span></button><button class="navbtn" id="navCampaigns"><span class="navicon">☷</span><span>Campaigns</span></button><button class="navbtn" id="navOrders"><span class="navicon">§</span><span>Standing Orders</span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navicon">▣</span><span>Support</span></button></div>
+<div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navicon">⌂</span><span class="navlabel"><b>Operations</b><small>Campaign Generator</small></span></button><button class="navbtn" id="navAchievements"><span class="navicon">★</span><span class="navlabel"><b>Achievement Archive</b><small>Service Records</small></span></button><button class="navbtn" id="navCampaigns"><span class="navicon">☷</span><span class="navlabel"><b>Campaign Records</b><small>Filed Operations</small></span></button><button class="navbtn" id="navOrders"><span class="navicon">§</span><span class="navlabel"><b>Standing Orders</b><small>Rules &amp; Doctrine</small></span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navicon">♦</span><span class="navlabel"><b>Support the War Room</b><small>Back the Project</small></span></button></div>
 </header>
 <!-- Phase 13G — text and terminology consistency audit -->
 <!-- Phase 13I — Release Candidate: Phase 13 audit gates passed -->
