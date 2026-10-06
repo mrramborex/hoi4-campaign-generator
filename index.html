@@ -1457,6 +1457,57 @@ body:after{z-index:0!important;opacity:1!important;background:
 .campaign-history-empty{background:#d1b376!important;color:#55452f!important;border-color:#795d36!important}
 .campaign-history-empty b{color:#2b2318!important}
 
+/* Phase 17F.5 — Assignment typography + larger campaign files */
+.generator-console-head .console-kicker{
+ color:#594426!important;font-size:9px!important;font-weight:700!important;letter-spacing:1.75px!important
+}
+.generator-console-head h2{
+ font-size:31px!important;line-height:1!important;letter-spacing:1.6px!important;margin:4px 0 5px!important
+}
+.generator-console-head .operation-subtitle{
+ color:#44351f!important;font-size:9px!important;font-weight:700!important;letter-spacing:1.35px!important
+}
+.generator-console-head:before{
+ content:"CLASSIFIED"!important;
+ right:112px!important;top:12px!important;
+ padding:4px 9px!important;
+ color:#7d2e25!important;
+ background:#c49a62!important;
+ border:2px solid #8e3f33!important;
+ box-shadow:0 2px 5px #6d482c66,inset 0 0 0 1px #e2bd82!important;
+ font:700 8px var(--typewriter)!important;
+ letter-spacing:1.5px!important;
+ opacity:1!important;
+ transform:rotate(-3deg)!important
+}
+.generator-console-head .console-status{
+ padding:7px 11px!important;font-size:9px!important;font-weight:700!important;letter-spacing:1.1px!important
+}
+.campaign-history-card{
+ grid-template-columns:82px 175px minmax(260px,1fr) 110px 270px!important;
+ min-height:94px!important;padding:9px 11px!important;gap:12px!important
+}
+.campaign-history-icon,.campaign-history-fallback{width:74px!important;height:74px!important}
+.campaign-file-no{font-size:8px!important}
+.campaign-history-card h3{font-size:17px!important;margin-bottom:3px!important}
+.campaign-ideology{font-size:11px!important}
+.campaign-path{font-size:9px!important}
+.campaign-decoration{padding:8px 11px!important}
+.campaign-decoration>span{font-size:8px!important}
+.campaign-decoration p{font-size:16px!important;margin-top:4px!important}
+.campaign-history-date{font-size:10px!important}
+.outcome button{padding:8px 6px!important;font-size:7px!important}
+@media(max-width:1120px){
+ .campaign-history-card{grid-template-columns:78px 165px minmax(210px,1fr) 95px!important}
+ .outcome{grid-column:2/-1!important}
+}
+@media(max-width:700px){
+ .generator-console-head h2{font-size:25px!important}
+ .generator-console-head:before{display:none!important}
+ .campaign-history-card{grid-template-columns:74px minmax(0,1fr)!important}
+ .campaign-history-icon,.campaign-history-fallback{width:68px!important;height:68px!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
