@@ -1857,6 +1857,71 @@ header .topnav .support-navbtn:hover{border-color:#8b6a48!important;background:l
  .command-panel-head:after{right:10px}
 }
 
+
+/* Phase 17G.7 — paper controls, copy spacing, exact generator-edge masthead */
+.command-panel .command-field,
+.command-panel .command-check,
+.command-panel .legend,
+.command-panel .history,
+.command-panel .campaign-log{
+ background:linear-gradient(180deg,#d8bc80cc,#cfaf72cc)!important;
+ border:1px solid #87683d!important;
+ box-shadow:inset 0 1px #f1d79b99,inset 0 0 12px #70491e1c!important;
+}
+.command-panel .command-field{border-left:3px solid #76582f!important}
+.command-panel .command-field select{
+ background:linear-gradient(#45432f,#343426)!important;
+ color:#f0e5c5!important;
+ border:1px solid #65552f!important;
+ box-shadow:inset 0 1px #ffffff12,0 2px 4px #6b482b55!important
+}
+.command-panel .command-audit{
+ margin:9px 2px 12px!important;
+ padding:10px 12px!important;
+ background:#d2b67880!important;
+ border:0!important;
+ border-left:2px solid #806038!important;
+ border-bottom:1px solid #94764b66!important;
+ color:#4c402d!important;
+ font-size:9px!important;
+ line-height:1.7!important;
+ letter-spacing:.05px!important;
+ text-shadow:none!important
+}
+.command-panel .command-check{margin:0 0 12px!important;padding:12px 13px!important}
+.command-panel .command-check label{display:flex!important;align-items:flex-start!important;gap:7px!important;line-height:1.45!important;color:#493b25!important;font-size:11px!important}
+.command-panel .command-check input{margin-top:2px!important}
+.command-panel .command-reset{
+ margin:0 0 14px!important;
+ background:linear-gradient(#9b7b4e,#846740)!important;
+ color:#fff0c8!important;
+ border:1px solid #5e4428!important;
+ box-shadow:inset 0 1px #e4c78a66,0 2px 4px #5e3d2355!important
+}
+.command-panel .legend{padding:14px!important}
+.command-panel .legend>b,.command-panel .history>b,.command-panel .campaign-log b{color:#4d3d24!important;text-shadow:none!important}
+.command-panel .legend p{color:#30291d!important}
+.command-panel .history,.command-panel .campaign-log{padding:12px!important}
+.command-panel .campaign-log-item{border-bottom-color:#94774b80!important;color:#3f3525!important}
+.command-panel .campaign-log-head button{color:#675032!important}
+.command-panel .command-footnote{
+ margin-top:14px!important;
+ padding:12px 10px 5px!important;
+ color:#4c412f!important;
+ border-top:1px dashed #84683f!important;
+ font-size:9px!important;
+ line-height:1.72!important;
+ letter-spacing:.02px!important;
+ text-shadow:none!important
+}
+@media(min-width:1381px){
+ .war-header{
+  grid-template-columns:minmax(430px,1fr) minmax(820px,950px)!important;
+  padding-left:max(26px,calc((100vw - 1380px)/2))!important;
+  padding-right:max(26px,calc((100vw - 1380px)/2))!important;
+ }
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
