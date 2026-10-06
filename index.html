@@ -2862,9 +2862,13 @@ window.HOI4AchievementArtworkRuntimeAudit=auditAchievementArtworkRuntime;
 /* Phase 18A — canonical achievement identity audit foundation.
    A populated artwork URL is no longer considered proof that the artwork belongs to that achievement.
    Paradox Wiki is the canonical visual/requirement reference; records remain unverified until identity is checked. */
-const PHASE18_IDENTITY_VERIFIED=Object.freeze({});
+const PHASE18_IDENTITY_VERIFIED=Object.freeze({
+ [normAchievementName('Kuťáci')]:'18B — name/objective verified against official HOI4 release material; artwork mapping retained pending visual identity confirmation',
+ [normAchievementName('Battle Royale')]:'18B — name/objective verified against current Steam achievement record; artwork mapping retained pending visual identity confirmation',
+ [normAchievementName('Master Infiltrator')]:'18B — name/objective verified against current Steam achievement record; artwork mapping retained pending visual identity confirmation'
+});
 const PHASE18_KNOWN_IDENTITY_FAILURES=Object.freeze({
- 'thaitanic':'Artwork identity mismatch confirmed against the Paradox Wiki reference supplied during Phase 18.'
+ 'thaitanic':'Artwork identity mismatch confirmed against the Paradox Wiki reference supplied during Phase 18; current mapped hash 7b5b61726e0e7973af40848c28cd28a14062ce67 is quarantined pending canonical replacement.'
 });
 function auditAchievementIdentity18A(){
  const all=flatAchievements(),seen=new Map(),duplicates=[],missingRequirements=[],missingArtwork=[],identityVerified=[],identityFailures=[],identityPending=[];
@@ -2874,7 +2878,7 @@ function auditAchievementIdentity18A(){
   if(!String(a.objective||'').trim())missingRequirements.push(a.name);
   if(!getAchievementIcon(a.name))missingArtwork.push(a.name);
   if(PHASE18_KNOWN_IDENTITY_FAILURES[key])identityFailures.push({name:a.name,reason:PHASE18_KNOWN_IDENTITY_FAILURES[key]});
-  else if(PHASE18_IDENTITY_VERIFIED[key])identityVerified.push(a.name);
+  else if(PHASE18_IDENTITY_VERIFIED[key])identityVerified.push({name:a.name,note:PHASE18_IDENTITY_VERIFIED[key]});
   else identityPending.push(a.name);
  }
  const result={
@@ -2888,6 +2892,16 @@ function auditAchievementIdentity18A(){
  return result;
 }
 window.HOI4AchievementIdentityAudit18A=auditAchievementIdentity18A;
+/* Phase 18B — first canonical identity batch.
+   ThaiTanic is the control failure. Current public Steam text and official HOI4 release material
+   corroborate objectives, but artwork remains pending unless visually matched to the Paradox Wiki. */
+window.HOI4AchievementAudit18B={
+ authority:'Paradox Wiki — Achievements',
+ controlFailure:'ThaiTanic',
+ records:['ThaiTanic','Kuťáci','Battle Royale','Master Infiltrator'],
+ rule:'Text corroboration does not certify artwork identity.'
+};
+
 
 /* Phase 15G — Final production QA / release gate.
    Extends the established War Room release gate with the complete Phase 15 artwork suite,
