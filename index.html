@@ -1879,7 +1879,8 @@ function normAchievementName(n){return String(n||'').trim().toLowerCase().replac
 function buildAchievementIconIndex(){return Object.fromEntries(Object.entries(achievementIcons).map(([k,v])=>[normAchievementName(k),v]))}
 function getAchievementIconIndex(){return buildAchievementIconIndex()}
 const achievementArtworkOverrides={
- [normAchievementName('This is going to be LIT')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/048010fc5d3361e59709ed0641fb3d519a232e13.jpg"
+ [normAchievementName('This is going to be LIT')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/d757ac90b60d6720d85f59ea10a6b1f39525125a.jpg",
+ [normAchievementName('Spies Trade')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/048010fc5d3361e59709ed0641fb3d519a232e13.jpg"
 };
 function getAchievementIcon(name){const key=normAchievementName(name);return achievementArtworkOverrides[key]||getAchievementIconIndex()[key]||''}
 function achievementImageError(img){
@@ -1903,7 +1904,7 @@ function auditAchievementArtworkMap(){
   if(url){try{const h=new URL(url).hostname;hosts[h]=(hosts[h]||0)+1}catch(e){hosts.invalid=(hosts.invalid||0)+1}}
  }
  return {phase:'15A',catalog:all.length,mapped:all.length-missing.length,missing,duplicateCatalogNames:duplicates,hosts,
- knownTargets:[],phase15B:{correctedChineseMappings:7,brokenImageFallbacks:true,source:'Steam global achievement artwork links'},phase15C:{wikiVisualOverride:'This is going to be LIT — Lithuanian flag',correctedShiftedMappings:['Avenging the Sack of Baghdad','Hunt for the Desert Fox','Declare Military Emergency','Paradisus Paradoxum','Revenge for 1925'],rule:'Paradox Wiki visual identity takes precedence when Steam global artwork conflicts'}};
+ knownTargets:[],phase15B:{correctedChineseMappings:7,brokenImageFallbacks:true,source:'Steam global achievement artwork links'},phase15C:{wikiVisualOverride:'superseded by Phase 17E live identity audit',correctedShiftedMappings:['Avenging the Sack of Baghdad','Hunt for the Desert Fox','Declare Military Emergency','Paradisus Paradoxum','Revenge for 1925'],rule:'Paradox Wiki visual identity takes precedence when Steam global artwork conflicts'}};
 }
 window.HOI4AchievementArtworkAudit=auditAchievementArtworkMap;
 /* Phase 15D — Dedicated China artwork gate.
