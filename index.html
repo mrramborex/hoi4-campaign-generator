@@ -1146,6 +1146,61 @@ body:after{z-index:0!important;opacity:1!important;background:
  .generator-console-head:before,.generator-console-head:after{display:none!important}
 }
 
+/* Phase 17D — Operation Dossier benchmark pass */
+.mission.show{display:block!important}
+.mission{position:relative!important;overflow:hidden!important;margin-top:26px!important;padding:28px 30px 24px!important;color:#292519!important;
+ background:
+  linear-gradient(#d7bd82f0,#d7bd82f0),
+  repeating-linear-gradient(0deg,#0000 0 3px,#6d4f2510 4px),
+  radial-gradient(circle at 15% 20%,#fff5c9 0,#c69e5c 68%,#9a7138 100%)!important;
+ border:1px solid #5e4828!important;border-radius:2px!important;
+ box-shadow:0 0 0 5px #11140f,0 0 0 6px #75613b,0 18px 38px #000d,inset 0 0 35px #70471d45!important;
+ font-family:Georgia,serif!important}
+.mission:before{content:"";position:absolute;inset:5px;pointer-events:none;border:1px solid #6f522e55;box-shadow:inset 0 0 22px #6f451c2e}
+.mission:after{content:"★";position:absolute!important;right:18px!important;top:16px!important;inset:auto!important;border:0!important;color:#51401f!important;font-size:21px!important;opacity:.9!important}
+.orders-header{border-bottom:2px solid #5e4526!important;margin-bottom:18px!important;padding:0 42px 13px 0!important}
+.orders-classification{color:#5b492d!important;font-size:8px!important;font-weight:700!important}
+.orders-header .mission-kicker{color:#1d1b14!important;font-size:24px!important;letter-spacing:.7px!important;font-family:var(--display)!important;text-shadow:0 1px #f5e0a3!important}
+.orders-file{min-width:76px!important;background:#c6a66d80!important;border:1px solid #765b34!important;color:#4e3d25!important;box-shadow:inset 0 0 9px #6f4a2638!important}
+.orders-file strong{color:#241e14!important;font-size:15px!important}
+.orders-country-label,.orders-section-label,.orders-authorization{color:#59462b!important;font-weight:700!important}
+.mission-country{color:#181711!important;border-bottom:1px solid #785a33!important;text-shadow:0 1px #f5df9f!important;font-size:36px!important}
+.mission-country:before{content:"ASSIGNED NATION  ";font:8px var(--typewriter);letter-spacing:1.5px;color:#6a5230}
+.mission-dossier{grid-template-columns:1.15fr 1fr 1.35fr!important;gap:0!important;border:1px solid #765b36!important;background:#b9945a38!important;box-shadow:inset 0 0 16px #6d451d24!important}
+.dossier-field{min-height:62px!important;background:transparent!important;border:0!important;border-right:1px solid #8a6b414f!important;padding:10px 13px!important}
+.dossier-field:last-child{border-right:0!important}
+.dossier-label{color:#665033!important;font-size:8px!important;font-weight:700!important}
+.dossier-value{color:#211d14!important;font-family:var(--display)!important;font-size:17px!important}
+.orders-section-label{margin-top:20px!important;border-bottom:1px solid #7d6039!important;padding-bottom:5px!important}
+.mission-ach-row{grid-template-columns:108px minmax(0,1fr)!important;gap:18px!important;padding:15px!important;background:#c7a66b42!important;border:1px solid #7b5c35!important;box-shadow:inset 0 0 20px #744b202b!important}
+.mission-ach-art{width:102px!important;height:102px!important;background:#211e16!important;border:4px solid #6c512d!important;box-shadow:0 0 0 2px #251e13,0 5px 10px #6b461f55!important}
+.mission-ach-row .mission-line{color:#282116!important}
+.mission-ach-row .mission-line b{color:#604723!important;font:9px var(--typewriter)!important;letter-spacing:1.2px!important;text-transform:uppercase}
+.mission-ach-row .mission-line span{color:#18150f!important;font-family:var(--display)!important;font-size:25px!important;line-height:1.12!important}
+.mission-objective{background:#ead39a73!important;border:1px solid #80613a!important;color:#292116!important;box-shadow:inset 0 0 16px #76502522!important;font-size:15px!important}
+.mission-objective b{color:#59401f!important}
+.mission-badge{border-color:#745a37!important;background:#a986515c!important;color:#302719!important}
+.mission-badge.done{color:#2f4b28!important;border-color:#596943!important;background:#a5b17b55!important}
+.orders-authorization:before,.orders-authorization:after{background:#725735!important}
+.mission-actions{border-top:1px solid #795c36!important;padding-top:15px!important}
+.mission-actions button{box-shadow:0 3px 7px #63421f55!important}
+.mission-note{color:#51442f!important;border-top-color:#846740!important}
+@media(min-width:900px){
+ .mission{max-width:860px!important;margin-left:auto!important;margin-right:auto!important}
+}
+@media(max-width:650px){
+ .mission{padding:19px 14px!important}
+ .orders-header .mission-kicker{font-size:20px!important}
+ .orders-file{min-width:62px!important}
+ .mission-country{font-size:28px!important}
+ .mission-dossier{grid-template-columns:1fr!important}
+ .dossier-field{border-right:0!important;border-bottom:1px solid #8a6b414f!important}
+ .dossier-field:last-child{border-bottom:0!important}
+ .mission-ach-row{grid-template-columns:78px minmax(0,1fr)!important;gap:11px!important}
+ .mission-ach-art{width:74px!important;height:74px!important}
+ .mission-ach-row .mission-line span{font-size:20px!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
@@ -1234,13 +1289,13 @@ body.support-modal-open{overflow:hidden}
 <div class="selector-command"><span class="command-rule"></span><button class="spin" id="spin" type="button" onclick="spin()">INITIATE COUNTRY SELECTION</button><span class="command-rule"></span></div>
 <div class="result" id="result">Historical Fact • Germany remilitarized the Rhineland in March 1936, violating the post-WWI settlement without triggering a military response from Britain or France.</div>
 <div class="mission" id="mission">
-  <div class="orders-header"><div><span class="orders-classification">GENERAL STAFF • OPERATIONS DIRECTIVE</span><div class="mission-kicker">YOUR CAMPAIGN ORDERS</div></div><div class="orders-file">FILE<br><strong>1936</strong></div></div>
+  <div class="orders-header"><div><span class="orders-classification">GENERAL STAFF • CAMPAIGN COMMAND</span><div class="mission-kicker">OPERATION DOSSIER</div></div><div class="orders-file">CAMPAIGN<br><strong>#024</strong></div></div>
   <div class="orders-country-label">ASSIGNED NATION</div>
   <div class="mission-country" id="missionCountry"></div>
   <div class="mission-dossier"><div class="dossier-field"><span class="dossier-label">Nation</span><span class="dossier-value" id="dossierCountry">—</span></div><div class="dossier-field"><span class="dossier-label">Ideology</span><span class="dossier-value" id="dossierIdeology">—</span></div><div class="dossier-field"><span class="dossier-label">Political Path</span><span class="dossier-value" id="dossierPath">—</span></div></div>
-  <div class="orders-section-label"><span>PRIMARY DECORATION DIRECTIVE</span><span>ACHIEVEMENT ASSIGNMENT</span></div>
+  <div class="orders-section-label"><span>ACHIEVEMENT OBJECTIVE</span><span>HIGH COMMAND ASSIGNMENT</span></div>
   <div class="mission-ach-row"><div class="mission-ach-art"><img class="mission-ach-icon" id="missionAchIcon" alt=""><div class="mission-ach-fallback" id="missionAchFallback">★</div></div><div class="mission-line"><b>Achievement</b><br><span id="missionAchievement"></span></div></div>
-  <div class="orders-section-label"><span>OPERATIONAL OBJECTIVE</span><span>PRIORITY: ACTIVE</span></div>
+  <div class="orders-section-label"><span>MISSION OBJECTIVE</span><span>PRIORITY: ACTIVE</span></div>
   <div class="mission-line mission-objective"><b>Objective:</b> <span id="missionObjective"></span></div>
   <div class="mission-badges" id="missionBadges"></div>
   <div class="orders-authorization">COMMAND AUTHORIZATION</div>
