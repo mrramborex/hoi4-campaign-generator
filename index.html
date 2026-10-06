@@ -4070,8 +4070,6 @@ const HARDCORE_SPECIAL_ORDERS=[
 ];
 let currentSpecialOrder=null;
 function specialOrdersMode(){return document.getElementById('specialOrdersMode')?.value||'off'}
-function specialOrdersEnabled()
-let currentSpecialOrder=null;
 function specialOrdersEnabled(){return specialOrdersMode()!=='off'}
 function pickSpecialOrder(achievement){
  const mode=specialOrdersMode();if(mode==='off')return null;
