@@ -1201,6 +1201,69 @@ body:after{z-index:0!important;opacity:1!important;background:
  .mission-ach-row .mission-line span{font-size:20px!important}
 }
 
+/* Phase 17E — Achievement Archive benchmark pass */
+#achievementCenter{position:relative!important;padding:34px clamp(12px,3vw,42px) 52px!important;background:
+ linear-gradient(#07100ee8,#07100ef5),
+ repeating-linear-gradient(0deg,transparent 0 84px,#ad915514 85px,transparent 86px 170px)!important}
+.achievement-archive{position:relative!important;overflow:hidden!important;max-width:1380px!important;margin:auto!important;padding:0 24px 28px!important;border:1px solid #756542!important;border-bottom:5px solid #070907!important;border-radius:2px!important;background:
+ linear-gradient(145deg,#242a21 0,#151a15 45%,#0a0e0b 100%)!important;
+ box-shadow:0 0 0 5px #080b08,0 0 0 6px #665b40,0 24px 55px #000d,inset 0 0 75px #0009!important}
+.achievement-archive:before{content:"";position:absolute;inset:0;pointer-events:none;background:
+ repeating-linear-gradient(90deg,transparent 0 139px,#b99d5c09 140px,transparent 141px 280px)}
+.archive-head{position:relative!important;z-index:1!important;margin:0 -24px 18px!important;padding:20px 24px 17px!important;background:
+ linear-gradient(90deg,#31382c 0 68%,#151a15 68.2%)!important;border-bottom:2px solid #a48b50!important;box-shadow:0 5px 13px #0008!important}
+.archive-head h2{margin:3px 0 5px!important;color:#eadcaf!important;font-size:30px!important;letter-spacing:1.1px!important}
+.archive-kicker{color:#b9a56f!important;font-size:8px!important;letter-spacing:2px!important}
+.archive-head .small{max-width:820px!important;color:#aaa58f!important;font-size:10px!important;line-height:1.5!important}
+.archive-seal{width:64px!important;height:64px!important;border:1px solid #8b7546!important;background:#11150f!important;box-shadow:inset 0 0 18px #000,0 3px 7px #0008!important}
+.archive-seal span{color:#d2b75f!important;font-size:24px!important}
+.archive-seal small{color:#9f9068!important}
+.archive-stats{position:relative;z-index:1;grid-template-columns:repeat(5,1fr)!important;gap:8px!important;margin:0 0 16px!important}
+.archive-stats .stat{min-height:68px!important;border:1px solid #5e563f!important;background:linear-gradient(#171c16,#0d110e)!important;color:#8f8873!important;box-shadow:inset 0 0 13px #0007!important}
+.archive-stats .stat b{color:#e4d39e!important;font-size:24px!important}
+.archive-filter-label,.archive-index-line{position:relative;z-index:1;color:#9e8c5d!important;border-color:#62573c!important}
+.archive-filters{position:relative;z-index:1;display:grid!important;grid-template-columns:minmax(240px,1.5fr) repeat(3,minmax(130px,.75fr)) auto!important;gap:8px!important;padding:11px!important;border:1px solid #62573f!important;background:#090d0af2!important;box-shadow:inset 0 0 18px #000b!important}
+.archive-filters label{color:#a99b75!important;font:7px var(--typewriter)!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+.archive-filters input,.archive-filters select{height:36px!important;border:1px solid #57513d!important;background:#171b16!important;color:#ded5bb!important;border-radius:1px!important}
+.generic-toggle{align-self:end!important;min-height:36px!important;padding:8px 10px!important;border:1px solid #57513d!important;background:#151a14!important;color:#bdb293!important}
+.campaign-data-tools{position:relative;z-index:1!important;margin:8px 0 14px!important}
+#clearAchievementProgressArchive{font-size:8px!important;letter-spacing:1px!important}
+.ach-grid{position:relative;z-index:1;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+.ach{position:relative!important;display:grid!important;grid-template-columns:86px minmax(0,1fr)!important;gap:13px!important;min-height:118px!important;padding:12px!important;border:1px solid #5d553d!important;border-left:3px solid #9b8148!important;border-radius:1px!important;background:
+ linear-gradient(100deg,#20251d 0,#141914 48%,#0d110e 100%)!important;
+ box-shadow:inset 0 0 18px #0008,0 4px 10px #0008!important}
+.ach:before{content:"DECORATION RECORD";position:absolute;right:8px;top:6px;color:#8b7b534c;font:6px var(--typewriter);letter-spacing:1px}
+.ach-icon{width:82px!important;height:82px!important;border-radius:1px!important;border:3px solid #78623a!important;box-shadow:0 0 0 2px #080a08,0 4px 8px #000b!important;background:#151812!important}
+.ach-body{min-width:0!important}
+.ach h3{margin:1px 70px 4px 0!important;color:#ead9a9!important;font-family:var(--display)!important;font-size:18px!important;line-height:1.12!important;letter-spacing:.25px!important}
+.ach p{margin:0 0 7px!important;color:#aaa48e!important;font-size:11px!important;line-height:1.4!important}
+.ach .tag{display:inline-block!important;margin:2px 3px 2px 0!important;padding:3px 6px!important;border:1px solid #514b38!important;border-radius:1px!important;background:#0b0f0c!important;color:#a89b77!important;font-size:8px!important}
+.ach-complete{padding:6px 10px!important;border:1px solid #7c6b45!important;border-radius:1px!important;background:#292f24!important;color:#d8c99f!important;font:8px var(--typewriter)!important;letter-spacing:.8px!important;text-transform:uppercase!important}
+.ach-complete.done{background:#303c29!important;color:#b8c79a!important;border-color:#61704c!important}
+.ach[style*="opacity:.62"]{opacity:.72!important;filter:saturate(.62)!important}
+.ach[style*="opacity:.62"]:after{content:"COMPLETED";position:absolute;right:9px;bottom:9px;color:#79906a;font:7px var(--typewriter);letter-spacing:1.2px;border:1px solid #58674c;padding:2px 4px;transform:rotate(-2deg)}
+@media(max-width:900px){
+ .archive-filters{grid-template-columns:1fr 1fr!important}
+ .archive-search{grid-column:1/-1!important}
+ .generic-toggle{align-self:auto!important}
+ .ach-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:560px){
+ #achievementCenter{padding:18px 8px 30px!important}
+ .achievement-archive{padding:0 10px 18px!important}
+ .archive-head{margin:0 -10px 13px!important;padding:15px 12px!important}
+ .archive-head h2{font-size:23px!important}
+ .archive-seal{display:none!important}
+ .archive-stats{grid-template-columns:repeat(2,1fr)!important}
+ .archive-stats .stat:last-child{grid-column:1/-1!important}
+ .archive-filters{grid-template-columns:1fr!important}
+ .archive-search{grid-column:auto!important}
+ .ach{grid-template-columns:68px minmax(0,1fr)!important;padding:9px!important;gap:10px!important}
+ .ach-icon{width:64px!important;height:64px!important}
+ .ach h3{font-size:16px!important;margin-right:0!important}
+ .ach:before{display:none!important}
+}
+
 /* Phase 16B — Support the War Room UI */
 .support-navbtn{border-color:#766d4a!important;color:#d8c895!important}
 .support-navbtn:hover{border-color:#b69b58!important;color:#f3e6bd!important}
@@ -1317,11 +1380,11 @@ body.support-modal-open{overflow:hidden}
 </aside>
 </main>
 <section id="achievementCenter"><div class="card achievement-archive">
-<div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Intelligence Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes.</p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
+<div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes.</p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
 <div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Visible Records</div></div>
 <div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
 <div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div><label class="generic-toggle"><input id="achGeneric" type="checkbox" checked><span>Generic (Any Country)</span></label></div>
-<div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED CAMPAIGN INTELLIGENCE</span></div><div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearAchievementProgressArchive" type="button" onclick="clearAchievementProgress()">× CLEAR COMPLETED ACHIEVEMENTS</button></div>
+<div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED PERSONNEL ONLY • FILE INDEX 293</span></div><div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearAchievementProgressArchive" type="button" onclick="clearAchievementProgress()">× CLEAR COMPLETED ACHIEVEMENTS</button></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
 <section id="campaignHistory"><div class="card campaign-archive"><div class="campaign-battle-map" aria-hidden="true"><svg viewBox="0 0 1100 720" preserveAspectRatio="none"><path class="terrain" d="M48 112 C160 65 236 142 326 103 S493 65 574 125 S744 167 825 104 S982 71 1060 118 M22 244 C129 190 210 270 300 222 S476 190 558 247 S723 289 824 231 S978 205 1080 250 M60 402 C154 345 251 424 345 375 S515 342 612 397 S790 438 884 381 S1017 355 1080 395 M28 564 C147 508 224 584 328 543 S498 503 601 559 S790 602 900 548 S1014 516 1082 558"/><path class="front" d="M103 205 C206 169 273 211 346 188 S493 159 572 207 S706 242 787 211 S920 176 1002 220"/><path class="front" d="M173 492 C255 453 339 481 414 455 S568 436 642 474 S794 516 904 470"/><path class="advance" d="M194 329 C286 288 350 298 428 336 C500 371 562 350 638 310"/><polygon class="arrow" points="638,310 615,303 625,327"/><path class="advance" d="M823 333 C774 360 738 394 711 442"/><polygon class="arrow" points="711,442 709,418 729,430"/><circle class="mark" cx="194" cy="329" r="15"/><circle class="mark" cx="823" cy="333" r="15"/><path class="mark" d="M184 319 L204 339 M204 319 L184 339 M813 323 L833 343 M833 323 L813 343"/><text class="map-label" x="116" y="191">FRONT LINE A</text><text class="map-label" x="753" y="460">ADVANCE AXIS</text><text class="map-label" x="690" y="486">OPERATION RECORD</text></svg></div>
