@@ -2859,6 +2859,36 @@ function auditAchievementArtworkRuntime(){
  return result;
 }
 window.HOI4AchievementArtworkRuntimeAudit=auditAchievementArtworkRuntime;
+/* Phase 18A — canonical achievement identity audit foundation.
+   A populated artwork URL is no longer considered proof that the artwork belongs to that achievement.
+   Paradox Wiki is the canonical visual/requirement reference; records remain unverified until identity is checked. */
+const PHASE18_IDENTITY_VERIFIED=Object.freeze({});
+const PHASE18_KNOWN_IDENTITY_FAILURES=Object.freeze({
+ 'thaitanic':'Artwork identity mismatch confirmed against the Paradox Wiki reference supplied during Phase 18.'
+});
+function auditAchievementIdentity18A(){
+ const all=flatAchievements(),seen=new Map(),duplicates=[],missingRequirements=[],missingArtwork=[],identityVerified=[],identityFailures=[],identityPending=[];
+ for(const a of all){
+  const key=normAchievementName(a.name);
+  if(seen.has(key))duplicates.push({name:a.name,first:seen.get(key)});else seen.set(key,a.name);
+  if(!String(a.objective||'').trim())missingRequirements.push(a.name);
+  if(!getAchievementIcon(a.name))missingArtwork.push(a.name);
+  if(PHASE18_KNOWN_IDENTITY_FAILURES[key])identityFailures.push({name:a.name,reason:PHASE18_KNOWN_IDENTITY_FAILURES[key]});
+  else if(PHASE18_IDENTITY_VERIFIED[key])identityVerified.push(a.name);
+  else identityPending.push(a.name);
+ }
+ const result={
+  phase:'18A',authority:'Paradox Wiki — Achievements',catalog:all.length,target:STEAM_ACHIEVEMENT_TARGET,
+  duplicateNames:duplicates,missingRequirements,missingArtwork,
+  identityVerified,identityFailures,identityPending,
+  structuralPassed:all.length===STEAM_ACHIEVEMENT_TARGET&&!duplicates.length&&!missingRequirements.length&&!missingArtwork.length,
+  identityPassed:identityVerified.length===STEAM_ACHIEVEMENT_TARGET&&!identityFailures.length&&!identityPending.length
+ };
+ console.info('HOI4 WAR ROOM — PHASE 18A ACHIEVEMENT IDENTITY AUDIT',result);
+ return result;
+}
+window.HOI4AchievementIdentityAudit18A=auditAchievementIdentity18A;
+
 /* Phase 15G — Final production QA / release gate.
    Extends the established War Room release gate with the complete Phase 15 artwork suite,
    so a future achievement-art regression cannot pass through the older Phase 12F gate. */
