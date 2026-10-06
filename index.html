@@ -1792,6 +1792,71 @@ header .topnav .support-navbtn:hover{border-color:#8b6a48!important;background:l
  }
 }
 
+
+/* Phase 17G.6 — Operation Parameters field file + status placement */
+.command-panel{
+ overflow:visible!important;
+ padding:0 15px 18px!important;
+ color:#2d271b!important;
+ background:
+  linear-gradient(#d4b778f7,#caaa6af7),
+  repeating-linear-gradient(0deg,transparent 0 3px,#6d4d2110 4px)!important;
+ border:1px solid #70552f!important;
+ border-radius:5px 8px 7px 6px!important;
+ box-shadow:0 0 0 4px #17140ee8,0 0 0 5px #8b7044b8,0 20px 46px #000c,inset 0 0 38px #6e451c32!important
+}
+.command-panel:before{content:"";position:absolute;inset:8px;border:1px solid #80613a55;border-radius:3px 6px 4px 5px;pointer-events:none}
+.command-panel:after{color:#654c296b!important}
+.command-panel-head{
+ position:relative!important;
+ margin:0 -15px 20px!important;
+ padding:20px 16px 17px!important;
+ color:#2b2418!important;
+ background:
+  linear-gradient(#ddc487f5,#cfad6cf5),
+  repeating-linear-gradient(0deg,transparent 0 3px,#6d4d2112 4px)!important;
+ border-bottom:2px solid #70532e!important;
+ border-radius:5px 8px 0 0!important;
+ box-shadow:0 4px 9px #68451d4d,inset 0 1px #f4dda4!important
+}
+.command-panel-head:after{content:"OPERATIONS FILE";position:absolute;right:15px;top:-9px;padding:5px 13px;background:#dfc486;border:1px solid #74572f;border-radius:4px 4px 2px 2px;color:#594321;font:700 7px var(--typewriter);letter-spacing:1.2px;box-shadow:0 -2px 4px #0004}
+.command-panel-head:before,.command-panel-head span,.command-panel-head small{color:#66502f!important;text-shadow:none!important}
+.command-panel-head h2{color:#241e14!important;text-shadow:0 1px #f0d89e!important}
+.command-field,.command-panel .legend,.command-panel .history,.command-panel .campaign-log,.command-check{
+ position:relative;z-index:1;
+ background:#e2c88e80!important;
+ border-color:#82643b!important;
+ color:#31291c!important;
+ box-shadow:inset 0 0 13px #70491e1e!important
+}
+.command-field label,.command-panel .legend b,.command-panel .history>b,.command-panel .campaign-log b{color:#594526!important;text-shadow:none!important}
+.command-field select{background:#c6aa70!important;color:#2a2419!important;border-color:#71552f!important;font-weight:700!important}
+.command-audit,.command-footnote{position:relative;z-index:1;color:#4e422f!important;text-shadow:none!important}
+.command-check label{color:#463923!important}
+.command-reset{position:relative;z-index:1;background:#8c7148!important;border-color:#62472a!important;color:#f4e5bd!important}
+.command-panel .legend p,.command-panel .history,.command-panel .campaign-log{color:#3c3325!important}
+.command-panel .campaign-log-head button{color:#715d3d!important}
+.command-footnote{border-top-color:#84683f!important}
+.generator-console{position:relative!important}
+.generator-console-head .console-status{
+ position:absolute!important;
+ right:18px!important;
+ top:auto!important;
+ bottom:14px!important;
+ z-index:4!important;
+ padding:6px 10px!important;
+ background:#bda365d9!important;
+ border:1px solid #6f6842!important;
+ box-shadow:0 2px 5px #0005,inset 0 1px #e8d29a66!important
+}
+.generator-console-head:before{right:18px!important;top:12px!important}
+.generator-console-head{padding-right:145px!important}
+@media(max-width:700px){
+ .generator-console-head{padding-right:18px!important;padding-bottom:50px!important}
+ .generator-console-head .console-status{right:12px!important;bottom:10px!important}
+ .command-panel-head:after{right:10px}
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
