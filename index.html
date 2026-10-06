@@ -2046,6 +2046,79 @@ header .topnav .navlabel{padding-top:25px!important}
  header .topnav .navlabel small{font-size:6.5px!important}
 }
 
+
+/* Phase 17G.10 — Standing Orders becomes the War Room field manual */
+.orders-manual-v2{padding-top:34px!important}
+.orders-head-paper{
+ margin:0!important;
+ padding:8px 12px 14px 16px!important;
+ align-items:center!important;
+ background:transparent!important;
+ border:0!important;
+ box-shadow:none!important
+}
+.orders-head-paper:before,.orders-head-paper:after{display:none!important}
+.orders-title-block{flex:1;min-width:0}
+.orders-head-paper .orders-kicker{color:#6a5837!important;font-size:9px!important;letter-spacing:1.7px!important}
+.orders-head-paper h2{
+ margin:7px 0 4px!important;
+ color:#292116!important;
+ font-size:42px!important;
+ line-height:1!important;
+ letter-spacing:2.4px!important;
+ text-shadow:0 1px #f0d99e!important
+}
+.orders-head-paper p{color:#655235!important;font-size:10px!important;letter-spacing:1.5px!important}
+.orders-head-paper .orders-stamp{background:#cbb27a55!important;color:#754437!important}
+.orders-manual-v2>.orders-rule{margin:7px 0 22px!important;background:#806a43!important}
+.orders-purpose{
+ position:relative;z-index:1;
+ margin:0 0 27px;padding:16px 18px;
+ border-left:4px solid #80623a;
+ background:#e5d3a34d;
+ box-shadow:inset 0 0 18px #75512516
+}
+.orders-purpose>span{font:800 8px var(--typewriter);letter-spacing:1.5px;color:#725c38}
+.orders-purpose h3{margin:4px 0 6px;color:#2f271a;font-size:20px}
+.orders-purpose p{max-width:860px;margin:0;color:#514632;font-size:13.5px;line-height:1.65}
+.orders-section-title{
+ position:relative;z-index:1;display:flex;align-items:center;gap:13px;
+ margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #75613f
+}
+.orders-section-title>span{
+ padding:5px 8px;border:1px solid #806941;
+ font:800 7px var(--typewriter);letter-spacing:1px;color:#685535
+}
+.orders-section-title>div{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.orders-section-title b{font:800 15px var(--display);letter-spacing:1.2px;color:#332a1c}
+.orders-section-title small{font:700 7px var(--typewriter);letter-spacing:1.2px;color:#776444}
+.orders-manual-v2 .orders-grid{margin-bottom:29px}
+.orders-manual-v2 .orders-grid article{background:#ead9ad70!important;border-color:#8d7650!important}
+.special-orders-board{position:relative;z-index:1;margin-top:5px;padding:0!important;border:0!important;background:transparent!important}
+.special-title{margin-bottom:11px}
+.special-orders-intro{max-width:870px;margin:0 0 16px!important;color:#514632!important;font-size:13px!important;line-height:1.6!important}
+.special-orders-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.special-orders-grid article{
+ position:relative;padding:13px 15px 13px 18px;
+ background:#d9c18b70;border:1px solid #8a7148;
+ box-shadow:inset 0 1px #f4dda477
+}
+.special-orders-grid article:before{content:"";position:absolute;left:7px;top:12px;bottom:12px;width:2px;background:#765a34}
+.special-orders-grid b{display:block;margin-bottom:5px;color:#493820;font:800 10px var(--typewriter);letter-spacing:1px}
+.special-orders-grid p{margin:0;color:#554936;font-size:12.5px;line-height:1.5}
+.special-orders-status{
+ display:flex;justify-content:space-between;gap:15px;align-items:center;
+ margin-top:14px;padding:10px 12px;border-top:1px dashed #816b46;border-bottom:1px dashed #816b46;
+ color:#705d3e;font:700 7px var(--typewriter);letter-spacing:1px
+}
+.special-orders-status strong{color:#554329}
+@media(max-width:760px){
+ .orders-head-paper{align-items:flex-start!important}
+ .orders-head-paper h2{font-size:32px!important}
+ .special-orders-grid{grid-template-columns:1fr}
+ .special-orders-status{align-items:flex-start;flex-direction:column}
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -2127,34 +2200,43 @@ header .topnav .navlabel{padding-top:25px!important}
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
 <section id="standingOrders" aria-labelledby="standingOrdersTitle">
- <div class="orders-manual">
+ <div class="orders-manual orders-manual-v2">
   <div class="orders-binding" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-  <header class="orders-head">
-   <div><span class="orders-kicker">WAR ROOM • GENERAL STAFF DIRECTIVE</span><h2 id="standingOrdersTitle">Standing Orders</h2><p>Campaign Rules &amp; Operational Doctrine</p></div>
+  <header class="orders-head orders-head-paper">
+   <div class="orders-title-block">
+    <span class="orders-kicker">WAR ROOM • GENERAL STAFF DIRECTIVE</span>
+    <h2 id="standingOrdersTitle">Standing Orders</h2>
+    <p>Campaign Rules &amp; Operational Doctrine</p>
+   </div>
    <div class="orders-stamp">FIELD<br>MANUAL<small>WR–17G</small></div>
   </header>
   <div class="orders-rule"></div>
-  <p class="orders-intro">These standing orders define the standard War Room campaign. They are meant to keep generated assignments focused without dictating how you enjoy Hearts of Iron IV.</p>
+  <div class="orders-purpose">
+   <span>DOCUMENT PURPOSE</span>
+   <h3>How a War Room Campaign Works</h3>
+   <p>Standing Orders are the permanent rules behind every War Room assignment. They explain what the Generator gives you, what counts as completing an operation, and how that campaign is recorded. These rules are guidance—not restrictions on how you enjoy Hearts of Iron IV.</p>
+  </div>
+  <div class="orders-section-title"><span>SECTION I</span><div><b>STANDING ORDERS</b><small>STANDARD CAMPAIGN DOCTRINE</small></div></div>
   <div class="orders-grid">
    <article><b>01</b><div><span>COUNTRY ASSIGNMENT</span><h3>Accept Your Command</h3><p>The nation selected by the War Room is your assigned country for the operation.</p></div></article>
    <article><b>02</b><div><span>POLITICAL DIRECTIVE</span><h3>Follow the Assigned Route</h3><p>Pursue the generated political path far enough to establish its intended government or alignment. Do not deliberately switch to an unrelated route simply to bypass the assignment.</p></div></article>
    <article><b>03</b><div><span>PRIMARY OBJECTIVE</span><h3>Complete the Assignment</h3><p>Your assigned achievement is the campaign's primary objective. When no applicable achievement exists, standing orders become: <strong>Conquer the world as this country.</strong></p></div></article>
-   <article><b>04</b><div><span>VICTORY CONDITION</span><h3>Finish the Operation</h3><p>Completing the assigned achievement or fallback objective qualifies the campaign as completed.</p></div></article>
-   <article><b>05</b><div><span>REROLL PROTOCOL</span><h3>The Commander Has Discretion</h3><p>Rerolls are permitted. The War Room exists to create interesting campaigns—not to police how you play HOI4.</p></div></article>
+   <article><b>04</b><div><span>VICTORY CONDITION</span><h3>Finish the Operation</h3><p>Completing the assigned achievement or fallback objective qualifies the operation as completed.</p></div></article>
+   <article><b>05</b><div><span>REROLL PROTOCOL</span><h3>Commander Discretion</h3><p>Rerolls are permitted. The War Room exists to create interesting campaigns, not to police how you play them.</p></div></article>
    <article><b>06</b><div><span>CAMPAIGN RECORDS</span><h3>File the Operation</h3><p>Once Start Campaign is pressed, the assignment enters Campaign History and may be recorded as In Progress, Completed, or Abandoned.</p></div></article>
   </div>
-  <section class="directive-board">
-   <div class="directive-head"><div><span>OPTIONAL DIRECTIVES</span><h3>Additional Operational Restrictions</h3></div><strong id="directiveCount">0 ACTIVE</strong></div>
-   <p>Optional directives add challenge without changing the standard campaign rules. Your selections are saved in this browser.</p>
-   <div class="directive-grid">
-    <button type="button" class="directive" data-directive="ironman"><i>□</i><span><b>IRONMAN DIRECTIVE</b><small>Ironman Mode required.</small></span></button>
-    <button type="button" class="directive" data-directive="historical"><i>□</i><span><b>HISTORICAL DIRECTIVE</b><small>Historical AI focuses enabled.</small></span></button>
-    <button type="button" class="directive" data-directive="no-retreat"><i>□</i><span><b>NO RETREAT DIRECTIVE</b><small>Do not delete trapped divisions simply to avoid their loss.</small></span></button>
-    <button type="button" class="directive" data-directive="lone-wolf"><i>□</i><span><b>LONE WOLF DIRECTIVE</b><small>No faction membership unless required by the assignment.</small></span></button>
-    <button type="button" class="directive" data-directive="limited-conscription"><i>□</i><span><b>LIMITED CONSCRIPTION</b><small>Do not exceed Extensive Conscription.</small></span></button>
-    <button type="button" class="directive" data-directive="no-collabs"><i>□</i><span><b>NO COLLABORATION GOVERNMENTS</b><small>Complete the campaign without collaboration governments.</small></span></button>
+  <section class="special-orders-board">
+   <div class="orders-section-title special-title"><span>SECTION II</span><div><b>SPECIAL ORDERS</b><small>OPTIONAL CAMPAIGN MODIFIERS • REFERENCE</small></div></div>
+   <p class="special-orders-intro">Special Orders are optional restrictions that can be added to a generated operation for extra challenge. This manual defines them; <strong>Operation Parameters</strong> will control whether the Generator assigns them.</p>
+   <div class="special-orders-grid">
+    <article><b>IRONMAN</b><p>Complete the assigned operation with Ironman Mode enabled.</p></article>
+    <article><b>HISTORICAL COMMAND</b><p>Run the operation with Historical AI Focuses enabled.</p></article>
+    <article><b>NO RETREAT</b><p>Do not manually delete trapped divisions simply to avoid their destruction.</p></article>
+    <article><b>LONE WOLF</b><p>Do not join or create a faction unless faction membership is required by the primary objective.</p></article>
+    <article><b>LIMITED CONSCRIPTION</b><p>Do not raise your conscription law above Extensive Conscription.</p></article>
+    <article><b>NO COLLABORATION</b><p>Complete the operation without establishing collaboration governments.</p></article>
    </div>
-   <div class="directive-note">DIRECTIVES ARE VOLUNTARY • THEY DO NOT ALTER THE GENERATOR IN PHASE 17G.1</div>
+   <div class="special-orders-status"><span>IMPLEMENTATION STATUS</span><strong>GENERATOR ASSIGNMENT CONTROLS — PHASE 17G.11</strong></div>
   </section>
   <footer class="orders-footer"><span>GENERAL STAFF • HOI4 WAR ROOM</span><strong>PLAY THE ASSIGNMENT. WRITE THE HISTORY.</strong></footer>
  </div>
@@ -4021,11 +4103,6 @@ document.getElementById('navGenerator').onclick=()=>showSection('generator');
 document.getElementById('navAchievements').onclick=()=>{showSection('achievements');renderAchievements()};
 document.getElementById('navCampaigns').onclick=()=>{showSection('campaigns');renderCampaignHistory()};
 document.getElementById('navOrders').onclick=()=>showSection('orders');
-const DIRECTIVES_KEY='hoi4StandingOrderDirectives';
-function getStandingDirectives(){try{const x=JSON.parse(localStorage.getItem(DIRECTIVES_KEY)||'[]');return new Set(Array.isArray(x)?x:[])}catch(e){return new Set()}}
-function renderStandingDirectives(){const active=getStandingDirectives();document.querySelectorAll('.directive[data-directive]').forEach(btn=>{const on=active.has(btn.dataset.directive);btn.classList.toggle('active',on);btn.setAttribute('aria-pressed',on?'true':'false');const mark=btn.querySelector('i');if(mark)mark.textContent=on?'✓':'□'});const count=document.getElementById('directiveCount');if(count)count.textContent=active.size+' ACTIVE'}
-document.querySelectorAll('.directive[data-directive]').forEach(btn=>btn.addEventListener('click',()=>{const active=getStandingDirectives(),key=btn.dataset.directive;active.has(key)?active.delete(key):active.add(key);localStorage.setItem(DIRECTIVES_KEY,JSON.stringify([...active]));renderStandingDirectives()}));
-renderStandingDirectives();
 initAchievementCenter();renderCampaignLog();renderCampaignHistory();
 document.getElementById('clearFullHistory').onclick=clearCampaignHistory;
 document.getElementById('clearCampaignLog').onclick=()=>{localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory()};
