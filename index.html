@@ -1791,8 +1791,8 @@ const achievementIcons={
 "I'm just passing by":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/66bcecdd83ee3eee8783c85c59385a5b70ff1e1f.jpg",
 "That's SIkh!":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5df804339f2185d2311248d76a8295a08f5e339d.jpg",
 "I shall either find a way or make one":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9cd694a6bac38a784deab331e5e856cd3a582a02.jpg",
-"Bad Ending - The whole world is now Brazil":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/03d246bb8ca965ab5e9a0f0ad551ae9318ee47a4.jpg",
-"The Merry Band":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/07d70de5bf16641e81fbd16348394544dd27397a.jpg",
+"Bad Ending - The whole world is now Brazil":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/8e21fd8236c51b3ed609a019d5fe9efffd5c2adf.jpg",
+"The Merry Band":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/2b949642c99a4626344403c1eb4f53f930c41450.jpg",
 "I'm playing both sides, so I always come out on top":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/4ad9a6b06f5dfa1e8f847998b99f6836eff49900.jpg",
 "Savior of the holy lands":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/bbd2d89bd4707c10b37810eaa36f82c6bbab8e7e.jpg",
 "Its all coming together":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/16421485cc557cd4cb452c95e17141ed946c563f.jpg",
@@ -1879,7 +1879,7 @@ function normAchievementName(n){return String(n||'').trim().toLowerCase().replac
 function buildAchievementIconIndex(){return Object.fromEntries(Object.entries(achievementIcons).map(([k,v])=>[normAchievementName(k),v]))}
 function getAchievementIconIndex(){return buildAchievementIconIndex()}
 const achievementArtworkOverrides={
- [normAchievementName('This is going to be LIT')]:`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><rect width="96" height="32" fill="#fdb913"/><rect y="32" width="96" height="32" fill="#006a44"/><rect y="64" width="96" height="32" fill="#c1272d"/></svg>')}`
+ [normAchievementName('This is going to be LIT')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/048010fc5d3361e59709ed0641fb3d519a232e13.jpg"
 };
 function getAchievementIcon(name){const key=normAchievementName(name);return achievementArtworkOverrides[key]||getAchievementIconIndex()[key]||''}
 function achievementImageError(img){
