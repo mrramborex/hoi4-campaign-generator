@@ -5664,11 +5664,28 @@ function bootstrapGenerator(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootstrapGenerator,{once:true});
 else bootstrapGenerator();
-window.addEventListener('load',()=>{if(!generatorBootstrapped)bootstrapGenerator()},{once:true});
+
+// Chrome can restore form/layout state after DOMContentLoaded. Always perform one final,
+// full generator reconstruction after every resource has finished loading. This intentionally
+// mirrors a successful manual Reset Generator click instead of relying on the early bootstrap.
+window.addEventListener('load',()=>{
+ generatorBootstrapped=true;
+ const roster=document.getElementById('countryRoster');
+ if(roster)roster.value='all';
+ cv.width=800;
+ cv.height=800;
+ resetCampaign(false,false);
+ requestAnimationFrame(()=>draw());
+ setTimeout(()=>draw(),250);
+},{once:true});
 window.addEventListener('pageshow',event=>{
  if(event.persisted){
-  generatorBootstrapped=false;
-  bootstrapGenerator();
+  const roster=document.getElementById('countryRoster');
+  if(roster)roster.value='all';
+  cv.width=800;
+  cv.height=800;
+  resetCampaign(false,false);
+  requestAnimationFrame(()=>draw());
  }
 });
 warRoomRuntimeGuard();
