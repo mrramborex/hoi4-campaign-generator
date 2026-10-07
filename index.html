@@ -2876,7 +2876,11 @@ const PHASE18_WIKI_ARTWORK_REFERENCE=Object.freeze({
  [normAchievementName('Master Infiltrator')]:'Master_Infiltrator.png'
 });
 const PHASE18_KNOWN_IDENTITY_FAILURES=Object.freeze({
- 'thaitanic':'Wiki artwork is ThaiTanic.png (sinking-warship artwork); current War Room Steam hash resolves to the wrong character artwork. Replacement required.'
+ 'thaitanic':'Wiki artwork is ThaiTanic.png (sinking-warship artwork); current War Room Steam hash resolves to the wrong character artwork. Replacement required.',
+ 'declare military emergency':'Wiki assigns Declare_Military_Emergency.png; current War Room mapping shares its Steam hash with I Have Avenged You, Father!, whose canonical Wiki artwork is different.',
+ 'i have avenged you, father!':'Wiki assigns I_Have_Avenged_You,_Father!.png; current War Room mapping shares its Steam hash with Declare Military Emergency, whose canonical Wiki artwork is different.',
+ 'paradisus paradoxum':'Wiki assigns Paradisus_Paradoxum.png; current War Room mapping shares its Steam hash with An Equivalent Exchange, whose canonical Wiki artwork is different.',
+ 'an equivalent exchange':'Wiki assigns An_Equivalent_Exchange.png; current War Room mapping shares its Steam hash with Paradisus Paradoxum, whose canonical Wiki artwork is different.'
 });
 function auditAchievementIdentity18A(){
  const all=flatAchievements(),seen=new Map(),duplicates=[],missingRequirements=[],missingArtwork=[],identityVerified=[],identityFailures=[],identityPending=[];
@@ -2967,6 +2971,31 @@ const PHASE18D_COMPARISON=Object.freeze({
  rule:'A matching or loadable URL does not certify artwork identity.'
 });
 window.HOI4AchievementAudit18D=PHASE18D_COMPARISON;
+
+
+/* Phase 18E — artwork identity audit.
+   Canonical visual source: the downloaded artwork assets belonging to the saved Paradox Wiki page.
+   This phase deliberately distinguishes URL validity from image identity. Duplicate remote hashes are
+   failures when the Wiki assigns distinct artwork files to the achievements involved. */
+const PHASE18E_ARTWORK_AUDIT=Object.freeze({
+ authority:'Saved Paradox Wiki artwork assets',
+ canonicalArtworkRows:293,
+ knownConfirmedFailures:Object.freeze([
+  'ThaiTanic',
+  'Declare Military Emergency',
+  'I Have Avenged You, Father!',
+  'Paradisus Paradoxum',
+  'An Equivalent Exchange'
+ ]),
+ confirmedCollisionGroups:Object.freeze([
+  Object.freeze(['Declare Military Emergency','I Have Avenged You, Father!']),
+  Object.freeze(['Paradisus Paradoxum','An Equivalent Exchange'])
+ ]),
+ controlFailure:'ThaiTanic',
+ status:'confirmed failures quarantined; remaining artwork stays pending until compared against its canonical Wiki image',
+ rule:'Load success and unique URL are insufficient. The displayed artwork must match the achievement-specific Wiki asset.'
+});
+window.HOI4AchievementArtworkAudit18E=PHASE18E_ARTWORK_AUDIT;
 
 
 /* Phase 15G — Final production QA / release gate.
