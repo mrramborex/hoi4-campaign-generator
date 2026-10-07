@@ -3030,6 +3030,28 @@ button:focus-visible,select:focus-visible,input:focus-visible{
  .orders-purpose p,.special-orders-intro,.special-orders-grid p{font-size:12px!important}
 }
 
+
+/* Phase 18J — scroll compositing stability
+   Keep the War Room texture visually intact while removing viewport-fixed paint layers
+   that can checkerboard/tear during rapid scrolling in Chromium/GPU compositing. */
+html{background:#050705}
+body{background-attachment:scroll!important}
+body:before,body:after{
+ position:absolute!important;
+ top:0!important;
+ right:0!important;
+ bottom:auto!important;
+ left:0!important;
+ width:100%!important;
+ height:100%!important;
+ min-height:100%!important;
+ transform:none!important;
+}
+.war-header{contain:paint}
+#generator,#achievementCenter,#campaignHistory,#standingOrders{isolation:isolate}
+@media (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
