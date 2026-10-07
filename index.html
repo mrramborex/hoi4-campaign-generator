@@ -3174,6 +3174,23 @@ body:before,body:after{display:none!important}
 }
 .wheelwrap canvas{filter:none!important}
 .wheelwrap{filter:drop-shadow(0 9px 14px #000)}
+
+/* Phase 18K — final mobile/tablet/resolution certification guardrails */
+@media(max-width:880px){
+ #standingOrders{padding-left:12px!important;padding-right:12px!important}
+ .orders-manual-v2{max-width:100%!important}
+}
+@media(max-width:620px){
+ .steam-sync-form{grid-template-columns:1fr!important}
+ .steam-sync-form input,.steam-sync-form button{width:100%!important;min-width:0!important}
+ .mission-actions{grid-template-columns:1fr!important}
+ .campaign-file-modal{padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))!important}
+ .campaign-file-document{max-height:calc(100dvh - 20px)!important;overflow:auto!important}
+}
+@media(max-width:380px){
+ header.war-header .topnav .navlabel b{font-size:7.75px!important}
+ .steam-sync-home,.generator-console,.command-panel,.achievement-archive,.campaign-archive,.orders-manual-v2{min-width:0!important}
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
