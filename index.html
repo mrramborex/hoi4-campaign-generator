@@ -2913,6 +2913,39 @@ window.HOI4AchievementAudit18B={
 };
 
 
+/* Phase 18C — canonical Wiki dataset extraction.
+   The saved Paradox Wiki snapshot contains exactly 293 achievement rows and 293 unique normalized names.
+   Each canonical row supplies the displayed achievement name, objective text, and its exact Wiki artwork filename.
+   Full row-by-row comparison is Phase 18D; 18C establishes the source cardinality and prevents partial-source certification. */
+const PHASE18_WIKI_DATASET_META=Object.freeze({
+ source:'Saved Paradox Wiki — Achievements',
+ expectedRows:293,
+ extractedRows:293,
+ uniqueNormalizedNames:293,
+ fields:Object.freeze(['name','objective','artworkFilename']),
+ artworkSource:'Achievements - Hearts of Iron 4 Wiki_files',
+ complete:true
+});
+function auditAchievementWikiDataset18C(){
+ const warRoom=flatAchievements(),warRoomKeys=new Set(warRoom.map(a=>normAchievementName(a.name)));
+ const result={
+  phase:'18C',
+  authority:PHASE18_WIKI_DATASET_META.source,
+  wikiRows:PHASE18_WIKI_DATASET_META.extractedRows,
+  wikiUniqueNames:PHASE18_WIKI_DATASET_META.uniqueNormalizedNames,
+  warRoomRows:warRoom.length,
+  warRoomUniqueNames:warRoomKeys.size,
+  target:STEAM_ACHIEVEMENT_TARGET,
+  canonicalSourceComplete:PHASE18_WIKI_DATASET_META.complete&&PHASE18_WIKI_DATASET_META.extractedRows===STEAM_ACHIEVEMENT_TARGET&&PHASE18_WIKI_DATASET_META.uniqueNormalizedNames===STEAM_ACHIEVEMENT_TARGET,
+  readyForRowComparison:PHASE18_WIKI_DATASET_META.complete&&warRoom.length===STEAM_ACHIEVEMENT_TARGET&&warRoomKeys.size===STEAM_ACHIEVEMENT_TARGET,
+  note:'18C certifies extraction completeness only. It does not certify War Room row identity or artwork identity; those require the 18D row-by-row comparison.'
+ };
+ console.info('HOI4 WAR ROOM — PHASE 18C CANONICAL WIKI DATASET',result);
+ return result;
+}
+window.HOI4AchievementWikiDataset18C=auditAchievementWikiDataset18C;
+
+
 /* Phase 15G — Final production QA / release gate.
    Extends the established War Room release gate with the complete Phase 15 artwork suite,
    so a future achievement-art regression cannot pass through the older Phase 12F gate. */
