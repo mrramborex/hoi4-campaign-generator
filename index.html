@@ -5650,44 +5650,25 @@ document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=resetGenerator;
 document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.getElementById('noRepeat')?.checked;resetCampaign(false,preserve);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
 // Refresh-safe generator bootstrap.
-// Reset Generator is the proven-good construction path, so startup now uses that exact
-// state rebuild instead of trying to repaint partially restored browser state.
-let generatorBootstrapped=false;
-function bootstrapGenerator(){
- if(generatorBootstrapped)return;
- generatorBootstrapped=true;
- const roster=document.getElementById('countryRoster');
- if(roster)roster.value='all';
- cv.width=800;
- cv.height=800;
- resetCampaign(false,false);
+// Use the exact same function as the working Reset Generator button. No alternate
+// reset parameters or canvas resizing: startup and the proven manual path are identical.
+function bootstrapGeneratorFromReset(){
+ resetGenerator();
+ // Force a compositor refresh after the exact reset path for browsers restoring a canvas.
+ void cv.offsetWidth;
+ cv.style.visibility='hidden';
+ requestAnimationFrame(()=>{
+  cv.style.visibility='visible';
+  draw();
+ });
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bootstrapGenerator,{once:true});
-else bootstrapGenerator();
-
-// Chrome can restore form/layout state after DOMContentLoaded. Always perform one final,
-// full generator reconstruction after every resource has finished loading. This intentionally
-// mirrors a successful manual Reset Generator click instead of relying on the early bootstrap.
-window.addEventListener('load',()=>{
- generatorBootstrapped=true;
- const roster=document.getElementById('countryRoster');
- if(roster)roster.value='all';
- cv.width=800;
- cv.height=800;
- resetCampaign(false,false);
- requestAnimationFrame(()=>draw());
- setTimeout(()=>draw(),250);
-},{once:true});
-window.addEventListener('pageshow',event=>{
- if(event.persisted){
-  const roster=document.getElementById('countryRoster');
-  if(roster)roster.value='all';
-  cv.width=800;
-  cv.height=800;
-  resetCampaign(false,false);
-  requestAnimationFrame(()=>draw());
- }
-});
+if(document.readyState==='loading'){
+ document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(bootstrapGeneratorFromReset),{once:true});
+}else{
+ requestAnimationFrame(bootstrapGeneratorFromReset);
+}
+window.addEventListener('load',()=>setTimeout(bootstrapGeneratorFromReset,100),{once:true});
+window.addEventListener('pageshow',()=>setTimeout(bootstrapGeneratorFromReset,180));
 warRoomRuntimeGuard();
 warRoomReleaseGate();
 </script><!-- Phase 14A — Steam profile-link integration architecture -->
