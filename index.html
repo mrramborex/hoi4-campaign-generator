@@ -2205,6 +2205,26 @@ header .topnav .navlabel{padding-top:25px!important}
  text-shadow:none!important;
  -webkit-font-smoothing:antialiased;
 }
+
+/* Phase 17H.2 — vertically seat raised file tabs inside masthead */
+@media(min-width:821px){
+ header.war-header .topnav{
+  align-self:start!important;
+  height:104px!important;
+  padding-top:0!important;
+  transform:translateY(-8px)!important;
+ }
+ header.war-header .topnav .navbtn{
+  align-self:end!important;
+  height:94px!important;
+  min-height:94px!important;
+ }
+ header.war-header .topnav .navbtn.active{
+  height:104px!important;
+  min-height:104px!important;
+ }
+ header.war-header .topnav .navbtn:hover:not(.active){height:98px!important}
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
