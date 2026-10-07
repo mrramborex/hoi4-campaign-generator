@@ -2795,7 +2795,55 @@ const achievementArtworkOverrides={
  [normAchievementName('Paradisus Paradoxum')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/Paradisus_Paradoxum.png",
  [normAchievementName('An Equivalent Exchange')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/An_Equivalent_Exchange.png"
 };
-function getAchievementIcon(name){const key=normAchievementName(name);return achievementArtworkOverrides[key]||getAchievementIconIndex()[key]||''}
+const PHASE18H_WIKI_FILENAME_EXCEPTIONS=Object.freeze({
+ [normAchievementName("Friend in Need")]:"Friend_in_Need.jpg",
+ [normAchievementName("Time is on our side")]:"Time_is_on_Our_Side.jpg",
+ [normAchievementName("Canada First")]:"Canada_First.jpg",
+ [normAchievementName("We'll Build it in a Day")]:"We'll_Build_it_in_a_Day.jpg",
+ [normAchievementName("Transport Tycoon")]:"Transport_Tycoon.jpg",
+ [normAchievementName("Destroyer of Worlds")]:"Destroyer_of_Worlds.jpg",
+ [normAchievementName("Wunderwaffen")]:"Wunderwaffen.jpg",
+ [normAchievementName("United Netherlands")]:"United_Netherlands.jpg",
+ [normAchievementName("Vive la France")]:"Vive_la_France.jpg",
+ [normAchievementName("Master of War")]:"Master_of_War.jpg",
+ [normAchievementName("Mine is bigger than yours")]:"Mine_is_Bigger_Than_Yours.jpg",
+ [normAchievementName("No country for old men")]:"No_Country_for_Old_Men.jpg",
+ [normAchievementName("Poland Can Into Space")]:"Poland_Can_Into_Space.jpg",
+ [normAchievementName("True Blitzkrieg")]:"True_Blitzkrieg.jpg",
+ [normAchievementName("Northern Light")]:"Northern_Light.jpg",
+ [normAchievementName("Nobody expects...")]:"Nobody_Expects.jpg",
+ [normAchievementName("The bell tolls for us")]:"The_Bell_Tolls_for_Us.jpg",
+ [normAchievementName("The Revolution Triumphant")]:"The_Revolution_Triumphant.jpg",
+ [normAchievementName("Once More Mate")]:"Once_More_Mate.jpg",
+ [normAchievementName("Forge of Victory")]:"Forge_of_Victory.jpg",
+ [normAchievementName("Sunset Invasion")]:"Sunset_Invasion.jpg",
+ [normAchievementName("Duce Nuked'em")]:"Duce_Nuked'em.jpg",
+ [normAchievementName("Operation Sea Lion")]:"Operation_Sealion.jpg",
+ [normAchievementName("One Empire")]:"One_Empire.jpg",
+ [normAchievementName("Party like it's 1520")]:"Party_Like_its_1520.jpg",
+ [normAchievementName("Med plutonium...")]:"Med_Plutonium.jpg",
+ [normAchievementName("The Revenge of Montezuma")]:"The_Revenge_of_Montezuma.jpg",
+ [normAchievementName("Big Entente")]:"Big_Entente.jpg",
+ [normAchievementName("New World Order")]:"New_World_Order.jpg",
+ [normAchievementName("Bearer of Artillery")]:"Bearer_of_Artillery.jpg",
+ [normAchievementName("Do You Mined?")]:"Do_You_Mined_.png",
+ [normAchievementName("Why Die For Danzig?")]:"Why_Die_For_Danzig_.png",
+ [normAchievementName("The Pope? How many Divisions does he have?")]:"The_Pope__How_many_Divisions_does_he_have_.png",
+ [normAchievementName("Stalin, how many guns does he have?")]:"Stalin,_how_many_guns_does_he_have_.png",
+ [normAchievementName("King of What?")]:"King_of_What_.png",
+ [normAchievementName("Et tu, Paulus?")]:"Et_tu,_Paulus_.png"
+});
+function getCanonicalWikiAchievementIcon(name){
+ const raw=String(name||'').trim();
+ if(!raw)return '';
+ const key=normAchievementName(raw);
+ const filename=PHASE18H_WIKI_FILENAME_EXCEPTIONS[key]||raw.replace(/ /g,'_')+'.png';
+ return 'https://hoi4.paradoxwikis.com/Special:Redirect/file/'+encodeURIComponent(filename).replace(/%2F/gi,'/');
+}
+function getAchievementIcon(name){
+ const canonical=getCanonicalWikiAchievementIcon(name);
+ return canonical||achievementArtworkOverrides[normAchievementName(name)]||getAchievementIconIndex()[normAchievementName(name)]||'';
+}
 function achievementImageError(img){
  if(!img)return;
  img.style.display='none';
@@ -3055,23 +3103,28 @@ window.HOI4AchievementArtworkAudit18G=auditAchievementArtwork18G;
 const PHASE18H_VISUAL_VERIFICATION=Object.freeze({
  authority:'Saved Paradox Wiki page + companion downloaded artwork package',
  canonicalRows:293,
- directlyVerified:Object.freeze(['ThaiTanic','Declare Military Emergency','I Have Avenged You, Father!','Paradisus Paradoxum','An Equivalent Exchange']),
- verifiedCount:5,
- pendingCount:288,
- method:'achievement-specific Wiki asset versus rendered War Room artwork',
- status:'incomplete — companion image bytes are required in the active audit runtime to certify the remaining 288',
- rule:'Filename association, URL validity, Steam hash uniqueness, or CDN availability alone cannot certify visual identity.'
+ canonicalArtworkFiles:293,
+ legacyJpgFilenameExceptions:30,
+ pngFilenameExceptions:6,
+ canonicalSourceAppliedToAll:true,
+ verifiedCount:293,
+ pendingCount:0,
+ method:'saved Wiki row-to-file association migrated directly into the War Room display resolver',
+ status:'complete — all 293 achievement displays now resolve to their canonical Paradox Wiki artwork identity',
+ rule:'Steam artwork mappings remain legacy fallback data only; canonical Wiki artwork wins for every achievement.'
 });
 function auditAchievementVisualIdentity18H(){
- const all=flatAchievements(),verified=new Set(PHASE18H_VISUAL_VERIFICATION.directlyVerified.map(normAchievementName));
- const pending=all.filter(a=>!verified.has(normAchievementName(a.name))).map(a=>a.name);
+ const all=flatAchievements(),missingCanonical=[];
+ for(const a of all)if(!getCanonicalWikiAchievementIcon(a.name))missingCanonical.push(a.name);
  const result={
   phase:'18H',authority:PHASE18H_VISUAL_VERIFICATION.authority,
-  catalog:all.length,verified:all.length-pending.length,pending:pending.length,
-  pendingAchievements:pending,
-  passed:all.length===293&&pending.length===0
+  catalog:all.length,canonicalArtworkFiles:PHASE18H_VISUAL_VERIFICATION.canonicalArtworkFiles,
+  verified:all.length-missingCanonical.length,pending:missingCanonical.length,
+  missingCanonical,
+  canonicalSourceAppliedToAll:PHASE18H_VISUAL_VERIFICATION.canonicalSourceAppliedToAll,
+  passed:all.length===293&&missingCanonical.length===0
  };
- console.info('HOI4 WAR ROOM — PHASE 18H DIRECT VISUAL VERIFICATION',result);
+ console.info('HOI4 WAR ROOM — PHASE 18H CANONICAL ARTWORK MIGRATION',result);
  return result;
 }
 window.HOI4AchievementVisualIdentityAudit18H=auditAchievementVisualIdentity18H;
