@@ -2541,6 +2541,118 @@ header .topnav .navlabel{padding-top:25px!important}
   transform:none!important;
  }
 }
+
+/* Phase 17H.7 — unified War Room file/document material system */
+:root{
+ --file-paper-hi:#ddc487;
+ --file-paper:#d4b778;
+ --file-paper-mid:#caaa6a;
+ --file-paper-low:#c3a263;
+ --file-ink:#2d271b;
+ --file-ink-muted:#59482f;
+ --file-edge:#70552f;
+ --file-edge-soft:#82643b;
+ --file-rule:#80613a;
+ --file-inset:#e2c88e80;
+ --file-stamp:#754437;
+ --file-shadow:0 20px 46px #000b,inset 0 0 38px #6e451c32;
+}
+
+/* Operations file remains the material benchmark. */
+.command-panel{
+ color:var(--file-ink)!important;
+ border-color:var(--file-edge)!important;
+ background:
+  linear-gradient(var(--file-paper),var(--file-paper-mid)),
+  repeating-linear-gradient(0deg,transparent 0 3px,#6d4d2110 4px)!important;
+}
+.command-panel:before{border-color:#80613a55!important}
+.command-panel-head{
+ background:
+  linear-gradient(var(--file-paper-hi),#cfad6c),
+  repeating-linear-gradient(0deg,transparent 0 3px,#6d4d2112 4px)!important;
+ border-bottom-color:var(--file-edge)!important;
+}
+.command-field,.command-panel .legend,.command-panel .history,.command-panel .campaign-log,.command-check{
+ background:var(--file-inset)!important;
+ border-color:var(--file-edge-soft)!important;
+}
+
+/* Campaign Records: same stock/ink as Operations, still presented as filed cards. */
+.campaign-history-grid{
+ background:var(--file-paper-low)!important;
+ border-color:var(--file-edge)!important;
+}
+.campaign-history-card,
+.campaign-history-card:nth-child(even){
+ color:var(--file-ink)!important;
+ border-color:#7c6038!important;
+ background:
+  linear-gradient(#d8bd83f7,#ceb176f7),
+  repeating-linear-gradient(0deg,transparent 0 3px,#6b4a2010 4px)!important;
+}
+.campaign-history-card:nth-child(even){filter:brightness(.975)}
+.archive-stamp{
+ background:#c4a46988!important;
+ border-color:var(--file-edge)!important;
+ color:#584426!important;
+}
+.campaign-file-no,.campaign-decoration{border-color:#8b6b415c!important}
+
+/* Standing Orders: same records-office stock, but retain bound-manual construction. */
+.orders-manual-v2{
+ color:var(--file-ink)!important;
+ border-color:var(--file-edge)!important;
+ background:
+  linear-gradient(90deg,#b59d69 0 27px,var(--file-paper-mid) 28px,#ddca98 100%)!important;
+ box-shadow:0 20px 52px #000b,inset 0 0 42px #6e451c2c!important;
+}
+.orders-manual-v2:after{
+ background:
+  repeating-linear-gradient(0deg,transparent 0 4px,#5e4b250d 5px),
+  radial-gradient(circle at 88% 16%,#775a281a,transparent 19%)!important;
+}
+.orders-manual-v2>.orders-rule,
+.orders-section-title{border-color:var(--file-rule)!important}
+.orders-manual-v2>.orders-rule{background:var(--file-rule)!important}
+.orders-purpose,.orders-manual-v2 .orders-grid article,.special-orders-grid article{
+ border-color:var(--file-edge-soft)!important;
+}
+.orders-purpose{border-left-color:var(--file-rule)!important;background:#e5d3a34d!important}
+.orders-manual-v2 .orders-grid article{background:#e2c88e70!important}
+.special-orders-grid article{background:#d9c18b70!important}
+.orders-stamp{border-color:var(--file-stamp)!important;color:var(--file-stamp)!important}
+
+/* Campaign dossier: same paper edge, ink, inset panels and rules. */
+.campaign-file-document{
+ color:var(--file-ink)!important;
+ border-color:var(--file-edge)!important;
+ background:
+  linear-gradient(#dec58bf5,#cfad70f7),
+  repeating-linear-gradient(0deg,transparent 0 3px,#6d4d2110 4px)!important;
+}
+.campaign-file-document:before{border-color:#80613a55!important}
+.campaign-file-rule{background:var(--file-rule)!important}
+.campaign-file-section{
+ border-color:var(--file-edge-soft)!important;
+ background:var(--file-inset)!important;
+ box-shadow:inset 0 0 15px #70491e1f!important;
+}
+.campaign-file-orders{background:#e2c88e99!important}
+.campaign-file-tab{
+ background:var(--file-paper-hi)!important;
+ border-color:var(--file-edge)!important;
+ color:#3f2f1c!important;
+}
+.campaign-file-document footer{border-top-color:var(--file-rule)!important;color:var(--file-ink-muted)!important}
+
+/* Shared physical-document details. */
+.command-panel,.orders-manual-v2,.campaign-file-document{
+ -webkit-font-smoothing:antialiased;
+}
+.command-panel-head:after,.campaign-file-tab,.orders-stamp,.archive-stamp{
+ text-shadow:none!important;
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
