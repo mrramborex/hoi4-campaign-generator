@@ -5577,6 +5577,14 @@ if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideolo
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
 ctx.strokeStyle='#c6b878';ctx.lineWidth=stage.value==='ideology'?1.45:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
+
+// Critical first paint: render the default country wheel immediately after the renderer
+// is defined, before unrelated page initialization can interrupt the main script.
+stage.value='country';
+remaining=shuffledCountries();
+angle=0;
+draw();
+
 const FIELD_INTELLIGENCE=[
  'Game Tip • Keep an eye on supply hubs and railways. A strong division can still collapse when its supply network cannot keep up.',
  'Game Tip • Air superiority makes offensive operations easier and helps close-air-support aircraft do their work.',
