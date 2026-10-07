@@ -5874,4 +5874,39 @@ function warRoomPhase18MPerformanceAudit(){
 }
 window.HOI4WarRoomPhase18MPerformanceAudit=warRoomPhase18MPerformanceAudit;
 </script>
+<script>
+/* Phase 18N — final production certification / Phase 18 release gate.
+   Intentionally on-demand: legacy certification includes a heavy stress test and must
+   never run automatically for normal War Room visitors. */
+function warRoomPhase18NReleaseGate(){
+ const run=(name,fn)=>{try{const result=typeof fn==='function'?fn():null;return {name,result,passed:!!result?.passed}}catch(error){return {name,result:null,passed:false,error:String(error?.message||error)}}};
+ const suites=[
+  run('Core release certification',typeof warRoomReleaseGate==='function'?warRoomReleaseGate:null),
+  run('Achievement identity & artwork',typeof warRoomPhase18AchievementReleaseGate==='function'?warRoomPhase18AchievementReleaseGate:null),
+  run('Steam synchronization',typeof warRoomPhase18FSteamAudit==='function'?warRoomPhase18FSteamAudit:null),
+  run('Campaign records',typeof warRoomPhase18GCampaignRecordsAudit==='function'?warRoomPhase18GCampaignRecordsAudit:null),
+  run('Special Orders',typeof warRoomPhase18HSpecialOrdersAudit==='function'?warRoomPhase18HSpecialOrdersAudit:null),
+  run('Cross-page integration',typeof warRoomPhase18ICrossPageAudit==='function'?warRoomPhase18ICrossPageAudit:null),
+  run('Rendering stability',typeof warRoomPhase18JRenderingAudit==='function'?warRoomPhase18JRenderingAudit:null),
+  run('Responsive layout',typeof warRoomPhase18KResponsiveAudit==='function'?warRoomPhase18KResponsiveAudit:null),
+  run('Accessibility & keyboard',typeof warRoomPhase18LAccessibilityAudit==='function'?warRoomPhase18LAccessibilityAudit:null),
+  run('Performance & runtime',typeof warRoomPhase18MPerformanceAudit==='function'?warRoomPhase18MPerformanceAudit:null)
+ ];
+ const invariants={
+  countries:Object.keys(countries).length===65,
+  achievements:flatAchievements().length===293,
+  uniqueAchievements:new Set(flatAchievements().map(a=>normAchievementName(a.name))).size===293,
+  fivePrimaryHeaderControls:document.querySelectorAll('.topnav .navbtn').length===5,
+  steamProxyHttps:/^https:\/\//.test(STEAM_SYNC_ENDPOINT),
+  supportHttps:/^https:\/\//.test(WAR_ROOM_SUPPORT_URL),
+  noDuplicateIds:(()=>{const ids=[...document.querySelectorAll('[id]')].map(el=>el.id);return new Set(ids).size===ids.length})()
+ };
+ const failedSuites=suites.filter(x=>!x.passed).map(x=>x.name),failedInvariants=Object.entries(invariants).filter(([,ok])=>!ok).map(([name])=>name);
+ const result={phase:'18N',release:'PHASE 18',suites,invariants,failedSuites,failedInvariants,passed:failedSuites.length===0&&failedInvariants.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 18N FINAL RELEASE CERTIFICATION PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 18N FINAL RELEASE CERTIFICATION FAILED',result);
+ return result;
+}
+window.HOI4WarRoomPhase18NReleaseGate=warRoomPhase18NReleaseGate;
+</script>
 </body></html>
