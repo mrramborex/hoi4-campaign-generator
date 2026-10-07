@@ -3163,6 +3163,17 @@ body:before,body:after{display:none!important}
 .support-no-pressure{color:#57452d!important}
 .support-disclaimer{border-top-color:#70532e!important;color:#6b573b!important}
 @media(max-width:520px){.support-dialog{width:100%!important;max-height:calc(100dvh - 16px)!important;transform:none!important}.support-overlay.open .support-dialog{transform:none!important}.support-letter{padding:44px 20px 22px!important}.support-folder-tab{left:24px!important;padding:7px 16px!important}.support-dialog h2{font-size:26px!important}}
+
+/* Phase 18J.2 — final compositor hardening
+   The older Phase 17 room-depth perspective remained active above 1100px.
+   Perspective forces descendants through a 3D compositing context and was the last
+   known desktop-only candidate for rapid-scroll tearing. Preserve the artwork, remove
+   only the compositor trigger. */
+@media(min-width:1100px){
+ body{perspective:none!important}
+}
+.wheelwrap canvas{filter:none!important}
+.wheelwrap{filter:drop-shadow(0 9px 14px #000)}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
