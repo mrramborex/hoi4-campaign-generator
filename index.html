@@ -3336,16 +3336,17 @@ function paintFlag(country,i,arc){
    if(country==='Australia'){star(x+w*.22,0,9,'#ffffff');star(x+w*.68,0,8,'#ffffff');star(x+w*.84,4,7,'#ffffff');}
    else {star(x+w*.62,-3,8,'#ffffff');star(x+w*.62,-3,5,'#d22630');star(x+w*.82,3,8,'#ffffff');star(x+w*.82,3,5,'#d22630');}
  } else if(country==='United States'){
-   // Proper U.S. flag orientation in the radial flag plate: stripes run horizontally,
-   // with the blue canton at the upper hoist. A compact 6x5 star field stays legible on the wheel.
-   const sh=h/13;
+   // Proper U.S. flag orientation. Dense wheels need the canton pulled onto the radial
+   // centreline because a 65-country wedge otherwise samples only the middle stripes.
+   const denseFlag=arc<.14,sh=h/13;
    for(let k=0;k<13;k++)rect(x,y+k*sh,w,sh+1,k%2===0?'#b22234':'#ffffff');
-   const cw=w*.40,ch=sh*7;
-   rect(x,y,cw,ch,'#3c3b6e');
+   const cw=denseFlag?w*.58:w*.40,ch=denseFlag?sh*6:sh*7;
+   const cx=x,cy=denseFlag?-ch*.50:y;
+   rect(cx,cy,cw,ch,'#3c3b6e');
    ctx.fillStyle='#ffffff';
    const cols=6,rows=5,sx=cw/(cols+1),sy=ch/(rows+1);
    for(let row=1;row<=rows;row++)for(let col=1;col<=cols;col++){
-    ctx.beginPath();ctx.arc(x+col*sx,y+row*sy,Math.max(1.5,Math.min(3.2,w*.009)),0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(cx+col*sx,cy+row*sy,denseFlag?2.35:Math.max(1.5,Math.min(3.2,w*.009)),0,Math.PI*2);ctx.fill();
    }
  } else if(country==='Soviet Union'){
    rect(x,y,w,h,'#cc0000'); rect(x,y,w*.24,h*.24,'#ffd700');
@@ -3353,12 +3354,17 @@ function paintFlag(country,i,arc){
    rect(x,y,w,h,'#ffffff');
    ctx.fillStyle='#bc002d';ctx.beginPath();ctx.arc(x+w*.52,0,72,0,Math.PI*2);ctx.fill();
  } else if(country==='Germany'){
-   // Wedge-aware black/white/red period treatment. On the dense 65-country wheel a normal
-   // horizontal tricolor intersects mostly the white center band, so bias the bands around
-   // the wedge centreline to guarantee all three colors remain visible at narrow slice widths.
-   rect(x,y,w,h,'#111111');
-   rect(x,y+h*.43,w,h*.14,'#f2eee2');
-   rect(x,y+h*.57,w,h*.43,'#b51f2e');
+   // Period black/white/red treatment without prohibited insignia. On the dense wheel,
+   // make the bands radial/vertical so the narrow wedge cannot collapse into the white band.
+   if(arc<.14){
+    rect(x,y,w,h,'#111111');
+    rect(x+w*.34,y,w*.32,h,'#f2eee2');
+    rect(x+w*.66,y,w*.34,h,'#b51f2e');
+   }else{
+    rect(x,y,w,h,'#111111');
+    rect(x,y+h*.43,w,h*.14,'#f2eee2');
+    rect(x,y+h*.57,w,h*.43,'#b51f2e');
+   }
  } else if(country==='China (Nationalist)'){
    rect(x,y,w,h,'#fe0000'); rect(x,y,w*.34,h,'#000095'); rect(x+w*.10,y,w*.10,h,'#ffffff');
  } else if(country==='Communist China'){
