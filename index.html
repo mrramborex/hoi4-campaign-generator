@@ -5863,7 +5863,7 @@ function warRoomPhase18MPerformanceAudit(){
  const checks={
   achievementCatalogCached:a===b&&a.length===293,
   cacheFastPath:source.includes('FLAT_ACHIEVEMENT_CACHE'),
-  noPostLayoutDoubleDraw:!document.documentElement.innerHTML.includes("requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)})"),
+  noPostLayoutDoubleDraw:!changeCountryRoster.toString().includes('requestAnimationFrame')&&!resetGenerator.toString().includes('requestAnimationFrame'),
   campaignLogBounded:getCampaignLog().length<=50,
   archiveImagesLazy:[...document.querySelectorAll('#achievementGrid img')].every(img=>img.loading==='lazy'),
   wheelCanvasBacked:document.getElementById('wheel')?.tagName==='CANVAS',
