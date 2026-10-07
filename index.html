@@ -3699,6 +3699,19 @@ const PHASE18H_WIKI_FILENAME_EXCEPTIONS=Object.freeze({
  [normAchievementName("King of What?")]:"King_of_What_.png",
  [normAchievementName("Et tu, Paulus?")]:"Et_tu,_Paulus_.png"
 });
+const PHASE18I_MISSING_ARTWORK_REPAIRS=Object.freeze({
+ [normAchievementName("Why Die For Danzig?")]:"https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/8000f0ab63d7df54ee5c6e99446a52535396b008.jpg",
+ [normAchievementName("Do You Mined?")]:"https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/4b70f58bdc10ad4bea8af5f7adc84ea498f3fa02.jpg",
+ [normAchievementName("The Pope? How many Divisions does he have?")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/c72801cc7248777e3a97a090310e58f010462db8.jpg",
+ [normAchievementName("We don’t really like statistics")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5452d69a336335b9b22835f4fc1df00ae4a11d60.jpg",
+ [normAchievementName("...and you get a canton, everybody gets a canton!")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5c69bbeaded1f63da584de8ebeeb453934d75973.jpg",
+ [normAchievementName("That's SIkh!")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5df804339f2185d2311248d76a8295a08f5e339d.jpg",
+ [normAchievementName("Et tu, Paulus?")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/8e3be3d55f0da54a418aa648230484ff6b9a6783.jpg",
+ [normAchievementName("Stalin, how many guns does he have?")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/ef614f918c37e11de276989476e53b5d3625dd12.jpg",
+ [normAchievementName("King of What?")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/001fe34a7c404b5c3122854af2c76fa2b7d964f6.jpg",
+ [normAchievementName("A Succulent Chinese Meal")]:"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/a54394f985dca3f9c26fc974c085903eedcd59a5.jpg",
+ [normAchievementName("I Swear I’m Not a Byzantophile")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e1f3c7ef0eebf65efe12a1a98f4db200df6d115c.jpg"
+});
 function getCanonicalWikiAchievementIcon(name){
  const raw=String(name||'').trim();
  if(!raw)return '';
@@ -3707,8 +3720,11 @@ function getCanonicalWikiAchievementIcon(name){
  return 'https://hoi4.paradoxwikis.com/Special:Redirect/file/'+encodeURIComponent(filename).replace(/%2F/gi,'/');
 }
 function getAchievementIcon(name){
+ const key=normAchievementName(name);
+ const repaired=PHASE18I_MISSING_ARTWORK_REPAIRS[key];
+ if(repaired)return repaired;
  const canonical=getCanonicalWikiAchievementIcon(name);
- return canonical||achievementArtworkOverrides[normAchievementName(name)]||getAchievementIconIndex()[normAchievementName(name)]||'';
+ return canonical||achievementArtworkOverrides[key]||getAchievementIconIndex()[key]||'';
 }
 function achievementImageError(img){
  if(!img)return;
