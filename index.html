@@ -2267,6 +2267,71 @@ header .topnav .navlabel{padding-top:25px!important}
  -webkit-font-smoothing:antialiased;
 }
 .command-panel .campaign-log-empty{color:#5b472d!important;text-shadow:none!important;opacity:1!important}
+
+/* Phase 17H.4 — site-wide typography and contrast sweep */
+/* Manila-paper supporting copy: dark ink, clean document rendering. */
+.command-panel .command-audit,
+.command-panel .command-footnote,
+.archive-head .small,
+.campaign-archive-head .small,
+.special-orders-intro,
+.special-orders-grid p{
+ color:#493d2b!important;
+ font-family:var(--document)!important;
+ font-weight:600!important;
+ text-shadow:none!important;
+ opacity:1!important;
+ -webkit-font-smoothing:antialiased;
+}
+.command-panel .command-audit{font-size:10px!important;line-height:1.55!important}
+.command-panel .command-footnote{font-size:10px!important;line-height:1.6!important}
+.archive-head .small,.campaign-archive-head .small{font-size:12px!important;line-height:1.55!important}
+.special-orders-intro{font-size:13px!important}
+.special-orders-grid p{font-size:12.5px!important}
+
+/* Small operational helper text should remain secondary, not faint. */
+.special-order-control small{
+ color:#4b3d29!important;
+ font-family:var(--document)!important;
+ font-size:9px!important;
+ font-weight:600!important;
+ line-height:1.45!important;
+ text-shadow:none!important;
+ opacity:1!important;
+}
+.command-panel-head small{
+ color:#4b3a23!important;
+ font-size:8px!important;
+ font-weight:800!important;
+ text-shadow:none!important;
+ opacity:1!important;
+}
+
+/* Preserve stamped/typewriter character, but make it print cleanly. */
+.archive-kicker,.campaign-archive-kicker,
+.special-orders-grid b,.special-orders-status,
+.campaign-file-classification,.campaign-file-tab{
+ text-shadow:none!important;
+ opacity:1!important;
+ -webkit-font-smoothing:antialiased;
+}
+.archive-kicker,.campaign-archive-kicker{color:#5a4326!important;font-weight:800!important}
+.special-orders-grid b{color:#3e2f1c!important;font-size:10px!important;font-weight:800!important}
+.special-orders-status{color:#58452b!important;font-size:8px!important;font-weight:800!important}
+.special-orders-status strong{color:#382b1c!important}
+.campaign-file-classification{color:#574126!important;font-size:9px!important;font-weight:800!important}
+.campaign-file-tab{color:#3f2f1c!important;font-size:9px!important;font-weight:800!important}
+
+/* Dark surfaces: lift micro-labels enough to remain readable. */
+.steam-sync-home .steam-sync-kicker,
+.console-kicker,.instrument-label{
+ color:#d0c29a!important;
+ text-shadow:0 1px 1px #000!important;
+ opacity:1!important;
+}
+.steam-sync-home .steam-sync-kicker{font-size:9px!important}
+.console-kicker{font-size:9px!important}
+.instrument-label{font-size:9px!important}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
