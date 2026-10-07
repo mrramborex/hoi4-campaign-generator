@@ -3191,6 +3191,17 @@ body:before,body:after{display:none!important}
  header.war-header .topnav .navlabel b{font-size:7.75px!important}
  .steam-sync-home,.generator-console,.command-panel,.achievement-archive,.campaign-archive,.orders-manual-v2{min-width:0!important}
 }
+
+/* Phase 18L — accessibility & keyboard QA */
+:where(button,a,input,select,textarea,[role="button"]):focus-visible{
+ outline:3px solid #f0d37b!important;
+ outline-offset:3px!important;
+ box-shadow:0 0 0 2px #17140e,0 0 0 5px rgba(240,211,123,.22)!important;
+}
+.campaign-history-card[role="button"]:focus-visible{border-color:#6b522e!important}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -3224,12 +3235,12 @@ body:before,body:after{display:none!important}
 
 <main id="generator">
 <!-- Phase 14H.1 — Steam-first campaign workflow -->
-<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>. <button type="button" id="clearAchievementProgress" onclick="clearAchievementProgress()">Clear completed achievements</button>.</div><div class="steam-sync-note" id="steamSyncNote">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
+<section class="steam-sync-home"><div class="steam-sync-panel" id="steamSyncPanel"><div class="steam-sync-head"><div><span class="steam-sync-kicker">STEAM • PERSONNEL RECORD LINK</span><h3>Steam Achievement Sync</h3></div><span class="steam-sync-state" id="steamSyncState" aria-live="polite">NOT LINKED</span></div><p class="steam-sync-copy">Paste a public Steam profile link to automatically mark HOI4 achievements you already own as complete. No Steam sign-in is required.</p><div class="steam-sync-form"><input id="steamProfileInput" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://steamcommunity.com/id/yourprofile"><button id="steamSyncButton" type="button">SYNC STEAM</button></div><div class="steam-sync-summary"><div class="steam-sync-metric"><b id="steamHomeCompleted">—</b><span>Completed</span></div><div class="steam-sync-metric"><b id="steamHomeOpen">—</b><span>Uncompleted</span></div><div class="steam-sync-metric"><b id="steamHomePct">—</b><span>Completion</span></div></div><div class="steam-sync-details">For the full service record, <button type="button" id="steamViewAchievements">see the Achievement Archive</button>. <button type="button" id="clearAchievementProgress" onclick="clearAchievementProgress()">Clear completed achievements</button>.</div><div class="steam-sync-note" id="steamSyncNote" role="status" aria-live="polite">Paste a Steam /id/ or /profiles/ link, then sync your achievement record.</div><div class="steam-sync-privacy">PRIVACY • Uses public Steam achievement data only. No Steam password or sign-in is requested. Your profile link is sent to the War Room Steam proxy only when you press SYNC STEAM; completion progress remains stored in this browser.</div></div></section>
 <section class="card generator-console">
 <div class="generator-console-head"><div><span class="console-kicker">COUNTRY SELECTION • GENERAL STAFF AUTHORIZATION</span><h2>Operation Assignment</h2><span class="operation-subtitle">STRATEGIC CAMPAIGN COMMAND TABLE</span></div><div class="console-status"><span class="status-lamp"></span> SYSTEM READY</div></div>
-<div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800"></canvas></div></div>
+<div class="wheel-instrument"><div class="instrument-label instrument-left">NATIONAL<br>COMMAND</div><div class="instrument-label instrument-right">1936<br>THEATER</div><div class="wheelwrap"><div class="pointer"></div><canvas id="wheel" width="800" height="800" role="img" aria-label="Campaign selection wheel"></canvas></div></div>
 <div class="selector-command"><span class="command-rule"></span><button class="spin" id="spin" type="button" onclick="spin()">INITIATE COUNTRY SELECTION</button><span class="command-rule"></span></div>
-<div class="result" id="result">Historical Fact • Germany remilitarized the Rhineland in March 1936, violating the post-WWI settlement without triggering a military response from Britain or France.</div>
+<div class="result" id="result" role="status" aria-live="polite" aria-atomic="true">Historical Fact • Germany remilitarized the Rhineland in March 1936, violating the post-WWI settlement without triggering a military response from Britain or France.</div>
 <div class="mission" id="mission">
   <div class="orders-header"><div><span class="orders-classification">GENERAL STAFF • CAMPAIGN COMMAND</span><div class="mission-kicker">OPERATION DOSSIER</div></div><div class="orders-file">CAMPAIGN<br><strong>#024</strong></div></div>
   <div class="orders-country-label">ASSIGNED NATION</div>
@@ -3245,7 +3256,7 @@ body:before,body:after{display:none!important}
   <div class="mission-actions"><button class="mission-secondary" id="rerollAchievement" type="button" onclick="if(selected&&selectedIdeology&&stage.value==='path'&&currentPath)showMission(currentPath)">↻ REROLL ACHIEVEMENT</button><button class="mission-secondary" id="completeMissionAchievement" type="button" onclick="completeCurrentMissionAchievement()">✓ MARK ACHIEVEMENT COMPLETE</button></div>
   <button class="startCampaign" id="startCampaign" type="button" onclick="logCurrentCampaign();document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';this.textContent='CAMPAIGN LOCKED IN'">START CAMPAIGN</button>
   <button class="newCampaign" id="newCampaign" type="button" onclick="resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'});">NEW CAMPAIGN</button>
-  <div class="mission-note" id="missionNote">Campaign generated. Good luck, commander.</div>
+  <div class="mission-note" id="missionNote" role="status" aria-live="polite">Campaign generated. Good luck, commander.</div>
 </div></section>
 <aside class="card side controls command-panel">
 <div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Operation Parameters</h2><small>CAMPAIGN RULES • GENERAL STAFF</small></div>
@@ -4730,7 +4741,7 @@ function renderCampaignHistory(){
  document.getElementById('historyActive').textContent=log.filter(x=>!x.outcome||x.outcome==='active').length;
  let records=log.map((x,i)=>({...x,_fileNo:log.length-i})).filter(x=>!search||[x.country,x.ideology,x.path,x.achievement,x.specialOrder||''].join(' ').toLowerCase().includes(search));
  if(sort==='oldest')records.sort((a,b)=>a.time-b.time);else if(sort==='country')records.sort((a,b)=>a.country.localeCompare(b.country)||b.time-a.time);else records.sort((a,b)=>b.time-a.time);
- grid.innerHTML=records.length?records.map(x=>`<article class="campaign-history-card" role="button" tabindex="0" onclick="openCampaignFile(${x.time})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCampaignFile(${x.time})}">${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-history-fallback" style="display:none">★</div>':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-assignment"><div class="campaign-file-no">#${String(x._fileNo).padStart(3,'0')}</div><h3>${x.country}</h3><div class="campaign-ideology">${x.ideology}</div><div class="campaign-path">${x.path}</div></div><div class="campaign-decoration"><span>ACHIEVEMENT OBJECTIVE</span><p>${x.achievement}</p>${done.has(x.achievement)?'<strong>✓ ACHIEVEMENT COMPLETED</strong>':''}${x.specialOrder?'<div class="campaign-special-tag '+(x.specialOrderMode==='hardcore'?'hardcore':'')+'"><b>'+(x.specialOrderMode==='hardcore'?'HARDCORE ORDER':'SPECIAL ORDER')+'</b> '+x.specialOrder+'</div>':''}</div><div class="campaign-history-date">${new Date(x.time).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</div><div class="outcome"><button class="${x.outcome==='victory'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'victory')">Completed</button><button class="${(!x.outcome||x.outcome==='active')?'active in-progress':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'active')">In Progress</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" title="Remove operation" aria-label="Remove operation" onclick="event.stopPropagation();if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">•••</button></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES MATCH</b><br>'+(log.length?'Adjust the campaign search to show more filed operations.':'Generate a campaign and press START CAMPAIGN to file your first operation.')+'</div>';
+ grid.innerHTML=records.length?records.map(x=>`<article class="campaign-history-card" role="button" tabindex="0" onclick="openCampaignFile(${x.time})" onkeydown="if(event.target===event.currentTarget&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openCampaignFile(${x.time})}">${x.icon?'<img class="campaign-history-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-history-fallback" style="display:none">★</div>':'<div class="campaign-history-fallback">★</div>'}<div class="campaign-history-assignment"><div class="campaign-file-no">#${String(x._fileNo).padStart(3,'0')}</div><h3>${x.country}</h3><div class="campaign-ideology">${x.ideology}</div><div class="campaign-path">${x.path}</div></div><div class="campaign-decoration"><span>ACHIEVEMENT OBJECTIVE</span><p>${x.achievement}</p>${done.has(x.achievement)?'<strong>✓ ACHIEVEMENT COMPLETED</strong>':''}${x.specialOrder?'<div class="campaign-special-tag '+(x.specialOrderMode==='hardcore'?'hardcore':'')+'"><b>'+(x.specialOrderMode==='hardcore'?'HARDCORE ORDER':'SPECIAL ORDER')+'</b> '+x.specialOrder+'</div>':''}</div><div class="campaign-history-date">${new Date(x.time).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</div><div class="outcome"><button class="${x.outcome==='victory'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'victory')">Completed</button><button class="${(!x.outcome||x.outcome==='active')?'active in-progress':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'active')">In Progress</button><button class="abandoned ${x.outcome==='abandoned'?'active':''}" onclick="event.stopPropagation();setCampaignOutcome(${x.time},'abandoned')">Abandoned</button><button class="campaign-delete" title="Remove operation" aria-label="Remove operation" onclick="event.stopPropagation();if(confirm('Remove this campaign from your history?'))removeCampaign(${x.time})">•••</button></div></article>`).join(''):'<div class="campaign-history-empty"><b>NO OPERATION FILES MATCH</b><br>'+(log.length?'Adjust the campaign search to show more filed operations.':'Generate a campaign and press START CAMPAIGN to file your first operation.')+'</div>';
 }
 
 
@@ -4741,9 +4752,9 @@ function openCampaignFile(time){
  const req=rec?.objective||'Official requirement unavailable in the local achievement catalog.';document.getElementById('campaignFileObjective').textContent=req;document.getElementById('campaignFileHow').textContent='Campaign orders: '+req+' Use the assigned nation and political route shown in this file, then satisfy every condition in the achievement requirement.';
  const special=document.getElementById('campaignFileSpecial');if(x.specialOrder){special.hidden=false;document.getElementById('campaignFileSpecialName').textContent=x.specialOrder;document.getElementById('campaignFileSpecialObjective').textContent=x.specialOrderObjective||'';special.classList.toggle('hardcore',x.specialOrderMode==='hardcore');special.querySelector('span').textContent=x.specialOrderMode==='hardcore'?'HARDCORE ORDER • HIGH RISK':'SPECIAL ORDER • SECONDARY MISSION'}else{special.hidden=true}
  document.getElementById('campaignFileDate').textContent='FILED '+new Date(x.time).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});document.getElementById('campaignFileStatus').textContent=x.outcome==='victory'?'COMPLETED':x.outcome==='abandoned'?'ABANDONED':'IN PROGRESS';
- const art=document.getElementById('campaignFileArt'),src=getAchievementIcon(x.achievement)||x.icon||'';art.src=src;art.style.display=src?'block':'none';m.classList.add('show');m.setAttribute('aria-hidden','false');document.body.classList.add('file-open')
+ const art=document.getElementById('campaignFileArt'),src=getAchievementIcon(x.achievement)||x.icon||'';art.src=src;art.style.display=src?'block':'none';window.__campaignFileLastFocus=document.activeElement;m.classList.add('show');m.setAttribute('aria-hidden','false');document.body.classList.add('file-open');requestAnimationFrame(()=>m.querySelector('.campaign-file-close')?.focus())
 }
-function closeCampaignFile(){const m=document.getElementById('campaignFileModal');if(!m)return;m.classList.remove('show');m.setAttribute('aria-hidden','true');document.body.classList.remove('file-open')}
+function closeCampaignFile(){const m=document.getElementById('campaignFileModal');if(!m)return;m.classList.remove('show');m.setAttribute('aria-hidden','true');document.body.classList.remove('file-open');const prior=window.__campaignFileLastFocus;if(prior&&prior.isConnected&&prior.focus)prior.focus();window.__campaignFileLastFocus=null}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCampaignFile()});
 function warRoomPhase18GCampaignRecordsAudit(){const log=getCampaignLog(),checks={storageKey:CAMPAIGN_LOG_KEY==='hoi4CampaignLog',recordCap:log.length<=50,sanitized:log.every(x=>!/[<>]/.test([x.country,x.ideology,x.path,x.achievement,x.specialOrder,x.specialOrderObjective].join(''))),validTimes:log.every(x=>Number.isFinite(x.time)),validOutcomes:log.every(x=>['','active','victory','abandoned'].includes(x.outcome)),modalPresent:!!document.getElementById('campaignFileModal'),controlsPresent:!!document.getElementById('campaignHistorySearch')&&!!document.getElementById('campaignHistorySort')&&!!document.getElementById('clearFullHistory')};const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);return {phase:'18G',checks,failures,records:log.length,passed:failures.length===0}}
 window.HOI4WarRoomPhase18GCampaignRecordsAudit=warRoomPhase18GCampaignRecordsAudit;
@@ -5797,5 +5808,49 @@ function warRoomPhase16ReleaseGate(){
 }
 window.HOI4WarRoomPhase16ReleaseGate=warRoomPhase16ReleaseGate;
 
+</script>
+
+<script>
+/* Phase 18L — accessibility & keyboard QA */
+(function(){
+ const modal=document.getElementById('campaignFileModal');
+ const dialog=modal?.querySelector('.campaign-file-document');
+ if(dialog){
+  dialog.setAttribute('aria-describedby','campaignFileObjective');
+  modal.addEventListener('keydown',e=>{
+   if(e.key!=='Tab'||!modal.classList.contains('show'))return;
+   const focusable=[...dialog.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled&&!el.hidden&&el.offsetParent!==null);
+   if(!focusable.length)return;
+   const first=focusable[0],last=focusable[focusable.length-1];
+   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+   else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+  });
+ }
+ const special=[...document.querySelectorAll('[data-special-mode]')];
+ const syncPressed=()=>special.forEach(b=>b.setAttribute('aria-pressed',b.classList.contains('active')?'true':'false'));
+ special.forEach(b=>b.addEventListener('click',syncPressed));syncPressed();
+ document.querySelectorAll('.topnav .navbtn').forEach(b=>b.setAttribute('type','button'));
+})();
+function warRoomPhase18LAccessibilityAudit(){
+ const campaignDialog=document.querySelector('#campaignFileModal [role="dialog"]');
+ const support=document.getElementById('supportDialog');
+ const special=[...document.querySelectorAll('[data-special-mode]')];
+ const checks={
+  languageDeclared:document.documentElement.lang==='en',
+  navControlsSemantic:['navGenerator','navAchievements','navCampaigns','navOrders','navSupport'].every(id=>document.getElementById(id)?.tagName==='BUTTON'),
+  visibleFocusRule:[...document.styleSheets].some(sheet=>{try{return [...sheet.cssRules].some(r=>String(r.cssText).includes(':focus-visible'))}catch(e){return false}}),
+  campaignDialogLabelled:!!campaignDialog?.getAttribute('aria-labelledby')&&!!campaignDialog?.getAttribute('aria-describedby'),
+  campaignDialogModal:campaignDialog?.getAttribute('aria-modal')==='true',
+  supportDialogLabelled:support?.getAttribute('aria-labelledby')==='supportTitle'&&support?.getAttribute('aria-modal')==='true',
+  campaignCardsKeyboard:[...document.querySelectorAll('.campaign-history-card')].every(card=>card.getAttribute('role')==='button'&&card.tabIndex===0),
+  specialOrdersState:special.length===3&&special.every(b=>['true','false'].includes(b.getAttribute('aria-pressed'))),
+  liveStatus:['result','steamSyncState','steamSyncNote','missionNote'].every(id=>document.getElementById(id)?.getAttribute('aria-live')==='polite'),
+  wheelNamed:document.getElementById('wheel')?.getAttribute('role')==='img'&&!!document.getElementById('wheel')?.getAttribute('aria-label'),
+  noPositiveTabindex:![...document.querySelectorAll('[tabindex]')].some(el=>Number(el.getAttribute('tabindex'))>0)
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ return {phase:'18L',checks,failures,passed:failures.length===0};
+}
+window.HOI4WarRoomPhase18LAccessibilityAudit=warRoomPhase18LAccessibilityAudit;
 </script>
 </body></html>
