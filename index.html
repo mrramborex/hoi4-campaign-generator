@@ -4732,11 +4732,13 @@ function normalizeCompleted(list){
 }
 function getCompleted(){try{return new Set(normalizeCompleted(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]')))}catch(e){return new Set()}}
 function setCompleted(set){localStorage.setItem(COMPLETED_KEY,JSON.stringify(normalizeCompleted([...set])))}
-function toggleAchievement(name){const done=getCompleted();done.has(name)?done.delete(name):done.add(name);setCompleted(done);renderAchievements()}
+function toggleAchievement(name){const manual=typeof getManualCompleted==='function'?getManualCompleted():getCompleted(),steam=typeof getSteamCompleted==='function'?getSteamCompleted():new Set();if(manual.has(name))manual.delete(name);else if(!steam.has(name))manual.add(name);if(typeof setCompletionSet==='function'){setCompletionSet(MANUAL_COMPLETED_KEY,manual);rebuildCombinedCompletion()}else setCompleted(manual);renderAchievements()}
 function clearAchievementProgress(){
  if(!getCompleted().size)return;
  if(!confirm('Clear all completed achievement progress from this browser? Campaign History will be kept.'))return;
  localStorage.removeItem(COMPLETED_KEY);
+ localStorage.removeItem('hoi4ManualCompletedAchievements');
+ localStorage.removeItem('hoi4SteamCompletedAchievements');
  steamProfileSyncedThisSession=false;
  renderAchievements();updateSteamHomeSummary();
  const state=document.getElementById('steamSyncState'),note=document.getElementById('steamSyncNote'),input=document.getElementById('steamProfileInput');
