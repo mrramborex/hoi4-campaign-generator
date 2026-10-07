@@ -3241,6 +3241,31 @@ body.privacy-modal-open{overflow:hidden}
  .support-poster-link img{max-width:92vw;max-height:calc(100dvh - 42px)}
  .support-poster-dialog .support-close{top:-10px!important;right:-10px!important}
 }
+
+/* Post-V1.0 simplification — four-command header, no Standing/Special Orders */
+header.war-header .topnav{
+ display:grid!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ width:100%!important;
+ gap:0!important;
+ padding-left:0!important;
+ padding-right:0!important;
+}
+header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;margin-left:0!important;margin-right:0!important}
+@media(min-width:1281px){
+ .war-header{grid-template-columns:minmax(430px,1fr) minmax(730px,900px)!important}
+}
+@media(min-width:821px) and (max-width:1280px){
+ header.war-header .topnav{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(max-width:820px){
+ header.war-header .topnav{grid-template-columns:repeat(4,minmax(0,1fr))!important;overflow-x:hidden!important}
+}
+@media(max-width:520px){
+ header.war-header .topnav{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}
+ header.war-header .topnav .navbtn,
+ header.war-header .topnav .navbtn.active{height:54px!important;min-height:54px!important}
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -3303,7 +3328,6 @@ body.privacy-modal-open{overflow:hidden}
   <div class="mission-ach-row"><div class="mission-ach-art"><img class="mission-ach-icon" id="missionAchIcon" alt=""><div class="mission-ach-fallback" id="missionAchFallback">★</div></div><div class="mission-line"><b>Achievement</b><br><span id="missionAchievement"></span></div></div>
   <div class="orders-section-label"><span>MISSION OBJECTIVE</span><span>PRIORITY: ACTIVE</span></div>
   <div class="mission-line mission-objective"><b>Objective:</b> <span id="missionObjective"></span></div>
-  <div class="mission-special-order" id="missionSpecialOrder" hidden><div class="orders-section-label"><span>SPECIAL ORDER</span><span>SECONDARY MISSION • OPTIONAL</span></div><div class="mission-line special-order-line"><b id="missionSpecialOrderName"></b><br><span id="missionSpecialOrderObjective"></span></div></div>
   <div class="mission-badges" id="missionBadges"></div>
   <div class="orders-authorization">COMMAND AUTHORIZATION</div>
   <div class="mission-actions"><button class="mission-secondary" id="rerollAchievement" type="button" onclick="if(selected&&selectedIdeology&&stage.value==='path'&&currentPath)showMission(currentPath)">↻ REROLL ACHIEVEMENT</button><button class="mission-secondary" id="completeMissionAchievement" type="button" onclick="completeCurrentMissionAchievement()">✓ MARK ACHIEVEMENT COMPLETE</button></div>
@@ -3316,7 +3340,6 @@ body.privacy-modal-open{overflow:hidden}
 <input id="stage" type="hidden" value="country">
 <div class="command-field"><label>Country Roster</label><select id="countryRoster" onchange="changeCountryRoster()"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
 <div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
-<div class="command-field special-order-control"><div class="special-order-control-head"><label>Special Orders</label><span id="specialOrdersRisk">STANDARD CAMPAIGN</span></div><div class="special-order-modes" role="group" aria-label="Special Orders difficulty"><button type="button" class="active" data-special-mode="off">OFF</button><button type="button" data-special-mode="standard">STANDARD</button><button type="button" data-special-mode="hardcore">HARDCORE</button></div><input id="specialOrdersMode" type="hidden" value="off"><small id="specialOrdersHelp">No Special Order will be attached to the campaign.</small></div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetGenerator()">RESET GENERATOR</button>
 <div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#5b5549"></span>Fascist</p><p><span class="dot" style="background:#9a3b35"></span>Communist</p><p><span class="dot" style="background:#3d7390"></span>Democratic</p><p><span class="dot" style="background:#9a804d"></span>Unaligned / Non-Aligned</p></div>
@@ -4722,14 +4745,14 @@ const CAMPAIGN_LOG_KEY='hoi4CampaignLog';
 function campaignText(value,max){return String(value||'').replace(/[<>]/g,'').slice(0,max)}
 function sanitizeCampaignLog(log){
  if(!Array.isArray(log))return [];
- return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:campaignText(x.country,80),ideology:campaignText(x.ideology,40),path:campaignText(x.path,120),achievement:campaignText(x.achievement,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',specialOrder:campaignText(x.specialOrder,80),specialOrderObjective:campaignText(x.specialOrderObjective,240),specialOrderMode:['standard','hardcore'].includes(x.specialOrderMode)?x.specialOrderMode:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
+ return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:campaignText(x.country,80),ideology:campaignText(x.ideology,40),path:campaignText(x.path,120),achievement:campaignText(x.achievement,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
 }
 function getCampaignLog(){try{return sanitizeCampaignLog(JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]'))}catch(e){localStorage.removeItem(CAMPAIGN_LOG_KEY);return []}}
 function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(sanitizeCampaignLog(log)))}
 function renderCampaignLog(){
  const el=document.getElementById('campaignLog');if(!el)return;
  const log=getCampaignLog();
- el.innerHTML=log.length?log.slice(0,6).map(x=>`<div class="campaign-log-item">${x.icon?'<img class="campaign-log-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-log-fallback" style="display:none">🏆</div>':'<div class="campaign-log-fallback">🏆</div>'}<div><div class="campaign-log-title">${x.country} — ${x.achievement}</div><div class="campaign-log-sub">${x.ideology} → ${x.path}${x.specialOrder?' • Special Order: '+x.specialOrder:''}</div></div></div>`).join(''):'<div class="campaign-log-empty">No campaigns locked in yet.</div>';
+ el.innerHTML=log.length?log.slice(0,6).map(x=>`<div class="campaign-log-item">${x.icon?'<img class="campaign-log-icon" src="'+x.icon+'" alt="" onerror="achievementImageError(this)"><div class="campaign-log-fallback" style="display:none">🏆</div>':'<div class="campaign-log-fallback">🏆</div>'}<div><div class="campaign-log-title">${x.country} — ${x.achievement}</div><div class="campaign-log-sub">${x.ideology} → ${x.path}</div></div></div>`).join(''):'<div class="campaign-log-empty">No campaigns locked in yet.</div>';
 }
 function removeCampaign(time){const log=getCampaignLog().filter(x=>x.time!==time);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory()}
 function clearCampaignHistory(){if(!getCampaignLog().length)return;if(!confirm('Clear all Campaign History? Your achievement completion progress will NOT be deleted.'))return;localStorage.removeItem(CAMPAIGN_LOG_KEY);renderCampaignLog();renderCampaignHistory();const note=document.getElementById('dataNote');if(note)note.textContent='Campaign History cleared. Achievement completion progress was kept.'}
@@ -4763,7 +4786,7 @@ window.HOI4WarRoomPhase18GCampaignRecordsAudit=warRoomPhase18GCampaignRecordsAud
 function logCurrentCampaign(){
  if(!selected||!selectedIdeology||!currentMission)return;
  const path=document.getElementById('dossierPath').textContent;
- const entry={country:selected,ideology:names[selectedIdeology],path,achievement:currentMission.name,icon:getAchievementIcon(currentMission.name)||'',specialOrder:currentSpecialOrder?.name||'',specialOrderObjective:currentSpecialOrder?.objective||'',specialOrderMode:currentSpecialOrder?specialOrdersMode():'',time:Date.now()};
+ const entry={country:selected,ideology:names[selectedIdeology],path,achievement:currentMission.name,icon:getAchievementIcon(currentMission.name)||'',time:Date.now()};
  const log=getCampaignLog().filter(x=>!(x.country===entry.country&&x.ideology===entry.ideology&&x.path===entry.path&&x.achievement===entry.achievement));
  log.unshift(entry);saveCampaignLog(log);renderCampaignLog();renderCampaignHistory();
 }
@@ -5444,7 +5467,7 @@ const HARDCORE_SPECIAL_ORDERS=[
  {id:'old-school',name:'Old School Warfare',objective:'Do not use nuclear strikes, paradrops, collaboration governments, or licensed foreign equipment production.',exclude:/nuclear|nuke|atomic bomb|paratroop|paradrop|airborne|collaboration government|license production|licensed equipment/i}
 ];
 let currentSpecialOrder=null;
-function specialOrdersMode(){return document.getElementById('specialOrdersMode')?.value||'off'}
+function specialOrdersMode(){return 'off'}
 function specialOrdersEnabled(){return specialOrdersMode()!=='off'}
 function pickSpecialOrder(achievement){
  const mode=specialOrdersMode();if(mode==='off')return null;
@@ -5626,21 +5649,31 @@ function resetGenerator(){const roster=document.getElementById('countryRoster');
 document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=resetGenerator;
 document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.getElementById('noRepeat')?.checked;resetCampaign(false,preserve);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
-// Paint the initial country wheel only after the page has fully initialized.
-// A second frame catches browser restore/refresh timing that can otherwise leave the canvas blank.
+// Deterministic wheel startup. Browsers may restore hidden form state after DOMContentLoaded
+// on refresh, so force the generator back to the country stage and repaint the canvas after restore.
 function initializeGeneratorWheel(){
  if(!remaining.length)remaining=shuffledCountries();
  stage.value='country';
+ selected=null;
+ selectedIdeology=null;
  angle=0;
+ cv.width=800;
+ cv.height=800;
+ draw();
+}
+function repaintGeneratorWheelAfterRestore(){
+ stage.value='country';
+ if(!remaining.length)remaining=shuffledCountries();
+ cv.width=800;
+ cv.height=800;
  draw();
  requestAnimationFrame(()=>draw());
+ setTimeout(()=>{stage.value='country';draw()},80);
 }
-if(document.readyState==='loading'){
- document.addEventListener('DOMContentLoaded',initializeGeneratorWheel,{once:true});
-}else{
- initializeGeneratorWheel();
-}
-window.addEventListener('pageshow',()=>requestAnimationFrame(()=>draw()));
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeGeneratorWheel,{once:true});
+else initializeGeneratorWheel();
+window.addEventListener('load',repaintGeneratorWheelAfterRestore,{once:true});
+window.addEventListener('pageshow',repaintGeneratorWheelAfterRestore);
 warRoomRuntimeGuard();
 warRoomReleaseGate();
 </script><!-- Phase 14A — Steam profile-link integration architecture -->
