@@ -3048,6 +3048,35 @@ function auditAchievementArtwork18G(){
 window.HOI4AchievementArtworkAudit18G=auditAchievementArtwork18G;
 
 
+/* Phase 18H — direct visual verification gate.
+   The canonical saved Wiki page proves the achievement-to-artwork-file relationship for all 293 rows.
+   Phase 18F directly corrected five proven failures. The remaining 288 are intentionally NOT promoted
+   to verified without byte/visual comparison to the downloaded Wiki artwork. */
+const PHASE18H_VISUAL_VERIFICATION=Object.freeze({
+ authority:'Saved Paradox Wiki page + companion downloaded artwork package',
+ canonicalRows:293,
+ directlyVerified:Object.freeze(['ThaiTanic','Declare Military Emergency','I Have Avenged You, Father!','Paradisus Paradoxum','An Equivalent Exchange']),
+ verifiedCount:5,
+ pendingCount:288,
+ method:'achievement-specific Wiki asset versus rendered War Room artwork',
+ status:'incomplete — companion image bytes are required in the active audit runtime to certify the remaining 288',
+ rule:'Filename association, URL validity, Steam hash uniqueness, or CDN availability alone cannot certify visual identity.'
+});
+function auditAchievementVisualIdentity18H(){
+ const all=flatAchievements(),verified=new Set(PHASE18H_VISUAL_VERIFICATION.directlyVerified.map(normAchievementName));
+ const pending=all.filter(a=>!verified.has(normAchievementName(a.name))).map(a=>a.name);
+ const result={
+  phase:'18H',authority:PHASE18H_VISUAL_VERIFICATION.authority,
+  catalog:all.length,verified:all.length-pending.length,pending:pending.length,
+  pendingAchievements:pending,
+  passed:all.length===293&&pending.length===0
+ };
+ console.info('HOI4 WAR ROOM — PHASE 18H DIRECT VISUAL VERIFICATION',result);
+ return result;
+}
+window.HOI4AchievementVisualIdentityAudit18H=auditAchievementVisualIdentity18H;
+
+
 /* Phase 15G — Final production QA / release gate.
    Extends the established War Room release gate with the complete Phase 15 artwork suite,
    so a future achievement-art regression cannot pass through the older Phase 12F gate. */
