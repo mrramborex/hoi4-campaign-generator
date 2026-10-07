@@ -2867,6 +2867,109 @@ header .topnav .navlabel{padding-top:25px!important}
  header.war-header .topnav .navbtn{padding-left:3px!important;padding-right:3px!important}
  header.war-header .topnav .navlabel b{font-size:8px!important;letter-spacing:0!important}
 }
+
+/* Phase 17H.9 — restrained physical interaction polish */
+@media(hover:hover) and (pointer:fine){
+ /* Filed campaign records should feel like selecting a physical folder. */
+ .campaign-history-card{
+  transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease,filter .14s ease!important;
+  transform-origin:center;
+ }
+ .campaign-history-card:hover{
+  transform:translateY(-2px)!important;
+  border-color:#9a7948!important;
+  box-shadow:0 5px 10px #0007,inset 0 0 12px #70491f25!important;
+  filter:brightness(1.025);
+ }
+ .campaign-history-card:hover .campaign-file-no{border-color:#73562f!important;color:#49371f!important}
+ .campaign-history-card:hover h3{color:#17130d!important}
+
+ /* Achievement records: restrained archival highlight, no card animation gimmick. */
+ .ach{
+  transition:border-color .14s ease,box-shadow .14s ease,background .14s ease!important;
+ }
+ .ach:hover{
+  border-color:#756c4c!important;
+  border-left-color:#c2a45d!important;
+  box-shadow:inset 0 0 18px #0006,0 6px 13px #0009!important;
+ }
+ .ach:hover .ach-icon{border-color:#9a7e47!important}
+ .ach:hover h3{color:#f1e2b5!important}
+
+ /* Standing Orders reads like paper: only edge/ink response. */
+ .orders-manual-v2 .orders-grid article,
+ .special-orders-grid article{
+  transition:transform .12s ease,border-color .12s ease,background .12s ease,box-shadow .12s ease!important;
+ }
+ .orders-manual-v2 .orders-grid article:hover{
+  transform:translateY(-1px);
+  border-color:#765b35!important;
+  background:#ead39b80!important;
+  box-shadow:inset 0 1px #f4dda477,0 3px 7px #5b3d1c24!important;
+ }
+ .special-orders-grid article:hover{
+  transform:translateY(-1px);
+  border-color:#765b35!important;
+  background:#e0c89180!important;
+  box-shadow:inset 0 1px #f4dda477,0 3px 7px #5b3d1c24!important;
+ }
+ .special-orders-grid article:hover:before{background:#604521!important}
+
+ /* Operations file fields react like handled paperwork, not web cards. */
+ .command-panel .command-field,
+ .command-panel .legend,
+ .command-panel .history,
+ .command-panel .campaign-log{
+  transition:border-color .12s ease,box-shadow .12s ease,background .12s ease!important;
+ }
+ .command-panel .command-field:hover,
+ .command-panel .legend:hover,
+ .command-panel .history:hover,
+ .command-panel .campaign-log:hover{
+  border-color:#75572f!important;
+  box-shadow:inset 0 1px #f1d79bbb,inset 0 0 14px #70491e26!important;
+ }
+
+ /* Raised navigation tabs get a controlled file-tab lift. */
+ header.war-header .topnav .navbtn:not(.active):hover{
+  border-color:#807149!important;
+  box-shadow:inset 0 1px #a99a6633,0 -2px 6px #0004!important;
+ }
+ header.war-header .topnav .navbtn.active:hover{
+  filter:brightness(1.035);
+ }
+}
+
+/* Keyboard users get the same discoverability as mouse users. */
+.campaign-history-card:focus-visible{
+ transform:translateY(-2px)!important;
+ border-color:#b29354!important;
+ box-shadow:0 5px 10px #0007,inset 0 0 12px #70491f25!important;
+}
+.ach:focus-within{
+ border-left-color:#c2a45d!important;
+ box-shadow:inset 0 0 18px #0006,0 5px 11px #0008!important;
+}
+
+/* Click/tap feedback remains short and physical. */
+.campaign-history-card:active{transform:translateY(0)!important;filter:brightness(.98)}
+header.war-header .topnav .navbtn:active{filter:brightness(.94)}
+
+/* Touch devices keep static surfaces; button feedback from 17H.6 remains. */
+@media(hover:none){
+ .campaign-history-card,.ach,.orders-manual-v2 .orders-grid article,.special-orders-grid article{
+  transform:none!important;
+ }
+}
+
+/* Respect reduced-motion while retaining border/ink feedback. */
+@media(prefers-reduced-motion:reduce){
+ .campaign-history-card,.ach,.orders-manual-v2 .orders-grid article,.special-orders-grid article,
+ .command-panel .command-field,.command-panel .legend,.command-panel .history,.command-panel .campaign-log{
+  transition:none!important;
+  transform:none!important;
+ }
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
