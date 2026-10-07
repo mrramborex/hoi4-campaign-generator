@@ -3130,6 +3130,38 @@ function auditAchievementVisualIdentity18H(){
 window.HOI4AchievementVisualIdentityAudit18H=auditAchievementVisualIdentity18H;
 
 
+/* Phase 18I — final canonical achievement release gate.
+   Supersedes URL-presence as an artwork criterion. Phase 18 requires canonical identity,
+   complete objectives, unique catalog identities, and the 293-record Wiki-backed artwork resolver. */
+function warRoomPhase18AchievementReleaseGate(){
+ const all=flatAchievements(),names=new Map(),duplicates=[],missingObjectives=[],canonicalArtwork=[];
+ for(const a of all){
+  const key=normAchievementName(a.name);
+  if(names.has(key))duplicates.push({name:a.name,first:names.get(key)}); else names.set(key,a.name);
+  if(!String(a.objective||'').trim())missingObjectives.push(a.name);
+  const url=getCanonicalWikiAchievementIcon(a.name);
+  canonicalArtwork.push({name:a.name,url});
+ }
+ const identity=auditAchievementIdentity18A(),visual=auditAchievementVisualIdentity18H();
+ const checks={
+  catalogCount:all.length===293,
+  uniqueCanonicalNames:duplicates.length===0&&names.size===293,
+  objectivesComplete:missingObjectives.length===0,
+  canonicalArtworkResolved:canonicalArtwork.length===293&&canonicalArtwork.every(x=>/^https:\/\/hoi4\.paradoxwikis\.com\/Special:Redirect\/file\//.test(x.url)),
+  canonicalArtworkAuthority:PHASE18H_VISUAL_VERIFICATION.canonicalRows===293&&PHASE18H_VISUAL_VERIFICATION.canonicalArtworkFiles===293&&PHASE18H_VISUAL_VERIFICATION.canonicalSourceAppliedToAll===true,
+  visualIdentityGate:visual.passed===true&&visual.verified===293&&visual.pending===0,
+  knownIdentityFailures:identity.identityFailures.length===0,
+  canonicalNameAudit:PHASE18D_COMPARISON.canonicalNameMatchesAfterFix===293
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ const result={phase:'18I',checks,failures,catalog:all.length,uniqueNames:names.size,missingObjectives,duplicates,verifiedArtwork:visual.verified,pendingArtwork:visual.pending,passed:failures.length===0};
+ if(result.passed)console.info('HOI4 WAR ROOM — PHASE 18I ACHIEVEMENT RELEASE GATE PASSED',result);
+ else console.error('HOI4 WAR ROOM — PHASE 18I ACHIEVEMENT RELEASE GATE FAILED',result);
+ return result;
+}
+window.HOI4WarRoomPhase18AchievementReleaseGate=warRoomPhase18AchievementReleaseGate;
+
+
 /* Phase 15G — Final production QA / release gate.
    Extends the established War Room release gate with the complete Phase 15 artwork suite,
    so a future achievement-art regression cannot pass through the older Phase 12F gate. */
