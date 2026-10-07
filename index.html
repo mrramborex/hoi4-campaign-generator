@@ -3015,6 +3015,39 @@ window.HOI4AchievementArtworkRepair18F=Object.freeze({
 });
 
 
+/* Phase 18G — remaining artwork identity sweep.
+   All current Steam-style artwork mappings were compared by underlying 40-character asset hash,
+   ignoring CDN hostname differences. The only cross-achievement hash collisions are the two groups
+   already proven and repaired by 18F. Collision-clean does NOT equal visually verified. */
+function auditAchievementArtwork18G(){
+ const all=flatAchievements(),index=getAchievementIconIndex(),byHash=new Map();
+ for(const a of all){
+  const url=index[normAchievementName(a.name)]||'';
+  const match=String(url).match(/\/([a-f0-9]{40})\.(?:jpg|png)(?:[?#].*)?$/i);
+  if(!match)continue;
+  const hash=match[1].toLowerCase();
+  if(!byHash.has(hash))byHash.set(hash,[]);
+  byHash.get(hash).push(a.name);
+ }
+ const collisions=[...byHash.entries()]
+  .map(([hash,names])=>({hash,names:[...new Set(names)]}))
+  .filter(x=>new Set(x.names.map(normAchievementName)).size>1);
+ const repaired=new Set(Object.keys(PHASE18_IDENTITY_VERIFIED));
+ const pending=all.filter(a=>!repaired.has(normAchievementName(a.name))).map(a=>a.name);
+ const result={
+  phase:'18G',authority:'Saved Paradox Wiki artwork assets',
+  canonicalArtworkReferences:293,warRoomCatalog:all.length,
+  wikiVerifiedAndRepaired:repaired.size,identityPending:pending.length,
+  pending,rawHashCollisions:collisions,
+  unresolvedCollisionGroups:collisions.filter(x=>x.names.some(n=>!repaired.has(normAchievementName(n)))),
+  passed:all.length===293&&pending.length===0
+ };
+ console.info('HOI4 WAR ROOM — PHASE 18G ARTWORK IDENTITY SWEEP',result);
+ return result;
+}
+window.HOI4AchievementArtworkAudit18G=auditAchievementArtwork18G;
+
+
 /* Phase 15G — Final production QA / release gate.
    Extends the established War Room release gate with the complete Phase 15 artwork suite,
    so a future achievement-art regression cannot pass through the older Phase 12F gate. */
