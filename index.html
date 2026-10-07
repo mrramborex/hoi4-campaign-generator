@@ -5650,44 +5650,39 @@ document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=resetGenerator;
 document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.getElementById('noRepeat')?.checked;resetCampaign(false,preserve);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
 // Refresh-safe generator bootstrap.
-// Some browsers can present a transparent canvas after refresh even though generator state
-// initialized correctly. Verify the bitmap itself and keep retrying only while it is blank.
-let wheelBootComplete=false;
-function wheelHasPaint(){
- try{
-  const data=ctx.getImageData(0,0,800,800).data;
-  // Sample the bitmap rather than trusting state/events. A rendered wheel has many opaque pixels.
-  let painted=0;
-  for(let i=3;i<data.length;i+=1600){
-   if(data[i]>8&&++painted>=24)return true;
-  }
-  return false;
- }catch(e){return false}
-}
-function repairWheelIfBlank(){
- if(wheelBootComplete&&wheelHasPaint())return true;
- try{
-  resetGenerator();
+// Chrome can retain a correctly painted canvas bitmap after refresh without presenting that
+// layer until the wheel enters an animation cycle. Country Selection proves that repeated
+// requestAnimationFrame updates wake the layer, so startup performs a tiny visual-neutral
+// animation and returns the wheel to exactly zero rotation.
+let wheelWakeRunning=false;
+function wakeWheelCanvas(){
+ if(wheelWakeRunning||spinning)return;
+ wheelWakeRunning=true;
+ resetGenerator();
+ const base=0,start=performance.now(),duration=360;
+ function wakeFrame(now){
+  const p=Math.min(1,(now-start)/duration);
+  // Sub-pixel-scale motion is enough to invalidate the composited canvas layer.
+  angle=base+Math.sin(p*Math.PI)*0.0008;
   draw();
-  void cv.offsetWidth;
- }catch(e){
-  console.warn('War Room wheel startup retry',e);
+  if(p<1)requestAnimationFrame(wakeFrame);
+  else{
+   angle=base;
+   draw();
+   wheelWakeRunning=false;
+  }
  }
- wheelBootComplete=wheelHasPaint();
- return wheelBootComplete;
+ requestAnimationFrame(wakeFrame);
 }
-function scheduleWheelBootRepair(){
- [0,100,300,750,1500,3000,5000].forEach(delay=>setTimeout(()=>{
-  if(!wheelBootComplete)repairWheelIfBlank();
- },delay));
+function scheduleWheelWake(){
+ requestAnimationFrame(()=>requestAnimationFrame(wakeWheelCanvas));
 }
-if(document.readyState==='loading'){
- document.addEventListener('DOMContentLoaded',scheduleWheelBootRepair,{once:true});
-}else scheduleWheelBootRepair();
-window.addEventListener('load',scheduleWheelBootRepair,{once:true});
-window.addEventListener('pageshow',()=>{wheelBootComplete=false;scheduleWheelBootRepair()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!wheelHasPaint()){wheelBootComplete=false;scheduleWheelBootRepair()}});
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(!wheelHasPaint()){wheelBootComplete=false;scheduleWheelBootRepair()}});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleWheelWake,{once:true});
+else scheduleWheelWake();
+window.addEventListener('load',scheduleWheelWake,{once:true});
+window.addEventListener('pageshow',scheduleWheelWake);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)scheduleWheelWake()});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scheduleWheelWake);
 warRoomRuntimeGuard();
 warRoomReleaseGate();
 </script><!-- Phase 14A — Steam profile-link integration architecture -->
