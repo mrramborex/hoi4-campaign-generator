@@ -3103,6 +3103,33 @@ body:before,body:after{display:none!important}
  border-color:#8b4b40!important;
  background:rgba(139,64,51,.07)!important;
 }
+
+/* Post-18D polish — warm concept-style Support correspondence */
+.support-overlay{background:rgba(4,6,4,.78)!important;backdrop-filter:blur(5px)!important}
+.support-dialog{width:min(570px,100%)!important;padding:0!important;overflow:visible!important;border:1px solid #6c5635!important;border-radius:6px 9px 8px 5px!important;background:linear-gradient(90deg,#a88b56 0 22px,#c5a76d 23px,#d2b77d 100%)!important;color:#34291c!important;box-shadow:0 0 0 5px #12130f,0 0 0 6px #7b6946,0 28px 80px #000e,inset 0 0 35px #75501f28!important}
+.support-dialog:before{inset:9px!important;border:1px solid rgba(91,65,33,.28)!important;border-radius:3px 6px 5px 3px!important}
+.support-folder-tab{position:absolute;left:28px;top:-27px;padding:8px 18px 7px;border:1px solid #6c5635;border-bottom:0;border-radius:7px 10px 0 0;background:#c5a76d;color:#514127;font:800 8px var(--typewriter);letter-spacing:1.5px;box-shadow:0 -4px 10px #0004}
+.support-letter{position:relative;z-index:1;margin:18px 18px 17px 30px;padding:29px 32px 24px;border:1px solid #8b7048;border-radius:2px 5px 4px 2px;background:linear-gradient(105deg,#ead9aa,#dfc68f 72%,#d8bb7f);box-shadow:3px 5px 12px #60441d40,inset 0 0 28px #8a64251c}
+.support-letter:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.38;background:repeating-linear-gradient(0deg,transparent 0 4px,rgba(96,67,29,.045) 5px),radial-gradient(circle at 88% 12%,rgba(119,78,28,.13),transparent 22%)}
+.support-letter>*{position:relative;z-index:1}
+.support-close{top:12px!important;right:12px!important;border-color:#725c38!important;border-radius:50%!important;background:#ead9aa!important;color:#4a3924!important;box-shadow:0 2px 5px #0004!important}
+.support-close:hover{background:#f1e2b8!important;border-color:#594526!important;color:#21190f!important}
+.support-kicker{margin-bottom:6px!important;color:#72593a!important;font:800 9px var(--typewriter)!important;letter-spacing:1.8px!important}
+.support-dialog h2{margin:0 42px 12px 0!important;color:#2d2519!important;font-family:var(--display),Georgia,serif!important;font-size:32px!important;letter-spacing:1.4px!important;text-shadow:none!important}
+.support-rule{height:2px!important;margin:0 0 18px!important;background:linear-gradient(90deg,#745b37 0 58%,transparent)!important}
+.support-dialog h3{margin:0 0 10px!important;color:#3b2e1d!important;font-size:18px!important}
+.support-dialog p{color:#493a27!important;font-size:14px!important;line-height:1.62!important}
+.support-dialog p strong{color:#2d2418}
+.support-thanks{margin:17px 0;padding:12px 14px;border-left:3px solid #7b633c;background:rgba(255,244,207,.34);color:#453621}
+.support-thanks b,.support-thanks span{display:block}.support-thanks b{font-size:13px}.support-thanks span{margin-top:4px;font-size:12px;line-height:1.45;color:#645036}
+.support-drink{display:grid!important;grid-template-columns:40px 1fr!important;grid-template-rows:auto auto!important;align-items:center!important;margin:19px 0 10px!important;padding:11px 14px!important;border:1px dashed #8a6b3d!important;background:rgba(117,83,37,.08)!important;text-align:left!important;color:#4a3820!important;letter-spacing:.8px!important}
+.support-drink>span{grid-row:1/3;font-size:26px}.support-drink b{font:900 11px var(--typewriter);letter-spacing:1.2px}.support-drink small{margin-top:3px;color:#735b3a;font:700 9px var(--typewriter);letter-spacing:.5px}
+.support-tip{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;min-height:52px!important;padding:12px 16px!important;border:1px solid #4d5330!important;border-radius:3px!important;background:linear-gradient(#667044,#4d5734)!important;color:#fff2cb!important;box-shadow:inset 0 1px #ffffff38,0 4px 8px #5a401f55!important}
+.support-tip:hover{background:linear-gradient(#737e4d,#59643a)!important;border-color:#3f4727!important;transform:translateY(-1px)}
+.support-tip span{font:900 13px var(--typewriter);letter-spacing:1.5px}.support-tip small{font:800 8px var(--typewriter);letter-spacing:1px;opacity:.85}
+.support-no-pressure{margin:13px 0 17px!important;color:#5b472d!important;font-family:Georgia,serif!important;font-size:13px!important;font-style:italic!important}
+.support-disclaimer{margin-bottom:0!important;padding-top:12px!important;border-top:1px solid #9a7c50!important;color:#756044!important;font-size:9px!important;line-height:1.45!important}
+@media(max-width:520px){.support-dialog{width:100%!important;margin:auto 0!important;max-height:calc(100dvh - 30px)!important;overflow:auto!important}.support-folder-tab{left:18px;top:-23px;padding:6px 12px}.support-letter{margin:15px 10px 10px 18px;padding:25px 18px 20px}.support-dialog h2{font-size:25px!important}.support-thanks{padding:10px 11px}.support-tip{min-height:50px!important}}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -3118,15 +3145,19 @@ body:before,body:after{display:none!important}
 <div class="support-overlay" id="supportOverlay" aria-hidden="true">
  <div class="support-dialog" id="supportDialog" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
   <button class="support-close" id="supportClose" type="button" aria-label="Close support window">×</button>
-  <span class="support-kicker">GENERAL STAFF • VOLUNTARY SUPPORT</span>
-  <h2 id="supportTitle">SUPPORT THE WAR ROOM</h2>
-  <div class="support-rule"></div>
-  <h3>Enjoying the campaign generator?</h3>
-  <p>The War Room is free and will stay free. If it's helped start a few campaigns—or caused a few questionable invasions—you can leave a voluntary tip to help keep the project going.</p>
-  <div class="support-drink">☕ BUY THE COMMANDER A DRINK</div>
-  <button class="support-tip" id="supportTip" type="button">LEAVE A TIP</button>
-  <p class="support-no-pressure">No pressure. Keep conquering.</p>
-  <p class="support-disclaimer">The HOI4 War Room is an unofficial fan-made project and is not affiliated with or endorsed by Paradox Interactive.</p>
+  <div class="support-folder-tab">WAR ROOM • MORALE FUND</div>
+  <div class="support-letter">
+   <span class="support-kicker">A NOTE FROM THE COMMANDER</span>
+   <h2 id="supportTitle">SUPPORT THE WAR ROOM</h2>
+   <div class="support-rule"></div>
+   <h3>Enjoying your time in the War Room?</h3>
+   <p>This project is built for fellow Hearts of Iron players, and <strong>the War Room is free and will stay free.</strong> If it has helped start a few memorable campaigns—or caused a few questionable invasions—you can leave a voluntary tip to help keep the lights on and the operations table running.</p>
+   <div class="support-thanks"><b>Every bit of support is appreciated.</b><span>But your campaigns, feedback, and time here already mean plenty.</span></div>
+   <div class="support-drink"><span aria-hidden="true">☕</span><b>BUY THE COMMANDER A DRINK</b><small>Voluntary support through Ko-fi</small></div>
+   <button class="support-tip" id="supportTip" type="button"><span>LEAVE A TIP</span><small>OPEN KO-FI ↗</small></button>
+   <p class="support-no-pressure">No pressure. Keep conquering, Commander.</p>
+   <p class="support-disclaimer">The HOI4 War Room is an unofficial fan-made project and is not affiliated with or endorsed by Paradox Interactive.</p>
+  </div>
  </div>
 </div>
 
@@ -3305,7 +3336,17 @@ function paintFlag(country,i,arc){
    if(country==='Australia'){star(x+w*.22,0,9,'#ffffff');star(x+w*.68,0,8,'#ffffff');star(x+w*.84,4,7,'#ffffff');}
    else {star(x+w*.62,-3,8,'#ffffff');star(x+w*.62,-3,5,'#d22630');star(x+w*.82,3,8,'#ffffff');star(x+w*.82,3,5,'#d22630');}
  } else if(country==='United States'){
-   const sw=w/13; for(let k=0;k<13;k++) rect(x+k*sw,y,sw+1,h,k%2===0?'#b22234':'#ffffff'); rect(x,y,w*.43,h*.52,'#3c3b6e');
+   // Proper U.S. flag orientation in the radial flag plate: stripes run horizontally,
+   // with the blue canton at the upper hoist. A compact 6x5 star field stays legible on the wheel.
+   const sh=h/13;
+   for(let k=0;k<13;k++)rect(x,y+k*sh,w,sh+1,k%2===0?'#b22234':'#ffffff');
+   const cw=w*.40,ch=sh*7;
+   rect(x,y,cw,ch,'#3c3b6e');
+   ctx.fillStyle='#ffffff';
+   const cols=6,rows=5,sx=cw/(cols+1),sy=ch/(rows+1);
+   for(let row=1;row<=rows;row++)for(let col=1;col<=cols;col++){
+    ctx.beginPath();ctx.arc(x+col*sx,y+row*sy,Math.max(1.5,Math.min(3.2,w*.009)),0,Math.PI*2);ctx.fill();
+   }
  } else if(country==='Soviet Union'){
    rect(x,y,w,h,'#cc0000'); rect(x,y,w*.24,h*.24,'#ffd700');
  } else if(country==='Japan'){
