@@ -5593,7 +5593,9 @@ const MANUAL_COMPLETED_KEY='hoi4ManualCompletedAchievements';
 const STEAM_PROFILE_KEY='hoi4SteamProfileIdentity';
 // One-time migration: progress created before Steam/manual ownership was separated is manual progress.
 if(localStorage.getItem(MANUAL_COMPLETED_KEY)===null&&localStorage.getItem(STEAM_COMPLETED_KEY)===null&&localStorage.getItem(COMPLETED_KEY)!==null){try{localStorage.setItem(MANUAL_COMPLETED_KEY,JSON.stringify(normalizeCompleted(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]'))))}catch(e){}}
-let steamProfileSyncedThisSession=false;
+let steamProfileSyncedThisSession=!!localStorage.getItem(STEAM_PROFILE_KEY);
+// Rebuild the legacy combined key on load so generator/archive exclusion always reflects both sources.
+rebuildCombinedCompletion();
 function getCompletionSet(key){try{return new Set(normalizeCompleted(JSON.parse(localStorage.getItem(key)||'[]')))}catch(e){return new Set()}}
 function setCompletionSet(key,set){localStorage.setItem(key,JSON.stringify(normalizeCompleted([...set])))}
 function getManualCompleted(){return getCompletionSet(MANUAL_COMPLETED_KEY)}
@@ -5606,6 +5608,7 @@ function updateSteamHomeSummary(){
  const all=flatAchievements(),done=getSteamCompleted(),completed=steamProfileSyncedThisSession?all.filter(a=>done.has(a.name)).length:0,open=steamProfileSyncedThisSession?Math.max(0,all.length-completed):all.length;
  const ce=document.getElementById('steamHomeCompleted'),oe=document.getElementById('steamHomeOpen'),pe=document.getElementById('steamHomePct');
  if(ce)ce.textContent=completed;if(oe)oe.textContent=open;if(pe)pe.textContent=(all.length?Math.round(completed/all.length*100):0)+'%';
+ const state=document.getElementById('steamSyncState');if(state&&steamProfileSyncedThisSession&&!state.classList.contains('sync-working')&&!state.classList.contains('sync-error')){state.className='steam-sync-state sync-ok';state.textContent='STEAM SYNCED'}
 }
 let steamSyncInFlight=false;
 async function syncSteamAchievements(){
@@ -5622,11 +5625,11 @@ async function syncSteamAchievements(){
    if(mapped.catalogTotal!==STEAM_ACHIEVEMENT_TARGET)throw Object.assign(new Error('catalog_mismatch'),{code:'catalog_mismatch'});
    // A Steam sync represents the currently entered Steam account, not a union of every
    // account ever tested in this browser. Replace the Steam-derived completion snapshot.
-   const previousSteamId=localStorage.getItem(STEAM_PROFILE_KEY)||'',beforeSteam=previousSteamId===mapped.steamid?getSteamCompleted():new Set(),normalized=new Set(normalizeCompleted(mapped.matched.map(a=>a.name)));
+   const previousSteamId=localStorage.getItem(STEAM_PROFILE_KEY)||'',previousSteam=getSteamCompleted(),beforeSteam=previousSteamId===mapped.steamid?previousSteam:new Set(),normalized=new Set(normalizeCompleted(mapped.matched.map(a=>a.name)));
    setCompletionSet(STEAM_COMPLETED_KEY,normalized);localStorage.setItem(STEAM_PROFILE_KEY,mapped.steamid);
    const combined=rebuildCombinedCompletion();steamProfileSyncedThisSession=true;
    const added=[...normalized].filter(name=>!beforeSteam.has(name)).length;
-   const removed=[...beforeSteam].filter(name=>!normalized.has(name)).length;
+   const removed=[...(previousSteamId===mapped.steamid?beforeSteam:previousSteam)].filter(name=>!normalized.has(name)).length;
    // Update summary counters without rebuilding all 293 archive cards during network completion.
    const all=flatAchievements(),completed=all.filter(a=>combined.has(a.name)).length;
    document.getElementById('completedCount').textContent=completed;
