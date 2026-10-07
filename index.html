@@ -3246,8 +3246,9 @@ body.privacy-modal-open{overflow:hidden}
 <header class="war-header phase17b-benchmark">
 <div class="war-brand war-brand-unified" aria-label="Hearts of Iron IV War Room"><div class="war-brand-mark"><b>HEARTS OF IRON IV</b><strong>WAR ROOM</strong><small>CAMPAIGN OPERATIONS CENTER</small></div></div>
 <div class="war-title-wrap war-title-spacer" aria-hidden="true"></div>
-<div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navlabel"><b>Operations</b><small>Campaign Generator</small></span></button><button class="navbtn" id="navAchievements"><span class="navlabel"><b>Achievement Archive</b><small>Service Records</small></span></button><button class="navbtn" id="navCampaigns"><span class="navlabel"><b>Campaign Records</b><small>Filed Operations</small></span></button><button class="navbtn" id="navOrders"><span class="navlabel"><b>Standing Orders</b><small>Rules &amp; Doctrine</small></span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navlabel"><b>Support the War Room</b><small>Back the Project</small></span></button></div>
+<div class="topnav" aria-label="War Room sections"><button class="navbtn active" id="navGenerator"><span class="navlabel"><b>Operations</b><small>Campaign Generator</small></span></button><button class="navbtn" id="navAchievements"><span class="navlabel"><b>Achievement Archive</b><small>Service Records</small></span></button><button class="navbtn" id="navCampaigns"><span class="navlabel"><b>Campaign Records</b><small>Filed Operations</small></span></button><button class="navbtn support-navbtn" id="navSupport" type="button"><span class="navlabel"><b>Support the War Room</b><small>Back the Project</small></span></button></div>
 </header>
+<!-- Post-V1.0 product decision: Standing Orders page removed; Special Orders remain optional generator modifiers. -->
 <!-- Phase 13G — text and terminology consistency audit -->
 <!-- Phase 13I — Release Candidate: Phase 13 audit gates passed -->
 <!-- Phase 14I — Release Candidate 2: Steam integration QA gates passed -->
@@ -3340,61 +3341,6 @@ body.privacy-modal-open{overflow:hidden}
 <div class="campaign-index-label"><span>OPERATION FILES</span><span>ASSIGNMENT • DECORATION • CAMPAIGN STATUS</span></div>
 <div class="campaign-history-grid" id="campaignHistoryGrid"></div>
 </div></section>
-<section id="standingOrders" aria-labelledby="standingOrdersTitle">
- <div class="orders-manual orders-manual-v2">
-  <div class="orders-binding" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-  <header class="orders-head orders-head-paper">
-   <div class="orders-title-block">
-    <span class="orders-kicker">WAR ROOM • GENERAL STAFF DIRECTIVE</span>
-    <h2 id="standingOrdersTitle">Standing Orders</h2>
-    <p>Campaign Rules &amp; Operational Doctrine</p>
-   </div>
-   <div class="orders-stamp">FIELD<br>MANUAL<small>WR–17G</small></div>
-  </header>
-  <div class="orders-rule"></div>
-  <div class="orders-purpose">
-   <span>DOCUMENT PURPOSE</span>
-   <h3>How a War Room Campaign Works</h3>
-   <p>Standing Orders are the permanent rules behind every War Room assignment. They explain what the Generator gives you, what counts as completing an operation, and how that campaign is recorded. These rules are guidance—not restrictions on how you enjoy Hearts of Iron IV.</p>
-  </div>
-  <div class="orders-section-title"><span>SECTION I</span><div><b>STANDING ORDERS</b><small>STANDARD CAMPAIGN DOCTRINE</small></div></div>
-  <div class="orders-grid">
-   <article><b>01</b><div><span>COUNTRY ASSIGNMENT</span><h3>Accept Your Command</h3><p>The nation selected by the War Room is your assigned country for the operation.</p></div></article>
-   <article><b>02</b><div><span>POLITICAL DIRECTIVE</span><h3>Follow the Assigned Route</h3><p>Pursue the generated political path far enough to establish its intended government or alignment. Do not deliberately switch to an unrelated route simply to bypass the assignment.</p></div></article>
-   <article><b>03</b><div><span>PRIMARY OBJECTIVE</span><h3>Complete the Assignment</h3><p>Your assigned achievement is the campaign's primary objective. When no applicable achievement exists, standing orders become: <strong>Conquer the world as this country.</strong></p></div></article>
-   <article><b>04</b><div><span>VICTORY CONDITION</span><h3>Finish the Operation</h3><p>Completing the assigned achievement or fallback objective qualifies the operation as completed.</p></div></article>
-   <article><b>05</b><div><span>REROLL PROTOCOL</span><h3>Commander Discretion</h3><p>Rerolls are permitted. The War Room exists to create interesting campaigns, not to police how you play them.</p></div></article>
-   <article><b>06</b><div><span>CAMPAIGN RECORDS</span><h3>File the Operation</h3><p>Once Start Campaign is pressed, the assignment enters Campaign History and may be recorded as In Progress, Completed, or Abandoned.</p></div></article>
-  </div>
-  <section class="special-orders-board">
-   <div class="orders-section-title special-title"><span>SECTION II</span><div><b>SPECIAL ORDERS</b><small>OPTIONAL CAMPAIGN MODIFIERS • REFERENCE</small></div></div>
-   <p class="special-orders-intro">Special Orders are optional restrictions that can be added to a generated operation for extra challenge. This manual defines them; <strong>Operation Parameters</strong> will control whether the Generator assigns them.</p>
-   <div class="special-orders-grid">
-    <article><b>HISTORICAL COMMAND</b><p>Run the operation with Historical AI Focuses enabled.</p></article>
-    <article><b>NO RETREAT</b><p>Do not manually delete trapped divisions simply to avoid their destruction.</p></article>
-    <article><b>LONE WOLF</b><p>Do not join or create a faction unless faction membership is required by the primary objective.</p></article>
-    <article><b>LIMITED CONSCRIPTION</b><p>Do not raise your conscription law above Extensive Conscription.</p></article>
-    <article><b>NO COLLABORATION</b><p>Complete the operation without establishing collaboration governments.</p></article>
-    <article><b>GENERAL'S WAR</b><p>Launch offensive operations with army battle plans. Manual movement is reserved for defense, encirclement cleanup, and emergencies.</p></article>
-    <article><b>DOMESTIC ARSENAL</b><p>Do not use licensed foreign equipment production. Your war machine must rely on your own designs and production lines.</p></article>
-    <article><b>SELF-SUFFICIENT</b><p>Do not request lend-lease from another country. Fight with what your own industry and existing support can provide.</p></article>
-    <article><b>OPEN GROUND</b><p>Do not construct land or coastal forts during the operation unless the primary objective explicitly requires them.</p></article>
-    <article><b>CONVENTIONAL WARFARE</b><p>Do not use nuclear weapons during the operation unless the primary objective explicitly requires a nuclear strike.</p></article>
-    <article><b>BOOTS ON THE GROUND</b><p>Do not launch paradrop operations unless airborne forces are explicitly required by the primary objective.</p></article>
-   </div>
-   <div class="hardcore-orders-reference"><div class="hardcore-reference-head"><span>HARDCORE ORDERS</span><strong>HIGH RISK • OPTIONAL</strong></div><p>Hardcore Orders impose substantially harsher restrictions. They are issued only when Hardcore mode is selected in Operation Parameters.</p><div class="special-orders-grid hardcore-reference-grid">
-    <article><b>NO SECOND CHANCES</b><p>If your nation capitulates, the operation is abandoned. Liberation or government-in-exile recovery does not save the campaign.</p></article>
-    <article><b>NATIONAL ARSENAL</b><p>No requested lend-lease and no licensed foreign equipment production. Your military must be supplied by your own production.</p></article>
-    <article><b>NO PUPPET MASTERS</b><p>Do not create or release puppets during the operation unless the primary objective requires a subject nation.</p></article>
-    <article><b>AGAINST THE CLOCK</b><p>Complete the primary objective before January 1, 1945.</p></article>
-    <article><b>BLOOD &amp; STEEL</b><p>Do not request expeditionary forces. Your own armed forces must carry the operation.</p></article>
-    <article><b>OLD SCHOOL WARFARE</b><p>No nuclear strikes, paradrops, collaboration governments, or licensed foreign equipment production.</p></article>
-   </div></div>
-   <div class="special-orders-status"><span>IMPLEMENTATION STATUS</span><strong>ACTIVE • CONFIGURE IN OPERATION PARAMETERS</strong></div>
-  </section>
-  <footer class="orders-footer"><span>GENERAL STAFF • HOI4 WAR ROOM</span><strong>PLAY THE ASSIGNMENT. WRITE THE HISTORY.</strong></footer>
- </div>
-</section>
 <div class="campaign-file-modal" id="campaignFileModal" aria-hidden="true" onclick="if(event.target===this)closeCampaignFile()"><article class="campaign-file-document" role="dialog" aria-modal="true" aria-labelledby="campaignFileTitle"><button class="campaign-file-close" type="button" aria-label="Close campaign file" onclick="closeCampaignFile()">×</button><div class="campaign-file-tab">OPERATION FILE</div><div class="campaign-file-classification">GENERAL STAFF • CAMPAIGN RECORD</div><div class="campaign-file-heading"><div><span id="campaignFileNumber">#000</span><h2 id="campaignFileTitle">Campaign File</h2><p id="campaignFileRoute"></p></div><img id="campaignFileArt" alt=""></div><div class="campaign-file-rule"></div><section class="campaign-file-section"><span>ACHIEVEMENT ASSIGNMENT</span><h3 id="campaignFileAchievement"></h3></section><section class="campaign-file-section campaign-file-objective"><span>OFFICIAL ACHIEVEMENT REQUIREMENT</span><p id="campaignFileObjective"></p></section><section class="campaign-file-section campaign-file-orders"><span>HOW TO COMPLETE THE ASSIGNMENT</span><p id="campaignFileHow"></p></section><section class="campaign-file-section campaign-file-special" id="campaignFileSpecial" hidden><span>SPECIAL ORDER • SECONDARY MISSION</span><h3 id="campaignFileSpecialName"></h3><p id="campaignFileSpecialObjective"></p></section><footer><span id="campaignFileDate"></span><strong id="campaignFileStatus"></strong></footer></article></div>
 <script>
 const C={f:'#4b463d',c:'#8a332f',d:'#315f78',u:'#8a7345'};
@@ -5641,10 +5587,10 @@ function randomFieldIntelligence(){return FIELD_INTELLIGENCE[Math.floor(Math.ran
 
 function flashWarRoomResult(){const el=document.getElementById('result');if(!el)return;el.classList.remove('result-flash');void el.offsetWidth;el.classList.add('result-flash')}
 function spin(){let a=items();if(spinning||!a.length)return;if(stage.value==='country'){res.textContent=randomFieldIntelligence();flashWarRoomResult()}if((stage.value==='ideology'||stage.value==='path')&&!selected){res.innerHTML='Spin a <strong>country</strong> first.';stage.value='country';draw();return}spinning=true;btn.disabled=true;let winner=Math.floor(Math.random()*a.length),n=a.length,arc=Math.PI*2/n;let target=-((winner+.5)*arc)-Math.PI/2;let start=angle,extra=Math.PI*2*(6+Math.floor(Math.random()*4));let end=target-extra;let dur=3800,t0=performance.now();function anim(t){let p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,4);angle=start+(end-start)*e;draw();if(p<1)requestAnimationFrame(anim);else{angle=target;draw();spinning=false;btn.disabled=false;let w=a[winner];if(stage.value==='country'){selected=w;hist.unshift(w);if(document.getElementById('noRepeat').checked)remaining=remaining.filter(x=>x!==w);stage.value='ideology';btn.textContent='SPIN IDEOLOGY';draw()}else if(stage.value==='ideology'){selectedIdeology=w;const routeOptions=(paths[selected]&&paths[selected][w])||[names[w]+' focus-tree route'];hist.unshift(`${selected} — ${names[w]}`);stage.value='path';if(routeOptions.length===1){const onlyPath=routeOptions[0];hist.unshift(`${selected} — ${names[w]} — ${onlyPath}`);btn.textContent='POLITICAL PATH AUTO-SELECTED';draw();showMission(onlyPath)}else{btn.textContent='SPIN POLITICAL PATH';draw()}}else{hist.unshift(`${selected} — ${names[selectedIdeology]} — ${w}`);showMission(w)}flashWarRoomResult();document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('')}}requestAnimationFrame(anim)}
-function showSection(which){document.getElementById('generator').style.display=which==='generator'?'grid':'none';document.getElementById('achievementCenter').style.display=which==='achievements'?'block':'none';document.getElementById('campaignHistory').style.display=which==='campaigns'?'block':'none';document.getElementById('standingOrders').style.display=which==='orders'?'block':'none';const navMap={generator:'navGenerator',achievements:'navAchievements',campaigns:'navCampaigns',orders:'navOrders'};Object.entries(navMap).forEach(([section,id])=>{const btn=document.getElementById(id),active=section===which;btn.classList.toggle('active',active);btn.setAttribute('aria-current',active?'page':'false')});window.scrollTo({top:0,behavior:'auto'})}
+function showSection(which){document.getElementById('generator').style.display=which==='generator'?'grid':'none';document.getElementById('achievementCenter').style.display=which==='achievements'?'block':'none';document.getElementById('campaignHistory').style.display=which==='campaigns'?'block':'none';const navMap={generator:'navGenerator',achievements:'navAchievements',campaigns:'navCampaigns'};Object.entries(navMap).forEach(([section,id])=>{const btn=document.getElementById(id),active=section===which;if(btn){btn.classList.toggle('active',active);btn.setAttribute('aria-current',active?'page':'false')}});window.scrollTo({top:0,behavior:'auto'})}
 function warRoomPhase18KResponsiveAudit(){
  const viewport=document.querySelector('meta[name="viewport"]'),nav=document.querySelector('.topnav'),wheel=document.getElementById('wheel');
- const checks={viewportConfigured:!!viewport&&/width=device-width/.test(viewport.content),horizontalContainment:getComputedStyle(document.documentElement).overflowX==='hidden'||getComputedStyle(document.body).overflowX==='hidden',responsiveWheel:!!wheel&&getComputedStyle(wheel).maxWidth==='100%',fiveNavButtons:!!nav&&nav.querySelectorAll('.navbtn').length===5,supportDynamicViewport:/100dvh/.test([...document.styleSheets].map(s=>{try{return [...s.cssRules].map(r=>r.cssText).join(' ')}catch(e){return ''}}).join(' ')),touchTargets:['navGenerator','navAchievements','navCampaigns','navOrders','navSupport'].every(id=>!!document.getElementById(id))};
+ const checks={viewportConfigured:!!viewport&&/width=device-width/.test(viewport.content),horizontalContainment:getComputedStyle(document.documentElement).overflowX==='hidden'||getComputedStyle(document.body).overflowX==='hidden',responsiveWheel:!!wheel&&getComputedStyle(wheel).maxWidth==='100%',fourNavButtons:!!nav&&nav.querySelectorAll('.navbtn').length===4,supportDynamicViewport:/100dvh/.test([...document.styleSheets].map(s=>{try{return [...s.cssRules].map(r=>r.cssText).join(' ')}catch(e){return ''}}).join(' ')),touchTargets:['navGenerator','navAchievements','navCampaigns','navSupport'].every(id=>!!document.getElementById(id))};
  const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);return {phase:'18K',width:innerWidth,height:innerHeight,checks,failures,passed:failures.length===0};
 }
 window.HOI4WarRoomPhase18KResponsiveAudit=warRoomPhase18KResponsiveAudit;
@@ -5655,16 +5601,16 @@ function warRoomPhase18JRenderingAudit(){
 }
 window.HOI4WarRoomPhase18JRenderingAudit=warRoomPhase18JRenderingAudit;
 function warRoomPhase18ICrossPageAudit(){
- const ids=['generator','achievementCenter','campaignHistory','standingOrders','navGenerator','navAchievements','navCampaigns','navOrders','navSupport','supportOverlay','supportDialog'];
+ const ids=['generator','achievementCenter','campaignHistory','navGenerator','navAchievements','navCampaigns','navSupport','supportOverlay','supportDialog'];
  const duplicateIds=[...document.querySelectorAll('[id]')].map(x=>x.id).filter((id,i,a)=>a.indexOf(id)!==i);
- const checks={allPrimarySurfacesPresent:ids.every(id=>!!document.getElementById(id)),noDuplicateIds:duplicateIds.length===0,fiveHeaderControls:document.querySelectorAll('.topnav .navbtn').length===5,supportModalSemantics:document.getElementById('supportDialog')?.getAttribute('role')==='dialog'&&document.getElementById('supportDialog')?.getAttribute('aria-modal')==='true',primaryNavButtons:['navGenerator','navAchievements','navCampaigns','navOrders'].every(id=>document.getElementById(id)?.tagName==='BUTTON')};
+ const checks={allPrimarySurfacesPresent:ids.every(id=>!!document.getElementById(id)),noDuplicateIds:duplicateIds.length===0,fourHeaderControls:document.querySelectorAll('.topnav .navbtn').length===4,supportModalSemantics:document.getElementById('supportDialog')?.getAttribute('role')==='dialog'&&document.getElementById('supportDialog')?.getAttribute('aria-modal')==='true',primaryNavButtons:['navGenerator','navAchievements','navCampaigns'].every(id=>document.getElementById(id)?.tagName==='BUTTON')};
  const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);return {phase:'18I',checks,duplicateIds,failures,passed:failures.length===0};
 }
 window.HOI4WarRoomPhase18ICrossPageAudit=warRoomPhase18ICrossPageAudit;
 document.getElementById('navGenerator').onclick=()=>showSection('generator');
 document.getElementById('navAchievements').onclick=()=>{showSection('achievements');renderAchievements()};
 document.getElementById('navCampaigns').onclick=()=>{showSection('campaigns');renderCampaignHistory()};
-document.getElementById('navOrders').onclick=()=>showSection('orders');
+
 document.querySelectorAll('[data-special-mode]').forEach(btn=>btn.addEventListener('click',()=>{if(campaignLocked)return;const input=document.getElementById('specialOrdersMode'),mode=btn.dataset.specialMode;input.value=mode;document.querySelectorAll('[data-special-mode]').forEach(x=>x.classList.toggle('active',x===btn));const risk=document.getElementById('specialOrdersRisk'),help=document.getElementById('specialOrdersHelp');risk.textContent=mode==='hardcore'?'HIGH RISK':mode==='standard'?'OPTIONAL CHALLENGE':'STANDARD CAMPAIGN';risk.classList.toggle('hardcore',mode==='hardcore');help.textContent=mode==='hardcore'?'High Command will attach one compatible Hardcore Order to the campaign.':mode==='standard'?'High Command will attach one compatible Special Order to the campaign.':'No Special Order will be attached to the campaign.';if(currentMission&&currentPath){currentSpecialOrder=pickSpecialOrder(currentMission);renderCurrentSpecialOrder()}}));
 initAchievementCenter();renderCampaignLog();renderCampaignHistory();
 document.getElementById('clearFullHistory').onclick=clearCampaignHistory;
