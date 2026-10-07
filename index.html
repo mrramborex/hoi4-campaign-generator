@@ -5589,6 +5589,8 @@ const STEAM_SYNC_ENDPOINT='https://hoi4-campaign-generator.mrramborex.workers.de
 const steamSyncButton=document.getElementById('steamSyncButton');
 const STEAM_COMPLETED_KEY='hoi4SteamCompletedAchievements';
 const MANUAL_COMPLETED_KEY='hoi4ManualCompletedAchievements';
+// One-time migration: progress created before Steam/manual ownership was separated is manual progress.
+if(localStorage.getItem(MANUAL_COMPLETED_KEY)===null&&localStorage.getItem(STEAM_COMPLETED_KEY)===null&&localStorage.getItem(COMPLETED_KEY)!==null){try{localStorage.setItem(MANUAL_COMPLETED_KEY,JSON.stringify(normalizeCompleted(JSON.parse(localStorage.getItem(COMPLETED_KEY)||'[]'))))}catch(e){}}
 let steamProfileSyncedThisSession=false;
 function getCompletionSet(key){try{return new Set(normalizeCompleted(JSON.parse(localStorage.getItem(key)||'[]')))}catch(e){return new Set()}}
 function setCompletionSet(key,set){localStorage.setItem(key,JSON.stringify(normalizeCompleted([...set])))}
