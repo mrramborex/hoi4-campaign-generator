@@ -2970,6 +2970,66 @@ header.war-header .topnav .navbtn:active{filter:brightness(.94)}
   transform:none!important;
  }
 }
+
+
+/* Phase 17H.10 — final visual QA guardrails */
+
+/* Prevent long operational copy from forcing horizontal overflow. */
+.command-panel,.generator-console,.achievement-archive,.campaign-archive,.orders-manual-v2,
+.command-field,.command-check,.campaign-history-card,.ach,.campaign-file-document{
+ min-width:0!important;
+}
+.command-panel p,.command-panel label,.campaign-history-card,.ach,.orders-manual-v2 p,
+.campaign-file-document p,.support-dialog p{
+ overflow-wrap:break-word;
+}
+
+/* Final ink/contrast floor for approved manila document surfaces. */
+.command-panel .command-field label,
+.command-panel .command-check label,
+.command-panel .legend,
+.command-panel .history,
+.command-panel .campaign-log,
+.orders-manual-v2 p,
+.orders-manual-v2 small{
+ opacity:1!important;
+ text-shadow:none!important;
+}
+.command-panel .command-field label,
+.command-panel .command-check label{color:#43351f!important;font-weight:700!important}
+.command-panel .legend p{color:#3d3222!important;font-weight:600!important}
+.orders-manual-v2 .orders-grid p,
+.orders-manual-v2 .special-orders-grid p{color:#493d2b!important}
+
+/* Keep interactive controls visibly usable even where legacy rules are denser. */
+button,select,input{max-width:100%}
+button:focus-visible,select:focus-visible,input:focus-visible{
+ outline:2px solid var(--control-focus)!important;
+ outline-offset:2px!important;
+}
+.navbtn,.spin,.command-reset,.ach-complete,.outcome button,.campaign-delete,
+.special-order-modes button,.support-tip,.support-close,.campaign-file-close{
+ touch-action:manipulation;
+}
+
+/* Dossier/support overlays must remain contained at short viewport heights. */
+.campaign-file-modal,.support-overlay{overscroll-behavior:contain}
+.campaign-file-document,.support-dialog{-webkit-overflow-scrolling:touch}
+
+/* Final phone containment: no page-level sideways drift after the 3+2 header breakpoint. */
+@media(max-width:620px){
+ html,body{max-width:100%;overflow-x:hidden}
+ .war-header,.topnav,#generator,#achievementCenter,#campaignHistory,#standingOrders{max-width:100%!important}
+ header.war-header .topnav .navlabel b{hyphens:none!important}
+ .command-panel .command-field select{min-height:42px!important}
+ .command-panel .command-reset{min-height:44px!important}
+ .campaign-log-head{align-items:center!important}
+}
+@media(max-width:380px){
+ .support-dialog h2{font-size:20px!important}
+ .orders-purpose p,.special-orders-intro,.special-orders-grid p{font-size:12px!important}
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
