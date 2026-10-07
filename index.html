@@ -3202,6 +3202,27 @@ body:before,body:after{display:none!important}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Pre-Phase 19 — universal creator footer & privacy notice */
+.war-room-footer{max-width:1180px;margin:30px auto 18px;padding:14px 18px;border-top:1px solid rgba(182,155,88,.34);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;color:#a9a38e;font-family:var(--document);font-size:12px;letter-spacing:.35px}
+.war-room-footer strong{color:#d8cfad;font-family:var(--display);font-size:11px;letter-spacing:.9px;text-transform:uppercase}
+.footer-separator{color:#655f48}
+.privacy-open{appearance:none;border:0;background:none;padding:4px 2px;color:#c7b675;font:700 11px var(--display);letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border-bottom:1px solid rgba(199,182,117,.42)}
+.privacy-open:hover{color:#f0d37b;border-bottom-color:#f0d37b}
+.privacy-overlay{position:fixed;inset:0;z-index:10020;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(7,8,6,.84);backdrop-filter:blur(3px)}
+.privacy-overlay.open{display:flex}
+.privacy-dialog{position:relative;width:min(760px,100%);max-height:min(760px,calc(100dvh - 36px));overflow:auto;padding:34px 38px 30px;background:#d7c79d;color:#282419;border:1px solid #776642;box-shadow:0 22px 70px rgba(0,0,0,.72),inset 0 0 45px rgba(90,65,28,.12);font-family:var(--document)}
+.privacy-dialog:before{content:"WAR ROOM • PRIVACY FILE";position:absolute;top:0;left:24px;padding:7px 15px;background:#b9a472;border:1px solid #776642;border-top:0;color:#30291c;font:700 10px var(--display);letter-spacing:1.1px}
+.privacy-close{position:absolute;right:14px;top:11px;border:1px solid #776642;background:#c8b789;color:#332b1d;width:34px;height:34px;cursor:pointer;font-size:22px;line-height:1}
+.privacy-kicker{display:block;margin-top:15px;color:#6a5633;font:700 10px var(--display);letter-spacing:1.4px}
+.privacy-dialog h2{margin:7px 0 4px;font-family:var(--display);font-size:28px;color:#252016}
+.privacy-updated{margin:0 0 18px;color:#6a604b;font-size:11px}
+.privacy-dialog h3{margin:18px 0 5px;font-family:var(--display);font-size:13px;letter-spacing:.5px;color:#3a3020}
+.privacy-dialog p{margin:5px 0 10px;line-height:1.55;font-size:13px}
+.privacy-dialog .privacy-rule{height:1px;background:#8b7650;margin:13px 0 15px}
+.privacy-dialog .privacy-small{font-size:11px;color:#655b47}
+body.privacy-modal-open{overflow:hidden}
+@media(max-width:620px){.war-room-footer{margin-top:22px;padding:13px 12px}.footer-separator{display:none}.war-room-footer{flex-direction:column;gap:7px}.privacy-overlay{padding:10px}.privacy-dialog{padding:38px 20px 24px;max-height:calc(100dvh - 20px)}.privacy-dialog h2{font-size:23px}}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -3230,6 +3251,29 @@ body:before,body:after{display:none!important}
    <p class="support-no-pressure">No pressure. Keep conquering, Commander.</p>
    <p class="support-disclaimer">The HOI4 War Room is an unofficial fan-made project and is not affiliated with or endorsed by Paradox Interactive.</p>
   </div>
+ </div>
+</div>
+
+
+<!-- Pre-Phase 19 — Privacy Notice -->
+<div class="privacy-overlay" id="privacyOverlay" aria-hidden="true">
+ <div class="privacy-dialog" id="privacyDialog" role="dialog" aria-modal="true" aria-labelledby="privacyTitle" aria-describedby="privacyIntro">
+  <button class="privacy-close" id="privacyClose" type="button" aria-label="Close privacy notice">×</button>
+  <span class="privacy-kicker">HOI4 WAR ROOM • PRIVACY NOTICE</span>
+  <h2 id="privacyTitle">Privacy Notice</h2>
+  <p class="privacy-updated">Effective October 2026</p>
+  <div class="privacy-rule"></div>
+  <p id="privacyIntro">The HOI4 War Room is designed to work without creating a War Room account or requiring you to sign in with Steam.</p>
+  <h3>Information stored in your browser</h3>
+  <p>Campaign History, manually completed achievements, Steam-synced achievement completion records, and related War Room preferences may be stored locally in your browser so your records remain available when you return. Clearing your browser data or using the War Room's clear controls can remove applicable locally stored records.</p>
+  <h3>Steam achievement sync</h3>
+  <p>If you choose to use Steam Achievement Sync, you provide a Steam profile link or SteamID. The War Room sends that identifier to its server-side Cloudflare service to retrieve supported public Steam profile and Hearts of Iron IV achievement information. The War Room does not ask for or collect your Steam password and does not require Steam sign-in.</p>
+  <h3>Support the War Room</h3>
+  <p>If you choose to support the project, the War Room opens Ko-fi as an external service. Any information you provide to Ko-fi is handled under Ko-fi's own policies and is not entered into the War Room website.</p>
+  <h3>Third-party services</h3>
+  <p>The War Room relies on third-party infrastructure and content services, including GitHub Pages, Cloudflare, Steam, Google Fonts, the Hearts of Iron IV Wiki for achievement artwork, and Ko-fi when you choose to visit the support service. Those services may process technical request information according to their own policies.</p>
+  <h3>Unofficial fan project</h3>
+  <p class="privacy-small">HOI4 War Room is an unofficial fan-made project and is not affiliated with or endorsed by Paradox Interactive.</p>
  </div>
 </div>
 
@@ -5874,6 +5918,54 @@ function warRoomPhase18MPerformanceAudit(){
 }
 window.HOI4WarRoomPhase18MPerformanceAudit=warRoomPhase18MPerformanceAudit;
 </script>
+
+<footer class="war-room-footer" id="warRoomFooter">
+ <strong>Created by MrRamboRex</strong>
+ <span class="footer-separator" aria-hidden="true">•</span>
+ <button class="privacy-open" id="privacyOpen" type="button">Privacy Notice</button>
+</footer>
+
+<script>
+/* Pre-Phase 19 — shared footer privacy behavior */
+(function(){
+ const overlay=document.getElementById('privacyOverlay'),dialog=document.getElementById('privacyDialog'),open=document.getElementById('privacyOpen'),close=document.getElementById('privacyClose');
+ let lastFocus=null;
+ function setPrivacyModal(show){
+  if(!overlay)return;
+  if(show){lastFocus=document.activeElement;overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.classList.add('privacy-modal-open');requestAnimationFrame(()=>close?.focus())}
+  else{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.classList.remove('privacy-modal-open');if(lastFocus?.isConnected)lastFocus.focus();lastFocus=null}
+ }
+ open?.addEventListener('click',()=>setPrivacyModal(true));
+ close?.addEventListener('click',()=>setPrivacyModal(false));
+ overlay?.addEventListener('click',e=>{if(e.target===overlay)setPrivacyModal(false)});
+ overlay?.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){setPrivacyModal(false);return}
+  if(e.key!=='Tab'||!overlay.classList.contains('open'))return;
+  const focusable=[...dialog.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled&&!el.hidden&&el.offsetParent!==null);
+  if(!focusable.length)return;
+  const first=focusable[0],last=focusable[focusable.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+ });
+ window.HOI4WarRoomPrivacy={open:()=>setPrivacyModal(true),close:()=>setPrivacyModal(false)};
+})();
+function warRoomFooterPrivacyAudit(){
+ const overlay=document.getElementById('privacyOverlay'),dialog=document.getElementById('privacyDialog');
+ const checks={
+  creatorCredit:document.getElementById('warRoomFooter')?.textContent.includes('Created by MrRamboRex')===true,
+  privacyControl:document.getElementById('privacyOpen')?.tagName==='BUTTON',
+  dialogSemantics:dialog?.getAttribute('role')==='dialog'&&dialog?.getAttribute('aria-modal')==='true'&&dialog?.getAttribute('aria-labelledby')==='privacyTitle',
+  privacyHiddenByDefault:overlay?.getAttribute('aria-hidden')==='true',
+  steamNoLoginDisclosure:dialog?.textContent.includes('does not require Steam sign-in')===true,
+  localStorageDisclosure:dialog?.textContent.includes('stored locally in your browser')===true,
+  supportDisclosure:dialog?.textContent.includes('Ko-fi')===true
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ return {checks,failures,passed:failures.length===0};
+}
+window.HOI4WarRoomFooterPrivacyAudit=warRoomFooterPrivacyAudit;
+</script>
+
 <script>
 /* Phase 18N — final production certification / Phase 18 release gate.
    Intentionally on-demand: legacy certification includes a heavy stress test and must
