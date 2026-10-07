@@ -2392,6 +2392,155 @@ header .topnav .navlabel{padding-top:25px!important}
 .campaign-file-rule{margin:16px 0!important}
 .campaign-file-section{margin:14px 0!important;padding:14px 16px!important}
 .campaign-file-section>span{margin-bottom:6px!important}
+
+/* Phase 17H.6 — unified buttons and controls interaction polish */
+:root{
+ --control-focus:#c3a75a;
+ --control-dark:#1b2019;
+ --control-dark-hover:#2a3026;
+ --control-paper:#caaa6a;
+ --control-paper-hover:#d7b979;
+ --control-danger:#74433c;
+}
+
+/* Primary command controls */
+.selector-command .spin,
+.command-panel .command-reset,
+.steam-sync-home .steam-sync-form button,
+.support-tip{
+ transition:transform .12s ease,background .14s ease,border-color .14s ease,box-shadow .14s ease,color .14s ease!important;
+}
+.selector-command .spin:hover,
+.command-panel .command-reset:hover,
+.steam-sync-home .steam-sync-form button:hover,
+.support-tip:hover{
+ transform:translateY(-1px)!important;
+ filter:brightness(1.07);
+}
+.selector-command .spin:active,
+.command-panel .command-reset:active,
+.steam-sync-home .steam-sync-form button:active,
+.support-tip:active{
+ transform:translateY(1px)!important;
+ filter:brightness(.96);
+}
+.selector-command .spin:disabled,
+.command-panel .command-reset:disabled,
+.steam-sync-home .steam-sync-form button:disabled,
+.support-tip:disabled{
+ cursor:not-allowed!important;
+ opacity:.48!important;
+ filter:saturate(.55)!important;
+ transform:none!important;
+}
+
+/* Segmented Special Orders control */
+.special-order-modes button{
+ min-height:34px!important;
+ border-radius:2px!important;
+ transition:background .12s ease,border-color .12s ease,color .12s ease,box-shadow .12s ease,transform .08s ease!important;
+}
+.special-order-modes button:hover:not(.active){
+ background:#e1ca96!important;
+ border-color:#765e3a!important;
+ color:#322819!important;
+}
+.special-order-modes button:active{transform:translateY(1px)!important}
+.special-order-modes button.active{
+ box-shadow:inset 0 0 0 1px #9d8e68,inset 0 2px 5px #0004!important;
+}
+.special-order-modes button[data-special-mode="hardcore"]:hover:not(.active){
+ background:#d4ad91!important;
+ border-color:#835247!important;
+ color:#5a2e27!important;
+}
+
+/* Archive filters and search controls */
+.archive-filters input,.archive-filters select,
+.history-search,.history-sort,
+.history-search input,.history-sort select{
+ transition:border-color .14s ease,box-shadow .14s ease,background .14s ease!important;
+}
+.archive-filters input:hover,.archive-filters select:hover,
+.history-search:hover,.history-sort:hover{
+ border-color:#7a704f!important;
+}
+.archive-filters input:focus,.archive-filters select:focus,
+.history-search:focus-within,.history-sort:focus-within{
+ border-color:#a58b52!important;
+ box-shadow:0 0 0 2px #b69b5824,inset 0 0 9px #0008!important;
+}
+
+/* Archive completion + utility controls */
+.ach-complete,
+.data-tools button,
+.generic-toggle,
+.campaign-history-card button,
+.campaign-file-close,
+.support-close{
+ transition:background .12s ease,border-color .12s ease,color .12s ease,transform .08s ease,box-shadow .12s ease!important;
+}
+.ach-complete:hover,
+.data-tools button:hover,
+.campaign-history-card button:hover{
+ transform:translateY(-1px)!important;
+}
+.ach-complete:active,
+.data-tools button:active,
+.campaign-history-card button:active,
+.campaign-file-close:active,
+.support-close:active{
+ transform:translateY(1px)!important;
+}
+.ach-complete.done{
+ box-shadow:inset 0 0 0 1px #7f8c68!important;
+}
+.generic-toggle:hover{color:#e2d5ae!important}
+.generic-toggle input{cursor:pointer!important}
+
+/* Dangerous/destructive actions remain visually distinct. */
+.danger-btn,.campaign-delete{
+ transition:background .12s ease,border-color .12s ease,color .12s ease,transform .08s ease!important;
+}
+.danger-btn:hover,.campaign-delete:hover{transform:translateY(-1px)!important}
+.danger-btn:active,.campaign-delete:active{transform:translateY(1px)!important}
+
+/* File-dialog controls */
+.campaign-file-close:hover{
+ background:#c19a62!important;
+ border-color:#604321!important;
+ color:#17110b!important;
+}
+.support-close:hover{
+ background:#20251b!important;
+ box-shadow:0 0 0 1px #b69b5833!important;
+}
+
+/* Shared keyboard focus treatment */
+.selector-command .spin:focus-visible,
+.command-panel .command-reset:focus-visible,
+.steam-sync-home .steam-sync-form button:focus-visible,
+.special-order-modes button:focus-visible,
+.archive-filters input:focus-visible,.archive-filters select:focus-visible,
+.ach-complete:focus-visible,
+.data-tools button:focus-visible,
+.generic-toggle:focus-within,
+.campaign-history-card button:focus-visible,
+.history-search:focus-within,.history-sort:focus-within,
+.campaign-file-close:focus-visible,
+.support-close:focus-visible,.support-tip:focus-visible{
+ outline:2px solid var(--control-focus)!important;
+ outline-offset:2px!important;
+}
+
+/* Keep controls stable for reduced-motion users. */
+@media(prefers-reduced-motion:reduce){
+ .selector-command .spin,.command-panel .command-reset,.steam-sync-home .steam-sync-form button,
+ .support-tip,.special-order-modes button,.ach-complete,.data-tools button,.generic-toggle,
+ .campaign-history-card button,.campaign-file-close,.support-close{
+  transform:none!important;
+ }
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
