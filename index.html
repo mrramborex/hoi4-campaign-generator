@@ -3052,6 +3052,39 @@ body:before,body:after{
 @media (prefers-reduced-motion:reduce){
  html{scroll-behavior:auto!important}
 }
+
+/* Phase 18J.1 — compositor-safe room and opaque paper
+   Remove the two document-sized decorative paint layers that could still tile/tear.
+   The room depth now comes from the body's ordinary scrolling background.
+   File-folder headers are true opaque paper so bunker lighting cannot bleed through. */
+body{
+ background:
+  linear-gradient(90deg,#070b08 0 7%,transparent 12% 88%,#070b08 93% 100%),
+  repeating-linear-gradient(0deg,transparent 0 118px,rgba(173,154,100,.035) 119px,transparent 120px 238px),
+  radial-gradient(ellipse at 50% 4%,#343c2e 0,#171d16 31%,#090d0a 68%,#050705 100%)!important;
+ background-attachment:scroll!important;
+}
+body:before,body:after{display:none!important}
+.generator-console-head,.archive-head,.campaign-archive-head{
+ background:
+  linear-gradient(#d5b879,#caa96a),
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(109,77,33,.07) 4px)!important;
+ opacity:1!important;
+}
+.generator-console-head:after,.archive-head:after,.campaign-archive-head:after{
+ background:#d5b879!important;
+ opacity:1!important;
+}
+.campaign-history-card{
+ background:
+  linear-gradient(#d8bd83,#ceb176),
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(107,74,32,.06) 4px)!important;
+}
+.campaign-history-card:nth-child(even){
+ background:
+  linear-gradient(#d2b477,#c8a86a),
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(107,74,32,.06) 4px)!important;
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
