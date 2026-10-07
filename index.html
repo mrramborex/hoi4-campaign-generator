@@ -2814,6 +2814,59 @@ header .topnav .navlabel{padding-top:25px!important}
  .campaign-file-heading{grid-template-columns:1fr!important}
  .campaign-file-heading img{grid-row:1!important;width:60px!important;height:60px!important}
 }
+
+/* Phase 17H.8a — phone header breakpoint: contained 3+2 file-tab navigation */
+@media(max-width:620px){
+ .war-header{padding-left:8px!important;padding-right:8px!important}
+ header.war-header .topnav{
+  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  gap:4px!important;
+  overflow:visible!important;
+  scroll-snap-type:none!important;
+ }
+ header.war-header .topnav .navbtn{
+  grid-column:span 2!important;
+  width:100%!important;
+  min-width:0!important;
+  height:54px!important;
+  min-height:54px!important;
+  padding:8px 5px!important;
+  border:1px solid #5d543a!important;
+  border-radius:7px 7px 2px 2px!important;
+ }
+ header.war-header .topnav .navbtn:nth-child(4),
+ header.war-header .topnav .navbtn:nth-child(5){
+  grid-column:span 3!important;
+ }
+ header.war-header .topnav .navbtn.active{
+  height:58px!important;
+  min-height:58px!important;
+  transform:translateY(-4px)!important;
+  border-radius:8px 8px 2px 2px!important;
+ }
+ header.war-header .topnav .navlabel{
+  width:100%!important;
+  align-items:center!important;
+  gap:2px!important;
+ }
+ header.war-header .topnav .navlabel b{
+  max-width:100%!important;
+  font-size:8.5px!important;
+  line-height:1.1!important;
+  letter-spacing:.2px!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  text-align:center!important;
+ }
+ header.war-header .topnav .navlabel small{display:none!important}
+ header.war-header .topnav .navicon{display:none!important}
+}
+@media(max-width:380px){
+ header.war-header .topnav{gap:3px!important}
+ header.war-header .topnav .navbtn{padding-left:3px!important;padding-right:3px!important}
+ header.war-header .topnav .navlabel b{font-size:8px!important;letter-spacing:0!important}
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
