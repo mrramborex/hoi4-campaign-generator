@@ -5680,7 +5680,21 @@ function resetGenerator(){const roster=document.getElementById('countryRoster');
 document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=resetGenerator;
 document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.getElementById('noRepeat')?.checked;resetCampaign(false,preserve);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
-draw();
+// Paint the initial country wheel only after the page has fully initialized.
+// A second frame catches browser restore/refresh timing that can otherwise leave the canvas blank.
+function initializeGeneratorWheel(){
+ if(!remaining.length)remaining=shuffledCountries();
+ stage.value='country';
+ angle=0;
+ draw();
+ requestAnimationFrame(()=>draw());
+}
+if(document.readyState==='loading'){
+ document.addEventListener('DOMContentLoaded',initializeGeneratorWheel,{once:true});
+}else{
+ initializeGeneratorWheel();
+}
+window.addEventListener('pageshow',()=>requestAnimationFrame(()=>draw()));
 warRoomRuntimeGuard();
 warRoomReleaseGate();
 </script><!-- Phase 14A — Steam profile-link integration architecture -->
