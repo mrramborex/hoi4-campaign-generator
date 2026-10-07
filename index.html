@@ -3343,6 +3343,8 @@ function paintFlag(country,i,arc){
    const cw=denseFlag?w*.58:w*.40,ch=denseFlag?sh*6:sh*7;
    const cx=x,cy=denseFlag?-ch*.50:y;
    rect(cx,cy,cw,ch,'#3c3b6e');
+   // Give the narrow 65-country slice one unmistakable white stripe beneath the canton.
+   if(denseFlag)rect(x,sh*.58,w,sh*.72,'#ffffff');
    ctx.fillStyle='#ffffff';
    const cols=6,rows=5,sx=cw/(cols+1),sy=ch/(rows+1);
    for(let row=1;row<=rows;row++)for(let col=1;col<=cols;col++){
