@@ -2787,7 +2787,13 @@ function buildAchievementIconIndex(){return Object.fromEntries(Object.entries(ac
 function getAchievementIconIndex(){return buildAchievementIconIndex()}
 const achievementArtworkOverrides={
  [normAchievementName('This is going to be LIT')]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/d757ac90b60d6720d85f59ea10a6b1f39525125a.jpg",
- [normAchievementName('Spies Trade')]:"https://www.trueachievements.com/imagestore/mob/0008670900/8670953.jpg"
+ [normAchievementName('Spies Trade')]:"https://www.trueachievements.com/imagestore/mob/0008670900/8670953.jpg",
+ // Phase 18F — canonical Paradox Wiki artwork corrections.
+ [normAchievementName('ThaiTanic')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/ThaiTanic.png",
+ [normAchievementName('Declare Military Emergency')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/Declare_Military_Emergency.png",
+ [normAchievementName('I Have Avenged You, Father!')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/I_Have_Avenged_You%2C_Father%21.png",
+ [normAchievementName('Paradisus Paradoxum')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/Paradisus_Paradoxum.png",
+ [normAchievementName('An Equivalent Exchange')]:"https://hoi4.paradoxwikis.com/Special:Redirect/file/An_Equivalent_Exchange.png"
 };
 function getAchievementIcon(name){const key=normAchievementName(name);return achievementArtworkOverrides[key]||getAchievementIconIndex()[key]||''}
 function achievementImageError(img){
@@ -2862,7 +2868,13 @@ window.HOI4AchievementArtworkRuntimeAudit=auditAchievementArtworkRuntime;
 /* Phase 18A — canonical achievement identity audit foundation.
    A populated artwork URL is no longer considered proof that the artwork belongs to that achievement.
    Paradox Wiki is the canonical visual/requirement reference; records remain unverified until identity is checked. */
-const PHASE18_IDENTITY_VERIFIED=Object.freeze({});
+const PHASE18_IDENTITY_VERIFIED=Object.freeze({
+ [normAchievementName('ThaiTanic')]:'18F — canonical Wiki record and artwork corrected',
+ [normAchievementName('Declare Military Emergency')]:'18F — canonical Wiki record and artwork corrected',
+ [normAchievementName('I Have Avenged You, Father!')]:'18F — canonical Wiki record and artwork corrected',
+ [normAchievementName('Paradisus Paradoxum')]:'18F — canonical Wiki record and artwork corrected',
+ [normAchievementName('An Equivalent Exchange')]:'18F — canonical Wiki record and artwork corrected'
+});
 const PHASE18_WIKI_RECORD_VERIFIED=Object.freeze({
  [normAchievementName('ThaiTanic')]:'18B rerun — achievement record matched directly to saved Paradox Wiki snapshot',
  [normAchievementName('Kuťáci')]:'18B rerun — achievement record matched directly to saved Paradox Wiki snapshot',
@@ -2875,13 +2887,7 @@ const PHASE18_WIKI_ARTWORK_REFERENCE=Object.freeze({
  [normAchievementName('Battle Royale')]:'Battle_Royale.png',
  [normAchievementName('Master Infiltrator')]:'Master_Infiltrator.png'
 });
-const PHASE18_KNOWN_IDENTITY_FAILURES=Object.freeze({
- 'thaitanic':'Wiki artwork is ThaiTanic.png (sinking-warship artwork); current War Room Steam hash resolves to the wrong character artwork. Replacement required.',
- 'declare military emergency':'Wiki assigns Declare_Military_Emergency.png; current War Room mapping shares its Steam hash with I Have Avenged You, Father!, whose canonical Wiki artwork is different.',
- 'i have avenged you, father!':'Wiki assigns I_Have_Avenged_You,_Father!.png; current War Room mapping shares its Steam hash with Declare Military Emergency, whose canonical Wiki artwork is different.',
- 'paradisus paradoxum':'Wiki assigns Paradisus_Paradoxum.png; current War Room mapping shares its Steam hash with An Equivalent Exchange, whose canonical Wiki artwork is different.',
- 'an equivalent exchange':'Wiki assigns An_Equivalent_Exchange.png; current War Room mapping shares its Steam hash with Paradisus Paradoxum, whose canonical Wiki artwork is different.'
-});
+const PHASE18_KNOWN_IDENTITY_FAILURES=Object.freeze({});
 function auditAchievementIdentity18A(){
  const all=flatAchievements(),seen=new Map(),duplicates=[],missingRequirements=[],missingArtwork=[],identityVerified=[],identityFailures=[],identityPending=[];
  for(const a of all){
@@ -2996,6 +3002,17 @@ const PHASE18E_ARTWORK_AUDIT=Object.freeze({
  rule:'Load success and unique URL are insufficient. The displayed artwork must match the achievement-specific Wiki asset.'
 });
 window.HOI4AchievementArtworkAudit18E=PHASE18E_ARTWORK_AUDIT;
+
+
+/* Phase 18F — repair the five artwork failures proven by 18E.
+   These display overrides point directly at the corresponding Paradox Wiki file identities,
+   bypassing the shifted/conflicting Steam mappings while preserving the legacy map as fallback data. */
+window.HOI4AchievementArtworkRepair18F=Object.freeze({
+ repaired:Object.freeze(['ThaiTanic','Declare Military Emergency','I Have Avenged You, Father!','Paradisus Paradoxum','An Equivalent Exchange']),
+ source:'Paradox Wiki canonical file redirects',
+ remainingKnownFailures:0,
+ verifiedAfterRepair:5
+});
 
 
 /* Phase 15G — Final production QA / release gate.
