@@ -3223,6 +3223,24 @@ body:before,body:after{display:none!important}
 .privacy-dialog .privacy-small{font-size:11px;color:#655b47}
 body.privacy-modal-open{overflow:hidden}
 @media(max-width:620px){.war-room-footer{margin-top:22px;padding:13px 12px}.footer-separator{display:none}.war-room-footer{flex-direction:column;gap:7px}.privacy-overlay{padding:10px}.privacy-dialog{padding:38px 20px 24px;max-height:calc(100dvh - 20px)}.privacy-dialog h2{font-size:23px}}
+
+/* Post-V1.0 Support Polish — morale poster carousel */
+.support-dialog{width:min(520px,100%)}
+.support-poster-gallery{margin:0 0 20px;padding:12px;background:#10130e;border:1px solid #665d40;box-shadow:inset 0 0 18px #0008}
+.support-poster-stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:300px;background:#090b08;overflow:hidden}
+.support-poster-stage img{display:block;width:auto;max-width:100%;height:auto;max-height:380px;object-fit:contain;filter:drop-shadow(0 7px 12px #000a)}
+.support-poster-controls{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:8px;margin-top:10px}
+.support-poster-controls button{width:42px;height:36px;border:1px solid #756a48;background:#1b1f17;color:#dbc98e;font:700 18px Georgia,serif;cursor:pointer}
+.support-poster-controls button:hover{border-color:#b69b58;color:#fff1c8;background:#292e21}
+.support-poster-status{text-align:center;color:#a99b72;font:700 9px var(--display);letter-spacing:1.1px;text-transform:uppercase}
+.support-poster-caption{display:block;margin-top:7px;text-align:center;color:#8f876e;font:10px var(--typewriter);letter-spacing:.5px}
+@media(max-width:520px){
+ .support-dialog{width:100%}
+ .support-poster-gallery{padding:9px;margin-bottom:17px}
+ .support-poster-stage{min-height:220px}
+ .support-poster-stage img{max-height:300px}
+}
+
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -3243,6 +3261,15 @@ body.privacy-modal-open{overflow:hidden}
    <span class="support-kicker">A NOTE FROM THE COMMANDER</span>
    <h2 id="supportTitle">SUPPORT THE WAR ROOM</h2>
    <div class="support-rule"></div>
+   <div class="support-poster-gallery" aria-label="War Room morale posters">
+    <div class="support-poster-stage"><img id="supportPosterImage" src="assets/support-posters/support-01-flag-raising.webp" alt="War Room support morale poster"></div>
+    <div class="support-poster-controls">
+     <button id="supportPosterPrev" type="button" aria-label="Previous morale poster">‹</button>
+     <span class="support-poster-status" id="supportPosterStatus" aria-live="polite">MORALE POSTER • 1 / 12</span>
+     <button id="supportPosterNext" type="button" aria-label="Next morale poster">›</button>
+    </div>
+    <span class="support-poster-caption">WAR ROOM SUPPORT POSTER SERIES</span>
+   </div>
    <h3>Enjoying your time in the War Room?</h3>
    <p>This project is built for fellow Hearts of Iron players, and <strong>the War Room is free and will stay free.</strong> If it has helped start a few memorable campaigns—or caused a few questionable invasions—you can leave a voluntary tip to help keep the lights on and the operations table running.</p>
    <div class="support-thanks"><b>Every bit of support is appreciated.</b><span>But your campaigns, feedback, and time here already mean plenty.</span></div>
@@ -5803,10 +5830,30 @@ function openWarRoomSupport(){
 
 window.HOI4WarRoomSupport={phase:'16A',provider:'Ko-fi',mode:'public-link-only',url:WAR_ROOM_SUPPORT_URL,open:openWarRoomSupport};
 const supportOverlay=document.getElementById('supportOverlay'),supportDialog=document.getElementById('supportDialog'),supportOpenButton=document.getElementById('navSupport'),supportCloseButton=document.getElementById('supportClose'),supportTipButton=document.getElementById('supportTip');
+
+const WAR_ROOM_SUPPORT_POSTERS=[
+ 'support-01-flag-raising.webp','support-02-p51-mustang.webp','support-03-rosie-industrial.webp',
+ 'support-04-us-navy.webp','support-05-us-infantry.webp','support-06-british-churchill.webp',
+ 'support-07-german-ground-forces.webp','support-08-japanese-soldier.webp','support-09-japanese-battleship.webp',
+ 'support-10-soviet-ground-forces.webp','support-11-american-war-bonds.webp','support-12-keep-em-rolling.webp'
+];
+let supportPosterIndex=0;
+const supportPosterImage=document.getElementById('supportPosterImage');
+const supportPosterStatus=document.getElementById('supportPosterStatus');
+const supportPosterPrev=document.getElementById('supportPosterPrev');
+const supportPosterNext=document.getElementById('supportPosterNext');
+function showSupportPoster(index){
+ supportPosterIndex=(index+WAR_ROOM_SUPPORT_POSTERS.length)%WAR_ROOM_SUPPORT_POSTERS.length;
+ if(supportPosterImage)supportPosterImage.src='assets/support-posters/'+WAR_ROOM_SUPPORT_POSTERS[supportPosterIndex];
+ if(supportPosterStatus)supportPosterStatus.textContent='MORALE POSTER • '+(supportPosterIndex+1)+' / '+WAR_ROOM_SUPPORT_POSTERS.length;
+}
+if(supportPosterPrev)supportPosterPrev.addEventListener('click',()=>showSupportPoster(supportPosterIndex-1));
+if(supportPosterNext)supportPosterNext.addEventListener('click',()=>showSupportPoster(supportPosterIndex+1));
+
 let supportLastFocus=null;
 function setSupportModal(open){
  if(!supportOverlay)return;
- if(open){supportLastFocus=document.activeElement;supportOverlay.classList.add('open');supportOverlay.setAttribute('aria-hidden','false');document.body.classList.add('support-modal-open');requestAnimationFrame(()=>supportCloseButton&&supportCloseButton.focus())}
+ if(open){showSupportPoster(Math.floor(Math.random()*WAR_ROOM_SUPPORT_POSTERS.length));supportLastFocus=document.activeElement;supportOverlay.classList.add('open');supportOverlay.setAttribute('aria-hidden','false');document.body.classList.add('support-modal-open');requestAnimationFrame(()=>supportCloseButton&&supportCloseButton.focus())}
  else{supportOverlay.classList.remove('open');supportOverlay.setAttribute('aria-hidden','true');document.body.classList.remove('support-modal-open');if(supportLastFocus&&supportLastFocus.focus)supportLastFocus.focus()}
 }
 if(supportOpenButton)supportOpenButton.addEventListener('click',()=>setSupportModal(true));
