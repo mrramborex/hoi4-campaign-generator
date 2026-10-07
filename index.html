@@ -4679,9 +4679,10 @@ function achievementCatalogStats(){
  return {total:all.length,withArt,missingArt:all.length-withArt};
 }
 const CAMPAIGN_LOG_KEY='hoi4CampaignLog';
+function campaignText(value,max){return String(value||'').replace(/[<>]/g,'').slice(0,max)}
 function sanitizeCampaignLog(log){
  if(!Array.isArray(log))return [];
- return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:x.country.slice(0,80),ideology:String(x.ideology||'').slice(0,40),path:String(x.path||'').slice(0,120),achievement:x.achievement.slice(0,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',specialOrder:String(x.specialOrder||'').slice(0,80),specialOrderObjective:String(x.specialOrderObjective||'').slice(0,240),specialOrderMode:['standard','hardcore'].includes(x.specialOrderMode)?x.specialOrderMode:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
+ return log.filter(x=>x&&typeof x==='object'&&typeof x.country==='string'&&typeof x.achievement==='string'&&Number.isFinite(Number(x.time))).slice(0,50).map(x=>({country:campaignText(x.country,80),ideology:campaignText(x.ideology,40),path:campaignText(x.path,120),achievement:campaignText(x.achievement,160),icon:typeof x.icon==='string'&&(/^(https:\/\/|data:image\/svg\+xml[,;])/i.test(x.icon))?x.icon:'',specialOrder:campaignText(x.specialOrder,80),specialOrderObjective:campaignText(x.specialOrderObjective,240),specialOrderMode:['standard','hardcore'].includes(x.specialOrderMode)?x.specialOrderMode:'',time:Number(x.time),outcome:['active','victory','abandoned'].includes(x.outcome)?x.outcome:''}));
 }
 function getCampaignLog(){try{return sanitizeCampaignLog(JSON.parse(localStorage.getItem(CAMPAIGN_LOG_KEY)||'[]'))}catch(e){return []}}
 function saveCampaignLog(log){localStorage.setItem(CAMPAIGN_LOG_KEY,JSON.stringify(sanitizeCampaignLog(log)))}
