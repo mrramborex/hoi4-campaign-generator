@@ -2672,7 +2672,7 @@ const achievementIcons={
 "URSAL":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/4b3659f851ed8480c56edb8b742e6b6c3bbb77cf.jpg",
 "Norway Jose":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/ae196afff285fc439db4cbea56114e750a980bf3.jpg",
 "Pinot Noirway":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/7fcf280dc1d7807bc0778099615e55deecbea0c3.jpg",
-"Med plutonium 2.":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/45c7b8ff0c93d6bbcf97360a49bbb6d0bd72b5a3.jpg",
+"Med plutonium 2":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/45c7b8ff0c93d6bbcf97360a49bbb6d0bd72b5a3.jpg",
 "The Danelaw":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/e5612800522e8cb83611d0146d1d5e694b202cbc.jpg",
 "Vinland":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/6f65d85d2bed73dff1f7c7d2e7d3765abe44e029.jpg",
 "Two Arms Against Tyranny.":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9537376fd1ef86162e47470b2b771d6d13a85db5.jpg",
@@ -2731,7 +2731,7 @@ const achievementIcons={
 "Woman in a High Castle":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9afe78372c564e82bd031f57ca79037be7dead6c.jpg",
 "Lamento Boliviano":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/71ff45bf16f873a24f1781e9bbdcebd2f454341d.jpg",
 "Reconquistadors":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/af6f9fe3bb957d3266d9587cf81f9786660c92e2.jpg",
-"Hispanics of the world unite!":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/330d41555f8b6c1dcb6931bf65be638323aa1f02.jpg",
+"Hispanics of the world, unite!":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/330d41555f8b6c1dcb6931bf65be638323aa1f02.jpg",
 "Edelweiss Seedelweiss":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/3834973a012281cd2ee72c76248291c1beadc834.jpg",
 "Otto-man":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/9016cacaf9815842072d6acd49b7e382f30fd0ab.jpg",
 "Brentry":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/18ed75e7cee6821114a7c26a90925b89be55d67f.jpg",
@@ -2944,6 +2944,29 @@ function auditAchievementWikiDataset18C(){
  return result;
 }
 window.HOI4AchievementWikiDataset18C=auditAchievementWikiDataset18C;
+
+
+/* Phase 18D — full canonical identity/name comparison.
+   All 293 saved-Wiki achievement names were compared against the War Room catalog.
+   Smart-quote/ellipsis typography is normalized for identity matching. Two genuine canonical-name
+   differences were found and corrected in this phase. Artwork references exist for all Wiki rows,
+   but remote War Room artwork is NOT declared verified until visually matched to those references. */
+const PHASE18D_COMPARISON=Object.freeze({
+ authority:'Saved Paradox Wiki — Achievements + downloaded Wiki artwork assets',
+ wikiRows:293,
+ warRoomTarget:293,
+ canonicalNameMatchesBeforeFix:291,
+ canonicalNameCorrections:Object.freeze({
+  'Med plutonium 2.':'Med plutonium 2',
+  'Hispanics of the world unite!':'Hispanics of the world, unite!'
+ }),
+ canonicalNameMatchesAfterFix:293,
+ wikiArtworkReferences:293,
+ confirmedArtworkFailures:Object.freeze(['ThaiTanic']),
+ artworkIdentityStatus:'pending visual/hash-equivalent comparison against canonical Wiki assets',
+ rule:'A matching or loadable URL does not certify artwork identity.'
+});
+window.HOI4AchievementAudit18D=PHASE18D_COMPARISON;
 
 
 /* Phase 15G — Final production QA / release gate.
@@ -3261,7 +3284,7 @@ phase2Achievements.push(
 {name:'URSAL',objective:'Be communist and own all of South America',country:'South American Country',ideology:'c'},
 {name:'Norway Jose',objective:'As Norway, own and control every Mexican core.',country:'Norway',ideology:'any'},
 {name:'Pinot Noirway',objective:'As Norway, own and control the state of Bourgogne.',country:'Norway',ideology:'any'},
-{name:'Med plutonium 2.',objective:'As Denmark nuke Sweden.',country:'Denmark',ideology:'any'},
+{name:'Med plutonium 2',objective:'As Denmark nuke Sweden.',country:'Denmark',ideology:'any'},
 {name:'The Danelaw',objective:'As Denmark, conquer England.',country:'Denmark',ideology:'any'},
 {name:'Vinland',objective:'As Iceland, conquer Newfoundland',country:'Iceland',ideology:'any'},
 {name:'Two Arms Against Tyranny.',objective:'As Finland, capitulate the Soviet Union while having a 2 country faction with another Nordic',country:'Finland',ideology:'any'},
@@ -3392,7 +3415,7 @@ phase2Achievements.push(
 {name:'Cod wars',objective:'As Iceland, capitulate the UK.',country:'Iceland',ideology:'any'},
 {name:'Lamento Boliviano',objective:'As Argentina, own all of Latin America except Bolivia.',country:'Argentina',ideology:'any'},
 {name:'Reconquistadors',objective:'As Argentina or Chile, have a Conquistadors national spirit active while holding all Spanish cores.',country:'Argentina / Chile',ideology:'any'},
-{name:'Hispanics of the world unite!',objective:'As Chile, form the Hispanic Alliance and have at least 8 Hispanic nations in your faction.',country:'Chile',ideology:'any'},
+{name:'Hispanics of the world, unite!',objective:'As Chile, form the Hispanic Alliance and have at least 8 Hispanic nations in your faction.',country:'Chile',ideology:'any'},
 {name:'Edelweiss Seedelweiss',objective:'As Austria, have a coastline, at least 10 Battleships and have Georg von Trapp as an Admiral.',country:'Austria',ideology:'any'},
 {name:'Otto-man',objective:'As Austria or Hungary, led by Otto von Habsburg, control the starting states of Austria, Hungary, Czechoslovakia, Romania, Bulgaria, Greece and Turkey as well as the states in Polish Galicia, Slovenia and Croatia.',country:'Austria / Hungary',ideology:'u'},
 {name:'Brentry',objective:'As Austria, Belgium or the Netherlands, be the leader of the EU and have the United Kingdom join your faction.',country:'Austria / Belgium / Netherlands',ideology:'any'},
@@ -3695,7 +3718,7 @@ const achievementRules={
  "Caramelldansen":{countries:["Sweden"]},
  "Norway Jose":{countries:["Norway"]},
  "Pinot Noirway":{countries:["Norway"]},
- "Med plutonium 2.":{countries:["Denmark"]},
+ "Med plutonium 2":{countries:["Denmark"]},
  "The Danelaw":{countries:["Denmark"]},
  "Vinland":{countries:["Iceland"]},
  "Two Arms Against Tyranny.":{countries:["Finland"]},
@@ -3810,7 +3833,7 @@ const achievementRules={
  "Cod wars":{"countries":["Iceland"]},
  "Lamento Boliviano":{"countries":["Argentina"]},
  "Reconquistadors":{"countries":["Argentina","Chile"]},
- "Hispanics of the world unite!":{"countries":["Chile"]},
+ "Hispanics of the world, unite!":{"countries":["Chile"]},
  "Edelweiss Seedelweiss":{"countries":["Austria"]},
  "Otto-man":{"countries":["Austria","Hungary"],"ideologies":["u"]},
  "Brentry":{"countries":["Austria","Belgium","Netherlands"]},
