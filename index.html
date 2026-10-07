@@ -2164,6 +2164,47 @@ header .topnav .navlabel{padding-top:25px!important}
 .special-order-line{padding-left:14px!important;padding-right:14px!important}
 .mission-special-order.hardcore .special-order-line{padding-left:14px!important}
 
+
+/* Phase 17H.1 — header frame lock + command-file legibility */
+@media(min-width:1281px){
+ .war-header{
+  grid-template-columns:minmax(430px,1fr) minmax(820px,950px)!important;
+  padding-left:max(26px,calc((100vw - 1380px)/2))!important;
+  padding-right:max(26px,calc((100vw - 1380px)/2))!important;
+ }
+}
+.command-panel .history>b{
+ color:#49391f!important;
+ font-family:var(--document)!important;
+ font-size:11px!important;
+ font-weight:700!important;
+ letter-spacing:.65px!important;
+ text-transform:uppercase!important;
+ text-shadow:none!important;
+}
+.command-panel .history #history,
+.command-panel .history #history div{
+ color:#5a4930!important;
+ font-family:var(--document)!important;
+ font-size:12px!important;
+ font-weight:700!important;
+ line-height:1.35!important;
+ letter-spacing:0!important;
+ text-shadow:none!important;
+ opacity:1!important;
+ -webkit-font-smoothing:antialiased;
+}
+.command-panel .history #history div{border-bottom-color:#80613b!important}
+.operation-subtitle{
+ color:#4b3a22!important;
+ font-family:var(--document)!important;
+ font-size:9px!important;
+ font-weight:800!important;
+ line-height:1.2!important;
+ letter-spacing:1.15px!important;
+ text-shadow:none!important;
+ -webkit-font-smoothing:antialiased;
+}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
