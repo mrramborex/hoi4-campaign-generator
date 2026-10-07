@@ -4707,11 +4707,14 @@ const genericAchievements=[
 {name:'Mine is bigger than yours',objective:'Lead a faction with at least 20 members.',country:'Any Country',ideology:'any'},
 {name:'No country for old men',objective:'Reach 0 manpower with Scraping the Barrel as Conscription Law.',country:'Any Country',ideology:'any'}
 ];
+let FLAT_ACHIEVEMENT_CACHE=null;
 function flatAchievements(){
+ if(FLAT_ACHIEVEMENT_CACHE)return FLAT_ACHIEVEMENT_CACHE;
  let out=[...genericAchievements,...phase2Achievements];
  Object.entries(achievements).forEach(([country,ides])=>Object.entries(ides).forEach(([ideology,list])=>list.forEach(a=>out.push({...a,country,ideology}))));
  const seen=new Set();
- return out.filter(a=>{const k=a.name.trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"');if(seen.has(k))return false;seen.add(k);return true});
+ FLAT_ACHIEVEMENT_CACHE=out.filter(a=>{const k=a.name.trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"');if(seen.has(k))return false;seen.add(k);return true});
+ return FLAT_ACHIEVEMENT_CACHE;
 }
 function achievementCatalogStats(){
  const all=flatAchievements(),withArt=all.filter(a=>getAchievementIcon(a.name)).length;
@@ -5620,8 +5623,8 @@ document.getElementById('completeMissionAchievement').onclick=completeCurrentMis
 function bindPrimaryGeneratorControls(){const spinButton=document.getElementById('spin'),stageSelector=document.getElementById('stage');if(spinButton)spinButton.onclick=spin;if(stageSelector){stageSelector.onchange=()=>{spinButton.textContent=stageSelector.value==='country'?'SPIN COUNTRY':stageSelector.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()}}}
 bindPrimaryGeneratorControls();document.getElementById('startCampaign').onclick=()=>{if(campaignLocked)return;logCurrentCampaign();campaignLocked=true;const start=document.getElementById('startCampaign');document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';start.textContent='CAMPAIGN LOCKED IN';start.disabled=true;btn.disabled=true;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=true;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=true);};
 function resetCampaign(clearHistory=true,preserveRemaining=false){if(!preserveRemaining)remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 293 / 293 Steam achievements validated';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;currentSpecialOrder=null;campaignLocked=false;renderCurrentSpecialOrder();if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');const start=document.getElementById('startCampaign');start.textContent='START CAMPAIGN';start.disabled=false;btn.disabled=false;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=false;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=false);btn.textContent='SPIN COUNTRY';res.textContent=remaining.length?randomFieldIntelligence():'No countries remaining in this roster. Reset the generator or disable Remove countries after selection.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
-function changeCountryRoster(){resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('');requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)})}
-function resetGenerator(){const roster=document.getElementById('countryRoster');if(roster)roster.value='all';resetCampaign(true);requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)})}
+function changeCountryRoster(){resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('')}
+function resetGenerator(){const roster=document.getElementById('countryRoster');if(roster)roster.value='all';resetCampaign(true)}
 document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=resetGenerator;
 document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.getElementById('noRepeat')?.checked;resetCampaign(false,preserve);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
@@ -5741,8 +5744,7 @@ function warRoomPhase18FSteamAudit(){
  return result;
 }
 window.HOI4WarRoomPhase18FSteamAudit=warRoomPhase18FSteamAudit;
-// Steam summary is injected ahead of the generator in the main grid; redraw after the final layout settles.
-requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)});
+// Phase 18M: the wheel is canvas-backed and does not depend on layout measurements, so no post-layout redraw is required.
 // Phase 14H — sync/error/privacy handling.
 // Phase 14H.2 — themed Steam service record summary.
 </script>
@@ -5852,5 +5854,24 @@ function warRoomPhase18LAccessibilityAudit(){
  return {phase:'18L',checks,failures,passed:failures.length===0};
 }
 window.HOI4WarRoomPhase18LAccessibilityAudit=warRoomPhase18LAccessibilityAudit;
+</script>
+<script>
+/* Phase 18M — performance/runtime efficiency QA */
+function warRoomPhase18MPerformanceAudit(){
+ const a=flatAchievements(),b=flatAchievements();
+ const source=flatAchievements.toString();
+ const checks={
+  achievementCatalogCached:a===b&&a.length===293,
+  cacheFastPath:source.includes('FLAT_ACHIEVEMENT_CACHE'),
+  noPostLayoutDoubleDraw:!document.documentElement.innerHTML.includes("requestAnimationFrame(()=>{draw();requestAnimationFrame(draw)})"),
+  campaignLogBounded:getCampaignLog().length<=50,
+  archiveImagesLazy:[...document.querySelectorAll('#achievementGrid img')].every(img=>img.loading==='lazy'),
+  wheelCanvasBacked:document.getElementById('wheel')?.tagName==='CANVAS',
+  noFixedBodyPaint:getComputedStyle(document.body).backgroundAttachment!=='fixed'
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ return {phase:'18M',checks,failures,catalog:a.length,campaignRecords:getCampaignLog().length,passed:failures.length===0};
+}
+window.HOI4WarRoomPhase18MPerformanceAudit=warRoomPhase18MPerformanceAudit;
 </script>
 </body></html>
