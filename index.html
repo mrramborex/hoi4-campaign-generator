@@ -5414,6 +5414,25 @@ function pickSpecialOrder(achievement){
  if(!pool.length)return null;
  return pool[Math.floor(Math.random()*pool.length)];
 }
+function warRoomPhase18HSpecialOrdersAudit(){
+ const standardExpected=['Historical Command','No Retreat','Lone Wolf','Limited Conscription','No Collaboration',"General's War",'Domestic Arsenal','Self-Sufficient','Open Ground','Conventional Warfare','Boots on the Ground'];
+ const hardcoreExpected=['No Second Chances','National Arsenal','No Puppet Masters','Against the Clock','Blood & Steel','Old School Warfare'];
+ const standardNames=SPECIAL_ORDERS.map(x=>x.name),hardcoreNames=HARDCORE_SPECIAL_ORDERS.map(x=>x.name);
+ const manual=document.getElementById('standingOrders')?.textContent||'';
+ const checks={
+  standardCount:standardNames.length===11,
+  hardcoreCount:hardcoreNames.length===6,
+  standardNamesMatch:standardExpected.every((x,i)=>standardNames[i]===x),
+  hardcoreNamesMatch:hardcoreExpected.every((x,i)=>hardcoreNames[i]===x),
+  manualListsEveryOrder:[...standardNames,...hardcoreNames].every(x=>manual.toLowerCase().includes(x.toLowerCase())),
+  modeControlPresent:!!document.getElementById('specialOrdersMode')&&document.querySelectorAll('[data-special-mode]').length===3,
+  defaultOff:document.getElementById('specialOrdersMode')?.value==='off',
+  hardcoreReferencePresent:!!document.querySelector('.hardcore-orders-reference')
+ };
+ const failures=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+ return {phase:'18H',standardOrders:standardNames.length,hardcoreOrders:hardcoreNames.length,checks,failures,passed:failures.length===0};
+}
+window.HOI4WarRoomPhase18HSpecialOrdersAudit=warRoomPhase18HSpecialOrdersAudit;
 function renderCurrentSpecialOrder(){
  const wrap=document.getElementById('missionSpecialOrder');if(!wrap)return;
  if(!currentSpecialOrder){wrap.hidden=true;document.getElementById('missionSpecialOrderName').textContent='';document.getElementById('missionSpecialOrderObjective').textContent='';return}
