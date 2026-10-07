@@ -2862,13 +2862,21 @@ window.HOI4AchievementArtworkRuntimeAudit=auditAchievementArtworkRuntime;
 /* Phase 18A — canonical achievement identity audit foundation.
    A populated artwork URL is no longer considered proof that the artwork belongs to that achievement.
    Paradox Wiki is the canonical visual/requirement reference; records remain unverified until identity is checked. */
-const PHASE18_IDENTITY_VERIFIED=Object.freeze({
- [normAchievementName('Kuťáci')]:'18B — name/objective verified against official HOI4 release material; artwork mapping retained pending visual identity confirmation',
- [normAchievementName('Battle Royale')]:'18B — name/objective verified against current Steam achievement record; artwork mapping retained pending visual identity confirmation',
- [normAchievementName('Master Infiltrator')]:'18B — name/objective verified against current Steam achievement record; artwork mapping retained pending visual identity confirmation'
+const PHASE18_IDENTITY_VERIFIED=Object.freeze({});
+const PHASE18_WIKI_RECORD_VERIFIED=Object.freeze({
+ [normAchievementName('ThaiTanic')]:'18B rerun — achievement record matched directly to saved Paradox Wiki snapshot',
+ [normAchievementName('Kuťáci')]:'18B rerun — achievement record matched directly to saved Paradox Wiki snapshot',
+ [normAchievementName('Battle Royale')]:'18B rerun — achievement record matched directly to saved Paradox Wiki snapshot',
+ [normAchievementName('Master Infiltrator')]:'18B rerun — achievement record matched directly to saved Paradox Wiki snapshot'
+});
+const PHASE18_WIKI_ARTWORK_REFERENCE=Object.freeze({
+ [normAchievementName('ThaiTanic')]:'ThaiTanic.png',
+ [normAchievementName('Kuťáci')]:'Kuťáci.png',
+ [normAchievementName('Battle Royale')]:'Battle_Royale.png',
+ [normAchievementName('Master Infiltrator')]:'Master_Infiltrator.png'
 });
 const PHASE18_KNOWN_IDENTITY_FAILURES=Object.freeze({
- 'thaitanic':'Artwork identity mismatch confirmed against the Paradox Wiki reference supplied during Phase 18; current mapped hash 7b5b61726e0e7973af40848c28cd28a14062ce67 is quarantined pending canonical replacement.'
+ 'thaitanic':'Wiki artwork is ThaiTanic.png (sinking-warship artwork); current War Room Steam hash resolves to the wrong character artwork. Replacement required.'
 });
 function auditAchievementIdentity18A(){
  const all=flatAchievements(),seen=new Map(),duplicates=[],missingRequirements=[],missingArtwork=[],identityVerified=[],identityFailures=[],identityPending=[];
@@ -2892,14 +2900,16 @@ function auditAchievementIdentity18A(){
  return result;
 }
 window.HOI4AchievementIdentityAudit18A=auditAchievementIdentity18A;
-/* Phase 18B — first canonical identity batch.
-   ThaiTanic is the control failure. Current public Steam text and official HOI4 release material
-   corroborate objectives, but artwork remains pending unless visually matched to the Paradox Wiki. */
+/* Phase 18B rerun — canonical Wiki-backed first batch.
+   Source: locally saved Paradox Wiki Achievements page + its downloaded artwork assets.
+   Record verification and artwork identity are tracked separately; no Steam-only inference counts as Wiki verification. */
 window.HOI4AchievementAudit18B={
- authority:'Paradox Wiki — Achievements',
- controlFailure:'ThaiTanic',
+ authority:'Saved Paradox Wiki — Achievements + downloaded Wiki artwork assets',
  records:['ThaiTanic','Kuťáci','Battle Royale','Master Infiltrator'],
- rule:'Text corroboration does not certify artwork identity.'
+ wikiArtwork:['ThaiTanic.png','Kuťáci.png','Battle_Royale.png','Master_Infiltrator.png'],
+ confirmedFailure:'ThaiTanic',
+ status:'Wiki records and artwork references established; War Room artwork identity remains unverified until each mapped site image is visually matched or replaced with the canonical Wiki asset.',
+ rule:'Only direct Wiki record + artwork identity evidence may enter PHASE18_IDENTITY_VERIFIED.'
 };
 
 
