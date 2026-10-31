@@ -5603,6 +5603,28 @@ function paintIdeologyInsignia(ideology,i,arc){
  ctx.beginPath();ctx.moveTo(-52,22);ctx.lineTo(52,22);ctx.stroke();
  ctx.restore();
 }
+// Phase 21B.2 follow-up — political-path wheel uses the same machined,
+// lacquered-metal language as the ideology wheel. Render only inside the wedge.
+function paintPathSurface(){
+ ctx.save();
+ const lacquer=ctx.createRadialGradient(-100,-125,26,0,0,396);
+ lacquer.addColorStop(0,'rgba(241,228,183,.23)');
+ lacquer.addColorStop(.40,'rgba(224,211,158,.075)');
+ lacquer.addColorStop(.78,'rgba(17,21,17,.13)');
+ lacquer.addColorStop(1,'rgba(4,7,6,.46)');
+ ctx.fillStyle=lacquer;ctx.fillRect(-380,-380,760,760);
+ const sheen=ctx.createLinearGradient(-340,-325,330,335);
+ sheen.addColorStop(0,'rgba(255,245,208,.105)');
+ sheen.addColorStop(.5,'rgba(255,255,255,0)');
+ sheen.addColorStop(1,'rgba(4,8,6,.22)');
+ ctx.fillStyle=sheen;ctx.fillRect(-380,-380,760,760);
+ for(let radius=100;radius<375;radius+=19){
+  ctx.beginPath();ctx.arc(0,0,radius,0,Math.PI*2);
+  ctx.strokeStyle=radius%2?'rgba(224,204,148,.04)':'rgba(7,12,9,.085)';
+  ctx.lineWidth=1;ctx.stroke();
+ }
+ ctx.restore();
+}
 function paintPathPlate(path,i,arc){
  ctx.save();ctx.rotate((i+.5)*arc);ctx.translate(218,0);ctx.rotate(-((i+.5)*arc+angle));
  ctx.shadowColor='rgba(0,0,0,.7)';ctx.shadowBlur=9;
@@ -5615,14 +5637,14 @@ function paintPathPlate(path,i,arc){
  ctx.fillStyle='#f0e6c6';ctx.font='bold 11px Georgia';lines.slice(0,2).forEach((line,j)=>ctx.fillText(line,0,5+j*14));
  ctx.restore();
 }
-function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();if(stage.value==='ideology'){ctx.save();ctx.clip();
- paintIdeologySurface();
+function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();if(stage.value==='ideology'||stage.value==='path'){ctx.save();ctx.clip();
+ if(stage.value==='ideology')paintIdeologySurface();else paintPathSurface();
  ctx.restore();}
 if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideology'){paintIdeologyInsignia(a[i],i,arc);}else if(stage.value==='path'){paintPathPlate(a[i],i,arc);}
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
-ctx.strokeStyle=stage.value==='ideology'?'#dac185':'#c6b878';ctx.lineWidth=stage.value==='ideology'?2.2:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
+ctx.strokeStyle=stage.value==='ideology'?'#dac185':stage.value==='path'?'#c7ae70':'#c6b878';ctx.lineWidth=stage.value==='ideology'?2.2:stage.value==='path'?1.65:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
 
 // Critical first paint: render the default country wheel immediately after the renderer
