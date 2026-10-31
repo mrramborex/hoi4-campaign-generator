@@ -5748,10 +5748,13 @@ function prepareChosenNation(){
  stage.value='ideology';
  btn.textContent='SPIN IDEOLOGY';
  res.textContent='Assigned nation: '+selected+' • Spin the ideology wheel to receive your political orders.';
+ const audit=document.getElementById('countryAuditNote');
+ if(audit)audit.textContent='Chosen Nation • '+selected+' • '+countries[selected].length+' available ideologies • 293 / 293 Steam achievements validated';
  draw();
 }
 function selectChosenNation(country){
- if(spinning||!countries[country])return;
+ if(spinning){document.getElementById('chosenNation').value=chosenNation;return;}
+ if(!countries[country])return;
  chosenNation=country;
  resetCampaign(false,false);
 }
@@ -5776,7 +5779,8 @@ document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.ge
 // animation and returns the wheel to exactly zero rotation.
 let wheelWakeRunning=false;
 function wakeWheelCanvas(){
- if(wheelWakeRunning||spinning)return;
+ // Never restart a player's active campaign on load/pageshow/font readiness.
+ if(wheelWakeRunning||spinning||operationMode!=='random'||selected||stage.value!=='country')return;
  wheelWakeRunning=true;
  resetGenerator();
  const base=0,start=performance.now(),duration=360;
