@@ -5440,10 +5440,8 @@ function pickAchievement(country,ideology,path){
  if(routeOpen.length)return chooseWeighted(routeOpen,'route');
  if(countryOpen.length)return chooseWeighted(countryOpen,'country');
 
- // Fallback rule: if this country has no compatible country-specific achievement,
- // broaden the order to unfinished generic achievements before issuing a world-conquest directive.
- const genericOpen=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&eligibleForCountry(a,country)&&!done.has(a.name)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
- if(genericOpen.length)return chooseWeighted(genericOpen,'generic');
+ // Phase 22A: generic achievements remain archive-only.
+ // When no compatible unfinished country achievement remains, use the custom directive.
 
  return {
   name:'World Conquest Directive',
@@ -5456,6 +5454,22 @@ function pickAchievement(country,ideology,path){
   _customDirective:true
  };
 }
+// Phase 22A regression — verifies the real picker never returns a generic assignment.
+// Call manually in browser devtools: HOI4WarRoomPhase22AGenericAudit()
+function warRoomPhase22AGenericAudit(){
+ const source=pickAchievement.toString();
+ const genericExcludedFromCountryPool=source.includes("a.country!=='Any Country'&&a.country!=='Any Minor'");
+ const noGenericFallback=!source.includes("genericOpen")&&!source.includes("chooseWeighted(genericOpen");
+ const fallback=source.includes("name:'World Conquest Directive'");
+ const all=flatAchievements();
+ const generic=all.filter(a=>a.country==='Any Country'||a.country==='Any Minor');
+ return {phase:'22A',catalog:all.length,genericArchiveRecords:generic.length,
+   checks:{genericExcludedFromCountryPool,noGenericFallback,worldConquestFallback:fallback,
+     archiveRetainsGeneric:generic.length>0},
+   passed:genericExcludedFromCountryPool&&noGenericFallback&&fallback&&generic.length>0};
+}
+window.HOI4WarRoomPhase22AGenericAudit=warRoomPhase22AGenericAudit;
+
 let currentMission=null,currentPath=null;
 function updateMissionAchievement(a){
  currentMission=a;
