@@ -3266,6 +3266,20 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
  header.war-header .topnav .navbtn,
  header.war-header .topnav .navbtn.active{height:54px!important;min-height:54px!important}
 }
+/* V2 Phase 21A — dual operation modes, in the existing Operations control panel */
+.v2-operation-mode{margin:14px 0 16px;padding:13px;border:1px solid #89764f;background:linear-gradient(145deg,#2c3025,#171c17);border-radius:6px}
+.v2-mode-heading{font:700 12px var(--display);letter-spacing:1.5px;color:#eee3bf;margin-bottom:10px}
+.v2-mode-heading small{font:10px var(--typewriter);color:#bda16b;margin-left:8px}
+.v2-mode-buttons{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.v2-mode-button{min-width:0;padding:10px 7px;background:#161a15;border:1px solid #72664b;color:#d3c9a9;font:700 11px var(--display);letter-spacing:.4px;border-radius:4px;cursor:pointer;line-height:1.4}
+.v2-mode-button.active,.v2-mode-button[aria-pressed=true]{background:#665331;border-color:#d4b678;color:#fff5d9;box-shadow:inset 0 1px 0 #dfc88955}
+.v2-mode-button:focus-visible,#chosenNation:focus-visible{outline:2px solid #e2c886;outline-offset:2px}
+.v2-nation-panel{margin-top:12px;border-top:1px solid #756a4b;padding-top:11px}
+.v2-nation-panel[hidden]{display:none!important}
+.v2-nation-panel label{display:block;margin-bottom:7px;font:700 11px var(--typewriter);letter-spacing:1px;color:#e9d8aa}
+#chosenNation{display:block;width:100%;min-width:0;background:#151912;color:#eee4c5;border:1px solid #87764e;padding:10px;border-radius:4px;font-size:14px}
+.v2-nation-panel p{color:#c4bd9f;font-size:12px;line-height:1.5;margin:9px 0 0}
+@media(max-width:520px){.v2-mode-buttons{grid-template-columns:1fr}.v2-mode-button{min-height:44px}}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -3337,6 +3351,11 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 </div></section>
 <aside class="card side controls command-panel">
 <div class="command-panel-head"><span>WAR ROOM • GENERATOR CONTROL</span><h2>Operation Parameters</h2><small>CAMPAIGN RULES • GENERAL STAFF</small></div>
+<div class="v2-operation-mode" role="group" aria-label="Operation mode">
+ <div class="v2-mode-heading">OPERATION TYPE <small>V2.0</small></div>
+ <div class="v2-mode-buttons"><button type="button" id="modeRandom" class="v2-mode-button active" aria-pressed="true" onclick="setOperationMode('random')">RANDOM ASSIGNMENT</button><button type="button" id="modeChoose" class="v2-mode-button" aria-pressed="false" onclick="setOperationMode('chosen')">CHOOSE YOUR NATION</button></div>
+ <div id="chosenNationPanel" class="v2-nation-panel" hidden><label for="chosenNation">ASSIGNED NATION</label><select id="chosenNation" aria-label="Choose your country" onchange="selectChosenNation(this.value)"></select><p>Country stays assigned for new campaigns. Ideology, political path, and achievement remain randomized.</p></div>
+</div>
 <input id="stage" type="hidden" value="country">
 <div class="command-field"><label>Country Roster</label><select id="countryRoster" onchange="changeCountryRoster()"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
 <div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
@@ -5538,6 +5557,7 @@ function countryRosterPool(){
 function shuffledCountries(){
  return countryRosterPool().sort((a,b)=>a.localeCompare(b));
 }
+let operationMode='random',chosenNation=null;
 let selectedIdeology=null;
 let remaining=shuffledCountries(), selected=null, angle=0, spinning=false, hist=[], campaignLocked=false;
 const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document.getElementById('stage'),btn=document.getElementById('spin'),res=document.getElementById('result');
@@ -5651,9 +5671,52 @@ function completeCurrentMissionAchievement(){if(!currentMission)return;const man
 document.getElementById('completeMissionAchievement').onclick=completeCurrentMissionAchievement;;
 function bindPrimaryGeneratorControls(){const spinButton=document.getElementById('spin'),stageSelector=document.getElementById('stage');if(spinButton)spinButton.onclick=spin;if(stageSelector){stageSelector.onchange=()=>{spinButton.textContent=stageSelector.value==='country'?'SPIN COUNTRY':stageSelector.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()}}}
 bindPrimaryGeneratorControls();document.getElementById('startCampaign').onclick=()=>{if(campaignLocked)return;logCurrentCampaign();campaignLocked=true;const start=document.getElementById('startCampaign');document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';start.textContent='CAMPAIGN LOCKED IN';start.disabled=true;btn.disabled=true;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=true;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=true);};
-function resetCampaign(clearHistory=true,preserveRemaining=false){if(!preserveRemaining)remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 293 / 293 Steam achievements validated';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;currentSpecialOrder=null;campaignLocked=false;renderCurrentSpecialOrder();if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');const start=document.getElementById('startCampaign');start.textContent='START CAMPAIGN';start.disabled=false;btn.disabled=false;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=false;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=false);btn.textContent='SPIN COUNTRY';res.textContent=remaining.length?randomFieldIntelligence():'No countries remaining in this roster. Reset the generator or disable Remove countries after selection.';if(clearHistory)document.getElementById('history').innerHTML='';draw()}
+function resetCampaign(clearHistory=true,preserveRemaining=false){if(!preserveRemaining)remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 293 / 293 Steam achievements validated';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;currentSpecialOrder=null;campaignLocked=false;renderCurrentSpecialOrder();if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');const start=document.getElementById('startCampaign');start.textContent='START CAMPAIGN';start.disabled=false;btn.disabled=false;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=false;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=false);btn.textContent='SPIN COUNTRY';res.textContent=remaining.length?randomFieldIntelligence():'No countries remaining in this roster. Reset the generator or disable Remove countries after selection.';if(clearHistory)document.getElementById('history').innerHTML='';if(operationMode==='chosen')prepareChosenNation();else draw()}
+function updateOperationModeUI(){
+ const chosen=operationMode==='chosen';
+ document.getElementById('modeRandom').classList.toggle('active',!chosen);
+ document.getElementById('modeChoose').classList.toggle('active',chosen);
+ document.getElementById('modeRandom').setAttribute('aria-pressed',String(!chosen));
+ document.getElementById('modeChoose').setAttribute('aria-pressed',String(chosen));
+ document.getElementById('chosenNationPanel').hidden=!chosen;
+ const roster=document.getElementById('countryRoster');
+ if(roster){roster.disabled=chosen;roster.closest('.command-field').hidden=chosen;}
+ const noRepeat=document.getElementById('noRepeat');
+ if(noRepeat){const field=noRepeat.closest('.command-field')||noRepeat.parentElement;if(field)field.hidden=chosen;}
+}
+function populateChosenNations(){
+ const select=document.getElementById('chosenNation');
+ const roster=Object.keys(countries).sort((a,b)=>a.localeCompare(b));
+ select.replaceChildren(...roster.map(n=>new Option(n,n)));
+ if(!chosenNation||!countries[chosenNation])chosenNation=roster[0];
+ select.value=chosenNation;
+}
+function prepareChosenNation(){
+ if(operationMode!=='chosen')return;
+ if(!chosenNation||!countries[chosenNation])populateChosenNations();
+ selected=chosenNation;
+ hist.unshift(selected);
+ stage.value='ideology';
+ btn.textContent='SPIN IDEOLOGY';
+ res.textContent='Assigned nation: '+selected+' • Spin the ideology wheel to receive your political orders.';
+ draw();
+}
+function selectChosenNation(country){
+ if(spinning||!countries[country])return;
+ chosenNation=country;
+ resetCampaign(false,false);
+}
+function setOperationMode(mode){
+ if(spinning||!['random','chosen'].includes(mode))return;
+ operationMode=mode;
+ if(mode==='chosen')populateChosenNations();
+ updateOperationModeUI();
+ resetCampaign(false,false);
+}
 function changeCountryRoster(){resetCampaign(false);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>'<div>'+x+'</div>').join('')}
 function resetGenerator(){const roster=document.getElementById('countryRoster');if(roster)roster.value='all';resetCampaign(true)}
+populateChosenNations();
+updateOperationModeUI();
 document.getElementById('countryRoster').onchange=changeCountryRoster;
 document.getElementById('reset').onclick=resetGenerator;
 document.getElementById('newCampaign').onclick=()=>{const preserve=!!document.getElementById('noRepeat')?.checked;resetCampaign(false,preserve);document.getElementById('history').innerHTML=hist.slice(0,8).map(x=>`<div>${x}</div>`).join('');const wheel=document.getElementById('wheel');if(wheel)wheel.scrollIntoView({behavior:'smooth',block:'center'})};
