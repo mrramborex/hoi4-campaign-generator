@@ -5442,7 +5442,7 @@ function pickAchievement(country,ideology,path){
 
  // Fallback rule: if this country has no compatible country-specific achievement,
  // broaden the order to unfinished generic achievements before issuing a world-conquest directive.
- const genericOpen=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&!done.has(a.name)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
+ const genericOpen=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&eligibleForCountry(a,country)&&!done.has(a.name)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
  if(genericOpen.length)return chooseWeighted(genericOpen,'generic');
 
  return {
