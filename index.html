@@ -5785,6 +5785,11 @@ function wakeWheelCanvas(){
  resetGenerator();
  const base=0,start=performance.now(),duration=360;
  function wakeFrame(now){
+  // Abort the decorative startup repaint if the player has begun an operation.
+  if(operationMode!=='random'||selected||stage.value!=='country'||spinning){
+   wheelWakeRunning=false;
+   return;
+  }
   const p=Math.min(1,(now-start)/duration);
   // Sub-pixel-scale motion is enough to invalidate the composited canvas layer.
   angle=base+Math.sin(p*Math.PI)*0.0008;
