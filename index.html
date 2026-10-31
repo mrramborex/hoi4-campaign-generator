@@ -3385,7 +3385,7 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 </div></section>
 <div class="campaign-file-modal" id="campaignFileModal" aria-hidden="true" onclick="if(event.target===this)closeCampaignFile()"><article class="campaign-file-document" role="dialog" aria-modal="true" aria-labelledby="campaignFileTitle"><button class="campaign-file-close" type="button" aria-label="Close campaign file" onclick="closeCampaignFile()">×</button><div class="campaign-file-tab">OPERATION FILE</div><div class="campaign-file-classification">GENERAL STAFF • CAMPAIGN RECORD</div><div class="campaign-file-heading"><div><span id="campaignFileNumber">#000</span><h2 id="campaignFileTitle">Campaign File</h2><p id="campaignFileRoute"></p></div><img id="campaignFileArt" alt=""></div><div class="campaign-file-rule"></div><section class="campaign-file-section"><span>ACHIEVEMENT ASSIGNMENT</span><h3 id="campaignFileAchievement"></h3></section><section class="campaign-file-section campaign-file-objective"><span>OFFICIAL ACHIEVEMENT REQUIREMENT</span><p id="campaignFileObjective"></p></section><section class="campaign-file-section campaign-file-orders"><span>HOW TO COMPLETE THE ASSIGNMENT</span><p id="campaignFileHow"></p></section><section class="campaign-file-section campaign-file-special" id="campaignFileSpecial" hidden><span>SPECIAL ORDER • SECONDARY MISSION</span><h3 id="campaignFileSpecialName"></h3><p id="campaignFileSpecialObjective"></p></section><footer><span id="campaignFileDate"></span><strong id="campaignFileStatus"></strong></footer></article></div>
 <script>
-const C={f:'#4b463d',c:'#8a332f',d:'#315f78',u:'#8a7345'};
+const C={f:'#514b43',c:'#963d37',d:'#366d89',u:'#ac9157'};
 const countries={
 'Afghanistan':['u','c','d','f'],'Argentina':['u','f','d','c'],'Australia':['d','f','c'],'Aussa':['u'],'Austria':['u','d','f','c'],'Belgium':['d','f','c'],'Brazil':['u','f','d','c'],'British Raj / India':['d','f','c','u'],'Bulgaria':['u','f','c','d'],'Canada':['d','f','c'],'Chile':['d','f','c','u'],'China (Nationalist)':['u','d','f','c'],'Communist China':['c'],'Guangxi Clique':['u','c'],'Guangdong Clique':['u','c'],'Yunnan':['u','c'],'Sichuan Clique':['u','c'],'Northeastern Army':['u','c'],'Shanxi':['u','c'],'Sinkiang':['c','u'],'Khotan Ma':['u','c'],'Qinghai Ma':['u','c'],'Gansu Ma':['u','c'],'Ningxia Ma':['u','c'],'Hebei-Chahar':['u','c'],'Shandong Clique':['u','c'],'Congo':['d','c','f','u'],'Czechoslovakia':['d','c','f','u'],'Denmark':['d','f','c','u'],'Dutch East Indies / Indonesia':['d','c','f','u'],'Estonia':['d','f','c','u'],'Ethiopia':['u','d','c','f'],'Finland':['d','f','c','u'],'France':['d','f','c','u'],'Germany':['f','c','d','u'],'Greece':['u','f','d','c'],'Hungary':['u','f','c','d'],'Iceland':['d','f','c','u'],'Iran':['u','f','c','d'],'Iraq':['u','f','d'],'Italy':['f','c','d','u'],'Japan':['u','f','c','d'],'Latvia':['d','f','c','u'],'Lithuania':['d','f','c','u'],'Manchukuo':['u','f','c','d'],'Mexico':['d','f','c','u'],'Netherlands':['d','f','c','u'],'New Zealand':['d','f','c'],'Norway':['d','f','c','u'],'Paraguay':['u','f','d'],'Philippines':['d','f','c','u'],'Poland':['u','f','c','d'],'Portugal':['u','f','c','d'],'Romania':['u','f','c','d'],'Siam / Thailand':['u','f','d'],'South Africa':['d','f','c'],'Soviet Union':['c','u','f'],'Spain':['f','c','d','u'],'Sweden':['d','f','c','u'],'Switzerland':['d','f','u'],'Turkey':['u','f','d','c'],'United Kingdom':['d','f','c','u'],'United States':['d','f','c'],'Uruguay':['d','f','u'],'Yugoslavia':['u','f','c','d']};
 const COUNTRY_ROSTER_VERSION='18C — v1.0 certified focus-tree-only ideology matrix; 65 countries, 7 majors / 58 minors';
@@ -5564,16 +5564,43 @@ const cv=document.getElementById('wheel'),ctx=cv.getContext('2d'),stage=document
 function items(){if(stage.value==='country')return remaining;if(stage.value==='ideology')return selected?countries[selected]:[];if(!selected||!selectedIdeology)return [];return (paths[selected]&&paths[selected][selectedIdeology])||[selected+' — '+names[selectedIdeology]+' political route'];}
 function label(x){return stage.value==='country'?x:(stage.value==='ideology'?names[x]:x)}
 function col(x,i){if(stage.value==='ideology')return C[x]; if(stage.value==='path'){const pp=['#4f5946','#66583f','#46585c','#624d47','#56523f','#4b5550'];return pp[i%pp.length]} const pal=['#596247','#7a5d3a','#4c6470','#72534e','#586b5a','#6d6644','#4b596c','#67516b'];return pal[i%pal.length]}
+// Phase 21B.2: restrained lacquered-metal treatment, clipped to each ideology wedge.
+function paintIdeologySurface(){
+ ctx.save();
+ let lacquer=ctx.createRadialGradient(-94,-112,35,0,0,390);
+ lacquer.addColorStop(0,'rgba(255,239,194,.22)');
+ lacquer.addColorStop(.44,'rgba(255,231,175,.045)');
+ lacquer.addColorStop(.78,'rgba(15,17,14,.13)');
+ lacquer.addColorStop(1,'rgba(4,6,6,.47)');
+ ctx.fillStyle=lacquer;ctx.fillRect(-380,-380,760,760);
+ const sheen=ctx.createLinearGradient(-300,-320,300,340);
+ sheen.addColorStop(0,'rgba(255,244,205,.11)');
+ sheen.addColorStop(.42,'rgba(255,255,255,0)');
+ sheen.addColorStop(1,'rgba(0,0,0,.18)');
+ ctx.fillStyle=sheen;ctx.fillRect(-380,-380,760,760);
+ // Concentric machining marks add detail without logos or emblems.
+ for(let radius=108;radius<374;radius+=19){
+  ctx.beginPath();ctx.arc(0,0,radius,0,Math.PI*2);
+  ctx.strokeStyle=radius%2?'rgba(244,220,152,.035)':'rgba(9,12,11,.07)';
+  ctx.lineWidth=1;ctx.stroke();
+ }
+ ctx.restore();
+}
 function paintIdeologyInsignia(ideology,i,arc){
  // Text-only ideology sector: clean, readable and fully integrated with the War Room wheel.
  const mid=(i+.5)*arc,r=220,title=(names[ideology]||'Ideology').toUpperCase();
  ctx.save();ctx.rotate(mid);ctx.translate(r,0);ctx.rotate(-(angle+mid));
- ctx.font='bold 20px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';
- // Rounded joins prevent sharp miter spikes on letters such as M at canvas scale.
- ctx.lineJoin='round';ctx.miterLimit=2;ctx.lineWidth=3;ctx.strokeStyle='rgba(6,7,5,.98)';ctx.strokeText(title,0,0);
- ctx.fillStyle='#f0dda5';ctx.fillText(title,0,0);
- ctx.strokeStyle='rgba(202,171,91,.82)';ctx.lineWidth=1.5;
- ctx.beginPath();ctx.moveTo(-48,20);ctx.lineTo(48,20);ctx.stroke();
+ ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillStyle='rgba(17,19,17,.20)';ctx.strokeStyle='rgba(220,190,123,.25)';ctx.lineWidth=1;
+ ctx.beginPath();ctx.roundRect(-109,-30,218,68,7);ctx.fill();ctx.stroke();
+ ctx.font='bold 21px Georgia';ctx.lineJoin='round';ctx.miterLimit=2;
+ ctx.lineWidth=4;ctx.strokeStyle='rgba(8,10,9,.96)';ctx.strokeText(title,0,-2);
+ ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=3;
+ ctx.fillStyle='#f6e6bb';ctx.fillText(title,0,-2);ctx.shadowBlur=0;
+ ctx.strokeStyle='rgba(16,18,15,.6)';ctx.lineWidth=3;
+ ctx.beginPath();ctx.moveTo(-52,23);ctx.lineTo(52,23);ctx.stroke();
+ ctx.strokeStyle='#d5b873';ctx.lineWidth=1.5;
+ ctx.beginPath();ctx.moveTo(-52,22);ctx.lineTo(52,22);ctx.stroke();
  ctx.restore();
 }
 function paintPathPlate(path,i,arc){
@@ -5589,13 +5616,13 @@ function paintPathPlate(path,i,arc){
  ctx.restore();
 }
 function draw(){let a=items();ctx.clearRect(0,0,800,800);if(!a.length){ctx.fillStyle='#aaa';ctx.textAlign='center';ctx.font='28px Georgia';ctx.fillText(stage.value==='ideology'?'Spin a country first':'No countries remaining',400,400);return}let n=a.length,arc=Math.PI*2/n;ctx.save();ctx.translate(400,400);ctx.rotate(angle);for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();ctx.fillStyle=col(a[i],i);ctx.fill();if(stage.value==='ideology'){ctx.save();ctx.clip();
- let g=ctx.createRadialGradient(0,0,72,0,0,375);g.addColorStop(0,'rgba(8,9,7,.34)');g.addColorStop(.55,'rgba(255,235,180,.025)');g.addColorStop(1,'rgba(5,6,5,.38)');ctx.fillStyle=g;ctx.fillRect(-380,-380,760,760);
+ paintIdeologySurface();
  ctx.restore();}
 if(stage.value==='country'){paintFlag(a[i],i,arc);}else if(stage.value==='ideology'){paintIdeologyInsignia(a[i],i,arc);}else if(stage.value==='path'){paintPathPlate(a[i],i,arc);}
 // paintFlag may create its own paths for flag symbols. Rebuild the wedge path before stroking
 // so circles, stars and diagonals from a flag are never accidentally outlined as wheel dividers.
 ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,375,i*arc,(i+1)*arc);ctx.closePath();
-ctx.strokeStyle='#c6b878';ctx.lineWidth=stage.value==='ideology'?1.45:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
+ctx.strokeStyle=stage.value==='ideology'?'#dac185':'#c6b878';ctx.lineWidth=stage.value==='ideology'?2.2:1;ctx.stroke();if(stage.value!=='ideology'&&stage.value!=='path'&&(stage.value!=='country'||n<=90)){ctx.save();ctx.rotate((i+.5)*arc);const dense=stage.value==='country'&&n>60;ctx.translate(dense?264:210,0);ctx.fillStyle='#fffdf0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${dense?11:n>40?12:n>25?14:18}px Georgia`;ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=dense?1:2;ctx.lineWidth=dense?4:3;ctx.lineJoin='round';ctx.miterLimit=2;ctx.strokeStyle='#030403';let t=label(a[i]);const max=dense?14:20;if(t.length>max)t=t.slice(0,max-1)+'…';ctx.strokeText(t,0,0);ctx.fillText(t,0,0);ctx.restore()}}ctx.restore();ctx.save();ctx.translate(400,400);ctx.beginPath();ctx.arc(0,0,72,0,Math.PI*2);ctx.fillStyle='#171911';ctx.fill();ctx.strokeStyle='#c6a65b';ctx.lineWidth=5;ctx.stroke();ctx.beginPath();ctx.arc(0,0,61,0,Math.PI*2);ctx.strokeStyle='#4d4936';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#e8cf87';ctx.font='bold 12px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#000';ctx.shadowBlur=4;ctx.fillText('HEARTS OF',0,-7);ctx.font='bold 13px Georgia';ctx.fillText('IRON IV',0,8);ctx.restore()}
 
 
 // Critical first paint: render the default country wheel immediately after the renderer
