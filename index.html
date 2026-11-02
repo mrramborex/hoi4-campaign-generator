@@ -4814,7 +4814,7 @@ function warRoomAchievementClassification(name){
   duration,durationLabel:duration?['Short','Medium','Long','Very Long'][duration-1]:'Not estimated',
   difficultyLabel:difficulty?difficulty.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(' '):'Not rated',
   tags:[...new Set(tags)],
-  editorial:!!difficulty||tags.length>0,
+  editorial:!!difficulty||tags.length>0||duration!==null,
   reviewStatus:entry.reviewStatus,
   officialRequirement:entry.officialRequirement};
 }
