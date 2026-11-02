@@ -9,7 +9,7 @@ Score each **1–4**, using written evidence for each:
 - **Uncertainty/dependency:** degree of RNG, AI cooperation, external war outcomes, or hard-to-control conditions.
 
 ## Suggested rating calculation
-Use the **median** of three dimension scores, rounded up only if an explicitly reviewed exception is documented. This prevents one unusual factor from overpowering the total. Scale: 1=Easy, 2=Moderate, 3=Hard, 4=Very Hard.
+Use the **median** of three dimension scores for editorial difficulty. Scale: 1=Easy, 2=Moderate, 3=Hard, 4=Very Hard. **Always display time investment separately (1=Short, 2=Medium, 3=Long, 4=Very Long)** when a review is published; time is not automatically a minimum difficulty. Thus an Easy achievement can still be Very Long. Ratings are about challenge, not speed. No discretionary score overrides without revising the rubric and validator together.
 
 This is a *proposed editorial rubric*, not a mathematical statement of achievement success probability.
 
@@ -33,3 +33,6 @@ For every rated achievement, record: canonical name, exact requirement and link 
 - Desktop/mobile, Steam Sync and Campaign Assignment regression tests pass.
 
 No individual achievement has been rated in this document.
+
+## Pilot refinement decision
+The 1948 survival pilot is the counterexample: retaining an Easy *difficulty* may be reasonable, but the visible duration must say **Very Long**. The pilot numbers are not approved ratings and the official source requirements still require verification. A review is publishable only when source links are verified, the rationale is written, and the entry is approved. A synthetic test fixture must never be entered as reviewed catalog data.
