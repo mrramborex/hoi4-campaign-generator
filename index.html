@@ -4807,6 +4807,33 @@ function warRoomAchievementClassification(name){
   reviewStatus:entry.reviewStatus,
   officialRequirement:entry.officialRequirement};
 }
+// Phase 22B: strict validator for future editorial submissions (no automatic ratings).
+function warRoomValidateDifficultyReview(review){
+ const errors=[];
+ if(!review||typeof review!=='object'||Array.isArray(review))return {valid:false,errors:['Review must be an object']};
+ const catalog=flatAchievements();
+ if(!catalog.some(a=>a.name===review.name))errors.push('Unknown canonical achievement');
+ const scores=review.scores;
+ if(!scores||typeof scores!=='object'||!['complexity','time','uncertainty'].every(k=>Number.isInteger(scores[k])&&scores[k]>=1&&scores[k]<=4))
+  errors.push('Complexity, time and uncertainty must each be integers from 1 to 4');
+ const tags=review.tags;
+ if(!Array.isArray(tags)||tags.some(t=>!WAR_ROOM_ACHIEVEMENT_TAGS.includes(t))||new Set(tags).size!==tags.length)
+  errors.push('Tags must be a distinct subset of allowed classifications');
+ if(!Array.isArray(review.sources)||!review.sources.length||review.sources.some(u=>typeof u!=='string'||!/^https:\/\//.test(u)))
+  errors.push('At least one HTTPS reference is required');
+ if(typeof review.justification!=='string'||review.justification.trim().length<25)
+  errors.push('A written justification of at least 25 characters is required');
+ if(typeof review.reviewedAt!=='string'||!/^\\d{4}-\\d{2}-\\d{2}$/.test(review.reviewedAt))
+  errors.push('Review date must be YYYY-MM-DD');
+ if(review.reviewStatus!=='reviewed')errors.push('Review must be explicitly approved');
+ const ordered=scores&&['complexity','time','uncertainty'].map(k=>scores[k]).sort((a,b)=>a-b);
+ const expected=ordered&&ordered[1];
+ if(!WAR_ROOM_DIFFICULTY_LEVELS.includes(review.difficulty)||WAR_ROOM_DIFFICULTY_LEVELS.indexOf(review.difficulty)!==expected-1)
+  errors.push('Difficulty must match median score');
+ return {valid:errors.length===0,errors};
+}
+window.HOI4WarRoomValidateDifficultyReview=warRoomValidateDifficultyReview;
+
 function warRoomPhase22BClassificationAudit(){
  const catalog=flatAchievements(),issues=[];
  for(const achievement of catalog){
