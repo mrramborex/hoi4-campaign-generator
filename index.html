@@ -4780,6 +4780,7 @@ function warRoomAchievementIntelligence(name){
   difficultySource:entry?.difficultySource??null,
   prerequisites:Array.isArray(entry?.prerequisites)?[...entry.prerequisites]:[],
   tips:Array.isArray(entry?.tips)?[...entry.tips]:[],
+  timeInvestment:Number.isInteger(entry?.timeInvestment)?entry.timeInvestment:null,
   reviewStatus:entry?.reviewStatus||'unreviewed',
   sourceUrl:entry?.sourceUrl||null
  };
@@ -4800,7 +4801,9 @@ function warRoomAchievementClassification(name){
    typeof entry.difficultySource==='string'&&entry.difficultySource.trim()
    ?entry.difficulty:null;
  const tags=reviewed?entry.tags.filter(t=>WAR_ROOM_ACHIEVEMENT_TAGS.includes(t)):[];
+ const duration=reviewed&&Number.isInteger(entry.timeInvestment)&&entry.timeInvestment>=1&&entry.timeInvestment<=4?entry.timeInvestment:null;
  return {name:entry.name,difficulty,
+  duration,durationLabel:duration?['Short','Medium','Long','Very Long'][duration-1]:'Not estimated',
   difficultyLabel:difficulty?difficulty.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(' '):'Not rated',
   tags:[...new Set(tags)],
   editorial:!!difficulty||tags.length>0,
@@ -4864,7 +4867,7 @@ function warRoomPhase22BClassificationAudit(){
  for(const achievement of catalog){
   const record=warRoomAchievementClassification(achievement.name);
   if(!record)issues.push({name:achievement.name,reason:'missing classification wrapper'});
-  else if(record.reviewStatus!=='reviewed'&&(record.difficulty!==null||record.tags.length))
+  else if(record.reviewStatus!=='reviewed'&&(record.difficulty!==null||record.tags.length||record.duration!==null))
    issues.push({name:achievement.name,reason:'unreviewed guidance visible'});
   else if(record.officialRequirement!==achievement.objective)
    issues.push({name:achievement.name,reason:'canonical requirement changed'});
