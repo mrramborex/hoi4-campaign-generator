@@ -5016,16 +5016,37 @@ function previewSteamAchievementSync(payload){
  return {...result,steamid:String(payload&&payload.steamid||''),steamUnlocked:Number(payload&&payload.unlockedCount||result.totalReceived),steamTotal:Number(payload&&payload.totalReturned||0)};
 }
 // Reviewed guidance is intentionally absent for unreviewed achievements.
-function warRoomArchiveIntelligenceHTML(name){
- const record=warRoomAchievementClassification(name);
+function warRoomArchiveIntelligenceMarkup(record){
  if(!record||record.reviewStatus!=='reviewed'||!record.editorial)return '';
  const safe=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const chips=[];
  if(record.difficulty)chips.push('<span class="ach-intel-pill">Difficulty: '+safe(record.difficultyLabel)+'</span>');
  if(record.duration)chips.push('<span class="ach-intel-pill duration">Duration: '+safe(record.durationLabel)+'</span>');
- record.tags.forEach(tag=>chips.push('<span class="ach-intel-pill topic">'+safe(tag.replace(/-/g,' '))+'</span>'));
+ (Array.isArray(record.tags)?record.tags:[]).forEach(tag=>chips.push('<span class="ach-intel-pill topic">'+safe(tag.replace(/-/g,' '))+'</span>'));
  return chips.length?'<div class="ach-intel" aria-label="Editorial achievement guidance"><span class="ach-intel-label">War Room Intelligence · Editorial estimates</span>'+chips.join('')+'</div>':'';
 }
+function warRoomArchiveIntelligenceHTML(name){
+ return warRoomArchiveIntelligenceMarkup(warRoomAchievementClassification(name));
+}
+function warRoomPhase22BArchiveUIAudit(){
+ const sample={reviewStatus:'reviewed',editorial:true,difficulty:'hard',difficultyLabel:'Hard',duration:4,durationLabel:'Very Long',tags:['land','timed']};
+ const rated=warRoomArchiveIntelligenceMarkup(sample);
+ const hidden=warRoomArchiveIntelligenceMarkup({...sample,reviewStatus:'unreviewed'});
+ const escaped=warRoomArchiveIntelligenceMarkup({...sample,tags:['<script>']});
+ const durationOnly=warRoomArchiveIntelligenceMarkup({...sample,difficulty:null,difficultyLabel:'Not rated',tags:[]});
+ const catalog=flatAchievements();
+ const currentlyHidden=catalog.every(a=>warRoomArchiveIntelligenceHTML(a.name)==='');
+ const checks={
+  catalogPreserved:catalog.length===293,
+  ratedChipsRendered:rated.includes('Difficulty: Hard')&&rated.includes('Duration: Very Long')&&rated.includes('land'),
+  unreviewedHidden:hidden==='',
+  tagsEscaped:!escaped.includes('<script>')&&escaped.includes('&lt;script&gt;'),
+  durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
+  noUnreviewedProductionRatings:currentlyHidden
+ };
+ return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomPhase22BArchiveUIAudit=warRoomPhase22BArchiveUIAudit;
 window.HOI4WarRoomArchiveIntelligenceHTML=warRoomArchiveIntelligenceHTML;
 function renderAchievements(){
  const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,showGeneric=document.getElementById('achGeneric').checked;
