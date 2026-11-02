@@ -3280,6 +3280,14 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 #chosenNation{display:block;width:100%;min-width:0;background:#151912;color:#eee4c5;border:1px solid #87764e;padding:10px;border-radius:4px;font-size:14px}
 .v2-nation-panel p{color:#c4bd9f;font-size:12px;line-height:1.5;margin:9px 0 0}
 @media(max-width:520px){.v2-mode-buttons{grid-template-columns:1fr}.v2-mode-button{min-height:44px}}
+
+/* Phase 22B — restrained reviewed intelligence on archive cards */
+.ach-intel{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px;padding:8px 0;border-top:1px dashed rgba(92,76,46,.35)}
+.ach-intel-label{flex-basis:100%;font:700 10px var(--typewriter);letter-spacing:1px;text-transform:uppercase;color:#69512e}
+.ach-intel-pill{display:inline-block;max-width:100%;padding:5px 7px;border:1px solid #877048;border-radius:3px;background:#e3c990;color:#392b19;font:700 11px var(--document);line-height:1.3;overflow-wrap:anywhere}
+.ach-intel-pill.duration{background:#d5c6a3;border-color:#827155}
+.ach-intel-pill.topic{background:#e8dcb9;border-color:#a18e68;font-weight:600}
+@media(max-width:620px){.ach-intel{gap:5px}.ach-intel-pill{font-size:11px;line-height:1.4}}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -5007,6 +5015,18 @@ function previewSteamAchievementSync(payload){
  const result=mapSteamAchievements(payload&&payload.unlocked);
  return {...result,steamid:String(payload&&payload.steamid||''),steamUnlocked:Number(payload&&payload.unlockedCount||result.totalReceived),steamTotal:Number(payload&&payload.totalReturned||0)};
 }
+// Reviewed guidance is intentionally absent for unreviewed achievements.
+function warRoomArchiveIntelligenceHTML(name){
+ const record=warRoomAchievementClassification(name);
+ if(!record||record.reviewStatus!=='reviewed'||!record.editorial)return '';
+ const safe=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const chips=[];
+ if(record.difficulty)chips.push('<span class="ach-intel-pill">Difficulty: '+safe(record.difficultyLabel)+'</span>');
+ if(record.duration)chips.push('<span class="ach-intel-pill duration">Duration: '+safe(record.durationLabel)+'</span>');
+ record.tags.forEach(tag=>chips.push('<span class="ach-intel-pill topic">'+safe(tag.replace(/-/g,' '))+'</span>'));
+ return chips.length?'<div class="ach-intel" aria-label="Editorial achievement guidance"><span class="ach-intel-label">War Room Intelligence · Editorial estimates</span>'+chips.join('')+'</div>':'';
+}
+window.HOI4WarRoomArchiveIntelligenceHTML=warRoomArchiveIntelligenceHTML;
 function renderAchievements(){
  const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,showGeneric=document.getElementById('achGeneric').checked;
  const filtered=all.filter(a=>(showGeneric||(a.country!=='Any Country'&&a.country!=='Any Minor'))&&(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
@@ -5015,7 +5035,7 @@ function renderAchievements(){
  document.getElementById('completedCount').textContent=completed;
  document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';updateSteamHomeSummary();
  document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling&&(this.nextElementSibling.style.display=\'grid\')"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling&&(this.nextElementSibling.style.display=\'grid\')"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}${warRoomArchiveIntelligenceHTML(a.name)}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
