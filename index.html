@@ -4784,6 +4784,48 @@ function warRoomAchievementIntelligence(name){
   sourceUrl:entry?.sourceUrl||null
  };
 }
+/* Phase 22B — reviewed difficulty and classification schema.
+   Ratings are editorial guidance, NEVER Steam unlock conditions.
+   No rating is assigned until an achievement has been individually reviewed. */
+const WAR_ROOM_DIFFICULTY_LEVELS=Object.freeze(['easy','moderate','hard','very-hard']);
+const WAR_ROOM_ACHIEVEMENT_TAGS=Object.freeze([
+ 'conquest','diplomacy','economy','industry','research','espionage',
+ 'naval','air','land','focus-tree','timed','world-tension','survival'
+]);
+function warRoomAchievementClassification(name){
+ const entry=warRoomAchievementIntelligence(name);
+ if(!entry)return null;
+ const reviewed=entry.reviewStatus==='reviewed';
+ const difficulty=reviewed&&WAR_ROOM_DIFFICULTY_LEVELS.includes(entry.difficulty)&&
+   typeof entry.difficultySource==='string'&&entry.difficultySource.trim()
+   ?entry.difficulty:null;
+ const tags=reviewed?entry.tags.filter(t=>WAR_ROOM_ACHIEVEMENT_TAGS.includes(t)):[];
+ return {name:entry.name,difficulty,
+  difficultyLabel:difficulty?difficulty.replace(/-/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase()):'Not rated',
+  tags:[...new Set(tags)],
+  editorial:!!difficulty||tags.length>0,
+  reviewStatus:entry.reviewStatus,
+  officialRequirement:entry.officialRequirement};
+}
+function warRoomPhase22BClassificationAudit(){
+ const catalog=flatAchievements(),issues=[];
+ for(const achievement of catalog){
+  const record=warRoomAchievementClassification(achievement.name);
+  if(!record)issues.push({name:achievement.name,reason:'missing classification wrapper'});
+  else if(record.reviewStatus!=='reviewed'&&(record.difficulty!==null||record.tags.length))
+   issues.push({name:achievement.name,reason:'unreviewed guidance visible'});
+  else if(record.officialRequirement!==achievement.objective)
+   issues.push({name:achievement.name,reason:'canonical requirement changed'});
+ }
+ const checks={catalogIntact:catalog.length===293,noInvalidGuidance:issues.length===0,
+  difficultyScaleDefined:WAR_ROOM_DIFFICULTY_LEVELS.length===4,
+  classificationSchemaDefined:WAR_ROOM_ACHIEVEMENT_TAGS.length===13};
+ return {phase:'22B',catalog:catalog.length,reviewed:catalog.filter(a=>warRoomAchievementClassification(a.name)?.reviewStatus==='reviewed').length,
+  issues,checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomAchievementClassification=warRoomAchievementClassification;
+window.HOI4WarRoomPhase22BClassificationAudit=warRoomPhase22BClassificationAudit;
+
 function warRoomPhase22AIdentityAudit(){
  const catalog=flatAchievements(),byKey=new Map(),collisions=[],missing=[];
  for(const achievement of catalog){
