@@ -4834,6 +4834,31 @@ function warRoomValidateDifficultyReview(review){
 }
 window.HOI4WarRoomValidateDifficultyReview=warRoomValidateDifficultyReview;
 
+function warRoomPhase22BPilotValidationAudit(){
+ const base={name:'Friend in Need',scores:{complexity:1,time:1,uncertainty:1},
+  tags:['diplomacy'],sources:['https://example.org/placeholder'],
+  justification:'Synthetic validator fixture; not an actual reviewed achievement.',
+  reviewedAt:'2026-11-02',reviewStatus:'reviewed',difficulty:'easy'};
+ const clone=()=>({...base,scores:{...base.scores},tags:[...base.tags],sources:[...base.sources]});
+ const validFixture=warRoomValidateDifficultyReview(clone()).valid;
+ const badScore=clone();badScore.scores.time=5;
+ const badTag=clone();badTag.tags=['not-a-tag'];
+ const badSource=clone();badSource.sources=[];
+ const badDate=clone();badDate.reviewedAt='2026/11/02';
+ const badMedian=clone();badMedian.difficulty='hard';
+ const unreviewed=clone();unreviewed.reviewStatus='unreviewed';
+ const checks={validFixtureAccepted:validFixture,
+  scoreRejected:!warRoomValidateDifficultyReview(badScore).valid,
+  tagRejected:!warRoomValidateDifficultyReview(badTag).valid,
+  sourceRejected:!warRoomValidateDifficultyReview(badSource).valid,
+  dateRejected:!warRoomValidateDifficultyReview(badDate).valid,
+  inconsistentDifficultyRejected:!warRoomValidateDifficultyReview(badMedian).valid,
+  unreviewedRejected:!warRoomValidateDifficultyReview(unreviewed).valid};
+ return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomPhase22BPilotValidationAudit=warRoomPhase22BPilotValidationAudit;
+
+
 function warRoomPhase22BClassificationAudit(){
  const catalog=flatAchievements(),issues=[];
  for(const achievement of catalog){
