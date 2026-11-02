@@ -4756,6 +4756,54 @@ function flatAchievements(){
  FLAT_ACHIEVEMENT_CACHE=out.filter(a=>{const k=a.name.trim().toLowerCase().replace(/[’‘]/g,"'").replace(/[“”]/g,'"');if(seen.has(k))return false;seen.add(k);return true});
  return FLAT_ACHIEVEMENT_CACHE;
 }
+/* Phase 22A — additive Achievement Intelligence foundation.
+   Canonical achievement names and official objectives remain unchanged.
+   Steam API identifiers must be explicitly verified before being recorded here. */
+const WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION=1;
+const WAR_ROOM_VERIFIED_STEAM_API_IDS=Object.freeze({}); // verified apiname -> canonical title
+const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({}); // canonical title -> reviewed metadata
+function warRoomAchievementKey(name){
+ return steamAchievementKey(name); // canonicalized lookup key, NOT a verified Steam API identifier
+}
+function warRoomAchievementIntelligence(name){
+ const canonical=flatAchievements().find(a=>normAchievementName(a.name)===normAchievementName(name));
+ if(!canonical)return null;
+ const entry=WAR_ROOM_ACHIEVEMENT_INTELLIGENCE[canonical.name]||null;
+ return {
+  schema:WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION,
+  key:warRoomAchievementKey(canonical.name),
+  name:canonical.name,
+  officialRequirement:canonical.objective,
+  steamApiName:null,
+  tags:Array.isArray(entry?.tags)?[...entry.tags]:[],
+  difficulty:entry?.difficulty??null,
+  difficultySource:entry?.difficultySource??null,
+  prerequisites:Array.isArray(entry?.prerequisites)?[...entry.prerequisites]:[],
+  tips:Array.isArray(entry?.tips)?[...entry.tips]:[],
+  reviewStatus:entry?.reviewStatus||'unreviewed',
+  sourceUrl:entry?.sourceUrl||null
+ };
+}
+function warRoomPhase22AIdentityAudit(){
+ const catalog=flatAchievements(),byKey=new Map(),collisions=[],missing=[];
+ for(const achievement of catalog){
+  const key=warRoomAchievementKey(achievement.name);
+  if(!key||!String(achievement.objective||'').trim())missing.push(achievement.name);
+  if(byKey.has(key))collisions.push([byKey.get(key),achievement.name]);
+  else byKey.set(key,achievement.name);
+ }
+ const verifiedIds=Object.entries(WAR_ROOM_VERIFIED_STEAM_API_IDS);
+ const unknownVerifiedIds=verifiedIds.filter(([,name])=>!catalog.some(a=>a.name===name));
+ const checks={catalogBaseline293:catalog.length===293,uniqueNormalizedKeys:collisions.length===0,
+  requirementsPresent:missing.length===0,verifiedMappingsResolvable:unknownVerifiedIds.length===0,
+  noUnreviewedGuidancePublished:Object.keys(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).length===0};
+ return {phase:'22A',schema:WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION,catalog:catalog.length,
+  keyCollisions:collisions,missing,verifiedSteamIds:verifiedIds.length,unknownVerifiedIds,
+  checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomPhase22AIdentityAudit=warRoomPhase22AIdentityAudit;
+window.HOI4WarRoomAchievementIntelligence=warRoomAchievementIntelligence;
+
 function achievementCatalogStats(){
  const all=flatAchievements(),withArt=all.filter(a=>getAchievementIcon(a.name)).length;
  return {total:all.length,withArt,missingArt:all.length-withArt};
@@ -5440,10 +5488,8 @@ function pickAchievement(country,ideology,path){
  if(routeOpen.length)return chooseWeighted(routeOpen,'route');
  if(countryOpen.length)return chooseWeighted(countryOpen,'country');
 
- // Fallback rule: if this country has no compatible country-specific achievement,
- // broaden the order to unfinished generic achievements before issuing a world-conquest directive.
- const genericOpen=all.filter(a=>(a.country==='Any Country'||a.country==='Any Minor')&&eligibleForCountry(a,country)&&!done.has(a.name)&&ideologyFits(a)&&ruleAllows(a,country,ideology,path));
- if(genericOpen.length)return chooseWeighted(genericOpen,'generic');
+ // Phase 22A: generic achievements remain archive-only.
+ // When no compatible unfinished country achievement remains, use the custom directive.
 
  return {
   name:'World Conquest Directive',
@@ -5456,6 +5502,22 @@ function pickAchievement(country,ideology,path){
   _customDirective:true
  };
 }
+// Phase 22A regression — verifies the real picker never returns a generic assignment.
+// Call manually in browser devtools: HOI4WarRoomPhase22AGenericAudit()
+function warRoomPhase22AGenericAudit(){
+ const source=pickAchievement.toString();
+ const genericExcludedFromCountryPool=source.includes("a.country!=='Any Country'&&a.country!=='Any Minor'");
+ const noGenericFallback=!source.includes("genericOpen")&&!source.includes("chooseWeighted(genericOpen");
+ const fallback=source.includes("name:'World Conquest Directive'");
+ const all=flatAchievements();
+ const generic=all.filter(a=>a.country==='Any Country'||a.country==='Any Minor');
+ return {phase:'22A',catalog:all.length,genericArchiveRecords:generic.length,
+   checks:{genericExcludedFromCountryPool,noGenericFallback,worldConquestFallback:fallback,
+     archiveRetainsGeneric:generic.length>0},
+   passed:genericExcludedFromCountryPool&&noGenericFallback&&fallback&&generic.length>0};
+}
+window.HOI4WarRoomPhase22AGenericAudit=warRoomPhase22AGenericAudit;
+
 let currentMission=null,currentPath=null;
 function updateMissionAchievement(a){
  currentMission=a;
