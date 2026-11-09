@@ -8,7 +8,7 @@ on:
       - 'tests/phase22b-smoke.cjs'
       - '.github/workflows/phase22b-smoke.yml'
   push:
-    branches: [phase-22b-difficulty-classification]
+    branches: [main, phase-22b-difficulty-classification]
     paths:
       - 'index.html'
       - 'tests/phase22b-smoke.cjs'
