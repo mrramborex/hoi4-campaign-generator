@@ -3286,10 +3286,10 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 .ach-intel-label{flex-basis:100%;font:700 10px var(--typewriter);letter-spacing:1px;text-transform:uppercase;color:#69512e}
 .ach-intel-pill{display:inline-block;max-width:100%;padding:5px 7px;border:1px solid #877048;border-radius:3px;background:#e3c990;color:#392b19;font:700 11px var(--document);line-height:1.3;overflow-wrap:anywhere}
 .ach-intel-pill.duration{background:#d5c6a3;border-color:#827155}
-.ach-intel-pill.difficulty-easy{background:#bdd3b2;border-color:#4e7651;color:#213b25}
-.ach-intel-pill.difficulty-moderate{background:#e6cd86;border-color:#9a7229;color:#4c3510}
-.ach-intel-pill.difficulty-hard{background:#d8a18c;border-color:#93533d;color:#4d2018}
-.ach-intel-pill.difficulty-very-hard{background:#8e5359;border-color:#603039;color:#fff1e6}
+.ach-intel-pill.difficulty-easy{background:#8fd48f;border:2px solid #2c853e;color:#103718;font-weight:800}
+.ach-intel-pill.difficulty-moderate{background:#ffda69;border:2px solid #b97d16;color:#573306;font-weight:800}
+.ach-intel-pill.difficulty-hard{background:#ee927e;border:2px solid #aa3f34;color:#50180f;font-weight:800}
+.ach-intel-pill.difficulty-very-hard{background:#b74762;border:2px solid #e47589;color:#fff5ea;font-weight:800}
 .ach-intel-pill.topic{background:#e8dcb9;border-color:#a18e68;font-weight:600}
 @media(max-width:620px){.ach-intel{gap:5px}.ach-intel-pill{font-size:11px;line-height:1.4}}
 </style>
@@ -3948,7 +3948,7 @@ const PHASE18H_WIKI_FILENAME_EXCEPTIONS=Object.freeze({
 const PHASE18I_MISSING_ARTWORK_REPAIRS=Object.freeze({
  [normAchievementName("Why Die For Danzig?")]:"https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/8000f0ab63d7df54ee5c6e99446a52535396b008.jpg",
  [normAchievementName("Do You Mined?")]:"https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/4b70f58bdc10ad4bea8af5f7adc84ea498f3fa02.jpg",
- [normAchievementName("The Pope? How many Divisions does he have?")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/c72801cc7248777e3a97a090310e58f010462db8.jpg",
+ [normAchievementName("The Pope? How many Divisions does he have?")]:"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/394360/dbc3201398be6fac5783e3d97149448e54152bab.jpg",
  [normAchievementName("We don’t really like statistics")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5452d69a336335b9b22835f4fc1df00ae4a11d60.jpg",
  [normAchievementName("...and you get a canton, everybody gets a canton!")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5c69bbeaded1f63da584de8ebeeb453934d75973.jpg",
  [normAchievementName("That's SIkh!")]:"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/5df804339f2185d2311248d76a8295a08f5e339d.jpg",
@@ -3974,6 +3974,13 @@ function getAchievementIcon(name){
 }
 function achievementImageError(img){
  if(!img)return;
+ // Phase 22B final artwork repair: historical Steam asset first, canonical wiki icon as fallback.
+ // Retry only once to avoid an onerror loop if both image hosts are unavailable.
+ if(!img.dataset.popeIconRetry&&img.currentSrc.includes('dbc3201398be6fac5783e3d97149448e54152bab.jpg')){
+  img.dataset.popeIconRetry='1';
+  img.src='https://hoi4.paradoxwikis.com/Special:Redirect/file/The_Pope__How_many_Divisions_does_he_have_.png';
+  return;
+ }
  img.style.display='none';
  const fallback=img.nextElementSibling;
  if(fallback&&fallback.classList&&(fallback.classList.contains('ach-icon')||fallback.classList.contains('campaign-log-fallback')||fallback.classList.contains('campaign-history-fallback')))fallback.style.display='grid';
