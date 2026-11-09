@@ -4769,7 +4769,132 @@ function flatAchievements(){
    Steam API identifiers must be explicitly verified before being recorded here. */
 const WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION=1;
 const WAR_ROOM_VERIFIED_STEAM_API_IDS=Object.freeze({}); // verified apiname -> canonical title
-const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({}); // canonical title -> reviewed metadata
+const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
+  "Friend in Need": {
+    "tags": [
+      "diplomacy"
+    ],
+    "difficulty": "easy",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 1,
+    "scores": {
+      "complexity": 1,
+      "time": 1,
+      "uncertainty": 1
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Join a faction.",
+    "justification": "Joining an available faction is a limited political action, typically requiring little preparation and relatively low execution complexity.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Transport Tycoon": {
+    "tags": [
+      "economy",
+      "naval"
+    ],
+    "difficulty": "easy",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 1,
+      "time": 2,
+      "uncertainty": 1
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Have at least 1000 convoys.",
+    "justification": "Convoys can be accumulated through sustained naval production; the main burden is building capacity and allowing time for the stockpile.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Time is on our side": {
+    "tags": [
+      "survival"
+    ],
+    "difficulty": "easy",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 4,
+    "scores": {
+      "complexity": 1,
+      "time": 4,
+      "uncertainty": 1
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Reach 1948.",
+    "justification": "The stated goal is to reach a calendar year rather than complete a complex conquest; despite low execution complexity it requires a very long campaign.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Destroyer of Worlds": {
+    "tags": [
+      "research",
+      "air"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 2,
+      "time": 3,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Deploy a nuke.",
+    "justification": "Nuclear weapon deployment requires technology and production investment plus operational access to a suitable target, creating moderate coordination and a long setup.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "True Blitzkrieg": {
+    "tags": [
+      "conquest",
+      "land",
+      "timed"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 3,
+      "time": 2,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "As Germany have both Poland and France surrender before January 1st 1940.",
+    "justification": "A strict pre-1940 deadline for defeating two countries demands focused preparation and military execution, with uncertainty from wars and AI responses.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  }
+}); // five source-checked editorial pilot ratings
 function warRoomAchievementKey(name){
  return steamAchievementKey(name); // canonicalized lookup key, NOT a verified Steam API identifier
 }
@@ -4922,7 +5047,7 @@ function warRoomPhase22AIdentityAudit(){
  const unknownVerifiedIds=verifiedIds.filter(([,name])=>!catalog.some(a=>a.name===name));
  const checks={catalogBaseline293:catalog.length===293,uniqueNormalizedKeys:collisions.length===0,
   requirementsPresent:missing.length===0,verifiedMappingsResolvable:unknownVerifiedIds.length===0,
-  noUnreviewedGuidancePublished:Object.keys(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).length===0};
+  noInvalidReviewedGuidance:Object.entries(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).every(([name,entry])=>warRoomValidateDifficultyReview({...entry,name}).valid)};
  return {phase:'22A',schema:WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION,catalog:catalog.length,
   keyCollisions:collisions,missing,verifiedSteamIds:verifiedIds.length,unknownVerifiedIds,
   checks,passed:Object.values(checks).every(Boolean)};
@@ -5056,14 +5181,18 @@ function warRoomPhase22BArchiveUIAudit(){
  const escaped=warRoomArchiveIntelligenceMarkup({...sample,tags:['<script>']});
  const durationOnly=warRoomArchiveIntelligenceMarkup({...sample,difficulty:null,difficultyLabel:'Not rated',tags:[]});
  const catalog=flatAchievements();
- const currentlyHidden=catalog.every(a=>warRoomArchiveIntelligenceHTML(a.name)==='');
+ const approvedNames=new Set(Object.keys(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE));
+ const approvedRendered=[...approvedNames].every(name=>warRoomArchiveIntelligenceHTML(name).includes('War Room Intelligence'));
+ const unratedHidden=catalog.filter(a=>!approvedNames.has(a.name)).every(a=>warRoomArchiveIntelligenceHTML(a.name)==='');
  const checks={
   catalogPreserved:catalog.length===293,
   ratedChipsRendered:rated.includes('Difficulty: Hard')&&rated.includes('Duration: Very Long')&&rated.includes('land'),
   unreviewedHidden:hidden==='',
   tagsEscaped:!escaped.includes('<script>')&&escaped.includes('&lt;script&gt;'),
   durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
-  noUnreviewedProductionRatings:currentlyHidden
+  approvedRatingsRendered:approvedRendered,
+  allUnratedAchievementsHidden:unratedHidden,
+  firstBatchFiveReviewed:approvedNames.size===5
  };
  return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
 }
