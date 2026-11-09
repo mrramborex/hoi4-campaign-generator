@@ -4789,6 +4789,12 @@ function warRoomAchievementIntelligence(name){
   prerequisites:Array.isArray(entry?.prerequisites)?[...entry.prerequisites]:[],
   tips:Array.isArray(entry?.tips)?[...entry.tips]:[],
   timeInvestment:Number.isInteger(entry?.timeInvestment)?entry.timeInvestment:null,
+  scores:entry?.scores||null,
+  sources:Array.isArray(entry?.sources)?[...entry.sources]:[],
+  justification:entry?.justification||'',
+  reviewedAt:entry?.reviewedAt||'',
+  reviewer:entry?.reviewer||'',
+  requirementSnapshot:entry?.requirementSnapshot||'',
   reviewStatus:entry?.reviewStatus||'unreviewed',
   sourceUrl:entry?.sourceUrl||null
  };
@@ -4804,7 +4810,8 @@ const WAR_ROOM_ACHIEVEMENT_TAGS=Object.freeze([
 function warRoomAchievementClassification(name){
  const entry=warRoomAchievementIntelligence(name);
  if(!entry)return null;
- const reviewed=entry.reviewStatus==='reviewed';
+ // Do not publish a 'reviewed' flag alone: a complete, consistent review is required.
+ const reviewed=entry.reviewStatus==='reviewed'&&warRoomValidateDifficultyReview(entry).valid;
  const difficulty=reviewed&&WAR_ROOM_DIFFICULTY_LEVELS.includes(entry.difficulty)&&
    typeof entry.difficultySource==='string'&&entry.difficultySource.trim()
    ?entry.difficulty:null;
@@ -4815,7 +4822,7 @@ function warRoomAchievementClassification(name){
   difficultyLabel:difficulty?difficulty.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(' '):'Not rated',
   tags:[...new Set(tags)],
   editorial:!!difficulty||tags.length>0||duration!==null,
-  reviewStatus:entry.reviewStatus,
+  reviewStatus:reviewed?'reviewed':'unreviewed',
   officialRequirement:entry.officialRequirement};
 }
 // Phase 22B: strict validator for future editorial submissions (no automatic ratings).
@@ -4837,6 +4844,16 @@ function warRoomValidateDifficultyReview(review){
  if(typeof review.reviewedAt!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt))
   errors.push('Review date must be YYYY-MM-DD');
  if(review.reviewStatus!=='reviewed')errors.push('Review must be explicitly approved');
+ if(!Number.isInteger(review.timeInvestment)||review.timeInvestment<1||review.timeInvestment>4||review.timeInvestment!==scores?.time)
+  errors.push('Published duration must match the reviewed time score');
+ if(typeof review.reviewer!=='string'||review.reviewer.trim().length<2)
+  errors.push('Reviewer attribution required');
+ const canonical=catalog.find(a=>a.name===review.name);
+ if(!canonical||review.requirementSnapshot!==canonical.objective)
+  errors.push('Reviewed requirement snapshot must match current catalog');
+ if(!Array.isArray(review.sources)||!review.sources.some(u=>/^https:\/\/(hoi4\.paradoxwikis\.com|steamcommunity\.com|store\.steampowered\.com)(\/|$)/i.test(u)))
+  errors.push('At least one official Steam or Paradox source URL required');
+
  const ordered=scores&&['complexity','time','uncertainty'].map(k=>scores[k]).sort((a,b)=>a-b);
  const expected=ordered&&ordered[1];
  if(!WAR_ROOM_DIFFICULTY_LEVELS.includes(review.difficulty)||WAR_ROOM_DIFFICULTY_LEVELS.indexOf(review.difficulty)!==expected-1)
@@ -4847,9 +4864,9 @@ window.HOI4WarRoomValidateDifficultyReview=warRoomValidateDifficultyReview;
 
 function warRoomPhase22BPilotValidationAudit(){
  const base={name:'Friend in Need',scores:{complexity:1,time:1,uncertainty:1},
-  tags:['diplomacy'],sources:['https://example.org/placeholder'],
+  tags:['diplomacy'],sources:['https://hoi4.paradoxwikis.com/Achievements'],
   justification:'Synthetic validator fixture; not an actual reviewed achievement.',
-  reviewedAt:'2026-11-02',reviewStatus:'reviewed',difficulty:'easy'};
+  reviewedAt:'2026-11-02',reviewer:'Fixture',requirementSnapshot:'Join a faction.',timeInvestment:1,reviewStatus:'reviewed',difficulty:'easy'};
  const clone=()=>({...base,scores:{...base.scores},tags:[...base.tags],sources:[...base.sources]});
  const validFixture=warRoomValidateDifficultyReview(clone()).valid;
  const badScore=clone();badScore.scores.time=5;
@@ -4858,13 +4875,17 @@ function warRoomPhase22BPilotValidationAudit(){
  const badDate=clone();badDate.reviewedAt='2026/11/02';
  const badMedian=clone();badMedian.difficulty='hard';
  const unreviewed=clone();unreviewed.reviewStatus='unreviewed';
+ const badDuration=clone();badDuration.timeInvestment=4;
+ const staleRequirement=clone();staleRequirement.requirementSnapshot='wrong text';
  const checks={validFixtureAccepted:validFixture,
   scoreRejected:!warRoomValidateDifficultyReview(badScore).valid,
   tagRejected:!warRoomValidateDifficultyReview(badTag).valid,
   sourceRejected:!warRoomValidateDifficultyReview(badSource).valid,
   dateRejected:!warRoomValidateDifficultyReview(badDate).valid,
   inconsistentDifficultyRejected:!warRoomValidateDifficultyReview(badMedian).valid,
-  unreviewedRejected:!warRoomValidateDifficultyReview(unreviewed).valid};
+  unreviewedRejected:!warRoomValidateDifficultyReview(unreviewed).valid,
+  wrongDurationRejected:!warRoomValidateDifficultyReview(badDuration).valid,
+  staleRequirementRejected:!warRoomValidateDifficultyReview(staleRequirement).valid};
  return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
 }
 window.HOI4WarRoomPhase22BPilotValidationAudit=warRoomPhase22BPilotValidationAudit;
