@@ -3286,6 +3286,10 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 .ach-intel-label{flex-basis:100%;font:700 10px var(--typewriter);letter-spacing:1px;text-transform:uppercase;color:#69512e}
 .ach-intel-pill{display:inline-block;max-width:100%;padding:5px 7px;border:1px solid #877048;border-radius:3px;background:#e3c990;color:#392b19;font:700 11px var(--document);line-height:1.3;overflow-wrap:anywhere}
 .ach-intel-pill.duration{background:#d5c6a3;border-color:#827155}
+.ach-intel-pill.difficulty-easy{background:#bdd3b2;border-color:#4e7651;color:#213b25}
+.ach-intel-pill.difficulty-moderate{background:#e6cd86;border-color:#9a7229;color:#4c3510}
+.ach-intel-pill.difficulty-hard{background:#d8a18c;border-color:#93533d;color:#4d2018}
+.ach-intel-pill.difficulty-very-hard{background:#8e5359;border-color:#603039;color:#fff1e6}
 .ach-intel-pill.topic{background:#e8dcb9;border-color:#a18e68;font-weight:600}
 @media(max-width:620px){.ach-intel{gap:5px}.ach-intel-pill{font-size:11px;line-height:1.4}}
 </style>
@@ -5166,7 +5170,7 @@ function warRoomArchiveIntelligenceMarkup(record){
  if(!record||record.reviewStatus!=='reviewed'||!record.editorial)return '';
  const safe=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const chips=[];
- if(record.difficulty)chips.push('<span class="ach-intel-pill">Difficulty: '+safe(record.difficultyLabel)+'</span>');
+ if(record.difficulty&&WAR_ROOM_DIFFICULTY_LEVELS.includes(record.difficulty))chips.push('<span class="ach-intel-pill difficulty-'+safe(record.difficulty)+'">Difficulty: '+safe(record.difficultyLabel)+'</span>');
  if(record.duration)chips.push('<span class="ach-intel-pill duration">Duration: '+safe(record.durationLabel)+'</span>');
  (Array.isArray(record.tags)?record.tags:[]).forEach(tag=>chips.push('<span class="ach-intel-pill topic">'+safe(tag.replace(/-/g,' '))+'</span>'));
  return chips.length?'<div class="ach-intel" aria-label="Editorial achievement guidance"><span class="ach-intel-label">War Room Intelligence · Editorial estimates</span>'+chips.join('')+'</div>':'';
@@ -5186,7 +5190,8 @@ function warRoomPhase22BArchiveUIAudit(){
  const unratedHidden=catalog.filter(a=>!approvedNames.has(a.name)).every(a=>warRoomArchiveIntelligenceHTML(a.name)==='');
  const checks={
   catalogPreserved:catalog.length===293,
-  ratedChipsRendered:rated.includes('Difficulty: Hard')&&rated.includes('Duration: Very Long')&&rated.includes('land'),
+  ratedChipsRendered:rated.includes('Difficulty: Hard')&&rated.includes('duration')&&rated.includes('land'),
+  difficultyColorsApplied:rated.includes('difficulty-hard')&&['easy','moderate','hard','very-hard'].every(level=>warRoomArchiveIntelligenceMarkup({...sample,difficulty:level}).includes('difficulty-'+level)),
   unreviewedHidden:hidden==='',
   tagsEscaped:!escaped.includes('<script>')&&escaped.includes('&lt;script&gt;'),
   durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
