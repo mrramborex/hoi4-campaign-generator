@@ -3280,6 +3280,14 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 #chosenNation{display:block;width:100%;min-width:0;background:#151912;color:#eee4c5;border:1px solid #87764e;padding:10px;border-radius:4px;font-size:14px}
 .v2-nation-panel p{color:#c4bd9f;font-size:12px;line-height:1.5;margin:9px 0 0}
 @media(max-width:520px){.v2-mode-buttons{grid-template-columns:1fr}.v2-mode-button{min-height:44px}}
+
+/* Phase 22B — restrained reviewed intelligence on archive cards */
+.ach-intel{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px;padding:8px 0;border-top:1px dashed rgba(92,76,46,.35)}
+.ach-intel-label{flex-basis:100%;font:700 10px var(--typewriter);letter-spacing:1px;text-transform:uppercase;color:#69512e}
+.ach-intel-pill{display:inline-block;max-width:100%;padding:5px 7px;border:1px solid #877048;border-radius:3px;background:#e3c990;color:#392b19;font:700 11px var(--document);line-height:1.3;overflow-wrap:anywhere}
+.ach-intel-pill.duration{background:#d5c6a3;border-color:#827155}
+.ach-intel-pill.topic{background:#e8dcb9;border-color:#a18e68;font-weight:600}
+@media(max-width:620px){.ach-intel{gap:5px}.ach-intel-pill{font-size:11px;line-height:1.4}}
 </style>
 </head><body>
 <header class="war-header phase17b-benchmark">
@@ -4761,7 +4769,132 @@ function flatAchievements(){
    Steam API identifiers must be explicitly verified before being recorded here. */
 const WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION=1;
 const WAR_ROOM_VERIFIED_STEAM_API_IDS=Object.freeze({}); // verified apiname -> canonical title
-const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({}); // canonical title -> reviewed metadata
+const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
+  "Friend in Need": {
+    "tags": [
+      "diplomacy"
+    ],
+    "difficulty": "easy",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 1,
+    "scores": {
+      "complexity": 1,
+      "time": 1,
+      "uncertainty": 1
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Join a faction.",
+    "justification": "Joining an available faction is a limited political action, typically requiring little preparation and relatively low execution complexity.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Transport Tycoon": {
+    "tags": [
+      "economy",
+      "naval"
+    ],
+    "difficulty": "easy",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 1,
+      "time": 2,
+      "uncertainty": 1
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Have at least 1000 convoys.",
+    "justification": "Convoys can be accumulated through sustained naval production; the main burden is building capacity and allowing time for the stockpile.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Time is on our side": {
+    "tags": [
+      "survival"
+    ],
+    "difficulty": "easy",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 4,
+    "scores": {
+      "complexity": 1,
+      "time": 4,
+      "uncertainty": 1
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Reach 1948.",
+    "justification": "The stated goal is to reach a calendar year rather than complete a complex conquest; despite low execution complexity it requires a very long campaign.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Destroyer of Worlds": {
+    "tags": [
+      "research",
+      "air"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 2,
+      "time": 3,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Deploy a nuke.",
+    "justification": "Nuclear weapon deployment requires technology and production investment plus operational access to a suitable target, creating moderate coordination and a long setup.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "True Blitzkrieg": {
+    "tags": [
+      "conquest",
+      "land",
+      "timed"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 3,
+      "time": 2,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "As Germany have both Poland and France surrender before January 1st 1940.",
+    "justification": "A strict pre-1940 deadline for defeating two countries demands focused preparation and military execution, with uncertainty from wars and AI responses.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-08",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  }
+}); // five source-checked editorial pilot ratings
 function warRoomAchievementKey(name){
  return steamAchievementKey(name); // canonicalized lookup key, NOT a verified Steam API identifier
 }
@@ -4780,10 +4913,128 @@ function warRoomAchievementIntelligence(name){
   difficultySource:entry?.difficultySource??null,
   prerequisites:Array.isArray(entry?.prerequisites)?[...entry.prerequisites]:[],
   tips:Array.isArray(entry?.tips)?[...entry.tips]:[],
+  timeInvestment:Number.isInteger(entry?.timeInvestment)?entry.timeInvestment:null,
+  scores:entry?.scores||null,
+  sources:Array.isArray(entry?.sources)?[...entry.sources]:[],
+  justification:entry?.justification||'',
+  reviewedAt:entry?.reviewedAt||'',
+  reviewer:entry?.reviewer||'',
+  requirementSnapshot:entry?.requirementSnapshot||'',
   reviewStatus:entry?.reviewStatus||'unreviewed',
   sourceUrl:entry?.sourceUrl||null
  };
 }
+/* Phase 22B — reviewed difficulty and classification schema.
+   Ratings are editorial guidance, NEVER Steam unlock conditions.
+   No rating is assigned until an achievement has been individually reviewed. */
+const WAR_ROOM_DIFFICULTY_LEVELS=Object.freeze(['easy','moderate','hard','very-hard']);
+const WAR_ROOM_ACHIEVEMENT_TAGS=Object.freeze([
+ 'conquest','diplomacy','economy','industry','research','espionage',
+ 'naval','air','land','focus-tree','timed','world-tension','survival'
+]);
+function warRoomAchievementClassification(name){
+ const entry=warRoomAchievementIntelligence(name);
+ if(!entry)return null;
+ // Do not publish a 'reviewed' flag alone: a complete, consistent review is required.
+ const reviewed=entry.reviewStatus==='reviewed'&&warRoomValidateDifficultyReview(entry).valid;
+ const difficulty=reviewed&&WAR_ROOM_DIFFICULTY_LEVELS.includes(entry.difficulty)&&
+   typeof entry.difficultySource==='string'&&entry.difficultySource.trim()
+   ?entry.difficulty:null;
+ const tags=reviewed?entry.tags.filter(t=>WAR_ROOM_ACHIEVEMENT_TAGS.includes(t)):[];
+ const duration=reviewed&&Number.isInteger(entry.timeInvestment)&&entry.timeInvestment>=1&&entry.timeInvestment<=4?entry.timeInvestment:null;
+ return {name:entry.name,difficulty,
+  duration,durationLabel:duration?['Short','Medium','Long','Very Long'][duration-1]:'Not estimated',
+  difficultyLabel:difficulty?difficulty.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(' '):'Not rated',
+  tags:[...new Set(tags)],
+  editorial:!!difficulty||tags.length>0||duration!==null,
+  reviewStatus:reviewed?'reviewed':'unreviewed',
+  officialRequirement:entry.officialRequirement};
+}
+// Phase 22B: strict validator for future editorial submissions (no automatic ratings).
+function warRoomValidateDifficultyReview(review){
+ const errors=[];
+ if(!review||typeof review!=='object'||Array.isArray(review))return {valid:false,errors:['Review must be an object']};
+ const catalog=flatAchievements();
+ if(!catalog.some(a=>a.name===review.name))errors.push('Unknown canonical achievement');
+ const scores=review.scores;
+ if(!scores||typeof scores!=='object'||!['complexity','time','uncertainty'].every(k=>Number.isInteger(scores[k])&&scores[k]>=1&&scores[k]<=4))
+  errors.push('Complexity, time and uncertainty must each be integers from 1 to 4');
+ const tags=review.tags;
+ if(!Array.isArray(tags)||tags.some(t=>!WAR_ROOM_ACHIEVEMENT_TAGS.includes(t))||new Set(tags).size!==tags.length)
+  errors.push('Tags must be a distinct subset of allowed classifications');
+ if(!Array.isArray(review.sources)||!review.sources.length||review.sources.some(u=>typeof u!=='string'||!/^https:\/\//.test(u)))
+  errors.push('At least one HTTPS reference is required');
+ if(typeof review.justification!=='string'||review.justification.trim().length<25)
+  errors.push('A written justification of at least 25 characters is required');
+ if(typeof review.reviewedAt!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt))
+  errors.push('Review date must be YYYY-MM-DD');
+ if(review.reviewStatus!=='reviewed')errors.push('Review must be explicitly approved');
+ if(!Number.isInteger(review.timeInvestment)||review.timeInvestment<1||review.timeInvestment>4||review.timeInvestment!==scores?.time)
+  errors.push('Published duration must match the reviewed time score');
+ if(typeof review.reviewer!=='string'||review.reviewer.trim().length<2)
+  errors.push('Reviewer attribution required');
+ const canonical=catalog.find(a=>a.name===review.name);
+ if(!canonical||review.requirementSnapshot!==canonical.objective)
+  errors.push('Reviewed requirement snapshot must match current catalog');
+ if(!Array.isArray(review.sources)||!review.sources.some(u=>/^https:\/\/(hoi4\.paradoxwikis\.com|steamcommunity\.com|store\.steampowered\.com)(\/|$)/i.test(u)))
+  errors.push('At least one official Steam or Paradox source URL required');
+
+ const ordered=scores&&['complexity','time','uncertainty'].map(k=>scores[k]).sort((a,b)=>a-b);
+ const expected=ordered&&ordered[1];
+ if(!WAR_ROOM_DIFFICULTY_LEVELS.includes(review.difficulty)||WAR_ROOM_DIFFICULTY_LEVELS.indexOf(review.difficulty)!==expected-1)
+  errors.push('Difficulty must match median score');
+ return {valid:errors.length===0,errors};
+}
+window.HOI4WarRoomValidateDifficultyReview=warRoomValidateDifficultyReview;
+
+function warRoomPhase22BPilotValidationAudit(){
+ const base={name:'Friend in Need',scores:{complexity:1,time:1,uncertainty:1},
+  tags:['diplomacy'],sources:['https://hoi4.paradoxwikis.com/Achievements'],
+  justification:'Synthetic validator fixture; not an actual reviewed achievement.',
+  reviewedAt:'2026-11-02',reviewer:'Fixture',requirementSnapshot:'Join a faction.',timeInvestment:1,reviewStatus:'reviewed',difficulty:'easy'};
+ const clone=()=>({...base,scores:{...base.scores},tags:[...base.tags],sources:[...base.sources]});
+ const validFixture=warRoomValidateDifficultyReview(clone()).valid;
+ const badScore=clone();badScore.scores.time=5;
+ const badTag=clone();badTag.tags=['not-a-tag'];
+ const badSource=clone();badSource.sources=[];
+ const badDate=clone();badDate.reviewedAt='2026/11/02';
+ const badMedian=clone();badMedian.difficulty='hard';
+ const unreviewed=clone();unreviewed.reviewStatus='unreviewed';
+ const badDuration=clone();badDuration.timeInvestment=4;
+ const staleRequirement=clone();staleRequirement.requirementSnapshot='wrong text';
+ const checks={validFixtureAccepted:validFixture,
+  scoreRejected:!warRoomValidateDifficultyReview(badScore).valid,
+  tagRejected:!warRoomValidateDifficultyReview(badTag).valid,
+  sourceRejected:!warRoomValidateDifficultyReview(badSource).valid,
+  dateRejected:!warRoomValidateDifficultyReview(badDate).valid,
+  inconsistentDifficultyRejected:!warRoomValidateDifficultyReview(badMedian).valid,
+  unreviewedRejected:!warRoomValidateDifficultyReview(unreviewed).valid,
+  wrongDurationRejected:!warRoomValidateDifficultyReview(badDuration).valid,
+  staleRequirementRejected:!warRoomValidateDifficultyReview(staleRequirement).valid};
+ return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomPhase22BPilotValidationAudit=warRoomPhase22BPilotValidationAudit;
+
+
+function warRoomPhase22BClassificationAudit(){
+ const catalog=flatAchievements(),issues=[];
+ for(const achievement of catalog){
+  const record=warRoomAchievementClassification(achievement.name);
+  if(!record)issues.push({name:achievement.name,reason:'missing classification wrapper'});
+  else if(record.reviewStatus!=='reviewed'&&(record.difficulty!==null||record.tags.length||record.duration!==null))
+   issues.push({name:achievement.name,reason:'unreviewed guidance visible'});
+  else if(record.officialRequirement!==achievement.objective)
+   issues.push({name:achievement.name,reason:'canonical requirement changed'});
+ }
+ const checks={catalogIntact:catalog.length===293,noInvalidGuidance:issues.length===0,
+  difficultyScaleDefined:WAR_ROOM_DIFFICULTY_LEVELS.length===4,
+  classificationSchemaDefined:WAR_ROOM_ACHIEVEMENT_TAGS.length===13};
+ return {phase:'22B',catalog:catalog.length,reviewed:catalog.filter(a=>warRoomAchievementClassification(a.name)?.reviewStatus==='reviewed').length,
+  issues,checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomAchievementClassification=warRoomAchievementClassification;
+window.HOI4WarRoomPhase22BClassificationAudit=warRoomPhase22BClassificationAudit;
+
 function warRoomPhase22AIdentityAudit(){
  const catalog=flatAchievements(),byKey=new Map(),collisions=[],missing=[];
  for(const achievement of catalog){
@@ -4796,7 +5047,7 @@ function warRoomPhase22AIdentityAudit(){
  const unknownVerifiedIds=verifiedIds.filter(([,name])=>!catalog.some(a=>a.name===name));
  const checks={catalogBaseline293:catalog.length===293,uniqueNormalizedKeys:collisions.length===0,
   requirementsPresent:missing.length===0,verifiedMappingsResolvable:unknownVerifiedIds.length===0,
-  noUnreviewedGuidancePublished:Object.keys(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).length===0};
+  noInvalidReviewedGuidance:Object.entries(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).every(([name,entry])=>warRoomValidateDifficultyReview({...entry,name}).valid)};
  return {phase:'22A',schema:WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION,catalog:catalog.length,
   keyCollisions:collisions,missing,verifiedSteamIds:verifiedIds.length,unknownVerifiedIds,
   checks,passed:Object.values(checks).every(Boolean)};
@@ -4910,6 +5161,43 @@ function previewSteamAchievementSync(payload){
  const result=mapSteamAchievements(payload&&payload.unlocked);
  return {...result,steamid:String(payload&&payload.steamid||''),steamUnlocked:Number(payload&&payload.unlockedCount||result.totalReceived),steamTotal:Number(payload&&payload.totalReturned||0)};
 }
+// Reviewed guidance is intentionally absent for unreviewed achievements.
+function warRoomArchiveIntelligenceMarkup(record){
+ if(!record||record.reviewStatus!=='reviewed'||!record.editorial)return '';
+ const safe=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const chips=[];
+ if(record.difficulty)chips.push('<span class="ach-intel-pill">Difficulty: '+safe(record.difficultyLabel)+'</span>');
+ if(record.duration)chips.push('<span class="ach-intel-pill duration">Duration: '+safe(record.durationLabel)+'</span>');
+ (Array.isArray(record.tags)?record.tags:[]).forEach(tag=>chips.push('<span class="ach-intel-pill topic">'+safe(tag.replace(/-/g,' '))+'</span>'));
+ return chips.length?'<div class="ach-intel" aria-label="Editorial achievement guidance"><span class="ach-intel-label">War Room Intelligence · Editorial estimates</span>'+chips.join('')+'</div>':'';
+}
+function warRoomArchiveIntelligenceHTML(name){
+ return warRoomArchiveIntelligenceMarkup(warRoomAchievementClassification(name));
+}
+function warRoomPhase22BArchiveUIAudit(){
+ const sample={reviewStatus:'reviewed',editorial:true,difficulty:'hard',difficultyLabel:'Hard',duration:4,durationLabel:'Very Long',tags:['land','timed']};
+ const rated=warRoomArchiveIntelligenceMarkup(sample);
+ const hidden=warRoomArchiveIntelligenceMarkup({...sample,reviewStatus:'unreviewed'});
+ const escaped=warRoomArchiveIntelligenceMarkup({...sample,tags:['<script>']});
+ const durationOnly=warRoomArchiveIntelligenceMarkup({...sample,difficulty:null,difficultyLabel:'Not rated',tags:[]});
+ const catalog=flatAchievements();
+ const approvedNames=new Set(Object.keys(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE));
+ const approvedRendered=[...approvedNames].every(name=>warRoomArchiveIntelligenceHTML(name).includes('War Room Intelligence'));
+ const unratedHidden=catalog.filter(a=>!approvedNames.has(a.name)).every(a=>warRoomArchiveIntelligenceHTML(a.name)==='');
+ const checks={
+  catalogPreserved:catalog.length===293,
+  ratedChipsRendered:rated.includes('Difficulty: Hard')&&rated.includes('Duration: Very Long')&&rated.includes('land'),
+  unreviewedHidden:hidden==='',
+  tagsEscaped:!escaped.includes('<script>')&&escaped.includes('&lt;script&gt;'),
+  durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
+  approvedRatingsRendered:approvedRendered,
+  allUnratedAchievementsHidden:unratedHidden,
+  firstBatchFiveReviewed:approvedNames.size===5
+ };
+ return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
+}
+window.HOI4WarRoomPhase22BArchiveUIAudit=warRoomPhase22BArchiveUIAudit;
+window.HOI4WarRoomArchiveIntelligenceHTML=warRoomArchiveIntelligenceHTML;
 function renderAchievements(){
  const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,showGeneric=document.getElementById('achGeneric').checked;
  const filtered=all.filter(a=>(showGeneric||(a.country!=='Any Country'&&a.country!=='Any Minor'))&&(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
@@ -4918,7 +5206,7 @@ function renderAchievements(){
  document.getElementById('completedCount').textContent=completed;
  document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';updateSteamHomeSummary();
  document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling&&(this.nextElementSibling.style.display=\'grid\')"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling&&(this.nextElementSibling.style.display=\'grid\')"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}${warRoomArchiveIntelligenceHTML(a.name)}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
