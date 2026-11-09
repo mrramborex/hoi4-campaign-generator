@@ -1,0 +1,40 @@
+name: Phase 22B Browser Smoke Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'tests/phase22b-smoke.cjs'
+      - '.github/workflows/phase22b-smoke.yml'
+  push:
+    branches: [phase-22b-difficulty-classification]
+    paths:
+      - 'index.html'
+      - 'tests/phase22b-smoke.cjs'
+      - '.github/workflows/phase22b-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phase22b-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test dependency
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Start isolated static server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/phase22b-server.log 2>&1 &
+          sleep 2
+          curl --fail http://127.0.0.1:8765/ > /dev/null
+      - name: Run achievement and mobile smoke tests
+        run: node tests/phase22b-smoke.cjs
