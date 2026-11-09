@@ -33,6 +33,17 @@ const path = require('node:path');
     await page.locator('#achSearch').fill('True Blitzkrieg');
     await page.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
     await page.screenshot({ path: path.join(screenshotDir, 'phase22b-desktop-archive.png'), fullPage: true });
+    await page.locator('#achSearch').fill('The Pope? How many Divisions does he have?');
+    await page.locator('#achievementGrid img.ach-icon').first().waitFor({ state: 'attached' });
+    await page.waitForTimeout(1800);
+    const popeIcon = await page.locator('#achievementGrid img.ach-icon').first().evaluate(img => ({
+      loaded: img.complete && img.naturalWidth > 0,
+      url: img.currentSrc,
+      fallback: img.nextElementSibling?.style.display,
+      retry: img.dataset.popeIconRetry || ''
+    }));
+    console.log('pope-icon', JSON.stringify(popeIcon));
+    if (!popeIcon.loaded) failures.push('pope-achievement-icon');
     await page.locator('#achSearch').fill('');
     if (desktopArchive.visibleIntelligenceChips !== 5 || desktopArchive.editorialLabels !== 5 || desktopArchive.catalogCount !== '293')
       failures.push('desktop-archive-cards');
