@@ -32,6 +32,12 @@ const path = require('node:path');
     // A completed achievement must retain the exact same difficulty badge colors
     // as its uncompleted counterpart. Historically whole-card opacity/filter
     // desaturated these badges despite identical classes.
+    // Wait for the Archive entrance animation before checking steady-state opacity.
+    await page.waitForFunction(() => {
+      const card = [...document.querySelectorAll('#achievementGrid .ach')]
+        .find(el => el.textContent.includes('True Blitzkrieg'));
+      return card && getComputedStyle(card).opacity === '1';
+    }, { timeout: 6000 });
     const completedBadge = await page.evaluate(() => {
       const card = [...document.querySelectorAll('#achievementGrid .ach')]
         .find(el => el.textContent.includes('True Blitzkrieg'));
