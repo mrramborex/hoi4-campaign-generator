@@ -29,6 +29,38 @@ const path = require('node:path');
       catalogCount: document.getElementById('mappedCount')?.textContent.trim()
     }));
     console.log('desktop-archive', JSON.stringify(desktopArchive));
+    // A completed achievement must retain the exact same difficulty badge colors
+    // as its uncompleted counterpart. Historically whole-card opacity/filter
+    // desaturated these badges despite identical classes.
+    // Wait for the Archive entrance animation before checking steady-state opacity.
+    await page.waitForFunction(() => {
+      const card = [...document.querySelectorAll('#achievementGrid .ach')]
+        .find(el => el.textContent.includes('True Blitzkrieg'));
+      return card && getComputedStyle(card).opacity === '1';
+    }, { timeout: 6000 });
+    const completedBadge = await page.evaluate(() => {
+      const card = [...document.querySelectorAll('#achievementGrid .ach')]
+        .find(el => el.textContent.includes('True Blitzkrieg'));
+      const badge = card?.querySelector('.ach-intel-pill.difficulty-hard');
+      if (!card || !badge) return { present: false };
+      const getStyles = () => ({
+        bg: getComputedStyle(badge).backgroundColor,
+        color: getComputedStyle(badge).color,
+        opacity: getComputedStyle(card).opacity,
+        filter: getComputedStyle(card).filter
+      });
+      const before = getStyles();
+      card.classList.add('is-completed');
+      const after = getStyles();
+      card.classList.remove('is-completed');
+      return { present: true, before, after };
+    });
+    console.log('completed-badge', JSON.stringify(completedBadge));
+    if (!completedBadge.present ||
+        completedBadge.before.bg !== completedBadge.after.bg ||
+        completedBadge.before.color !== completedBadge.after.color ||
+        completedBadge.after.opacity !== '1' ||
+        completedBadge.after.filter !== 'none') failures.push('completed-badge-color');
     // Capture a single reviewed achievement so the images are readable in PR review.
     await page.locator('#achSearch').fill('True Blitzkrieg');
     await page.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
@@ -45,7 +77,7 @@ const path = require('node:path');
     console.log('pope-icon', JSON.stringify(popeIcon));
     if (!popeIcon.loaded) failures.push('pope-achievement-icon');
     await page.locator('#achSearch').fill('');
-    if (desktopArchive.visibleIntelligenceChips !== 13 || desktopArchive.editorialLabels !== 13 || desktopArchive.catalogCount !== '293')
+    if (desktopArchive.visibleIntelligenceChips !== 21 || desktopArchive.editorialLabels !== 21 || desktopArchive.catalogCount !== '293')
       failures.push('desktop-archive-cards');
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     await mobile.goto('http://127.0.0.1:8765/', { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -60,7 +92,7 @@ const path = require('node:path');
     await mobile.locator('#achSearch').fill('True Blitzkrieg');
     await mobile.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
     await mobile.screenshot({ path: path.join(screenshotDir, 'phase22b-mobile-archive.png'), fullPage: true });
-    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 13 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
+    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 21 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
     await mobile.close();
     if (failures.length) throw new Error('Failed checks: ' + failures.join(', '));
     console.log('Phase 22B smoke tests passed.');

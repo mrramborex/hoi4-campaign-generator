@@ -1240,8 +1240,10 @@ body:after{z-index:0!important;opacity:1!important;background:
 .ach .tag{display:inline-block!important;margin:2px 3px 2px 0!important;padding:3px 6px!important;border:1px solid #514b38!important;border-radius:1px!important;background:#0b0f0c!important;color:#a89b77!important;font-size:8px!important}
 .ach-complete{padding:6px 10px!important;border:1px solid #7c6b45!important;border-radius:1px!important;background:#292f24!important;color:#d8c99f!important;font:8px var(--typewriter)!important;letter-spacing:.8px!important;text-transform:uppercase!important}
 .ach-complete.done{background:#303c29!important;color:#b8c79a!important;border-color:#61704c!important}
-.ach[style*="opacity:.62"]{opacity:.72!important;filter:saturate(.62)!important}
-.ach[style*="opacity:.62"]:after{content:"COMPLETED";position:absolute;right:9px;bottom:9px;color:#79906a;font:7px var(--typewriter);letter-spacing:1.2px;border:1px solid #58674c;padding:2px 4px;transform:rotate(-2deg)}
+.ach.is-completed{background:#151b16!important;border-left-color:#6e8a5f!important}
+.ach.is-completed h3{color:#c6c4a9!important}
+.ach.is-completed p{color:#a7ad9c!important}
+.ach.is-completed:after{content:"COMPLETED";position:absolute;right:9px;bottom:9px;color:#79906a;font:7px var(--typewriter);letter-spacing:1.2px;border:1px solid #58674c;padding:2px 4px;transform:rotate(-2deg)}
 @media(max-width:900px){
  .archive-filters{grid-template-columns:1fr 1fr!important}
  .archive-search{grid-column:1/-1!important}
@@ -5106,8 +5108,212 @@ const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
     "reviewer": "HOI4 War Room editorial",
     "prerequisites": [],
     "tips": []
+  },
+  "Operation Sea Lion": {
+    "tags": [
+      "conquest",
+      "land",
+      "naval"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 3,
+      "time": 3,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Control British mainland as Germany.",
+    "justification": "An invasion of Britain requires gaining sea access, executing a successful landing and securing enough territory to control the mainland while managing the war.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "One Empire": {
+    "tags": [
+      "conquest",
+      "land",
+      "naval"
+    ],
+    "difficulty": "very-hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 4,
+    "scores": {
+      "complexity": 4,
+      "time": 4,
+      "uncertainty": 4
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Unite the entire world under the British Empire.",
+    "justification": "A world-spanning imperial conquest requires repeated wars, extensive occupation management and control across many theatres, making it an exceptionally long and demanding campaign.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Big Entente": {
+    "tags": [
+      "focus-tree",
+      "diplomacy",
+      "conquest"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 3,
+      "time": 3,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "As France, complete the “Little Entente” National Focus, and have all German cores owned by you or someone in your faction.",
+    "justification": "The specific French focus and control of every German core demand deliberate alliance planning and a successful campaign against Germany or its remaining territories.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "New World Order": {
+    "tags": [
+      "conquest",
+      "diplomacy"
+    ],
+    "difficulty": "very-hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 4,
+    "scores": {
+      "complexity": 4,
+      "time": 4,
+      "uncertainty": 4
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Make all nations fascist.",
+    "justification": "Changing the ideology of every remaining nation entails a world-scale campaign with repeated warfare, puppeting or political manipulation, plus extensive endgame verification.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Cut The Strings": {
+    "tags": [
+      "diplomacy",
+      "survival"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 2,
+      "time": 2,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Break free from your overlord as a puppet.",
+    "justification": "Puppet independence generally requires accumulating autonomy or successfully contesting overlord control; the route depends on starting country and its political situation.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "I SEE EVERYTHING": {
+    "tags": [
+      "espionage",
+      "research"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 2,
+      "time": 3,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Get over 90% intel in each category on a major without using code cracking.",
+    "justification": "Reaching high intelligence in multiple categories requires investment in intelligence operations and related capabilities, with extra constraints from avoiding code cracking.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Why Die For Danzig?": {
+    "tags": [
+      "diplomacy",
+      "focus-tree"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 3,
+      "time": 2,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "As Germany, turn France fascist and occupy Danzig without going to war with France.",
+    "justification": "The restriction on war with France creates a narrow political-diplomatic route that must coordinate France's ideology with German territorial objectives.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "The Revolution Triumphant": {
+    "tags": [
+      "conquest",
+      "land",
+      "diplomacy"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 3,
+      "time": 3,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/achievements/394360",
+    "requirementSnapshot": "Have Germany as a puppet of Soviet.",
+    "justification": "The Soviet Union must subjugate Germany and establish puppet control rather than merely defeat it, requiring major wartime planning and peace-settlement execution.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-09",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
   }
-}); // thirteen source-checked editorial ratings
+}); // 21 source-checked editorial ratings
 function warRoomAchievementKey(name){
  return steamAchievementKey(name); // canonicalized lookup key, NOT a verified Steam API identifier
 }
@@ -5406,7 +5612,7 @@ function warRoomPhase22BArchiveUIAudit(){
   durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
   approvedRatingsRendered:approvedRendered,
   allUnratedAchievementsHidden:unratedHidden,
-  classifiedBatchCount:approvedNames.size===13
+  classifiedBatchCount:approvedNames.size===21
  };
  return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
 }
@@ -5420,7 +5626,7 @@ function renderAchievements(){
  document.getElementById('completedCount').textContent=completed;
  document.getElementById('completionPct').textContent=(all.length?Math.round(completed/all.length*100):0)+'%';updateSteamHomeSummary();
  document.getElementById('visibleCount').textContent=filtered.length;
- document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach" style="${done.has(a.name)?'opacity:.62':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="achievementImageError(this)"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}${warRoomArchiveIntelligenceHTML(a.name)}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
+ document.getElementById('achievementGrid').innerHTML=filtered.length?filtered.map(a=>`<article class="ach ${done.has(a.name)?'is-completed':''}">${getAchievementIcon(a.name)?'<img class="ach-icon" src="'+getAchievementIcon(a.name)+'" alt="'+a.name+' Steam achievement icon" loading="lazy" onerror="achievementImageError(this)"><div class="ach-icon" style="display:none;place-items:center;background:#25281e;font-size:28px">🏆</div>':'<div class="ach-icon" style="display:grid;place-items:center;background:#25281e;font-size:28px">🏆</div>'}<div class="ach-body"><h3>${a.name}</h3><p>🎯 ${a.objective}</p><span class="tag">🌍 ${a.country}</span><span class="tag">🏛️ ${a.ideology==='any'?'Any ideology':names[a.ideology]}</span>${a.paths?'<span class="tag">🌳 '+a.paths.join(' / ')+'</span>':''}${warRoomArchiveIntelligenceHTML(a.name)}<div style="margin-top:10px"><button class="ach-complete ${done.has(a.name)?'done':''}" type="button" onclick='toggleAchievement(${JSON.stringify(a.name)})'>${done.has(a.name)?'Completed':'Mark completed'}</button></div></div></article>`).join(''):'<div class="empty">No mapped achievements match those filters.</div>';
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
