@@ -29,6 +29,32 @@ const path = require('node:path');
       catalogCount: document.getElementById('mappedCount')?.textContent.trim()
     }));
     console.log('desktop-archive', JSON.stringify(desktopArchive));
+    // A completed achievement must retain the exact same difficulty badge colors
+    // as its uncompleted counterpart. Historically whole-card opacity/filter
+    // desaturated these badges despite identical classes.
+    const completedBadge = await page.evaluate(() => {
+      const card = [...document.querySelectorAll('#achievementGrid .ach')]
+        .find(el => el.textContent.includes('True Blitzkrieg'));
+      const badge = card?.querySelector('.ach-intel-pill.difficulty-hard');
+      if (!card || !badge) return { present: false };
+      const getStyles = () => ({
+        bg: getComputedStyle(badge).backgroundColor,
+        color: getComputedStyle(badge).color,
+        opacity: getComputedStyle(card).opacity,
+        filter: getComputedStyle(card).filter
+      });
+      const before = getStyles();
+      card.classList.add('is-completed');
+      const after = getStyles();
+      card.classList.remove('is-completed');
+      return { present: true, before, after };
+    });
+    console.log('completed-badge', JSON.stringify(completedBadge));
+    if (!completedBadge.present ||
+        completedBadge.before.bg !== completedBadge.after.bg ||
+        completedBadge.before.color !== completedBadge.after.color ||
+        completedBadge.after.opacity !== '1' ||
+        completedBadge.after.filter !== 'none') failures.push('completed-badge-color');
     // Capture a single reviewed achievement so the images are readable in PR review.
     await page.locator('#achSearch').fill('True Blitzkrieg');
     await page.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
