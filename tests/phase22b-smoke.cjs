@@ -77,7 +77,7 @@ const path = require('node:path');
     console.log('pope-icon', JSON.stringify(popeIcon));
     if (!popeIcon.loaded) failures.push('pope-achievement-icon');
     await page.locator('#achSearch').fill('');
-    if (desktopArchive.visibleIntelligenceChips !== 29 || desktopArchive.editorialLabels !== 29 || desktopArchive.catalogCount !== '293')
+    if (desktopArchive.visibleIntelligenceChips !== 37 || desktopArchive.editorialLabels !== 37 || desktopArchive.catalogCount !== '293')
       failures.push('desktop-archive-cards');
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     await mobile.goto('http://127.0.0.1:8765/', { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -92,7 +92,7 @@ const path = require('node:path');
     await mobile.locator('#achSearch').fill('True Blitzkrieg');
     await mobile.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
     await mobile.screenshot({ path: path.join(screenshotDir, 'phase22b-mobile-archive.png'), fullPage: true });
-    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 29 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
+    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 37 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
     await mobile.close();
     if (failures.length) throw new Error('Failed checks: ' + failures.join(', '));
     console.log('Phase 22B smoke tests passed.');
