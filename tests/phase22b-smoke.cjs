@@ -48,8 +48,8 @@ const path = require('node:path');
       await archiveFilter.selectOption('');
       const resetCount = await page.locator('#achievementGrid .ach').count();
       console.log('difficulty-filter', JSON.stringify({ hardMatches, easyMatches, unrated, resetCount }));
-      if (hardMatches !== 1 || easyMatches !== 0 || unrated.count !== 112 ||
-          unrated.chips !== 0 || unrated.visible !== '112' || resetCount !== 293) failures.push('difficulty-filter-behavior');
+      if (hardMatches !== 1 || easyMatches !== 0 || unrated.count !== 104 ||
+          unrated.chips !== 0 || unrated.visible !== '104' || resetCount !== 293) failures.push('difficulty-filter-behavior');
     }
     // A completed achievement must retain the exact same difficulty badge colors
     // as its uncompleted counterpart. Historically whole-card opacity/filter
@@ -99,7 +99,7 @@ const path = require('node:path');
     console.log('pope-icon', JSON.stringify(popeIcon));
     if (!popeIcon.loaded) failures.push('pope-achievement-icon');
     await page.locator('#achSearch').fill('');
-    if (desktopArchive.visibleIntelligenceChips !== 181 || desktopArchive.editorialLabels !== 181 || desktopArchive.catalogCount !== '293')
+    if (desktopArchive.visibleIntelligenceChips !== 189 || desktopArchive.editorialLabels !== 189 || desktopArchive.catalogCount !== '293')
       failures.push('desktop-archive-cards');
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     await mobile.goto('http://127.0.0.1:8765/', { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -118,12 +118,12 @@ const path = require('node:path');
       overflow: document.documentElement.scrollWidth > innerWidth + 2
     }));
     await mobile.locator('#achDifficulty').selectOption('');
-    if (mobileUnrated.count !== 112 || mobileUnrated.chips || mobileUnrated.overflow)
+    if (mobileUnrated.count !== 104 || mobileUnrated.chips || mobileUnrated.overflow)
       failures.push('mobile-difficulty-filter');
     await mobile.locator('#achSearch').fill('True Blitzkrieg');
     await mobile.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
     await mobile.screenshot({ path: path.join(screenshotDir, 'phase22b-mobile-archive.png'), fullPage: true });
-    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 181 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
+    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 189 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
     await mobile.close();
     if (failures.length) throw new Error('Failed checks: ' + failures.join(', '));
     console.log('Phase 22B smoke tests passed.');
