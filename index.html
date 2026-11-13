@@ -592,7 +592,7 @@ img,canvas{max-width:100%}
 }
 
 /* Achievement Archive filter alignment hotfix */
-#achievementCenter .archive-filters{display:grid!important;grid-template-columns:minmax(220px,1.45fr) repeat(3,minmax(145px,1fr))!important;gap:10px!important;align-items:end!important}
+#achievementCenter .archive-filters{display:grid!important;grid-template-columns:minmax(190px,1.4fr) repeat(4,minmax(120px,1fr))!important;gap:10px!important;align-items:end!important}
 #achievementCenter .archive-filters>div{min-width:0!important;width:auto!important}
 #achievementCenter .archive-filters .archive-search{grid-column:auto!important}
 #achievementCenter .archive-filters label:not(.generic-toggle){display:block;min-height:14px;margin:0 0 4px}
@@ -3384,7 +3384,7 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 <div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes. <span class="archive-ironman-note">HOI4 achievements require Ironman Mode and achievement-compatible game settings.</span></p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
 <div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Visible Records</div></div>
 <div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
-<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div><label class="generic-toggle"><input id="achGeneric" type="checkbox" checked><span>Generic (Any Country)</span></label></div>
+<div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div><div><label for="achDifficulty">Difficulty</label><select id="achDifficulty" aria-label="Achievement difficulty"><option value="">All difficulties</option><option value="easy">Easy</option><option value="moderate">Moderate</option><option value="hard">Hard</option><option value="very-hard">Very Hard</option><option value="unrated">Not rated (pending review)</option></select></div><label class="generic-toggle"><input id="achGeneric" type="checkbox" checked><span>Generic (Any Country)</span></label></div>
 <div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED PERSONNEL ONLY • FILE INDEX 293</span></div><div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearAchievementProgressArchive" type="button" onclick="clearAchievementProgress()">× CLEAR COMPLETED ACHIEVEMENTS</button></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
@@ -8035,7 +8035,219 @@ const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
     "prerequisites": [],
     "tips": []
   }
-}); // 125 source-checked editorial ratings
+,
+  "We’re Putting the Band Back Together": {
+    "tags": [
+      "focus-tree",
+      "diplomacy"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 3,
+      "time": 3,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198204957968/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198204957968/achievements/394360",
+    "requirementSnapshot": "As Turkey, be in a faction with Germany and Austria-Hungary.",
+    "justification": "Turkey must coordinate its faction alignment with a restored Austria-Hungary and Germany; the necessary alternative political paths make the diplomatic setup less predictable.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Hardly Anything Sèvres": {
+    "tags": [
+      "focus-tree",
+      "conquest",
+      "naval"
+    ],
+    "difficulty": "very-hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 4,
+    "scores": {
+      "complexity": 4,
+      "time": 4,
+      "uncertainty": 4
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198416418966/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198416418966/achievements/394360",
+    "requirementSnapshot": "As the Ottoman Empire, hold the capitals of France, the United Kingdom, Italy, and Japan.",
+    "justification": "Ottoman restoration must be followed by expansion across Europe and East Asia to capture four major-power capitals.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "The Pope? How many Divisions does he have?": {
+    "tags": [
+      "conquest",
+      "land"
+    ],
+    "difficulty": "hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 3,
+      "time": 3,
+      "uncertainty": 3
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198030808048/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198030808048/achievements/394360",
+    "requirementSnapshot": "As the USSR take Rome.",
+    "justification": "The Soviet Union must project land power into Italy and take Rome; the country has strong starting resources but a strategically distant target.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Satisfactory": {
+    "tags": [
+      "economy",
+      "industry"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 2,
+      "time": 3,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198093039723/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198093039723/achievements/394360",
+    "requirementSnapshot": "Have at least one MIO per category at level 10+",
+    "justification": "Requires sustained production and contracts to develop a military industrial organization in every qualifying category to level ten or above.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Manifesting a Better Tomorrow": {
+    "tags": [
+      "diplomacy",
+      "focus-tree"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 2,
+      "time": 3,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198093039723/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198093039723/achievements/394360",
+    "requirementSnapshot": "Reach 100% faction manifest fulfilment.",
+    "justification": "Faction objectives and participation must be coordinated until the faction manifesto is fully fulfilled; a long setup can matter more than direct combat.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Just proper gander": {
+    "tags": [
+      "focus-tree",
+      "timed",
+      "diplomacy"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 3,
+    "scores": {
+      "complexity": 2,
+      "time": 3,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561197996874543/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561197996874543/achievements/394360",
+    "requirementSnapshot": "As the Soviet Union, activate 30 propaganda campaigns before 1945.",
+    "justification": "The USSR must repeatedly activate propaganda campaigns before a fixed deadline, making planning and sustained political resource allocation essential.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Pizza Time!": {
+    "tags": [
+      "conquest",
+      "naval",
+      "land"
+    ],
+    "difficulty": "very-hard",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 4,
+    "scores": {
+      "complexity": 4,
+      "time": 4,
+      "uncertainty": 4
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198009442137/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198009442137/achievements/394360",
+    "requirementSnapshot": "As Italy, occupy New York, Chicago and Hawaii",
+    "justification": "Italy must project force across the Atlantic and Pacific and occupy three distant US objectives, demanding extensive naval and amphibious operations.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  },
+  "Spies Trade": {
+    "tags": [
+      "espionage",
+      "diplomacy"
+    ],
+    "difficulty": "moderate",
+    "difficultySource": "War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating",
+    "timeInvestment": 2,
+    "scores": {
+      "complexity": 2,
+      "time": 2,
+      "uncertainty": 2
+    },
+    "sources": [
+      "https://steamcommunity.com/achievements/394360",
+      "https://steamcommunity.com/profiles/76561198055637100/achievements/394360"
+    ],
+    "sourceUrl": "https://steamcommunity.com/profiles/76561198055637100/achievements/394360",
+    "requirementSnapshot": "As India, become the spymaster for the Allies.",
+    "justification": "India must gain the relevant Allied faction standing and take over spymaster responsibilities, a constrained but primarily political and intelligence objective.",
+    "reviewStatus": "reviewed",
+    "reviewedAt": "2026-11-13",
+    "reviewer": "HOI4 War Room editorial",
+    "prerequisites": [],
+    "tips": []
+  }
+}); // 133 source-checked editorial ratings
 function warRoomAchievementKey(name){
  return steamAchievementKey(name); // canonicalized lookup key, NOT a verified Steam API identifier
 }
@@ -8334,15 +8546,22 @@ function warRoomPhase22BArchiveUIAudit(){
   durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
   approvedRatingsRendered:approvedRendered,
   allUnratedAchievementsHidden:unratedHidden,
-  classifiedBatchCount:approvedNames.size===125
+  classifiedBatchCount:approvedNames.size===133
  };
  return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
 }
 window.HOI4WarRoomPhase22BArchiveUIAudit=warRoomPhase22BArchiveUIAudit;
 window.HOI4WarRoomArchiveIntelligenceHTML=warRoomArchiveIntelligenceHTML;
+function warRoomArchiveDifficultyMatches(name,selectedDifficulty){
+ if(!selectedDifficulty)return true;
+ const record=warRoomAchievementClassification(name);
+ const difficulty=record&&record.reviewStatus==='reviewed'?record.difficulty:null;
+ return selectedDifficulty==='unrated'?!difficulty:difficulty===selectedDifficulty;
+}
+window.HOI4WarRoomArchiveDifficultyMatches=warRoomArchiveDifficultyMatches;
 function renderAchievements(){
- const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,showGeneric=document.getElementById('achGeneric').checked;
- const filtered=all.filter(a=>(showGeneric||(a.country!=='Any Country'&&a.country!=='Any Minor'))&&(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
+ const all=flatAchievements(),done=getCompleted(),q=document.getElementById('achSearch').value.toLowerCase().trim(),country=document.getElementById('achCountry').value,ide=document.getElementById('achIdeology').value,status=document.getElementById('achStatus').value,difficulty=document.getElementById('achDifficulty').value,showGeneric=document.getElementById('achGeneric').checked;
+ const filtered=all.filter(a=>(showGeneric||(a.country!=='Any Country'&&a.country!=='Any Minor'))&&(!country||eligibleForCountry(a,country))&&(!ide||a.ideology===ide)&&(!status||(status==='done'?done.has(a.name):!done.has(a.name)))&&warRoomArchiveDifficultyMatches(a.name,difficulty)&&(!q||(a.name+' '+a.objective+' '+a.country+' '+(names[a.ideology]||'Any')).toLowerCase().includes(q)));
  const completed=all.filter(a=>done.has(a.name)).length;
  document.getElementById('mappedCount').textContent=all.length;
  document.getElementById('completedCount').textContent=completed;
@@ -8352,7 +8571,7 @@ function renderAchievements(){
 }
 function initAchievementCenter(){document.getElementById('steamTotal').textContent=STEAM_ACHIEVEMENT_TARGET;
  const sel=document.getElementById('achCountry');const filterCountries=[...new Set([...Object.keys(countries),...achievementCountries])].sort((a,b)=>a.localeCompare(b));filterCountries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
- ['achSearch','achCountry','achIdeology','achStatus','achGeneric'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
+ ['achSearch','achCountry','achIdeology','achStatus','achDifficulty','achGeneric'].forEach(id=>document.getElementById(id).addEventListener(id==='achSearch'?'input':'change',renderAchievements));renderAchievements();
 }
 function hasCuratedPaths(country,ideology){return !!(paths[country]&&paths[country][ideology]&&paths[country][ideology].length)}
 const achievementRules={

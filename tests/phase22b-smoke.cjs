@@ -29,6 +29,28 @@ const path = require('node:path');
       catalogCount: document.getElementById('mappedCount')?.textContent.trim()
     }));
     console.log('desktop-archive', JSON.stringify(desktopArchive));
+    // Phase 22C Batch 16: difficulty filter combines with search and keeps unrated records discoverable.
+    const archiveFilter = page.locator('#achDifficulty');
+    if (await archiveFilter.count() !== 1) failures.push('difficulty-filter-missing');
+    else {
+      await archiveFilter.selectOption('hard');
+      await page.locator('#achSearch').fill('True Blitzkrieg');
+      const hardMatches = await page.locator('#achievementGrid .ach').count();
+      await archiveFilter.selectOption('easy');
+      const easyMatches = await page.locator('#achievementGrid .ach').count();
+      await page.locator('#achSearch').fill('');
+      await archiveFilter.selectOption('unrated');
+      const unrated = await page.evaluate(() => ({
+        count: document.querySelectorAll('#achievementGrid .ach').length,
+        chips: document.querySelectorAll('#achievementGrid .ach-intel').length,
+        visible: document.getElementById('visibleCount')?.textContent
+      }));
+      await archiveFilter.selectOption('');
+      const resetCount = await page.locator('#achievementGrid .ach').count();
+      console.log('difficulty-filter', JSON.stringify({ hardMatches, easyMatches, unrated, resetCount }));
+      if (hardMatches !== 1 || easyMatches !== 0 || unrated.count !== 160 ||
+          unrated.chips !== 0 || unrated.visible !== '160' || resetCount !== 293) failures.push('difficulty-filter-behavior');
+    }
     // A completed achievement must retain the exact same difficulty badge colors
     // as its uncompleted counterpart. Historically whole-card opacity/filter
     // desaturated these badges despite identical classes.
@@ -77,7 +99,7 @@ const path = require('node:path');
     console.log('pope-icon', JSON.stringify(popeIcon));
     if (!popeIcon.loaded) failures.push('pope-achievement-icon');
     await page.locator('#achSearch').fill('');
-    if (desktopArchive.visibleIntelligenceChips !== 125 || desktopArchive.editorialLabels !== 125 || desktopArchive.catalogCount !== '293')
+    if (desktopArchive.visibleIntelligenceChips !== 133 || desktopArchive.editorialLabels !== 133 || desktopArchive.catalogCount !== '293')
       failures.push('desktop-archive-cards');
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     await mobile.goto('http://127.0.0.1:8765/', { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -89,10 +111,19 @@ const path = require('node:path');
       archiveOverflow: document.getElementById('achievementCenter').scrollWidth > window.innerWidth + 2
     }));
     console.log('mobile', JSON.stringify(mobileStatus));
+    await mobile.locator('#achDifficulty').selectOption('unrated');
+    const mobileUnrated = await mobile.evaluate(() => ({
+      count: document.querySelectorAll('#achievementGrid .ach').length,
+      chips: document.querySelectorAll('#achievementGrid .ach-intel').length,
+      overflow: document.documentElement.scrollWidth > innerWidth + 2
+    }));
+    await mobile.locator('#achDifficulty').selectOption('');
+    if (mobileUnrated.count !== 160 || mobileUnrated.chips || mobileUnrated.overflow)
+      failures.push('mobile-difficulty-filter');
     await mobile.locator('#achSearch').fill('True Blitzkrieg');
     await mobile.locator('#achievementGrid .ach-intel').first().waitFor({ state: 'visible' });
     await mobile.screenshot({ path: path.join(screenshotDir, 'phase22b-mobile-archive.png'), fullPage: true });
-    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 125 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
+    if (!mobileStatus.archivePresent || mobileStatus.visibleIntelligenceChips !== 133 || mobileStatus.overflow || mobileStatus.archiveOverflow) failures.push('mobile-layout');
     await mobile.close();
     if (failures.length) throw new Error('Failed checks: ' + failures.join(', '));
     console.log('Phase 22B smoke tests passed.');
