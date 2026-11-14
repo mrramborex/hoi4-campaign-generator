@@ -11675,10 +11675,15 @@ const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
 function warRoomAchievementKey(name){
  return steamAchievementKey(name); // canonicalized lookup key, NOT a verified Steam API identifier
 }
+// Resolve editorial records by canonicalized identity, not punctuation-sensitive object keys.
+// Never synthesize an additional achievement or count artwork aliases as catalog entries.
+const WAR_ROOM_INTELLIGENCE_BY_CANONICAL_KEY=Object.freeze(Object.fromEntries(
+ Object.entries(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).map(([name,entry])=>[normAchievementName(name),entry])
+));
 function warRoomAchievementIntelligence(name){
  const canonical=flatAchievements().find(a=>normAchievementName(a.name)===normAchievementName(name));
  if(!canonical)return null;
- const entry=WAR_ROOM_ACHIEVEMENT_INTELLIGENCE[canonical.name]||null;
+ const entry=WAR_ROOM_INTELLIGENCE_BY_CANONICAL_KEY[normAchievementName(canonical.name)]||null;
  return {
   schema:WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION,
   key:warRoomAchievementKey(canonical.name),
@@ -11822,11 +11827,19 @@ function warRoomPhase22AIdentityAudit(){
  }
  const verifiedIds=Object.entries(WAR_ROOM_VERIFIED_STEAM_API_IDS);
  const unknownVerifiedIds=verifiedIds.filter(([,name])=>!catalog.some(a=>a.name===name));
+ const editorialNames=Object.keys(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE);
+ const canonicalNames=new Set(catalog.map(a=>normAchievementName(a.name)));
+ const editorialKeys=editorialNames.map(normAchievementName);
+ const orphanEditorialRecords=editorialNames.filter(name=>!canonicalNames.has(normAchievementName(name)));
+ const duplicateEditorialKeys=editorialNames.filter((name,i)=>editorialKeys.indexOf(normAchievementName(name))!==i);
  const checks={catalogBaseline293:catalog.length===293,uniqueNormalizedKeys:collisions.length===0,
   requirementsPresent:missing.length===0,verifiedMappingsResolvable:unknownVerifiedIds.length===0,
+  editorialKeysCanonical:orphanEditorialRecords.length===0,
+  editorialKeysUnique:duplicateEditorialKeys.length===0,
   noInvalidReviewedGuidance:Object.entries(WAR_ROOM_ACHIEVEMENT_INTELLIGENCE).every(([name,entry])=>warRoomValidateDifficultyReview({...entry,name}).valid)};
  return {phase:'22A',schema:WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION,catalog:catalog.length,
   keyCollisions:collisions,missing,verifiedSteamIds:verifiedIds.length,unknownVerifiedIds,
+  orphanEditorialRecords,duplicateEditorialKeys,
   checks,passed:Object.values(checks).every(Boolean)};
 }
 window.HOI4WarRoomPhase22AIdentityAudit=warRoomPhase22AIdentityAudit;
