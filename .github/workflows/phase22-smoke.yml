@@ -1,0 +1,47 @@
+name: Phase 22 Achievement Intelligence smoke tests
+
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'tests/phase22b-smoke.cjs'
+      - '.github/workflows/phase22-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out release candidate
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright and Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Serve the site locally
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/hoi4-phase22-http.log 2>&1 &
+          echo $! > /tmp/hoi4-phase22-http.pid
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8765/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/hoi4-phase22-http.log
+          exit 1
+      - name: Run desktop and mobile achievement smoke tests
+        run: node tests/phase22b-smoke.cjs
+      - name: Upload screenshots and browser artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase22-browser-smoke
+          path: phase22b-artifacts/
+          if-no-files-found: ignore
