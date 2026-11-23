@@ -3591,6 +3591,11 @@ const achievements={
 'Communist China':{c:[{name:'Made in China',objective:'As Communist China, have over 100 military factories.',paths:['Leadership of Mao Zedong Sub-branch','Reclaim the Grasp of Power Sub-branch','The Unwilling Diarchy Sub-branch']}]}
 };
 const achievementIcons={
+ "Rome-mania":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/31467fbd852f4f80ef79db42a66026a0bf2e7fd2.jpg",
+ "Dacii":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/6e24a7a3937e339eafff11f3231f210352539222.jpg",
+ "Total Balkan Domination":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/c4fa5406abe18d6f6dbc8bd3c94d423250225a35.jpg",
+ "Before 1947":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/288ce6cf851ec4f11e10aa10654535f7f2b9df1d.jpg",
+ "What would Maniu think":"https://shared.fastly.steamstatic.com/community_assets/images/apps/394360/879c6403fa9c437a569af277fa8c1987b43e559f.jpg",
 'Wunderwaffen':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/fbf243ea05816c416a5ef68724efce3ba91a0b02.jpg',
 'True Blitzkrieg':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/f40268049bc6edea78d4889bdeafd26e664b59d5.jpg',
 'I SEE EVERYTHING':'https://shared.akamai.steamstatic.com/community_assets/images/apps/394360/c34b93eef11e58a699c979409ef8771491d759f8.jpg',
@@ -3968,6 +3973,7 @@ function getCanonicalWikiAchievementIcon(name){
  return 'https://hoi4.paradoxwikis.com/Special:Redirect/file/'+encodeURIComponent(filename).replace(/%2F/gi,'/');
 }
 function getAchievementIcon(name){
+ if(Object.prototype.hasOwnProperty.call(achievementIcons,name))return achievementIcons[name];
  const key=normAchievementName(name);
  const repaired=PHASE18I_MISSING_ARTWORK_REPAIRS[key];
  if(repaired)return repaired;
@@ -4305,6 +4311,7 @@ function warRoomPhase22RomaniaReleaseQA(){
  const reviewed=required.every(name=>{const item=warRoomAchievementClassification(name);return item&&item.reviewStatus==='reviewed'&&!!item.difficulty;});
  const mapped=mapSteamAchievements(required.map(name=>({name,apiname:'',unlocktime:0})));
  const checks={
+  officialSteamIcons:required.every(name=>/^https:\/\/shared\.fastly\.steamstatic\.com\/community_assets\/images\/apps\/394360\/[a-f0-9]{40}\.jpg$/.test(achievementIcons[name]||'')),
   catalog298:all.length===298,
   uniqueCatalog:new Set(keys).size===all.length,
   romanianRecords:required.every(name=>all.some(a=>a.name===name&&a.country==='Romania')),
