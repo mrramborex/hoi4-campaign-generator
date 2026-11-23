@@ -4320,7 +4320,7 @@ function warRoomPhase22RomaniaReleaseQA(){
   aliasesSteamSync:mapSteamAchievements([{name:'ROME-mania'},{name:'Dacii!'}]).matched.length===2
  };
  const failures=Object.entries(checks).filter(([,pass])=>!pass).map(([name])=>name);
- return {phase:'22-M7',checks,failures,passed:failures.length===0,metadataPending:['five verified Steam API IDs','five verified Steam artwork URLs']};
+ return {phase:'22-M7',checks,failures,passed:failures.length===0,metadataPending:['five verified Steam API IDs']};
 }
 window.HOI4WarRoomPhase22RomaniaReleaseQA=warRoomPhase22RomaniaReleaseQA;
 
