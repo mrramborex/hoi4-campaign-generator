@@ -3372,7 +3372,7 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 </div>
 <input id="stage" type="hidden" value="country">
 <div class="command-field"><label>Country Roster</label><select id="countryRoster" onchange="changeCountryRoster()"><option value="all">All 65 Countries</option><option value="major">Major Powers Only</option><option value="minor">Minor Powers Only</option></select></div>
-<div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 293 / 293 Steam achievements validated</div>
+<div class="small command-audit" id="countryAuditNote">1936 campaign roster • 65 Interesting Major + Interesting Minor countries • 298 Steam achievements cataloged</div>
 <div class="command-check"><label><input type="checkbox" id="noRepeat" checked> Remove countries after selection</label></div>
 <button class="spin command-reset" id="reset" type="button" onclick="resetGenerator()">RESET GENERATOR</button>
 <div class="legend"><b>Political Alignment Key</b><p><span class="dot" style="background:#5b5549"></span>Fascist</p><p><span class="dot" style="background:#9a3b35"></span>Communist</p><p><span class="dot" style="background:#3d7390"></span>Democratic</p><p><span class="dot" style="background:#9a804d"></span>Unaligned / Non-Aligned</p></div>
@@ -4297,6 +4297,26 @@ function warRoomPhase18AchievementReleaseGate(){
  return result;
 }
 window.HOI4WarRoomPhase18AchievementReleaseGate=warRoomPhase18AchievementReleaseGate;
+
+/* Phase 22 Romania release QA is independent of the historical Phase 18 artwork certification. */
+function warRoomPhase22RomaniaReleaseQA(){
+ const required=['Rome-mania','Dacii','Total Balkan Domination','Before 1947','What would Maniu think'];
+ const all=flatAchievements(),keys=all.map(a=>normAchievementName(a.name));
+ const reviewed=required.every(name=>{const item=warRoomAchievementClassification(name);return item&&item.reviewStatus==='reviewed'&&!!item.difficulty;});
+ const mapped=mapSteamAchievements(required.map(name=>({name,apiname:'',unlocktime:0})));
+ const checks={
+  catalog298:all.length===298,
+  uniqueCatalog:new Set(keys).size===all.length,
+  romanianRecords:required.every(name=>all.some(a=>a.name===name&&a.country==='Romania')),
+  reviewedDifficulty:reviewed,
+  displayNameSteamSync:mapped.matched.length===5&&mapped.unmatched.length===0,
+  aliasesSteamSync:mapSteamAchievements([{name:'ROME-mania'},{name:'Dacii!'}]).matched.length===2
+ };
+ const failures=Object.entries(checks).filter(([,pass])=>!pass).map(([name])=>name);
+ return {phase:'22-M7',checks,failures,passed:failures.length===0,metadataPending:['five verified Steam API IDs','five verified Steam artwork URLs']};
+}
+window.HOI4WarRoomPhase22RomaniaReleaseQA=warRoomPhase22RomaniaReleaseQA;
+
 
 
 /* Phase 15G — Final production QA / release gate.
@@ -13646,7 +13666,7 @@ function completeCurrentMissionAchievement(){if(!currentMission)return;const man
 document.getElementById('completeMissionAchievement').onclick=completeCurrentMissionAchievement;;
 function bindPrimaryGeneratorControls(){const spinButton=document.getElementById('spin'),stageSelector=document.getElementById('stage');if(spinButton)spinButton.onclick=spin;if(stageSelector){stageSelector.onchange=()=>{spinButton.textContent=stageSelector.value==='country'?'SPIN COUNTRY':stageSelector.value==='ideology'?'SPIN IDEOLOGY':'SPIN POLITICAL PATH';draw()}}}
 bindPrimaryGeneratorControls();document.getElementById('startCampaign').onclick=()=>{if(campaignLocked)return;logCurrentCampaign();campaignLocked=true;const start=document.getElementById('startCampaign');document.getElementById('missionNote').textContent='⚔ Campaign locked in and added to your Campaign Log. See you on the front, commander.';start.textContent='CAMPAIGN LOCKED IN';start.disabled=true;btn.disabled=true;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=true;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=true);};
-function resetCampaign(clearHistory=true,preserveRemaining=false){if(spinning)return; if(!preserveRemaining)remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 293 / 293 Steam achievements validated';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;currentSpecialOrder=null;campaignLocked=false;renderCurrentSpecialOrder();if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');const start=document.getElementById('startCampaign');start.textContent='START CAMPAIGN';start.disabled=false;btn.disabled=false;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=false;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=false);btn.textContent='SPIN COUNTRY';res.textContent=remaining.length?randomFieldIntelligence():'No countries remaining in this roster. Reset the generator or disable Remove countries after selection.';if(clearHistory)document.getElementById('history').innerHTML='';if(operationMode==='chosen')prepareChosenNation();else draw()}
+function resetCampaign(clearHistory=true,preserveRemaining=false){if(spinning)return; if(!preserveRemaining)remaining=shuffledCountries();const audit=document.getElementById('countryAuditNote'),mode=document.getElementById('countryRoster')?.value||'all';if(audit)audit.textContent=(mode==='major'?'Major Powers':mode==='minor'?'Minor Powers':'Full 65-country roster')+' • '+remaining.length+' countries available • 298 Steam achievements cataloged';selected=null;selectedIdeology=null;currentMission=null;currentPath=null;currentSpecialOrder=null;campaignLocked=false;renderCurrentSpecialOrder();if(clearHistory)hist=[];angle=0;stage.value='country';document.getElementById('mission').classList.remove('show');const start=document.getElementById('startCampaign');start.textContent='START CAMPAIGN';start.disabled=false;btn.disabled=false;const reroll=document.getElementById('rerollAchievement');if(reroll)reroll.disabled=false;document.querySelectorAll('[data-special-mode]').forEach(x=>x.disabled=false);btn.textContent='SPIN COUNTRY';res.textContent=remaining.length?randomFieldIntelligence():'No countries remaining in this roster. Reset the generator or disable Remove countries after selection.';if(clearHistory)document.getElementById('history').innerHTML='';if(operationMode==='chosen')prepareChosenNation();else draw()}
 function updateOperationModeUI(){
  const chosen=operationMode==='chosen';
  document.getElementById('modeRandom').classList.toggle('active',!chosen);
@@ -13675,7 +13695,7 @@ function prepareChosenNation(){
  btn.textContent='SPIN IDEOLOGY';
  res.textContent='Assigned nation: '+selected+' • Spin the ideology wheel to receive your political orders.';
  const audit=document.getElementById('countryAuditNote');
- if(audit)audit.textContent='Chosen Nation • '+selected+' • '+countries[selected].length+' available ideologies • 293 / 293 Steam achievements validated';
+ if(audit)audit.textContent='Chosen Nation • '+selected+' • '+countries[selected].length+' available ideologies • 298 Steam achievements cataloged';
  draw();
 }
 function selectChosenNation(country){
@@ -13839,7 +13859,7 @@ if(steamSyncButton){steamSyncButton.addEventListener('click',syncSteamAchievemen
 const steamViewAchievements=document.getElementById('steamViewAchievements');if(steamViewAchievements)steamViewAchievements.addEventListener('click',()=>document.getElementById('navAchievements').click());updateSteamHomeSummary();
 function warRoomPhase18FSteamAudit(){
  const checks={
-  catalog293:flatAchievements().length===STEAM_ACHIEVEMENT_TARGET&&STEAM_ACHIEVEMENT_TARGET===293,
+  catalog293:flatAchievements().length===STEAM_ACHIEVEMENT_TARGET&&STEAM_ACHIEVEMENT_TARGET===298,
   separateCompletionOwnership:!!STEAM_COMPLETED_KEY&&!!MANUAL_COMPLETED_KEY&&STEAM_COMPLETED_KEY!==MANUAL_COMPLETED_KEY,
   activeProfileTracked:!!STEAM_PROFILE_KEY,
   combinedProgressConsistent:[...new Set([...getManualCompleted(),...getSteamCompleted()])].every(name=>getCompleted().has(name)),
