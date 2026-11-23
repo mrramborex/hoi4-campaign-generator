@@ -3381,11 +3381,11 @@ header.war-header .topnav .navbtn{width:100%!important;min-width:0!important;mar
 </aside>
 </main>
 <section id="achievementCenter"><div class="card achievement-archive">
-<div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Archive</h2><p class="small">Search the complete 293-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes. <span class="archive-ironman-note">HOI4 achievements require Ironman Mode and achievement-compatible game settings.</span></p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
+<div class="archive-head"><div><span class="archive-kicker">GENERAL STAFF • DECORATIONS & OPERATIONS RECORDS</span><h2>Achievement Archive</h2><p class="small">Search the complete 298-achievement catalog by nation, political alignment, or completion status. Records are matched to compatible campaigns and political routes. <span class="archive-ironman-note">HOI4 achievements require Ironman Mode and achievement-compatible game settings.</span></p></div><div class="archive-seal"><span>★</span><small>STEAM<br>RECORDS</small></div></div>
 <div class="stats archive-stats"><div class="stat"><b id="steamTotal">—</b>Catalog</div><div class="stat"><b id="mappedCount">0</b>Indexed</div><div class="stat"><b id="completedCount">0</b>Completed</div><div class="stat"><b id="completionPct">0%</b>Completion</div><div class="stat"><b id="visibleCount">0</b>Visible Records</div></div>
 <div class="archive-filter-label"><span>INTELLIGENCE QUERY</span><span>FILTER ARCHIVE RECORDS</span></div>
 <div class="ach-head archive-filters"><div class="archive-search"><label>Search Records</label><input id="achSearch" placeholder="Achievement, objective, country..."></div><div><label>Country</label><select id="achCountry"><option value="">All countries</option></select></div><div><label>Ideology</label><select id="achIdeology"><option value="">All ideologies</option><option value="f">Fascist</option><option value="c">Communist</option><option value="d">Democratic</option><option value="u">Unaligned</option><option value="any">Any / Generic</option></select></div><div><label>Status</label><select id="achStatus"><option value="">All Records</option><option value="open">Incomplete</option><option value="done">Completed</option></select></div><div><label for="achDifficulty">Difficulty</label><select id="achDifficulty" aria-label="Achievement difficulty"><option value="">All difficulties</option><option value="easy">Easy</option><option value="moderate">Moderate</option><option value="hard">Hard</option><option value="very-hard">Very Hard</option><option value="unrated">Not rated (pending review)</option></select></div><label class="generic-toggle"><input id="achGeneric" type="checkbox" checked><span>Generic (Any Country)</span></label></div>
-<div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED PERSONNEL ONLY • FILE INDEX 293</span></div><div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearAchievementProgressArchive" type="button" onclick="clearAchievementProgress()">× CLEAR COMPLETED ACHIEVEMENTS</button></div>
+<div class="archive-index-line"><span>DECORATION RECORDS</span><span>AUTHORIZED PERSONNEL ONLY • FILE INDEX 298</span></div><div class="data-tools campaign-data-tools"><button class="danger-btn" id="clearAchievementProgressArchive" type="button" onclick="clearAchievementProgress()">× CLEAR COMPLETED ACHIEVEMENTS</button></div>
 <div class="ach-grid" id="achievementGrid"></div>
 </div></section>
 <section id="campaignHistory"><div class="card campaign-archive"><div class="campaign-battle-map" aria-hidden="true"><svg viewBox="0 0 1100 720" preserveAspectRatio="none"><path class="terrain" d="M48 112 C160 65 236 142 326 103 S493 65 574 125 S744 167 825 104 S982 71 1060 118 M22 244 C129 190 210 270 300 222 S476 190 558 247 S723 289 824 231 S978 205 1080 250 M60 402 C154 345 251 424 345 375 S515 342 612 397 S790 438 884 381 S1017 355 1080 395 M28 564 C147 508 224 584 328 543 S498 503 601 559 S790 602 900 548 S1014 516 1082 558"/><path class="front" d="M103 205 C206 169 273 211 346 188 S493 159 572 207 S706 242 787 211 S920 176 1002 220"/><path class="front" d="M173 492 C255 453 339 481 414 455 S568 436 642 474 S794 516 904 470"/><path class="advance" d="M194 329 C286 288 350 298 428 336 C500 371 562 350 638 310"/><polygon class="arrow" points="638,310 615,303 625,327"/><path class="advance" d="M823 333 C774 360 738 394 711 442"/><polygon class="arrow" points="711,442 709,418 729,430"/><circle class="mark" cx="194" cy="329" r="15"/><circle class="mark" cx="823" cy="333" r="15"/><path class="mark" d="M184 319 L204 339 M204 319 L184 339 M813 323 L833 343 M833 323 L813 343"/><text class="map-label" x="116" y="191">FRONT LINE A</text><text class="map-label" x="753" y="460">ADVANCE AXIS</text><text class="map-label" x="690" y="486">OPERATION RECORD</text></svg></div>
@@ -4349,6 +4349,11 @@ function eligibleForCountry(a,country){
  return false;
 }
 const phase2Achievements=[
+{name:"Rome-mania",objective:"As Romania, own and control Rome, Istanbul and Moscow.",country:'Romania',ideology:'any'},
+{name:"Dacii",objective:"As Romania, form the Kingdom of Dacia.",country:'Romania',ideology:'any'},
+{name:"Total Balkan Domination",objective:"As Romania, fully own and control the Balkans.",country:'Romania',ideology:'any'},
+{name:"Before 1947",objective:"Win the Romanian People's Revolution without Prison Faction aid and puppet the USSR.",country:'Romania',ideology:'c'},
+{name:"What would Maniu think",objective:"As democratic Romania, receive the maximum intervention bonus on 4 countries.",country:'Romania',ideology:'d'},
 {name:'Wunderwaffen',objective:'Has completed the Special Projects Nuclear Fission Bomb, Rocket Interceptor and Jet Engines.',country:'Any Country',ideology:'any'},
 {name:'True Blitzkrieg',objective:'As Germany have both Poland and France surrender before January 1st 1940.',country:'Germany',ideology:'f'},
 {name:'I SEE EVERYTHING',objective:'Get over 90% intel in each category on a major without using code cracking.',country:'Any Country',ideology:'any'},
@@ -4554,7 +4559,7 @@ Object.assign(achievementIcons,{
 });
 const SOURCE_VALIDATION_VERSION='2026-10-03';
 const SOURCE_VALIDATION_BATCH='8P — final Steam metadata validation block';
-const STEAM_ACHIEVEMENT_TARGET=293;
+const STEAM_ACHIEVEMENT_TARGET=298;
 const SOURCE_VALIDATED_COUNT=293;
 const SOURCE_VALIDATION_REMAINING=STEAM_ACHIEVEMENT_TARGET-SOURCE_VALIDATED_COUNT;
 const SOURCE_VALIDATION_PROGRESS=[
@@ -4783,6 +4788,11 @@ function flatAchievements(){
 const WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION=1;
 const WAR_ROOM_VERIFIED_STEAM_API_IDS=Object.freeze({}); // verified apiname -> canonical title
 const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
+"Rome-mania":{"tags":["conquest","land"],"difficulty":"very-hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":4,"scores":{"complexity":4,"time":4,"uncertainty":4},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"As Romania, own and control Rome, Istanbul and Moscow.","justification":"Capturing and holding three widely separated strategic cities requires major campaigns and sustained military control.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
+"Dacii":{"tags":["focus-tree","conquest"],"difficulty":"hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":3,"scores":{"complexity":3,"time":3,"uncertainty":3},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"As Romania, form the Kingdom of Dacia.","justification":"Forming Dacia requires a specialized Romanian political route and substantial regional territorial preparation.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
+"Total Balkan Domination":{"tags":["conquest","land"],"difficulty":"very-hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":4,"scores":{"complexity":4,"time":4,"uncertainty":4},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"As Romania, fully own and control the Balkans.","justification":"Full ownership and control across the Balkan region requires multiple wars and careful territorial settlement.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
+"Before 1947":{"tags":["conquest","focus-tree"],"difficulty":"very-hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":4,"scores":{"complexity":4,"time":4,"uncertainty":4},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"Win the Romanian People's Revolution without Prison Faction aid and puppet the USSR.","justification":"Winning the constrained Romanian revolution and subjugating the Soviet Union creates exceptionally demanding military and political objectives.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
+"What would Maniu think":{"tags":["diplomacy","focus-tree"],"difficulty":"hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":3,"scores":{"complexity":3,"time":3,"uncertainty":3},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"As democratic Romania, receive the maximum intervention bonus on 4 countries.","justification":"Securing the maximum intervention bonus across four countries demands a specific political path and repeated successful interventions.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
  "Friend in Need": {
   "tags": [
    "diplomacy"
@@ -12574,7 +12584,7 @@ function warRoomPhase22BClassificationAudit(){
   else if(record.officialRequirement!==achievement.objective)
    issues.push({name:achievement.name,reason:'canonical requirement changed'});
  }
- const checks={catalogIntact:catalog.length===293,noInvalidGuidance:issues.length===0,
+ const checks={catalogIntact:catalog.length===STEAM_ACHIEVEMENT_TARGET,noInvalidGuidance:issues.length===0,
   difficultyScaleDefined:WAR_ROOM_DIFFICULTY_LEVELS.length===4,
   classificationSchemaDefined:WAR_ROOM_ACHIEVEMENT_TAGS.length===13};
  return {phase:'22B',catalog:catalog.length,reviewed:catalog.filter(a=>warRoomAchievementClassification(a.name)?.reviewStatus==='reviewed').length,
@@ -12598,7 +12608,7 @@ function warRoomPhase22AIdentityAudit(){
  const editorialKeys=editorialNames.map(normAchievementName);
  const orphanEditorialRecords=editorialNames.filter(name=>!canonicalNames.has(normAchievementName(name)));
  const duplicateEditorialKeys=editorialNames.filter((name,i)=>editorialKeys.indexOf(normAchievementName(name))!==i);
- const checks={catalogBaseline293:catalog.length===293,uniqueNormalizedKeys:collisions.length===0,
+ const checks={catalogBaseline293:catalog.length===STEAM_ACHIEVEMENT_TARGET,uniqueNormalizedKeys:collisions.length===0,
   requirementsPresent:missing.length===0,verifiedMappingsResolvable:unknownVerifiedIds.length===0,
   editorialKeysCanonical:orphanEditorialRecords.length===0,
   editorialKeysUnique:duplicateEditorialKeys.length===0,
@@ -12697,6 +12707,8 @@ function buildSteamAchievementIndex(){
  const all=flatAchievements(),byName=new Map(),byApi=new Map();
  all.forEach(a=>{
    byName.set(steamAchievementKey(a.name),a.name);
+   if(a.name==='Rome-mania')byName.set(steamAchievementKey('ROME-mania'),a.name);
+   if(a.name==='Dacii')byName.set(steamAchievementKey('Dacii!'),a.name);
    const apiGuess=steamAchievementKey(a.name).replace(/\s+/g,'_');
    byApi.set(apiGuess,a.name);
  });
@@ -12741,7 +12753,7 @@ function warRoomPhase22BArchiveUIAudit(){
  const approvedRendered=[...approvedNames].every(name=>warRoomArchiveIntelligenceHTML(name).includes('War Room Intelligence'));
  const unratedHidden=catalog.filter(a=>!approvedNames.has(a.name)).every(a=>warRoomArchiveIntelligenceHTML(a.name)==='');
  const checks={
-  catalogPreserved:catalog.length===293,
+  catalogPreserved:catalog.length===STEAM_ACHIEVEMENT_TARGET,
   ratedChipsRendered:rated.includes('Difficulty: Hard')&&rated.includes('duration')&&rated.includes('land'),
   difficultyColorsApplied:rated.includes('difficulty-hard')&&['easy','moderate','hard','very-hard'].every(level=>warRoomArchiveIntelligenceMarkup({...sample,difficulty:level}).includes('difficulty-'+level)),
   unreviewedHidden:hidden==='',
@@ -12749,7 +12761,7 @@ function warRoomPhase22BArchiveUIAudit(){
   durationOnlyRendered:durationOnly.includes('Duration: Very Long'),
   approvedRatingsRendered:approvedRendered,
   allUnratedAchievementsHidden:unratedHidden,
-  classifiedBatchCount:approvedNames.size===293
+  classifiedBatchCount:approvedNames.size===STEAM_ACHIEVEMENT_TARGET
  };
  return {phase:'22B',checks,passed:Object.values(checks).every(Boolean)};
 }
@@ -13905,7 +13917,7 @@ function warRoomPhase16ReleaseGate(){
  const checks={
   phase15Certified:!!(phase15&&phase15.passed),
   countryRoster:typeof countries!=='undefined'&&Object.keys(countries).length===65,
-  achievementCatalog:typeof flatAchievements==='function'&&flatAchievements().length===293,
+  achievementCatalog:typeof flatAchievements==='function'&&flatAchievements().length===STEAM_ACHIEVEMENT_TARGET,
   supportIntegration:!!(window.HOI4WarRoomSupport&&window.HOI4WarRoomSupport.phase==='16A'&&window.HOI4WarRoomSupport.uiPhase==='16B'),
   responsiveSupport:!!(supportOverlay&&supportDialog&&supportOpenButton&&supportCloseButton&&supportTipButton),
   securityCertified:!!(security&&security.pass),
@@ -13970,7 +13982,7 @@ function warRoomPhase18MPerformanceAudit(){
  const a=flatAchievements(),b=flatAchievements();
  const source=flatAchievements.toString();
  const checks={
-  achievementCatalogCached:a===b&&a.length===293,
+  achievementCatalogCached:a===b&&a.length===STEAM_ACHIEVEMENT_TARGET,
   cacheFastPath:source.includes('FLAT_ACHIEVEMENT_CACHE'),
   noPostLayoutDoubleDraw:!changeCountryRoster.toString().includes('requestAnimationFrame')&&!resetGenerator.toString().includes('requestAnimationFrame'),
   campaignLogBounded:getCampaignLog().length<=50,
@@ -14051,8 +14063,8 @@ function warRoomPhase18NReleaseGate(){
  ];
  const invariants={
   countries:Object.keys(countries).length===65,
-  achievements:flatAchievements().length===293,
-  uniqueAchievements:new Set(flatAchievements().map(a=>normAchievementName(a.name))).size===293,
+  achievements:flatAchievements().length===STEAM_ACHIEVEMENT_TARGET,
+  uniqueAchievements:new Set(flatAchievements().map(a=>normAchievementName(a.name))).size===STEAM_ACHIEVEMENT_TARGET,
   fivePrimaryHeaderControls:document.querySelectorAll('.topnav .navbtn').length===5,
   steamProxyHttps:/^https:\/\//.test(STEAM_SYNC_ENDPOINT),
   supportHttps:/^https:\/\//.test(WAR_ROOM_SUPPORT_URL),
