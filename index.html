@@ -4317,10 +4317,11 @@ function warRoomPhase22RomaniaReleaseQA(){
   romanianRecords:required.every(name=>all.some(a=>a.name===name&&a.country==='Romania')),
   reviewedDifficulty:reviewed,
   displayNameSteamSync:mapped.matched.length===5&&mapped.unmatched.length===0,
-  aliasesSteamSync:mapSteamAchievements([{name:'ROME-mania'},{name:'Dacii!'}]).matched.length===2
+  aliasesSteamSync:mapSteamAchievements([{name:'ROME-mania'},{name:'Dacii!'}]).matched.length===2,
+  verifiedSteamApiIds:Object.entries(WAR_ROOM_VERIFIED_STEAM_API_IDS).length===5&&Object.entries(WAR_ROOM_VERIFIED_STEAM_API_IDS).every(([api,name])=>mapSteamAchievements([{apiname:api}]).matched[0]?.name===name)
  };
  const failures=Object.entries(checks).filter(([,pass])=>!pass).map(([name])=>name);
- return {phase:'22-M7',checks,failures,passed:failures.length===0,metadataPending:['five verified Steam API IDs']};
+ return {phase:'22-M7',checks,failures,passed:failures.length===0,metadataPending:[]};
 }
 window.HOI4WarRoomPhase22RomaniaReleaseQA=warRoomPhase22RomaniaReleaseQA;
 
@@ -4813,7 +4814,7 @@ function flatAchievements(){
    Canonical achievement names and official objectives remain unchanged.
    Steam API identifiers must be explicitly verified before being recorded here. */
 const WAR_ROOM_INTELLIGENCE_SCHEMA_VERSION=1;
-const WAR_ROOM_VERIFIED_STEAM_API_IDS=Object.freeze({}); // verified apiname -> canonical title
+const WAR_ROOM_VERIFIED_STEAM_API_IDS=Object.freeze({"rome_mania":"Rome-mania","dacii":"Dacii","balkan_domination":"Total Balkan Domination","before_1947":"Before 1947","what_would_maniu_think":"What would Maniu think"}); // Steam schema keys -> canonical title
 const WAR_ROOM_ACHIEVEMENT_INTELLIGENCE=Object.freeze({
 "Rome-mania":{"tags":["conquest","land"],"difficulty":"very-hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":4,"scores":{"complexity":4,"time":4,"uncertainty":4},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"As Romania, own and control Rome, Istanbul and Moscow.","justification":"Capturing and holding three widely separated strategic cities requires major campaigns and sustained military control.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
 "Dacii":{"tags":["focus-tree","conquest"],"difficulty":"hard","difficultySource":"War Room editorial median rubric (complexity, time investment, uncertainty); not an official Steam rating","timeInvestment":3,"scores":{"complexity":3,"time":3,"uncertainty":3},"sources":["https://steamcommunity.com/achievements/394360"],"sourceUrl":"https://steamcommunity.com/achievements/394360","requirementSnapshot":"As Romania, form the Kingdom of Dacia.","justification":"Forming Dacia requires a specialized Romanian political route and substantial regional territorial preparation.","reviewStatus":"reviewed","reviewedAt":"2026-11-23","reviewer":"HOI4 War Room editorial","prerequisites":[],"tips":[]},
@@ -12739,6 +12740,7 @@ function buildSteamAchievementIndex(){
    const apiGuess=steamAchievementKey(a.name).replace(/\s+/g,'_');
    byApi.set(apiGuess,a.name);
  });
+ Object.entries(WAR_ROOM_VERIFIED_STEAM_API_IDS).forEach(([api,name])=>byApi.set(api,name));
  return {all,byName,byApi};
 }
 function mapSteamAchievements(unlocked){
